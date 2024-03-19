@@ -1,12 +1,14 @@
-import bgImage from "../../images/img-01.jpg";
-
 const SignIn = () => {
+  // const handleSignIn = () => {
+  //   // Your sign-in logic goes here
+  //   setIsSignedIn(true); // Set isSignedIn to true when sign-in is successful
+  // };
   return (
     <div id="main-transition">
       <div className="wrapper" id="pg-home" data-scroll-container>
         <main>
           <section
-            className="home-intro home-sign-in section-intro"
+            // className="home-intro home-sign-in section-intro"
             data-aos="d:loop"
           >
             <div className="container-fluid pos-relative z-5">
@@ -19,6 +21,7 @@ const SignIn = () => {
                           src="images/logo-formula-1-red.svg"
                           data-preload
                           className="media"
+                          alt="imagefg"
                         />
                       </div>
                       <div className="container-img logo-blueprint-rentals">
@@ -26,6 +29,7 @@ const SignIn = () => {
                           src="images/blueprint-rentals.svg"
                           data-preload
                           className="media"
+                          alt="imagecvbvcb"
                         />
                       </div>
                     </div>
@@ -274,6 +278,7 @@ const SignIn = () => {
                     src="images/logo-formula-1.svg"
                     data-preload
                     className="media"
+                    alt="imagedfg"
                   />
                 </div>
                 <div className="container-text">
@@ -305,6 +310,7 @@ const SignIn = () => {
                   src="images/home/img-01.jpg"
                   data-preload
                   className="media"
+                  alt="imagesd"
                 />
               </div>
             </div>

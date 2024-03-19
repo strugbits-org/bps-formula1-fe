@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const SignedUserNavbar = () => {
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
@@ -25,7 +25,7 @@ const Navbar = () => {
           </a>
         </div>
         <div className="container-h-3 order-phone-3">
-          {/* <button
+          <button
             className="btn-small btn-red btn-hover-white btn-sign-in"
             data-href="index.html#sign-in"
           >
@@ -33,16 +33,7 @@ const Navbar = () => {
             <div className="split-chars">
               <span className="no-phone">Sign In</span>
             </div>
-          </button> */}
-          <Link
-            to="/sign-in"
-            className="btn-small btn-red btn-hover-white btn-sign-in"
-          >
-            <i className="icon-profile"></i>
-            <div className="split-chars">
-              <span className="no-phone">Sign In</span>
-            </div>
-          </Link>
+          </button>
         </div>
       </div>
       <div className="container-header-logged">
@@ -165,7 +156,7 @@ const Navbar = () => {
               data-search-form
             >
               <div className="container-input input-header">
-                <label htmlFor="search" className="split-chars">
+                <label for="search" className="split-chars">
                   Search
                 </label>
                 <input type="search" className="search" name="for" required />
@@ -185,15 +176,15 @@ const Navbar = () => {
           <button className="btn-search no-desktop" data-set-submenu="search">
             <i className="icon-search"></i>
           </button>
-          <a href="my-account.html" className="link-account">
+          <Link to="/account/my-account" className="link-account">
             <i className="icon-profile"></i>
-          </a>
-          <a href="cart.html" className="link-cart">
+          </Link>
+          <Link to="/cart" className="link-cart">
             <i className="icon-cart"></i>
-          </a>
+          </Link>
         </div>
       </div>
     </header>
   );
 };
-export default Navbar;
+export default SignedUserNavbar;

@@ -1,4 +1,6 @@
-const Footer = () => {
+import { Link } from "react-router-dom";
+
+const SignedUserFooter = () => {
   return (
     <footer id="footer">
       <div className="container-fluid">
@@ -125,5 +127,4 @@ const Footer = () => {
     </footer>
   );
 };
-
-export default Footer;
+export default SignedUserFooter;

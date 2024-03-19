@@ -1,21 +1,31 @@
-import "./App.css";
-import { Helmet } from "react-helmet";
-import Navbar from "./layout/Navbar";
+import { useLocation } from "react-router-dom";
 import Loader from "./components/loader";
-import Home from "./pages/Home/Home";
-import { Outlet, useLocation } from "react-router-dom";
+import { Routes } from "./routes/Index";
+import { Helmet } from "react-helmet";
+import { useState } from "react";
+import { useEffect } from "react";
+import "./App.css";
 
 function App() {
   const location = useLocation();
   const pathname =
     location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
   const cleanPath = pathname.split("/")[0].trim();
+
+  const [isSignedIn, setIsSignedIn] = useState(true);
+
+  // Function to update the data-login-state attribute
+  useEffect(() => {
+    if (isSignedIn) {
+      document.body.setAttribute("data-login-state", "logged");
+    } else {
+      document.body.setAttribute("data-login-state", "sign-in");
+    }
+  }, [isSignedIn]);
+
   return (
     <div>
       {" "}
-      <Loader />
-      <Navbar />
-      {/* <Home /> */}
       <Helmet>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -97,9 +107,13 @@ function App() {
           src={process.env.PUBLIC_URL + "/assets/filter-products.js"}
         ></script>
       </Helmet>
+      <Loader />
+      {/* <Navbar /> */}
+      {/* <Home /> */}
       <div id={`${cleanPath}`} data-scroll-container>
         <main>
-          <Outlet />
+          {/* <Outlet /> */}
+          <Routes isAuthorized={isSignedIn} />
         </main>
       </div>
     </div>
