@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import AnimateLink from "../components/AnimateLink";
 
 const SignedUserNavbar = () => {
   return (
@@ -15,14 +16,14 @@ const SignedUserNavbar = () => {
           </a>
         </div>
         <div className="container-h-2 mx-md-45 order-phone-1">
-          <a
-            href="index.html"
+          <Link
+            to="/home"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
-          </a>
+          </Link>
         </div>
         <div className="container-h-3 order-phone-3">
           <button
@@ -138,19 +139,19 @@ const SignedUserNavbar = () => {
           </div>
         </div>
         <div className="container-h-2 mx-lg-45 order-mobile-1">
-          <a
-            href="index.html"
+          <Link
+            to="/home"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
-          </a>
+          </Link>
         </div>
         <div className="container-h-3 order-mobile-3">
           <div className="container-form" data-get-submenu="search">
             <form
-              action="search.html"
+              action="/search"
               className="form-search header-search"
               data-pjax
               data-search-form
@@ -176,12 +177,14 @@ const SignedUserNavbar = () => {
           <button className="btn-search no-desktop" data-set-submenu="search">
             <i className="icon-search"></i>
           </button>
-          <Link to="/account/my-account" className="link-account">
+          <AnimateLink to="/account/my-account" className="link-account">
             <i className="icon-profile"></i>
-          </Link>
-          <Link to="/cart" className="link-cart">
-            <i className="icon-cart"></i>
-          </Link>
+          </AnimateLink>
+          <AnimateLink className="link-account">
+            <Link to="/cart" className="link-cart">
+              <i className="icon-cart"></i>
+            </Link>
+          </AnimateLink>
         </div>
       </div>
     </header>

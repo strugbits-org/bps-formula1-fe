@@ -18,16 +18,39 @@ import MyAccount from "../pages/Account/MyAccount";
 import ChangePassword from "../pages/Account/ChangePassword";
 import QuotesHistory from "../pages/Account/QuotesHistory";
 import SavedProducts from "../pages/Account/SavedProducts";
+import Cart from "../pages/Cart";
+import Search from "../pages/Search";
+import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
+import TermsAndCondition from "../pages/TermsAndCondition";
+import Error404Page from "../pages/Error404Page";
 
 export const routes = [
   {
     layout: AnonymousLayout,
     routes: [
       {
-        name: "Home",
-        title: "Home page",
-        component: Home,
-        path: "/home",
+        name: "SignIn",
+        title: "SignIn page",
+        component: SignIn,
+        path: "/",
+      },
+      {
+        name: "Privacy and Policy",
+        title: "Privacy and Policy page",
+        component: PrivacyAndPolicy,
+        path: "/privacy-and-policy",
+      },
+      {
+        name: "Terms and Condition",
+        title: "Terms and Condition page",
+        component: TermsAndCondition,
+        path: "/terms-and-condition",
+      },
+      {
+        name: "Error 404",
+        title: "Error 404 page",
+        component: Error404Page,
+        path: "/error",
       },
     ],
   },
@@ -109,8 +132,14 @@ export const routes = [
       {
         name: "Cart",
         title: "Cart page",
-        component: ProductPost,
+        component: Cart,
         path: "/cart",
+      },
+      {
+        name: "Search",
+        title: "Search page",
+        component: Search,
+        path: "/search",
       },
     ],
   },

@@ -1,15 +1,41 @@
-import { useState } from "react";
-import ChangePassword from "./ChangePassword";
-import MyAccount from "./MyAccount";
-import QuotesHistory from "./QuotesHistory";
-import SavedProducts from "./SavedProducts";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import AnimateLink from "../../components/AnimateLink";
+
+const links = [
+  { name: "My Account", href: "/account/my-account" },
+  { name: "Saved Products", href: "/account/saved-products" },
+  { name: "Quotes History", href: "/account/quotes-history" },
+  { name: "Change Password", href: "/account/change-password" },
+  { name: "Log Out", href: "/logout" },
+];
 
 const Account = () => {
-  const [selectedOption, setSelectedOption] = useState("my-account");
-  console.log(selectedOption, "selectedOption>>");
-  const handleOptionChange = (option) => {
-    setSelectedOption(option);
+  const navigate = useNavigate();
+
+  const NavigationAnimation = (e) => {
+    e.preventDefault();
+    try {
+      // Add animation class to trigger animation
+
+      document.body.classList.add("page-leave-active");
+      setTimeout(() => {
+        document.body.classList.remove("page-leave-active");
+        document.body.classList.add("page-enter-active");
+      }, 900);
+
+      setTimeout(() => {
+        // Replace this with your navigation logic
+        navigate("/account/my-account");
+
+        // Update the attribute after navigation if needed
+        // document.body.setAttribute("data-login-state", "logged");
+      }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
+
+      // navigate("/collections");
+      // document.body.setAttribute("data-login-state", "logged");
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
   return (
     <>
@@ -21,11 +47,28 @@ const Account = () => {
             Gabriel
           </h2>
           <ul className="list-menu-my-account mt-lg-90 mt-tablet-40 mt-phone-60">
+            {/* {links.map((data, index) => {
+              const { name, href } = data;
+              return (
+                <li style={{ cursor: "pointer" }} className="list-item">
+                  <AnimateLink key={index} to={href} className="link-account">
+                    <i className="icon-account"></i>
+                    <span>{name}</span>
+                  </AnimateLink>
+                </li>
+              );
+            })} */}
+            <li style={{ cursor: "pointer" }} className="list-item">
+              <AnimateLink to="/account/my-account" className="link-account">
+                <i className="icon-account"></i>
+                <span>Account</span>
+              </AnimateLink>
+            </li>
             <li className="list-item">
-              <Link to="/account/my-account" className="link-account">
+              <span onClick={NavigationAnimation} className="link-account">
                 <i className="icon-account"></i>
                 <span>My Account</span>
-              </Link>
+              </span>
             </li>
             <li className="list-item">
               <Link to="/account/saved-products" className="link-account">
@@ -54,14 +97,6 @@ const Account = () => {
           </ul>
         </div>
       </div>
-
-      {/* Right Side */}
-      {/* <MyAccount /> */}
-      {/* {selectedOption === "my-account" && <MyAccount />}
-      {selectedOption === "saved-products" && <SavedProducts />}
-      {selectedOption === "change-password" && <ChangePassword />} */}
-      {/* <ChangePassword /> */}
-      {/* <QuotesHistory /> */}
     </>
   );
 };

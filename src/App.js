@@ -7,10 +7,10 @@ import { useEffect } from "react";
 import "./App.css";
 
 function App() {
-  const location = useLocation();
-  const pathname =
-    location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
-  const cleanPath = pathname.split("/")[0].trim();
+  // const location = useLocation();
+  // const pathname =
+  //   location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
+  // const cleanPath = pathname.split("/")[0].trim();
 
   const [isSignedIn, setIsSignedIn] = useState(true);
 
@@ -19,7 +19,7 @@ function App() {
     if (isSignedIn) {
       document.body.setAttribute("data-login-state", "logged");
     } else {
-      document.body.setAttribute("data-login-state", "sign-in");
+      document.body.setAttribute("data-login-state", "");
     }
   }, [isSignedIn]);
 
@@ -110,12 +110,12 @@ function App() {
       <Loader />
       {/* <Navbar /> */}
       {/* <Home /> */}
-      <div id={`${cleanPath}`} data-scroll-container>
-        <main>
-          {/* <Outlet /> */}
-          <Routes isAuthorized={isSignedIn} />
-        </main>
-      </div>
+      {/* <div id={`${cleanPath}`} data-scroll-container> */}
+      {/* <main> */}
+      {/* <Outlet /> */}
+      <Routes isAuthorized={isSignedIn} />
+      {/* </main> */}
+      {/* </div> */}
     </div>
   );
 }
