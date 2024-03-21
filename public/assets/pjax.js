@@ -345,12 +345,12 @@ function requireParseElement() {
     switch (el.tagName.toLowerCase()) {
       case "a":
         if (!el.hasAttribute(attrState)) {
-          this.attachLink(el);
+          // this.attachLink(el);
         }
         break;
       case "form":
         if (!el.hasAttribute(attrState)) {
-          this.attachForm(el);
+          // this.attachForm(el);
         }
         break;
       default:
@@ -795,14 +795,15 @@ function requireIsSupported() {
   if (hasRequiredIsSupported) return isSupported;
   hasRequiredIsSupported = 1;
   isSupported = function () {
-    return (
-      window.history &&
-      window.history.pushState &&
-      window.history.replaceState && // pushState isn’t reliable on iOS until 5.
-      !navigator.userAgent.match(
-        /((iPod|iPhone|iPad).+\bOS\s+[1-4]\D|WebApps\/.+CFNetwork)/
-      )
-    );
+    return false;
+    // return (
+    //   window.history &&
+    //   window.history.pushState &&
+    //   window.history.replaceState && // pushState isn’t reliable on iOS until 5.
+    //   !navigator.userAgent.match(
+    //     /((iPod|iPhone|iPad).+\bOS\s+[1-4]\D|WebApps\/.+CFNetwork)/
+    //   )
+    // );
   };
   return isSupported;
 }
@@ -865,7 +866,7 @@ Pjax.prototype = {
     this.parseDOM(el || document);
   },
   reload: function () {
-    window.location.reload();
+    // window.location.reload();
   },
   attachLink: requireAttachLink(),
   attachForm: requireAttachForm(),

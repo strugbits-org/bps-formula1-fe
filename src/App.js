@@ -7,20 +7,25 @@ import { useEffect } from "react";
 import "./App.css";
 
 function App() {
-  // const location = useLocation();
-  // const pathname =
-  //   location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
-  // const cleanPath = pathname.split("/")[0].trim();
+  const location = useLocation();
+  const pathname =
+    location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
+  const cleanPath = pathname.split("/")[0].trim();
 
   const [isSignedIn, setIsSignedIn] = useState(true);
 
   // Function to update the data-login-state attribute
   useEffect(() => {
-    if (isSignedIn) {
+    const user = localStorage.getItem("userLoginStatus");
+    console.log(user, "user>>");
+    if (user) {
+      setIsSignedIn(true);
       document.body.setAttribute("data-login-state", "logged");
-    } else {
-      document.body.setAttribute("data-login-state", "");
     }
+    // if (isSignedIn) {
+    // } else {
+    //   document.body.setAttribute("data-login-state", "");
+    // }
   }, [isSignedIn]);
 
   return (
@@ -110,12 +115,16 @@ function App() {
       <Loader />
       {/* <Navbar /> */}
       {/* <Home /> */}
-      {/* <div id={`${cleanPath}`} data-scroll-container> */}
-      {/* <main> */}
-      {/* <Outlet /> */}
-      <Routes isAuthorized={isSignedIn} />
-      {/* </main> */}
-      {/* </div> */}
+      <div id="main-transition">
+        <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
+          <main>
+            <Routes isAuthorized={isSignedIn} />
+          </main>
+        </div>
+      </div>
+      {/* <div id={`${cleanPath}`} data-scroll-container>
+        
+      </div> */}
     </div>
   );
 }

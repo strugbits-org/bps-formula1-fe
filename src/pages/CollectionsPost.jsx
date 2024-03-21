@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import AnimateLink from "../components/AnimateLink";
 
 const CollectionPost = () => {
   return (
@@ -21,7 +21,7 @@ const CollectionPost = () => {
                   >
                     Classic vegas
                   </h1>
-                  <Link
+                  <AnimateLink
                     to="/collections-category"
                     className="btn-medium btn-red btn-hover-white mt-lg-35 mt-tablet-25 mt-phone-30"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
@@ -29,7 +29,7 @@ const CollectionPost = () => {
                     <div className="split-chars">
                       <span data-letter="Shop">Shop</span>
                     </div>
-                  </Link>
+                  </AnimateLink>
                 </div>
               </div>
             </div>

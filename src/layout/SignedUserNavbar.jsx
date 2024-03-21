@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import AnimateLink from "../components/AnimateLink";
 
 const SignedUserNavbar = () => {
@@ -16,14 +15,14 @@ const SignedUserNavbar = () => {
           </a>
         </div>
         <div className="container-h-2 mx-md-45 order-phone-1">
-          <Link
+          <AnimateLink
             to="/home"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
-          </Link>
+          </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
           <button
@@ -50,9 +49,9 @@ const SignedUserNavbar = () => {
             >
               <ul className="list-dropdown">
                 <li>
-                  <a href="collections.html" className="link-dropdown">
+                  <AnimateLink to="/collections" className="link-dropdown">
                     <span>All</span>
-                  </a>
+                  </AnimateLink>
                 </li>
                 <li>
                   <a href="collections.html" className="link-dropdown">
@@ -139,14 +138,14 @@ const SignedUserNavbar = () => {
           </div>
         </div>
         <div className="container-h-2 mx-lg-45 order-mobile-1">
-          <Link
-            to="/home"
+          <AnimateLink
+            to="/"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
-          </Link>
+          </AnimateLink>
         </div>
         <div className="container-h-3 order-mobile-3">
           <div className="container-form" data-get-submenu="search">
@@ -180,10 +179,8 @@ const SignedUserNavbar = () => {
           <AnimateLink to="/account/my-account" className="link-account">
             <i className="icon-profile"></i>
           </AnimateLink>
-          <AnimateLink className="link-account">
-            <Link to="/cart" className="link-cart">
-              <i className="icon-cart"></i>
-            </Link>
+          <AnimateLink to="/cart" className="link-account">
+            <i className="icon-cart"></i>
           </AnimateLink>
         </div>
       </div>

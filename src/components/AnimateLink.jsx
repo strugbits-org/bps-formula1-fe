@@ -1,11 +1,10 @@
 import React from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AnimateLink = ({ to, children, className }) => {
   const navigate = useNavigate();
 
   const navigationAnimation = (e) => {
-    e.preventDefault();
     try {
       // Add animation class to trigger animation
 
@@ -22,17 +21,19 @@ const AnimateLink = ({ to, children, className }) => {
         // Update the attribute after navigation if needed
         // document.body.setAttribute("data-login-state", "logged");
       }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
+      document.querySelector(".initScript").click();
 
       // navigate("/collections");
       // document.body.setAttribute("data-login-state", "logged");
+      // e.preventDefault();
     } catch (error) {
       console.log("Error:", error);
     }
   };
   return (
-    <NavLink to={to} className={className} onClick={navigationAnimation}>
+    <Link to={to} className={className} onClick={navigationAnimation}>
       {children}
-    </NavLink>
+    </Link>
   );
 };
 export default AnimateLink;

@@ -1,17 +1,21 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AnimateLink from "../../components/AnimateLink";
+import { useEffect } from "react";
 
 const links = [
   { name: "My Account", href: "/account/my-account" },
   { name: "Saved Products", href: "/account/saved-products" },
   { name: "Quotes History", href: "/account/quotes-history" },
   { name: "Change Password", href: "/account/change-password" },
-  { name: "Log Out", href: "/logout" },
+  { name: "Log Out", href: "#" },
 ];
 
 const Account = () => {
   const navigate = useNavigate();
-
+  // useEffect(() => {
+  //   document.querySelector(".initScript").click();
+  //   console.log("Page loaded");
+  // }, []);
   const NavigationAnimation = (e) => {
     e.preventDefault();
     try {
@@ -47,18 +51,22 @@ const Account = () => {
             Gabriel
           </h2>
           <ul className="list-menu-my-account mt-lg-90 mt-tablet-40 mt-phone-60">
-            {/* {links.map((data, index) => {
+            {links.map((data, index) => {
               const { name, href } = data;
               return (
-                <li style={{ cursor: "pointer" }} className="list-item">
+                <li
+                  key={index}
+                  style={{ cursor: "pointer" }}
+                  className="list-item"
+                >
                   <AnimateLink key={index} to={href} className="link-account">
                     <i className="icon-account"></i>
                     <span>{name}</span>
                   </AnimateLink>
                 </li>
               );
-            })} */}
-            <li style={{ cursor: "pointer" }} className="list-item">
+            })}
+            {/* <li style={{ cursor: "pointer" }} className="list-item">
               <AnimateLink to="/account/my-account" className="link-account">
                 <i className="icon-account"></i>
                 <span>Account</span>
@@ -87,13 +95,13 @@ const Account = () => {
                 <i className="icon-change"></i>
                 <span>Change Password</span>
               </Link>
-            </li>
+            </li> 
             <li className="list-item">
               <a href="" className="link-account">
                 <i className="icon-logout"></i>
                 <span>Log Out</span>
               </a>
-            </li>
+            </li>*/}
           </ul>
         </div>
       </div>

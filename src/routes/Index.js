@@ -28,12 +28,12 @@ export const routes = [
   {
     layout: AnonymousLayout,
     routes: [
-      {
-        name: "SignIn",
-        title: "SignIn page",
-        component: SignIn,
-        path: "/",
-      },
+      // {
+      //   name: "Home",
+      //   title: "Home page",
+      //   component: AnonymousLayout,
+      //   path: "/",
+      // },
       {
         name: "Privacy and Policy",
         title: "Privacy and Policy page",
@@ -61,7 +61,7 @@ export const routes = [
         name: "Home",
         title: "Home page",
         component: Home,
-        path: "/home",
+        path: "/",
       },
       {
         name: "Collection",
