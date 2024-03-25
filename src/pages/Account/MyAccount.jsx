@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import Account from "./Index";
 
 const MyAccount = () => {
+  useEffect(() => {
+    document.querySelector(".initScript").click();
+    document.body.dataset.pg = "pg-my-account";
+  }, []);
+
   return (
     <>
       <Account />

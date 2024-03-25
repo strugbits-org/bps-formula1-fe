@@ -1,6 +1,11 @@
 import { D as DataSetGet } from "./data-set-get.js";
 function parseAnimation(strAr) {
-  let animation = "", duration = ".8s", timingFunction = "ease-in-out", delay = "", iteration = "", fill = "both";
+  let animation = "",
+    duration = ".8s",
+    timingFunction = "ease-in-out",
+    delay = "",
+    iteration = "",
+    fill = "both";
   for (let i = 0; i < strAr.length; i++) {
     const str = strAr[i];
     const n = Number.parseFloat(str);
@@ -56,10 +61,8 @@ function parseAnimation(strAr) {
     }
   }
   let result = `${animation} ${duration} ${timingFunction}`;
-  if (delay)
-    result += " " + delay;
-  if (iteration)
-    result += " " + iteration;
+  if (delay) result += " " + delay;
+  if (iteration) result += " " + iteration;
   result += " " + fill;
   return result;
 }
@@ -71,8 +74,8 @@ function isEase(str) {
   }
 }
 const timingDict = {
-  "ease": "ease",
-  "linear": "linear",
+  ease: "ease",
+  linear: "linear",
   "ease-in": "ease-in",
   "ease-out": "ease-out",
   "ease-in-out": "ease-in-out",
@@ -99,7 +102,7 @@ const timingDict = {
   "ease-in-out-sine": "cubic-bezier(0.445, 0.050, 0.550, 0.950)",
   "ease-in-out-expo": "cubic-bezier(1.000, 0.000, 0.000, 1.000)",
   "ease-in-out-circ": "cubic-bezier(0.785, 0.135, 0.150, 0.860)",
-  "ease-in-out-back": "cubic-bezier(0.680, -0.550, 0.265, 1.550)"
+  "ease-in-out-back": "cubic-bezier(0.680, -0.550, 0.265, 1.550)",
 };
 function tokenizer(input) {
   const regTokens = /([^,\s].[^,]*)/g;
@@ -107,8 +110,7 @@ function tokenizer(input) {
   const regValues = /(?!.+?:)[^:\s]\S+|-|\d+/g;
   const result = [];
   const tokens = input.match(regTokens);
-  if (!tokens)
-    return null;
+  if (!tokens) return null;
   tokens.forEach((t) => {
     const key = t.match(regKey);
     const values = t.match(regValues);
@@ -118,14 +120,11 @@ function tokenizer(input) {
 }
 let watched = [];
 let screenSize = "";
-const getsize = function() {
+const getsize = function () {
   const iw = window.innerWidth;
-  if (iw < 768)
-    screenSize = "phone";
-  if (iw >= 768 && iw <= 1200)
-    screenSize = "tablet";
-  if (iw > 1200)
-    screenSize = "desktop";
+  if (iw < 768) screenSize = "phone";
+  if (iw >= 768 && iw <= 1200) screenSize = "tablet";
+  if (iw > 1200) screenSize = "desktop";
 };
 getsize();
 window.addEventListener("resize", getsize);
@@ -135,12 +134,12 @@ const obs = new IntersectionObserver((entries) => {
     const vis = entry.isIntersecting;
     const scrollingDown = entry.boundingClientRect.top < 0;
     defs.forEach((def) => {
-      if (!def.el.isConnected || vis && !def.isConnected) {
+      if (!def.el.isConnected || (vis && !def.isConnected)) {
         def.isConnected = def.el.isConnected;
         return;
       }
-      if (vis && !def.animated || vis && def.loop[screenSize]) {
-        let animate = function() {
+      if ((vis && !def.animated) || (vis && def.loop[screenSize])) {
+        let animate = function () {
           def.animated = true;
           def.el.classList.add("aos-animate");
           if (def[screenSize]) {
@@ -170,8 +169,7 @@ const obs = new IntersectionObserver((entries) => {
         if (def[screenSize]) {
           def.el.style.animation = "";
           const elclass = def[screenSize].match(/^\S+/);
-          if (elclass)
-            def.el.classList.remove(elclass[0]);
+          if (elclass) def.el.classList.remove(elclass[0]);
         }
         def.el.classList.remove("aos-animate");
       }
@@ -181,7 +179,7 @@ const obs = new IntersectionObserver((entries) => {
 const obsAttrbutes = new MutationObserver(() => {
   updateWatched();
 });
-const updateWatched = function() {
+const updateWatched = function () {
   watched = [];
   obs.disconnect();
   obsAttrbutes.disconnect();
@@ -198,12 +196,12 @@ function createAosParams(el) {
     loop: {
       desktop: false,
       tablet: false,
-      phone: false
+      phone: false,
     },
     animated: false,
     desktop: null,
     tablet: null,
-    phone: null
+    phone: null,
   };
   const tokens = tokenizer(el.dataset.aos);
   if (tokens) {
@@ -222,12 +220,9 @@ function createAosParams(el) {
           aosdef.loop.tablet = true;
           aosdef.loop.phone = true;
         } else {
-          if (t.key.includes("d"))
-            aosdef.loop.desktop = true;
-          if (t.key.includes("t"))
-            aosdef.loop.tablet = true;
-          if (t.key.includes("p"))
-            aosdef.loop.phone = true;
+          if (t.key.includes("d")) aosdef.loop.desktop = true;
+          if (t.key.includes("t")) aosdef.loop.tablet = true;
+          if (t.key.includes("p")) aosdef.loop.phone = true;
         }
         return;
       }
@@ -238,12 +233,9 @@ function createAosParams(el) {
         aosdef.phone = v;
         return;
       }
-      if (t.key.includes("d"))
-        aosdef.desktop = v;
-      if (t.key.includes("t"))
-        aosdef.tablet = v;
-      if (t.key.includes("p"))
-        aosdef.phone = v;
+      if (t.key.includes("d")) aosdef.desktop = v;
+      if (t.key.includes("t")) aosdef.tablet = v;
+      if (t.key.includes("p")) aosdef.phone = v;
     });
   }
   obs.observe(aosdef.trigger);
@@ -251,7 +243,9 @@ function createAosParams(el) {
   watched.push(aosdef);
 }
 function productLinkColor() {
-  let productLink = document.querySelectorAll(".product-link:not(.js-product-link-color-running)");
+  let productLink = document.querySelectorAll(
+    ".product-link:not(.js-product-link-color-running)"
+  );
   productLink.forEach((element) => {
     element.classList.add("js-product-link-color-running");
     new DataSetGet({
@@ -265,18 +259,11 @@ function productLinkColor() {
       multiple: false,
       deactivateOnClickOutside: false,
       leaveDelay: 0,
-      onClose: () => {
-      },
-      onComplete: () => {
-      },
-      onActivate: (item) => {
-      },
-      onDeactivate: (item) => {
-      }
+      onClose: () => {},
+      onComplete: () => {},
+      onActivate: (item) => {},
+      onDeactivate: (item) => {},
     });
   });
 }
-export {
-  productLinkColor as p,
-  updateWatched as u
-};
+export { productLinkColor as p, updateWatched as u };

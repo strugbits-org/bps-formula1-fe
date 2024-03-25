@@ -26892,10 +26892,20 @@ var require_app2 = __commonJS({
       viewportHeight();
     }
     whenContainerReady();
+
     // Custom js
     document.querySelector(".initScript").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
       whenContainerReady();
+      // if (!firstLoad) {
+      //   closeSearch();
+      // }
+    });
+
+    document.querySelector(".updateWatched").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      updateWatched();
+
       // if (!firstLoad) {
       //   closeSearch();
       // }

@@ -1,22 +1,35 @@
+import { useNavigate } from "react-router-dom";
 import AnimateLink from "../components/AnimateLink";
+import { AnimationFunction } from "../utils/AnimationFunctions";
 
 const SignedUserNavbar = () => {
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      AnimationFunction();
+      setTimeout(() => {
+        // Replace this with your navigation logic
+        navigate("/search");
+      }, 1000);
+    } catch (error) {}
+  };
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
         <div className="container-h-1 order-phone-2 mr-phone-10">
-          <a
-            href="gallery.html"
+          <AnimateLink
+            to="/gallery"
             className="btn-small btn-dark btn-hover-white-black"
           >
             <div className="split-chars">
               <span>Gallery</span>
             </div>
-          </a>
+          </AnimateLink>
         </div>
         <div className="container-h-2 mx-md-45 order-phone-1">
           <AnimateLink
-            to="/home"
+            to="/"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
@@ -150,7 +163,7 @@ const SignedUserNavbar = () => {
         <div className="container-h-3 order-mobile-3">
           <div className="container-form" data-get-submenu="search">
             <form
-              action="/search"
+              onSubmit={handleSubmit}
               className="form-search header-search"
               data-pjax
               data-search-form
@@ -176,7 +189,7 @@ const SignedUserNavbar = () => {
           <button className="btn-search no-desktop" data-set-submenu="search">
             <i className="icon-search"></i>
           </button>
-          <AnimateLink to="/account/my-account" className="link-account">
+          <AnimateLink to="/my-account" className="link-account">
             <i className="icon-profile"></i>
           </AnimateLink>
           <AnimateLink to="/cart" className="link-account">

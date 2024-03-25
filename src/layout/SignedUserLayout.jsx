@@ -8,7 +8,8 @@ const SignedUserLayout = () => {
     <>
       {/* <SecondLoader /> */}
       <SignedUserNavbar />
-      <Outlet />;{/* <SignedUserFooter /> */}
+      <Outlet />;
+      <SignedUserFooter />
     </>
   );
 };

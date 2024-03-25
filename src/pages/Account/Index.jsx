@@ -3,10 +3,10 @@ import AnimateLink from "../../components/AnimateLink";
 import { useEffect } from "react";
 
 const links = [
-  { name: "My Account", href: "/account/my-account" },
-  { name: "Saved Products", href: "/account/saved-products" },
-  { name: "Quotes History", href: "/account/quotes-history" },
-  { name: "Change Password", href: "/account/change-password" },
+  { name: "My Account", href: "/my-account" },
+  { name: "Saved Products", href: "/saved-products" },
+  { name: "Quotes History", href: "/quotes-history" },
+  { name: "Change Password", href: "/change-password" },
   { name: "Log Out", href: "#" },
 ];
 
@@ -41,6 +41,9 @@ const Account = () => {
       console.log("Error:", error);
     }
   };
+  useEffect(() => {
+    document.querySelector(".initScript").click();
+  }, []);
   return (
     <>
       {/* Left Side*/}

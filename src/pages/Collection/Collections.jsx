@@ -1,5 +1,5 @@
-import collectionImage from "../images/gallery/img-09.jpg";
-import AnimateLink from "../components/AnimateLink";
+import collectionImage from "../../images/gallery/img-09.jpg";
+import AnimateLink from "../../components/AnimateLink";
 import { useEffect } from "react";
 const CollectionData = [
   { name: "Legacy collection", image: collectionImage },
@@ -31,7 +31,7 @@ const Collections = () => {
                 return (
                   <li key={index} className="grid-item">
                     <AnimateLink
-                      to="/collection-post"
+                      to="/collections-post"
                       className="collection-link large"
                     >
                       <h3 className="collection-title">{name}</h3>

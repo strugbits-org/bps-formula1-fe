@@ -3,37 +3,33 @@
 import AnonymousLayout from "../layout/AnonymousLayout";
 import SignedUserLayout from "../layout/SignedUserLayout";
 
-// Pages
-
-import Collections from "../pages/Collections";
-import CollectionsPost from "../pages/CollectionsPost";
-import CollectionsCategory from "../pages/CollectionsCategory";
 import { renderRoutes } from "./generate-routes";
-import SignIn from "../pages/SignIn";
+// Pages
+import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
+import TermsAndCondition from "../pages/TermsAndCondition";
+import Error404Page from "../pages/Error404Page";
+
 import Home from "../pages/Home";
-import Account from "../pages/Account/Index";
-import Products from "../pages/Products";
-import ProductPost from "../pages/ProductsPost";
+import Gallery from "../pages/Gallery";
+import Collections from "../pages/Collection/Collections";
+import CollectionsPost from "../pages/Collection/CollectionsPost";
+import CollectionsCategory from "../pages/Collection/CollectionsCategory";
+
 import MyAccount from "../pages/Account/MyAccount";
 import ChangePassword from "../pages/Account/ChangePassword";
 import QuotesHistory from "../pages/Account/QuotesHistory";
 import SavedProducts from "../pages/Account/SavedProducts";
+
+import Products from "../pages/Product/Products";
+import ProductPost from "../pages/Product/ProductsPost";
+
 import Cart from "../pages/Cart";
 import Search from "../pages/Search";
-import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
-import TermsAndCondition from "../pages/TermsAndCondition";
-import Error404Page from "../pages/Error404Page";
 
 export const routes = [
   {
     layout: AnonymousLayout,
     routes: [
-      // {
-      //   name: "Home",
-      //   title: "Home page",
-      //   component: AnonymousLayout,
-      //   path: "/",
-      // },
       {
         name: "Privacy and Policy",
         title: "Privacy and Policy page",
@@ -64,52 +60,22 @@ export const routes = [
         path: "/",
       },
       {
+        name: "Gallery",
+        title: "Gallery page",
+        component: Gallery,
+        path: "/gallery",
+      },
+      {
         name: "Collection",
         title: "Collection page",
         component: Collections,
         path: "/collections",
       },
       {
-        name: "Account",
-        title: "Account page",
-        component: Account,
-        path: "/account",
-        routes: [
-          {
-            name: "My Account",
-            title: "My Account",
-            hasSiderLink: true,
-            component: MyAccount,
-            path: "/account/my-account",
-          },
-          {
-            name: "Change Password",
-            title: "Change Password",
-            hasSiderLink: true,
-            component: ChangePassword,
-            path: "/account/change-password",
-          },
-          {
-            name: "Quotes History",
-            title: "Quotes History",
-            hasSiderLink: true,
-            component: QuotesHistory,
-            path: "/account/quotes-history",
-          },
-          {
-            name: "Saved Products",
-            title: "Saved Products",
-            hasSiderLink: true,
-            component: SavedProducts,
-            path: "/account/saved-products",
-          },
-        ],
-      },
-      {
         name: "Collection post",
         title: "Collection post page",
         component: CollectionsPost,
-        path: "/collection-post",
+        path: "/collections-post",
       },
       {
         name: "Collections category",
@@ -117,6 +83,31 @@ export const routes = [
         component: CollectionsCategory,
         path: "/collections-category",
       },
+      {
+        name: "My Account",
+        title: "My Account",
+        component: MyAccount,
+        path: "/my-account",
+      },
+      {
+        name: "Change Password",
+        title: "Change Password",
+        component: ChangePassword,
+        path: "/change-password",
+      },
+      {
+        name: "Quotes History",
+        title: "Quotes History",
+        component: QuotesHistory,
+        path: "/quotes-history",
+      },
+      {
+        name: "Saved Products",
+        title: "Saved Products",
+        component: SavedProducts,
+        path: "/saved-products",
+      },
+
       {
         name: "Products",
         title: "Products page",
@@ -127,7 +118,7 @@ export const routes = [
         name: "Product post",
         title: "Product post page",
         component: ProductPost,
-        path: "/product-post",
+        path: "/products-post",
       },
       {
         name: "Cart",

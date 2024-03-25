@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
-  // useEffect(() => {
-  //   document.querySelector(".initScript").click();
-  //   console.log("Page loaded");
-  // }, []);
+  useEffect(() => {
+    document.querySelector(".initScript").click();
+  }, []);
   return (
     <>
       <div id="main-transition">

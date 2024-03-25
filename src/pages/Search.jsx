@@ -2,8 +2,13 @@ import productImage from "../images/products/img-01.png";
 import productImageBlue from "../images/products/img-01-blue.png";
 import productImageBrown from "../images/products/img-01-brown.png";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Search = () => {
+  useEffect(() => {
+    document.querySelector(".initScript").click();
+    document.body.dataset.pg = "pg-search";
+  }, []);
   return (
     <>
       <div id="main-transition">
@@ -408,7 +413,7 @@ const Search = () => {
                                   <i class="icon-bookmark"></i>
                                 </button>
                               </div>
-                              <Link to="/product-post" class="link">
+                              <Link to="/products-post" class="link">
                                 <div class="container-top">
                                   <h2 class="product-title">Pilot Chairred</h2>
                                 </div>

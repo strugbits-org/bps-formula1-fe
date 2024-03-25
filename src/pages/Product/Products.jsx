@@ -1,13 +1,7 @@
-import collectionImage from "../images/gallery/img-09.jpg";
-import productImage from "../images/products/img-01.png";
-import AnimateLink from "../components/AnimateLink";
+import AnimateLink from "../../components/AnimateLink";
 import { useEffect } from "react";
-const CollectionData = [
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-];
+import OtherCollections from "../../components/OtherCollections";
+
 const productCategory = [
   "Accent chairs",
   "Arm chairs",
@@ -21,10 +15,15 @@ const productCategory = [
 
 const Products = () => {
   useEffect(() => {
+    document.body.dataset.pg = "pg-products";
+
     document.querySelector(".initScript").click();
+    setTimeout(() => {
+      document.querySelector(".updateWatched").click();
+    }, 2000);
   }, []);
   return (
-    <div>
+    <>
       <section className="products-intro">
         <div className="container-fluid pos-relative z-5">
           <div className="row row-1">
@@ -471,7 +470,7 @@ const Products = () => {
                               }}
                             />
                           </div>
-                          <AnimateLink to="/product-post" className="link">
+                          <AnimateLink to="/products-post" className="link">
                             <div className="container-top">
                               <h2 className="product-title">Pilot Chairred</h2>
                               <div className="container-info">
@@ -486,7 +485,11 @@ const Products = () => {
                                 data-get-product-link-color="red"
                                 data-default-product-link-active
                               >
-                                <img src={productImage} class="media" />
+                                <img
+                                  src="images/products/img-01.png"
+                                  data-preload
+                                  class="media"
+                                />
                               </div>
                               <div
                                 className="container-img product-img"
@@ -600,43 +603,8 @@ const Products = () => {
           </div>
         </div>
       </section>
-      <section className="section-other-collections pos-relative mt-tablet-100 mt-phone-65 pb-lg-90 pb-tablet-40 pb-phone-165">
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-lg-10 offset-lg-1">
-              <h2
-                className="fs--30 fs-mobile-20 text-uppercase text-center white-1 split-words"
-                data-aos="d:loop"
-              >
-                Other collections
-              </h2>
-              <ul
-                className="list-other-collections grid-md-50 mt-35"
-                data-aos="d:loop"
-              >
-                {CollectionData.map((data, index) => {
-                  const { name, image, link } = data;
-                  return (
-                    <li key={index} className="grid-item">
-                      <AnimateLink to={link} className="collection-link large">
-                        <h3 className="collection-title">{name}</h3>
-                        <div className="container-img">
-                          <img
-                            src="images/gallery/img-09.jpg"
-                            data-preload
-                            className="media"
-                          />
-                        </div>
-                      </AnimateLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
+      <OtherCollections />
+    </>
   );
 };
 

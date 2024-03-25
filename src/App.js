@@ -5,13 +5,14 @@ import { Helmet } from "react-helmet";
 import { useState } from "react";
 import { useEffect } from "react";
 import "./App.css";
+import Account from "./pages/Account/Index";
 
 function App() {
   const location = useLocation();
   const pathname =
     location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
   const cleanPath = pathname.split("/")[0].trim();
-
+  console.log(cleanPath, "cleanPath>>");
   const [isSignedIn, setIsSignedIn] = useState(true);
 
   // Function to update the data-login-state attribute
@@ -30,7 +31,6 @@ function App() {
 
   return (
     <div>
-      {" "}
       <Helmet>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -113,8 +113,7 @@ function App() {
         ></script>
       </Helmet>
       <Loader />
-      {/* <Navbar /> */}
-      {/* <Home /> */}
+
       <div id="main-transition">
         <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
           <main>
@@ -122,9 +121,6 @@ function App() {
           </main>
         </div>
       </div>
-      {/* <div id={`${cleanPath}`} data-scroll-container>
-        
-      </div> */}
     </div>
   );
 }
