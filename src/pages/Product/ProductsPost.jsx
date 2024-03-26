@@ -69,8 +69,12 @@ const productImages = [
 
 const ProductPost = () => {
   useEffect(() => {
-    document.querySelector(".initScript").click();
     document.body.dataset.pg = "pg-products-post";
+    document.querySelector(".initScript").click();
+    setTimeout(() => {
+      document.querySelector(".productsPost").click();
+      // document.querySelector(".products").click();
+    }, 4000);
   }, []);
   return (
     <>
@@ -140,7 +144,6 @@ const ProductPost = () => {
                         <div className="swiper-wrapper">
                           {productImages.map((data, index) => {
                             const { source, bool } = data;
-                            console.log(data, bool, "data>>");
                             return (
                               <div key={index} className="swiper-slide">
                                 <div

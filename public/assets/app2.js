@@ -18106,14 +18106,28 @@ var require_app2 = __commonJS({
     }
     Forms();
     document.addEventListener("pjax:complete", Forms);
+
+    // Products Page
     const pageName$7 = "products";
     function main$7() {}
     const pgProducts = new Page({
       pageName: pageName$7,
       main: main$7,
     });
+
+    // Products Post page Cuctom JS
+    document.querySelector(".products").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      filterProducts();
+    });
+
+    // Products Post page Cuctom JS
+
+    // Cart Page
     const pageName$6 = "cart";
-    function main$6() {}
+    function main$6() {
+      console.log("Cart main Function");
+    }
     const pgCart = new Page({
       pageName: pageName$6,
       main: main$6,
@@ -18775,11 +18789,21 @@ var require_app2 = __commonJS({
           });
       });
     }
-    formCart();
     document.addEventListener("pjax:complete", formCart);
+
+    // Cart page Cuctom JS
+    document.querySelector(".cartPage").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      formCart();
+    });
+
+    // Cart page Cuctom JS
+
+    // Products Page
     const pageName$5 = "products-post";
     function main$5() {
-      productLinkColor();
+      console.log("Products Post Main Function");
+      filterProducts();
       let description = document.querySelector(
         ".container-info-text.description"
       );
@@ -18834,8 +18858,11 @@ var require_app2 = __commonJS({
       main: main$5,
     });
     function filterProducts() {
+      console.log("filterProducts() Function");
+
       let btnFilter = document.querySelector(".btn-filter:not(.js-running)");
       let columnFilter = document.querySelector(".container-filter-products");
+      console.log(btnFilter, "btn");
       if (btnFilter) {
         btnFilter.classList.add("js-running");
         btnFilter.addEventListener("click", function () {
@@ -18865,6 +18892,17 @@ var require_app2 = __commonJS({
     }
     filterProducts();
     document.addEventListener("pjax:complete", filterProducts);
+
+    // Products Post page Cuctom JS
+    document.querySelector(".productsPost").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      filterProducts();
+      main$5();
+    });
+
+    // Products Post page Cuctom JS
+
+    // Search Page
     const pageName$4 = "search";
     function main$4() {
       filterProducts();
@@ -26203,6 +26241,7 @@ var require_app2 = __commonJS({
         value: /* @__PURE__ */ new Map(),
       });
     function galleryLightbox() {
+      console.log("Collections Gallery Lightbox");
       xt.bind("[data-fancybox]", {
         Image: {
           zoom: true,
@@ -26314,6 +26353,8 @@ var require_app2 = __commonJS({
       }
     }
     gsapWithCSS$1.registerPlugin(ScrollTrigger);
+
+    // Gallery Page
     const pageName$3 = "gallery";
     function main$3() {
       galleryLightbox();
@@ -26343,10 +26384,22 @@ var require_app2 = __commonJS({
       pageName: pageName$3,
       main: main$3,
     });
+
+    // Collections Page
     const pageName$2 = "collections-post";
     function main$2() {
       galleryLightbox();
+      console.log("Collection Main Function");
     }
+
+    // Collections Page Cusatom JS
+    document.querySelector(".galleryLightBox").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      galleryLightbox();
+    });
+
+    // Collections Page Cusatom JS
+
     const pgCollectionsPost = new Page({
       pageName: pageName$2,
       main: main$2,
@@ -26828,6 +26881,8 @@ var require_app2 = __commonJS({
           });
         });
     }
+
+    // Quotes History Page
     const pageName$1 = "my-account-quotes-history";
     function main$1() {
       manualModalCloseControls();
@@ -26836,6 +26891,8 @@ var require_app2 = __commonJS({
       pageName: pageName$1,
       main: main$1,
     });
+
+    // Saved Products Page
     const pageName = "my-account-saved-products";
     function main() {
       productLinkColor();
@@ -26905,7 +26962,7 @@ var require_app2 = __commonJS({
     document.querySelector(".updateWatched").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
       updateWatched();
-
+      console.log("update Watched >>>>");
       // if (!firstLoad) {
       //   closeSearch();
       // }

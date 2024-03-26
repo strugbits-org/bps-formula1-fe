@@ -114,13 +114,13 @@ function App() {
       </Helmet>
       <Loader />
 
-      <div id="main-transition">
+      <Routes isAuthorized={isSignedIn} />
+      {/* <div id="main-transition">
         <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
           <main>
-            <Routes isAuthorized={isSignedIn} />
           </main>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

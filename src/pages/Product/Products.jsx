@@ -1,6 +1,7 @@
 import AnimateLink from "../../components/AnimateLink";
 import { useEffect } from "react";
 import OtherCollections from "../../components/OtherCollections";
+import AddToCartModal from "./AddToCartModal";
 
 const productCategory = [
   "Accent chairs",
@@ -18,9 +19,9 @@ const Products = () => {
     document.body.dataset.pg = "pg-products";
 
     document.querySelector(".initScript").click();
-    setTimeout(() => {
-      document.querySelector(".updateWatched").click();
-    }, 2000);
+    document.querySelector(".products").click();
+    // setTimeout(() => {
+    // }, 4000);
   }, []);
   return (
     <>
@@ -604,6 +605,7 @@ const Products = () => {
         </div>
       </section>
       <OtherCollections />
+      <AddToCartModal />
     </>
   );
 };

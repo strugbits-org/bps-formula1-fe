@@ -13,6 +13,7 @@ const collectionImages = [
 const CollectionPost = () => {
   useEffect(() => {
     document.querySelector(".initScript").click();
+    document.querySelector(".galleryLightBox").click();
     document.body.dataset.pg = "pg-collections-post";
   }, []);
 
