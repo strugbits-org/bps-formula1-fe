@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
-import MatchWithProducts from "../../components/MatchWithProducts";
+import usePageInitialization from "../../hooks/usePageInitialization";
 import OtherCollections from "../../components/OtherCollections";
+import MatchedProducts from "../../components/MatchedProducts";
 import AnimateLink from "../../components/AnimateLink";
 
 const breadCrumbData = [
@@ -68,14 +68,13 @@ const productImages = [
 ];
 
 const ProductPost = () => {
-  useEffect(() => {
-    document.body.dataset.pg = "pg-products-post";
-    document.querySelector(".initScript").click();
-    setTimeout(() => {
-      document.querySelector(".productsPost").click();
-      // document.querySelector(".products").click();
-    }, 4000);
-  }, []);
+  usePageInitialization(
+    "pg-products-post",
+    ".initScript",
+    ".productsPost",
+    ".cartPage"
+  );
+
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -120,7 +119,7 @@ const ProductPost = () => {
                                       src={source}
                                       data-preload
                                       className="media"
-                                      alt="imageAltsdf"
+                                      alt={`product-${index}`}
                                     />
                                   </div>
                                 </div>
@@ -154,7 +153,7 @@ const ProductPost = () => {
                                       src={source}
                                       data-preload
                                       className="media"
-                                      alt={source}
+                                      alt={`product-test-${index}`}
                                     />
                                   </div>
                                 </div>
@@ -378,6 +377,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                             </div>
@@ -389,6 +389,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                             </div>
@@ -400,6 +401,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -412,6 +414,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                             </div>
@@ -423,6 +426,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                             </div>
@@ -434,6 +438,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                             </div>
@@ -445,6 +450,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="test-product"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -478,6 +484,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="product-asd"
                             />
                           </div>
                         </div>
@@ -487,6 +494,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="product-vcv"
                             />
                           </div>
                         </div>
@@ -517,6 +525,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="product-bnm"
                             />
                           </div>
                         </div>
@@ -526,6 +535,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="product-mko"
                             />
                           </div>
                         </div>
@@ -556,6 +566,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="product-no"
                             />
                           </div>
                         </div>
@@ -565,6 +576,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="product-no"
                             />
                           </div>
                         </div>
@@ -600,6 +612,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -611,6 +624,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -622,6 +636,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -633,6 +648,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -645,6 +661,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -656,6 +673,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -667,6 +685,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -678,6 +697,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -690,6 +710,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -701,6 +722,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -712,6 +734,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                             </div>
@@ -723,6 +746,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="product-no"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -746,7 +770,7 @@ const ProductPost = () => {
                               src="images/products/img-01.png"
                               data-preload
                               className="media"
-                              alt="imageAltt6yu"
+                              alt="product-no"
                             />
                           </div>
                         </div>
@@ -756,6 +780,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -765,6 +790,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -785,7 +811,7 @@ const ProductPost = () => {
                               src="images/products/img-01.png"
                               data-preload
                               className="media"
-                              alt="imageAltu6u"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -795,6 +821,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -804,6 +831,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -824,7 +852,7 @@ const ProductPost = () => {
                               src="images/products/img-01.png"
                               data-preload
                               className="media"
-                              alt="imageAlth65"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -834,6 +862,7 @@ const ProductPost = () => {
                               src="images/products/img-02.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -843,6 +872,7 @@ const ProductPost = () => {
                               src="images/products/img-03.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </div>
@@ -878,6 +908,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -889,6 +920,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -900,6 +932,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -911,6 +944,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -923,6 +957,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -934,6 +969,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -945,6 +981,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -956,6 +993,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -968,6 +1006,7 @@ const ProductPost = () => {
                                   src="images/products/img-01.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -979,6 +1018,7 @@ const ProductPost = () => {
                                   src="images/products/img-02.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -990,6 +1030,7 @@ const ProductPost = () => {
                                   src="images/products/img-03.png"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                             </div>
@@ -1001,6 +1042,7 @@ const ProductPost = () => {
                                   src="images/3d.svg"
                                   data-preload
                                   className="media"
+                                  alt="pro-product"
                                 />
                               </div>
                               <span className="hide">360</span>
@@ -1097,6 +1139,7 @@ const ProductPost = () => {
                               src="images/products/thumb.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </label>
@@ -1111,6 +1154,7 @@ const ProductPost = () => {
                               src="images/products/thumb.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </label>
@@ -1125,6 +1169,7 @@ const ProductPost = () => {
                               src="images/products/thumb.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </label>
@@ -1139,6 +1184,7 @@ const ProductPost = () => {
                               src="images/products/thumb.png"
                               data-preload
                               className="media"
+                              alt="pro-product"
                             />
                           </div>
                         </label>
@@ -1302,6 +1348,7 @@ const ProductPost = () => {
                       src="images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
+                      alt="pro-product"
                     />
                   </div>
                 </div>
@@ -1313,6 +1360,7 @@ const ProductPost = () => {
                       src="images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
+                      alt="product-njk"
                     />
                   </div>
                 </div>
@@ -1322,6 +1370,7 @@ const ProductPost = () => {
                       src="images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
+                      alt="product-njk"
                     />
                   </div>
                 </div>
@@ -1331,7 +1380,7 @@ const ProductPost = () => {
         </div>
       </section>
 
-      <MatchWithProducts />
+      <MatchedProducts />
       <OtherCollections />
     </>
   );

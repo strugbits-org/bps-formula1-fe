@@ -1,50 +1,73 @@
-import AddToCartModal from "../Product/AddToCartModal";
-import usePageInitialization from "../../hooks/usePageInitialization";
+import usePageInitialization from "../hooks/usePageInitialization";
+import AddToCartModal from "../pages/Product/AddToCartModal";
 
-const SavedProducts = () => {
+const MatchedProducts = () => {
   usePageInitialization(
-    "pg-my-account-saved-products",
+    "pg-products-post",
     ".initScript",
-    ".savedProducts"
+    ".productsPost",
+    ".cartPage"
   );
-
   return (
     <>
-      <section class="my-account-intro section-saved-products">
+      <section class="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-8 offset-lg-3 offset-md-4 column-1">
-              <div class="wrapper-top">
-                <h1
-                  class="fs--60 red-1 text-uppercase split-words"
-                  data-aos="d:loop"
-                >
-                  Saved products
-                </h1>
-              </div>
-              <div class="wrapper-bottom mt-lg-55 mt-tablet-45 mt-phone-25">
-                <ul
-                  class="list-saved-products grid-lg-25 grid-mobile-50"
-                  data-aos="fadeIn .8s ease-in-out .4s, d:loop"
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
-                    (data, index) => {
+            <div class="col-lg-10 offset-lg-1 column-1">
+              <h2
+                class="fs--30 fs-mobile-20 text-uppercase text-center white-1 split-words"
+                data-aos="d:loop"
+              >
+                Match with
+              </h2>
+              <div id="slider-match-with" class="mt-35" data-aos="d:loop">
+                <div class="swiper-container">
+                  <div class="swiper-wrapper">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
                       return (
-                        <li key={index} class="grid-item">
+                        <div
+                          key={index}
+                          class="swiper-slide"
+                          style={{ margin: "16px", borderRadius: "30px" }}
+                        >
                           <div
-                            class="product-link small saved-products active"
+                            class="product-link large active"
                             data-product-category
                             data-product-location
                             data-product-colors
                           >
                             <div class="container-tags">
+                              <div class="best-seller">
+                                <span>Best Seller</span>
+                              </div>
                               <button class="btn-bookmark">
                                 <i class="icon-bookmark"></i>
                               </button>
                             </div>
+                            <div class="container-copy">
+                              <a href="/#" class="btn-copy copy-link">
+                                <span>MODCH39</span>
+                                <i class="icon-copy"></i>
+                              </a>
+                              <input
+                                type="text"
+                                class="copy-link-url"
+                                value="MODCH39"
+                                style={{
+                                  position: "absolute",
+                                  opacity: 0,
+                                  pointerEvents: "none",
+                                }}
+                              />
+                            </div>
                             <a href="products-post.html" class="link">
                               <div class="container-top">
                                 <h2 class="product-title">Pilot Chairred</h2>
+                                <div class="container-info">
+                                  <div class="dimensions">
+                                    <span>24”L X 30”W X 37”H</span>
+                                  </div>
+                                </div>
                               </div>
                               <div class="wrapper-product-img">
                                 <div
@@ -141,18 +164,18 @@ const SavedProducts = () => {
                               <i class="icon-cart"></i>
                             </btn-modal-open>
                           </div>
-                        </li>
+                        </div>
                       );
-                    }
-                  )}
-                </ul>
-                <div class="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                  <button class="btn-medium btn-red btn-hover-white">
-                    <span class="split-chars">
-                      <span>Load more</span>
-                    </span>
-                  </button>
+                    })}
+                  </div>
                 </div>
+                <div class="swiper-button-prev no-mobile">
+                  <i class="icon-arrow-left"></i>
+                </div>
+                <div class="swiper-button-next no-mobile">
+                  <i class="icon-arrow-right"></i>
+                </div>
+                <div class="swiper-pagination swiper-pagination-01 no-desktop no-tablet"></div>
               </div>
             </div>
           </div>
@@ -164,4 +187,4 @@ const SavedProducts = () => {
   );
 };
 
-export default SavedProducts;
+export default MatchedProducts;

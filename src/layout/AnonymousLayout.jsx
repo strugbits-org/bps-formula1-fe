@@ -1,14 +1,11 @@
 import { Outlet } from "react-router-dom";
-import SignedUserNavbar from "./SignedUserNavbar";
-import AnonymousNavbar from "./AnonymousNavbar";
-import Home from "../pages/Home";
+import SignedUserNavbar from "./Navbar";
 
 const AnonymousLayout = () => {
   return (
     <>
-      {/* <AnonymousNavbar /> */}
       <SignedUserNavbar />
-      <Outlet />;{/* <Home /> */}
+      <Outlet />
     </>
   );
 };

@@ -1,4 +1,9 @@
+import AnimateLink from "../components/AnimateLink";
+import usePageInitialization from "../hooks/usePageInitialization";
+
 const PrivacyAndPolicy = () => {
+  usePageInitialization("pg-privacy-policy", ".initScript");
+
   return (
     <section class="section-terms">
       <div class="container-fluid">
@@ -34,7 +39,7 @@ const PrivacyAndPolicy = () => {
                 nihil interest. Princeps huius civitatis Phalereus Demetrius cum
                 patria pulsus esset iniuria, ad Ptolomaeum se regem Alexandream
                 contulit.
-                <a href="http://loripsum.net/" target="_blank">
+                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
                   Uterque enim summo bono fruitur, id est voluptate.
                 </a>
               </p>
@@ -54,7 +59,7 @@ const PrivacyAndPolicy = () => {
               </ol>
               <p>
                 <i>Nihilo magis.</i>
-                <a href="http://loripsum.net/" target="_blank">
+                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
                   Bork
                 </a>
                 <i>Isto modo ne improbos quidem, si essent boni viri.</i>
@@ -63,7 +68,7 @@ const PrivacyAndPolicy = () => {
                 villam revertendum est, nunc quidem hactenus; Qua tu etiam
                 inprudens utebare non numquam. Sapientem locupletat ipsa natura,
                 cuius divitias Epicurus parabiles esse docuit.
-                <a href="http://loripsum.net/" target="_blank">
+                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
                   Duarum enim vitarum nobis erunt instituta capienda.
                 </a>
               </p>
@@ -109,7 +114,7 @@ const PrivacyAndPolicy = () => {
                 <b>
                   Quantum Aristoxeni ingenium consumptum videmus in musicis?
                 </b>
-                <a href="http://loripsum.net/" target="_blank">
+                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
                   Quod equidem non reprehendo;
                 </a>
                 Sed utrum hortandus es nobis, Luci, inquit, an etiam tua sponte
@@ -127,14 +132,14 @@ const PrivacyAndPolicy = () => {
               </p>
             </div>
             <div class="flex-center mt-50">
-              <a
-                href="collections.html"
+              <AnimateLink
+                to="/collections"
                 class="btn-small-wide btn-gray btn-hover-red"
               >
                 <div class="split-chars">
                   <span>Back to collections</span>
                 </div>
-              </a>
+              </AnimateLink>
             </div>
           </div>
         </div>
@@ -147,8 +152,14 @@ const PrivacyAndPolicy = () => {
             class="no-mobile media"
             data-parallax-top
             data-translate-y="-20%"
+            alt="poduct"
           />
-          <img src="images/img-02.jpg" data-preload class="no-desktop media" />
+          <img
+            src="images/img-02.jpg"
+            data-preload
+            class="no-desktop media"
+            alt="poduct"
+          />
         </div>
       </div>
     </section>

@@ -1,9 +1,13 @@
-import { useEffect } from "react";
+import usePageInitialization from "../hooks/usePageInitialization";
 
 const Gallery = () => {
-  useEffect(() => {
-    document.querySelector(".initScript").click();
-  }, []);
+  usePageInitialization(
+    "pg-gallery",
+    ".initScript",
+    ".galleryImages",
+    ".productsPost"
+  );
+
   return (
     <section className="gallery pt-lg-145 pb-90">
       <div className="container-fluid">
@@ -101,6 +105,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -118,6 +123,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -135,6 +141,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -152,6 +159,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -169,6 +177,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -186,6 +195,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -203,6 +213,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -226,6 +237,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -243,6 +255,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -260,6 +273,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -277,6 +291,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -294,6 +309,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -311,6 +327,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -328,6 +345,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -351,6 +369,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -368,6 +387,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -385,6 +405,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -402,6 +423,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -419,6 +441,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -436,6 +459,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -453,6 +477,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -476,6 +501,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -493,6 +519,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -510,6 +537,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -527,6 +555,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -544,6 +573,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -561,6 +591,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>
@@ -578,6 +609,7 @@ const Gallery = () => {
                         className="media"
                         data-parallax
                         data-translate-y="20%"
+                        alt="product"
                       />
                     </div>
                   </a>

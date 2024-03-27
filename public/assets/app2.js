@@ -28,6 +28,7 @@ import {
   S as Swiper,
   N as Navigation,
 } from "./navigation.js";
+import { productContent } from "./product-content.js";
 var require_app2 = __commonJS({
   "assets/app2.js"(exports, module) {
     const defaultConfig = {
@@ -409,7 +410,6 @@ var require_app2 = __commonJS({
               recalcInputHeight();
             } else {
               if (other) {
-                console.log("tese2");
                 setTimeout(() => {
                   recalcWrapperHeight();
                 }, 1e3);
@@ -5677,7 +5677,6 @@ var require_app2 = __commonJS({
     }
     function validaTelefone(e2) {
       var digits = e2.value.match(/\d/g);
-      console.log(digits);
       if (!digits) {
         e2.value = "";
         return null;
@@ -18125,9 +18124,7 @@ var require_app2 = __commonJS({
 
     // Cart Page
     const pageName$6 = "cart";
-    function main$6() {
-      console.log("Cart main Function");
-    }
+    function main$6() {}
     const pgCart = new Page({
       pageName: pageName$6,
       main: main$6,
@@ -18802,8 +18799,9 @@ var require_app2 = __commonJS({
     // Products Page
     const pageName$5 = "products-post";
     function main$5() {
-      console.log("Products Post Main Function");
       filterProducts();
+      productContent();
+
       let description = document.querySelector(
         ".container-info-text.description"
       );
@@ -18858,11 +18856,8 @@ var require_app2 = __commonJS({
       main: main$5,
     });
     function filterProducts() {
-      console.log("filterProducts() Function");
-
       let btnFilter = document.querySelector(".btn-filter:not(.js-running)");
       let columnFilter = document.querySelector(".container-filter-products");
-      console.log(btnFilter, "btn");
       if (btnFilter) {
         btnFilter.classList.add("js-running");
         btnFilter.addEventListener("click", function () {
@@ -18896,8 +18891,8 @@ var require_app2 = __commonJS({
     // Products Post page Cuctom JS
     document.querySelector(".productsPost").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
-      filterProducts();
-      main$5();
+    filterProducts();
+      productContent();
     });
 
     // Products Post page Cuctom JS
@@ -26241,7 +26236,6 @@ var require_app2 = __commonJS({
         value: /* @__PURE__ */ new Map(),
       });
     function galleryLightbox() {
-      console.log("Collections Gallery Lightbox");
       xt.bind("[data-fancybox]", {
         Image: {
           zoom: true,
@@ -26357,7 +26351,10 @@ var require_app2 = __commonJS({
     // Gallery Page
     const pageName$3 = "gallery";
     function main$3() {
+      console.log("Gallery Main 1");
       galleryLightbox();
+      console.log("Gallery Main 2");
+
       let btnSignIn = document.querySelector(".btn-sign-in:not(.js-running)");
       if (btnSignIn) {
         btnSignIn.addEventListener(
@@ -26385,11 +26382,20 @@ var require_app2 = __commonJS({
       main: main$3,
     });
 
+     // Collections Page Cusatom JS
+     document.querySelector(".galleryImages").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      main$3() 
+      galleryLightbox();
+
+    });
+
+    // Collections Page Cusatom JS
+
     // Collections Page
     const pageName$2 = "collections-post";
     function main$2() {
       galleryLightbox();
-      console.log("Collection Main Function");
     }
 
     // Collections Page Cusatom JS
@@ -26892,6 +26898,14 @@ var require_app2 = __commonJS({
       main: main$1,
     });
 
+    // Quotes History Page Custom JS
+    document.querySelector(".quotesHistory").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      manualModalCloseControls();
+    });
+
+    // Quotes History Page Custom JS
+
     // Saved Products Page
     const pageName = "my-account-saved-products";
     function main() {
@@ -26950,6 +26964,15 @@ var require_app2 = __commonJS({
     }
     whenContainerReady();
 
+    // Saved Poducts Page Custom JS
+    document.querySelector(".savedProducts").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      productLinkColor();
+    });
+
+    // Saved Poducts Page Custom JS
+
     // Custom js
     document.querySelector(".initScript").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
@@ -26962,10 +26985,6 @@ var require_app2 = __commonJS({
     document.querySelector(".updateWatched").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
       updateWatched();
-      console.log("update Watched >>>>");
-      // if (!firstLoad) {
-      //   closeSearch();
-      // }
     });
 
     document.addEventListener("pjax:complete", whenContainerReady);

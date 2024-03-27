@@ -1,6 +1,7 @@
+import usePageInitialization from "../../hooks/usePageInitialization";
 import collectionImage from "../../images/gallery/img-09.jpg";
-import { useEffect } from "react";
 import AnimateLink from "../../components/AnimateLink";
+
 const CollectionData = [
   { name: "Legacy collection", image: collectionImage, link: "/products" },
   { name: "Legacy collection", image: collectionImage, link: "/products" },
@@ -13,9 +14,8 @@ const CollectionData = [
   { name: "Legacy collection", image: collectionImage, link: "/products" },
 ];
 const CollectionCategory = () => {
-  useEffect(() => {
-    document.querySelector(".initScript").click();
-  }, []);
+  usePageInitialization("pg-collections-category", ".initScript");
+
   return (
     <>
       <section className="collections-category-intro pt-lg-165 pb-lg-90 pb-tablet-50 pb-phone-130">
@@ -42,7 +42,12 @@ const CollectionCategory = () => {
                       <AnimateLink to={link} className="collection-link small">
                         <h3 className="collection-title">{name}</h3>
                         <div className="container-img">
-                          <img src={image} data-preload className="media" />
+                          <img
+                            src={image}
+                            data-preload
+                            className="media"
+                            alt="product"
+                          />
                         </div>
                       </AnimateLink>
                     </li>
@@ -106,11 +111,13 @@ const CollectionCategory = () => {
             className="no-mobile media"
             data-parallax-top
             data-translate-y="-20%"
+            alt="asd"
           />
           <img
             src="images/img-02.jpg"
             data-preload
             className="no-desktop media"
+            alt="asd"
           />
         </div>
       </div>

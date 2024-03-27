@@ -1,6 +1,6 @@
+import usePageInitialization from "../../hooks/usePageInitialization";
 import collectionImage from "../../images/gallery/img-09.jpg";
 import AnimateLink from "../../components/AnimateLink";
-import { useEffect } from "react";
 const CollectionData = [
   { name: "Legacy collection", image: collectionImage },
   { name: "Legacy collection", image: collectionImage },
@@ -8,9 +8,8 @@ const CollectionData = [
   { name: "Legacy collection", image: collectionImage },
 ];
 const Collections = () => {
-  useEffect(() => {
-    document.querySelector(".initScript").click();
-  }, []);
+  usePageInitialization("pg-collections", ".initScript");
+
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
       <div className="container-fluid">
@@ -36,7 +35,12 @@ const Collections = () => {
                     >
                       <h3 className="collection-title">{name}</h3>
                       <div className="container-img">
-                        <img src={image} data-preload className="media" />
+                        <img
+                          src={image}
+                          data-preload
+                          className="media"
+                          alt="product"
+                        />
                       </div>
                     </AnimateLink>
                   </li>

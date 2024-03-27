@@ -1,32 +1,19 @@
-import { useLocation } from "react-router-dom";
-import Loader from "./components/loader";
-import { Routes } from "./routes/Index";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useState } from "react";
-import { useEffect } from "react";
 import "./App.css";
-import Account from "./pages/Account/Index";
+
+import Loader from "./components/Loader";
+import { Routes } from "./routes/Index";
 
 function App() {
-  const location = useLocation();
-  const pathname =
-    location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
-  const cleanPath = pathname.split("/")[0].trim();
-  console.log(cleanPath, "cleanPath>>");
   const [isSignedIn, setIsSignedIn] = useState(true);
 
-  // Function to update the data-login-state attribute
   useEffect(() => {
     const user = localStorage.getItem("userLoginStatus");
-    console.log(user, "user>>");
     if (user) {
       setIsSignedIn(true);
       document.body.setAttribute("data-login-state", "logged");
     }
-    // if (isSignedIn) {
-    // } else {
-    //   document.body.setAttribute("data-login-state", "");
-    // }
   }, [isSignedIn]);
 
   return (
@@ -115,12 +102,6 @@ function App() {
       <Loader />
 
       <Routes isAuthorized={isSignedIn} />
-      {/* <div id="main-transition">
-        <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
-          <main>
-          </main>
-        </div>
-      </div> */}
     </div>
   );
 }

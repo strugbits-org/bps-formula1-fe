@@ -1,7 +1,72 @@
 import { useNavigate } from "react-router-dom";
-import AnimateLink from "../components/AnimateLink";
-import { AnimationFunction } from "../utils/AnimationFunctions";
 
+import { AnimationFunction } from "../utils/AnimationFunctions";
+import AnimateLink from "../components/AnimateLink";
+
+const collectionFilter = [
+  {
+    name: "All",
+    href: "/collections",
+  },
+  {
+    name: "Legacy",
+    href: "/collections",
+  },
+  {
+    name: "Neon house",
+    href: "/collections",
+  },
+  {
+    name: "Classic Vegas",
+    href: "/collections",
+  },
+  {
+    name: "Paddock",
+    href: "/collections",
+  },
+];
+const categoryFilter = [
+  {
+    name: "All",
+    href: "/products",
+  },
+  {
+    name: "Highboys",
+    href: "/products",
+  },
+  {
+    name: "Barstools",
+    href: "/products",
+  },
+  {
+    name: "Cafe tables",
+    href: "/products",
+  },
+  {
+    name: "Communal",
+    href: "/products",
+  },
+  {
+    name: "Banquettes",
+    href: "/products",
+  },
+  {
+    name: "Chairs",
+    href: "/products",
+  },
+  {
+    name: "Bars",
+    href: "/products",
+  },
+  {
+    name: "Greenery",
+    href: "/products",
+  },
+  {
+    name: "Lighting",
+    href: "/products",
+  },
+];
 const SignedUserNavbar = () => {
   const navigate = useNavigate();
   const handleSubmit = (e) => {
@@ -61,31 +126,16 @@ const SignedUserNavbar = () => {
               data-get-submenu="collections"
             >
               <ul className="list-dropdown">
-                <li>
-                  <AnimateLink to="/collections" className="link-dropdown">
-                    <span>All</span>
-                  </AnimateLink>
-                </li>
-                <li>
-                  <a href="collections.html" className="link-dropdown">
-                    <span>Legacy</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="collections.html" className="link-dropdown">
-                    <span>Neon house</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="collections.html" className="link-dropdown">
-                    <span>Classic Vegas</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="collections.html" className="link-dropdown">
-                    <span>Paddock</span>
-                  </a>
-                </li>
+                {collectionFilter.map((data, index) => {
+                  const { name, href } = data;
+                  return (
+                    <li key={index}>
+                      <AnimateLink to={href} className="link-dropdown">
+                        <span>{name}</span>
+                      </AnimateLink>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>
@@ -96,56 +146,16 @@ const SignedUserNavbar = () => {
             </button>
             <div className="wrapper-list-dropdown" data-get-submenu="category">
               <ul className="list-dropdown">
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>All</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Highboys</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Barstools</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Cafe tables</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Communal</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Banquettes</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Chairs</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Bars</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Greenery</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="products.html" className="link-dropdown">
-                    <span>Lighting</span>
-                  </a>
-                </li>
+                {categoryFilter.map((data, index) => {
+                  const { name, href } = data;
+                  return (
+                    <li key={index}>
+                      <AnimateLink to={href} className="link-dropdown">
+                        <span>{name}</span>
+                      </AnimateLink>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

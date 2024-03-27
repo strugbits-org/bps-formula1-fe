@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import usePageInitialization from "../../hooks/usePageInitialization";
 import AnimateLink from "../../components/AnimateLink";
 
 const collectionImages = [
@@ -11,11 +11,11 @@ const collectionImages = [
 ];
 
 const CollectionPost = () => {
-  useEffect(() => {
-    document.querySelector(".initScript").click();
-    document.querySelector(".galleryLightBox").click();
-    document.body.dataset.pg = "pg-collections-post";
-  }, []);
+  usePageInitialization(
+    "pg-collections-post",
+    ".initScript",
+    ".galleryLightBox"
+  );
 
   return (
     <div>
@@ -72,6 +72,7 @@ const CollectionPost = () => {
                             className="media"
                             data-parallax
                             data-translate-y="30%"
+                            alt="product"
                           />
                         </div>
                       </button>
@@ -136,6 +137,7 @@ const CollectionPost = () => {
             className="no-mobile media"
             data-parallax-top
             data-translate-y="-20%"
+            alt="asd"
           />
         </div>
       </div>

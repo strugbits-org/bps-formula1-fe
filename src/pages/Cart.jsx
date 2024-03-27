@@ -1,12 +1,10 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import usePageInitialization from "../hooks/usePageInitialization";
+import RequestForQuote from "../components/RequestForQuote";
 
 const Cart = () => {
-  useEffect(() => {
-    setTimeout(() => {
-      document.querySelector(".cartPage").click();
-    }, 5000);
-  }, []);
+  usePageInitialization("pg-cart", ".initScript", ".cartPage");
+
   return (
     <>
       <section className="cart-intro pb-lg-80 pb-tablet-70 pb-phone-135">
@@ -49,6 +47,7 @@ const Cart = () => {
                                 src="images/products/img-01.png"
                                 data-preload
                                 className="media"
+                                alt="product"
                               />
                             </div>
                             <div className="wrapper-product-info">
@@ -161,85 +160,19 @@ const Cart = () => {
               className="no-mobile media"
               data-parallax-top
               data-translate-y="-20%"
+              alt="asd"
             />
             <img
               src="images/img-02.jpg"
               data-preload
               className="no-desktop media"
+              alt="asd"
             />
           </div>
         </div>
       </section>
 
-      <div id="reloading-area">
-        <div className="feedback-quote-request-confirmed" data-modal-area>
-          <div className="feedback-container">
-            <div className="feedback-item">
-              <section className="feedback">
-                <div className="container-fluid">
-                  <div className="row">
-                    <div className="col-lg-6 offset-lg-3">
-                      <div className="content" data-feedback-area>
-                        <div className="container-logos">
-                          <div
-                            className="container-img logo-formula-1"
-                            data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                          >
-                            <img
-                              src="images/logo-formula-1-red.svg"
-                              data-preload
-                              className="media"
-                            />
-                          </div>
-                          <div
-                            className="container-img logo-blueprint"
-                            data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                          >
-                            <img
-                              src="images/logo-blueprint-rentals-black.svg"
-                              data-preload
-                              className="media"
-                            />
-                          </div>
-                        </div>
-                        <h2
-                          className="fs--70 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
-                          data-aos="d:loop"
-                        >
-                          Quote request confirmed
-                        </h2>
-                        <div className="container-btn">
-                          <Link
-                            to={"/account/my-account"}
-                            className="btn-small-wide btn-red btn-my-account btn-hover-black"
-                            data-close-feedback
-                            data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                          >
-                            <i className="icon-profile"></i>
-                            <span className="split-chars">
-                              <span>My Account</span>
-                            </span>
-                          </Link>
-                          <Link
-                            to={"/collections"}
-                            className="btn-small-wide btn-gray btn-back-to-collections btn-hover-red-white mt-md-30 mt-phone-20"
-                            data-close-feedback
-                            data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                          >
-                            <div className="split-chars">
-                              <span>Back to collections</span>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
+      <RequestForQuote />
     </>
   );
 };

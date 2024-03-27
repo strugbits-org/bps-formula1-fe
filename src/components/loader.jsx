@@ -9,6 +9,7 @@ const Loader = () => {
                 src="images/logo-formula-1.svg"
                 data-preload
                 className="media"
+                alt="logo"
               />
             </div>
             <div className="bar"></div>
@@ -19,6 +20,7 @@ const Loader = () => {
                 src="images/logo-blueprint-rentals.svg"
                 data-preload
                 className="media"
+                alt="logo"
               />
             </div>
           </div>

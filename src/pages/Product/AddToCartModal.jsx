@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import usePageInitialization from "../../hooks/usePageInitialization";
 
 const AddToCartModal = () => {
-  useEffect(() => {
-    document.querySelector(".initScript").click();
-    setTimeout(() => {
-      document.querySelector(".products").click();
-    }, 4000);
-  }, []);
+  usePageInitialization(
+    "pg-products-post",
+    ".initScript",
+    ".productsPost",
+    ".cartPage"
+  );
+
   return (
     <div id="reloading-area">
       <modal-group name="modal-product" class="modal-product">
@@ -43,6 +44,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -52,6 +54,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -61,6 +64,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -81,6 +85,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -90,6 +95,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -99,6 +105,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -119,6 +126,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -128,6 +136,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -137,6 +146,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -171,6 +181,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -182,6 +193,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -193,6 +205,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -204,6 +217,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -216,6 +230,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -227,6 +242,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -238,6 +254,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -249,6 +266,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -261,6 +279,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -272,6 +291,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -283,6 +303,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -294,6 +315,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -320,6 +342,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -329,6 +352,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -338,6 +362,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -358,6 +383,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -367,6 +393,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -376,6 +403,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -396,6 +424,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -405,6 +434,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -414,6 +444,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -449,6 +480,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -460,6 +492,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -471,6 +504,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -482,6 +516,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -494,6 +529,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -505,6 +541,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -516,6 +553,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -527,6 +565,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -539,6 +578,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -550,6 +590,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -561,6 +602,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -572,6 +614,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -598,6 +641,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -607,6 +651,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -616,6 +661,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -636,6 +682,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -645,6 +692,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -654,6 +702,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -674,6 +723,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -683,6 +733,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -692,6 +743,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -727,6 +779,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -738,6 +791,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -749,6 +803,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -760,6 +815,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -772,6 +828,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -783,6 +840,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -794,6 +852,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -805,6 +864,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -817,6 +877,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -828,6 +889,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -839,6 +901,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -850,6 +913,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -876,6 +940,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -885,6 +950,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -894,6 +960,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -914,6 +981,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -923,6 +991,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -932,6 +1001,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -952,6 +1022,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-01.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -961,6 +1032,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-02.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -970,6 +1042,7 @@ const AddToCartModal = () => {
                                         src="images/products/img-03.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </div>
@@ -1005,6 +1078,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1016,6 +1090,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1027,6 +1102,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1038,6 +1114,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -1050,6 +1127,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1061,6 +1139,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1072,6 +1151,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1083,6 +1163,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -1095,6 +1176,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-01.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1106,6 +1188,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-02.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1117,6 +1200,7 @@ const AddToCartModal = () => {
                                             src="images/products/img-03.png"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                       </div>
@@ -1128,6 +1212,7 @@ const AddToCartModal = () => {
                                             src="images/3d.svg"
                                             data-preload
                                             class="media"
+                                            alt="product"
                                           />
                                         </div>
                                         <span class="hide">360</span>
@@ -1212,6 +1297,7 @@ const AddToCartModal = () => {
                                         src="images/products/thumb.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </label>
@@ -1233,6 +1319,7 @@ const AddToCartModal = () => {
                                         src="images/products/thumb.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </label>
@@ -1254,6 +1341,7 @@ const AddToCartModal = () => {
                                         src="images/products/thumb.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </label>
@@ -1275,6 +1363,7 @@ const AddToCartModal = () => {
                                         src="images/products/thumb.png"
                                         data-preload
                                         class="media"
+                                        alt="product"
                                       />
                                     </div>
                                   </label>

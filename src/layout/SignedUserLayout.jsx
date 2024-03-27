@@ -1,25 +1,26 @@
 import { Outlet, useLocation } from "react-router-dom";
-import SignedUserNavbar from "./SignedUserNavbar";
-import SignedUserFooter from "./SignedUserFooter";
-import SecondLoader from "../components/loader copy";
+
+import Account from "../pages/Account/Index";
+import SignedUserNavbar from "./Navbar";
+import Footer from "./Footer";
 
 const SignedUserLayout = () => {
   const location = useLocation();
   const pathname =
-    location.pathname.trim() === "/" ? "home" : location.pathname.substring(1); // Remove leading slash
+    location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
   const cleanPath = pathname.split("/")[0].trim();
-  console.log(cleanPath, "cleanPath>>");
   return (
     <>
       {/* <SecondLoader /> */}
       <SignedUserNavbar />
+      <Account />
       <div id="main-transition">
         <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
           <main>
             <Outlet />;
           </main>
         </div>
-        <SignedUserFooter />
+        <Footer />
       </div>
     </>
   );

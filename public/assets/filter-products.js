@@ -6,7 +6,6 @@ import "./data-set-get.js";
 function filterProducts() {
   let btnFilter = document.querySelector(".btn-filter:not(.js-running)");
   let columnFilter = document.querySelector(".container-filter-products");
-  console.log(btnFilter, "btn Filter??>>>>>");
 
   if (btnFilter) {
     btnFilter.classList.add("js-running");

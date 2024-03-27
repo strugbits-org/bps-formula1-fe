@@ -93,19 +93,19 @@ export const routes = [
         name: "Change Password",
         title: "Change Password",
         component: ChangePassword,
-        path: "/change-password",
+        path: "/my-account-change-password",
       },
       {
         name: "Quotes History",
         title: "Quotes History",
         component: QuotesHistory,
-        path: "/quotes-history",
+        path: "/my-account-quotes-history",
       },
       {
         name: "Saved Products",
         title: "Saved Products",
         component: SavedProducts,
-        path: "/saved-products",
+        path: "/my-account-saved-products",
       },
 
       {

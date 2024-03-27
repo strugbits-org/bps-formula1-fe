@@ -1,3 +1,5 @@
+import AnimateLink from "../components/AnimateLink";
+
 const Footer = () => {
   return (
     <footer id="footer">
@@ -14,6 +16,7 @@ const Footer = () => {
                 src="images/logo-blueprint-rentals.svg"
                 data-preload
                 className="media"
+                alt="product"
               />
             </a>
             <div className="container-address mt-lg-60 mt-tablet-35 mt-phone-45">
@@ -44,39 +47,39 @@ const Footer = () => {
           <div className="col-lg-2 col-4 offset-lg-2 column-3 order-mobile-2">
             <ul className="list-menu-footer">
               <li>
-                <a href="index.html" className="link-footer">
+                <AnimateLink to="/home" className="link-footer">
                   <span>Home</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="gallery.html" className="link-footer">
+                <AnimateLink to="/gallery" className="link-footer">
                   <span>Gallery</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="collections.html" className="link-footer">
+                <AnimateLink to="/collections" className="link-footer">
                   <span>Collections</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="cart.html" className="link-footer">
+                <AnimateLink to="/cart" className="link-footer">
                   <span>Cart</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="my-account.html" className="link-footer">
+                <AnimateLink to="/my-account" className="link-footer">
                   <span>User area</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="privacy-policy.html" className="link-footer">
+                <AnimateLink to="/privacy-and-policy" className="link-footer">
                   <span>Privacy policy</span>
-                </a>
+                </AnimateLink>
               </li>
               <li>
-                <a href="terms-of-use.html" className="link-footer">
+                <AnimateLink to="/terms-and-condition" className="link-footer">
                   <span>Terms of use</span>
-                </a>
+                </AnimateLink>
               </li>
             </ul>
           </div>
