@@ -6,15 +6,21 @@ import Loader from "./components/Loader";
 import { Routes } from "./routes/Index";
 
 function App() {
-  const [isSignedIn, setIsSignedIn] = useState(true);
+  const [userStatus] = useState(true);
 
   useEffect(() => {
     const user = localStorage.getItem("userLoginStatus");
-    if (user) {
-      setIsSignedIn(true);
+    if (user === "logged-in") {
+      // setUserStatus(true);
       document.body.setAttribute("data-login-state", "logged");
     }
-  }, [isSignedIn]);
+    if (user === "logged-out") {
+      // setUserStatus(false);
+      document.body.setAttribute("data-home-state", "");
+
+      // document.body.setAttribute("data-login-state", "sign-in");
+    }
+  }, []);
 
   return (
     <div>
@@ -101,7 +107,7 @@ function App() {
       </Helmet>
       <Loader />
 
-      <Routes isAuthorized={isSignedIn} />
+      <Routes isAuthorized={userStatus} />
     </div>
   );
 }

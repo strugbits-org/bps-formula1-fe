@@ -21,7 +21,7 @@ const AnimateLink = ({ to, children, className }) => {
         // Update the attribute after navigation if needed
         // document.body.setAttribute("data-login-state", "logged");
       }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
-      document.querySelector(".initScript").click();
+      // document.querySelector(".initScript").click();
 
       // navigate("/collections");
       // document.body.setAttribute("data-login-state", "logged");
@@ -29,6 +29,7 @@ const AnimateLink = ({ to, children, className }) => {
     } catch (error) {
       console.log("Error:", error);
     }
+    e.preventDefault();
   };
   return (
     <Link to={to} className={className} onClick={navigationAnimation}>

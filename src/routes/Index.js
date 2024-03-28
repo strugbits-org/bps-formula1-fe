@@ -1,30 +1,29 @@
 // Layouts
 
-import AnonymousLayout from "../layout/AnonymousLayout";
 import SignedUserLayout from "../layout/SignedUserLayout";
-
+import AnonymousLayout from "../layout/AnonymousLayout";
 import { renderRoutes } from "./generate-routes";
+
 // Pages
-import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
-import TermsAndCondition from "../pages/TermsAndCondition";
-import Error404Page from "../pages/Error404Page";
 
-import Home from "../pages/Home";
-import Gallery from "../pages/Gallery";
-import Collections from "../pages/Collection/Collections";
-import CollectionsPost from "../pages/Collection/CollectionsPost";
 import CollectionsCategory from "../pages/Collection/CollectionsCategory";
-
-import MyAccount from "../pages/Account/MyAccount";
+import CollectionsPost from "../pages/Collection/CollectionsPost";
 import ChangePassword from "../pages/Account/ChangePassword";
 import QuotesHistory from "../pages/Account/QuotesHistory";
+import TermsAndCondition from "../pages/TermsAndCondition";
 import SavedProducts from "../pages/Account/SavedProducts";
-
-import Products from "../pages/Product/Products";
+import Collections from "../pages/Collection/Collections";
+import PrivacyAndPolicy from "../pages/PrivacyAndPolicy";
 import ProductPost from "../pages/Product/ProductsPost";
-
-import Cart from "../pages/Cart";
+import MyAccount from "../pages/Account/MyAccount";
+import Error404Page from "../pages/Error404Page";
+import Products from "../pages/Product/Products";
+import Gallery from "../pages/Gallery";
 import Search from "../pages/Search";
+import Home from "../pages/Home";
+import Cart from "../pages/Cart";
+
+
 
 export const routes = [
   {

@@ -6,8 +6,10 @@ const SignIn = () => {
   const submit = (e) => {
     e.preventDefault();
     try {
-      localStorage.setItem("userLoginStatus", true);
+      localStorage.setItem("userLoginStatus", "logged-in");
+      // data-home-state
       document.body.setAttribute("data-login-state", "logged");
+      document.body.setAttribute("data-home-state", "");
       document.body.classList.add("page-leave-active");
       setTimeout(() => {
         document.body.classList.remove("page-leave-active");

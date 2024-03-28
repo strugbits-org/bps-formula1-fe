@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
 import usePageInitialization from "../hooks/usePageInitialization";
 import RequestForQuote from "../components/RequestForQuote";
+import AnimateLink from "../components/AnimateLink";
 
 const Cart = () => {
   usePageInitialization("pg-cart", ".initScript", ".cartPage");
@@ -56,13 +56,13 @@ const Cart = () => {
                                   <h2 className="product-name">
                                     Arm Chair - Tapas
                                   </h2>
-                                  <Link
+                                  <AnimateLink
                                     to={"/products-post"}
                                     className="btn-view"
                                   >
                                     <span>View</span>
                                     <i className="icon-arrow-right"></i>
-                                  </Link>
+                                  </AnimateLink>
                                 </div>
                                 <div className="container-price">
                                   <div className="price">$99.00</div>
@@ -137,7 +137,7 @@ const Cart = () => {
                         <span>Request for quote</span>
                       </div>
                     </button>
-                    <Link
+                    <AnimateLink
                       to="/products"
                       className="btn-small-wide btn-gray btn-hover-red mt-lg-30 mt-mobile-20"
                       data-aos="fadeIn .8s ease-in-out .2s, d:loop"
@@ -145,7 +145,7 @@ const Cart = () => {
                       <div className="split-chars">
                         <span>Continue shopping</span>
                       </div>
-                    </Link>
+                    </AnimateLink>
                   </div>
                 </form>
               </div>

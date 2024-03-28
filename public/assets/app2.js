@@ -29,6 +29,7 @@ import {
   N as Navigation,
 } from "./navigation.js";
 import { productContent } from "./product-content.js";
+import { collections } from "./collections.js";
 var require_app2 = __commonJS({
   "assets/app2.js"(exports, module) {
     const defaultConfig = {
@@ -18106,6 +18107,14 @@ var require_app2 = __commonJS({
     Forms();
     document.addEventListener("pjax:complete", Forms);
 
+    // Products Post page Cuctom JS
+    document.querySelector(".home").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      Forms();
+    });
+
+    // Products Post page Cuctom JS
+
     // Products Page
     const pageName$7 = "products";
     function main$7() {}
@@ -18891,7 +18900,7 @@ var require_app2 = __commonJS({
     // Products Post page Cuctom JS
     document.querySelector(".productsPost").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
-    filterProducts();
+      filterProducts();
       productContent();
     });
 
@@ -26351,10 +26360,7 @@ var require_app2 = __commonJS({
     // Gallery Page
     const pageName$3 = "gallery";
     function main$3() {
-      console.log("Gallery Main 1");
       galleryLightbox();
-      console.log("Gallery Main 2");
-
       let btnSignIn = document.querySelector(".btn-sign-in:not(.js-running)");
       if (btnSignIn) {
         btnSignIn.addEventListener(
@@ -26382,12 +26388,11 @@ var require_app2 = __commonJS({
       main: main$3,
     });
 
-     // Collections Page Cusatom JS
-     document.querySelector(".galleryImages").addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      main$3() 
-      galleryLightbox();
-
+    // Collections Page Cusatom JS
+    document.querySelector(".galleryImages").addEventListener("click", () => {
+      // window.scrollTo({ top: 0, behavior: "instant" });
+      main$3();
+      collections();
     });
 
     // Collections Page Cusatom JS

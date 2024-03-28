@@ -1,17 +1,38 @@
 import usePageInitialization from "../../hooks/usePageInitialization";
 import AnimateLink from "../../components/AnimateLink";
+import { useNavigate } from "react-router-dom";
 
 const links = [
-  { name: "My Account", href: "/my-account" },
-  { name: "Saved Products", href: "/my-account-saved-products" },
-  { name: "Quotes History", href: "/my-account-quotes-history" },
-  { name: "Change Password", href: "/my-account-change-password" },
-  { name: "Log Out", href: "#" },
+  { name: "My Account", icon: "icon-account", href: "/my-account" },
+  {
+    name: "Saved Products",
+    icon: "icon-saved",
+    href: "/my-account-saved-products",
+  },
+  {
+    name: "Quotes History",
+    icon: "icon-history",
+    href: "/my-account-quotes-history",
+  },
+  {
+    name: "Change Password",
+    icon: "icon-change",
+    href: "/my-account-change-password",
+  },
 ];
 
 const Account = () => {
-  usePageInitialization(".initScript");
-
+  usePageInitialization(".initScript", ".home");
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    try {
+      localStorage.setItem("userLoginStatus", "logged-out");
+      document.body.setAttribute("data-login-state", "");
+      navigate("/");
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
   return (
     <div className="menu-my-account">
       <div className="container-my-account">
@@ -21,7 +42,7 @@ const Account = () => {
         </h2>
         <ul className="list-menu-my-account mt-lg-90 mt-tablet-40 mt-phone-60">
           {links.map((data, index) => {
-            const { name, href } = data;
+            const { name, href, icon } = data;
             return (
               <li
                 key={index}
@@ -29,48 +50,18 @@ const Account = () => {
                 className="list-item"
               >
                 <AnimateLink key={index} to={href} className="link-account">
-                  <i className="icon-account"></i>
+                  <i className={icon}></i>
                   <span>{name}</span>
                 </AnimateLink>
               </li>
             );
           })}
-          {/* <li style={{ cursor: "pointer" }} className="list-item">
-              <AnimateLink to="/account/my-account" className="link-account">
-                <i className="icon-account"></i>
-                <span>Account</span>
-              </AnimateLink>
-            </li>
-            <li className="list-item">
-              <span onClick={NavigationAnimation} className="link-account">
-                <i className="icon-account"></i>
-                <span>My Account</span>
-              </span>
-            </li>
-            <li className="list-item">
-              <Link to="/account/saved-products" className="link-account">
-                <i className="icon-saved"></i>
-                <span>Saved Products</span>
-              </Link>
-            </li>
-            <li className="list-item">
-              <Link to="/account/quotes-history" className="link-account">
-                <i className="icon-history"></i>
-                <span>Quotes History</span>
-              </Link>
-            </li>
-            <li className="list-item">
-              <Link to="/account/change-password" className="link-account">
-                <i className="icon-change"></i>
-                <span>Change Password</span>
-              </Link>
-            </li> 
-            <li className="list-item">
-              <a href="" className="link-account">
-                <i className="icon-logout"></i>
-                <span>Log Out</span>
-              </a>
-            </li>*/}
+          <li onClick={handleLogOut} className="list-item">
+            <span className="link-account">
+              <i className="icon-logout"></i>
+              <span>Log Out</span>
+            </span>
+          </li>
         </ul>
       </div>
     </div>
