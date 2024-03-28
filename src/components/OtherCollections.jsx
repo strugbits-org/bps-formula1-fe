@@ -24,7 +24,7 @@ const OtherCollections = () => {
               data-aos="d:loop"
             >
               {CollectionData.map((data, index) => {
-                const { name, image, link } = data;
+                const { name, link } = data;
                 return (
                   <li key={index} className="grid-item">
                     <AnimateLink to={link} className="collection-link large">
@@ -34,6 +34,7 @@ const OtherCollections = () => {
                           src="images/gallery/img-09.jpg"
                           data-preload
                           className="media"
+                          alt="product"
                         />
                       </div>
                     </AnimateLink>
