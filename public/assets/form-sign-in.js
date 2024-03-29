@@ -1,5 +1,5 @@
 import { s as singlePjaxInstance } from "./pjax.js";
-function FormSignIn() {
+export function FormSignIn() {
   let forms = document.querySelectorAll("[data-form-sign-in-container]:not(.js-running)");
   forms.forEach((containerForm) => {
     containerForm.classList.add("js-running");
@@ -9,14 +9,14 @@ function FormSignIn() {
       containerPassword.forEach((element) => {
         const togglePassword = element.querySelector(".toggle-password");
         const password = element.querySelector(".password");
-        togglePassword.addEventListener("click", function(e) {
+        togglePassword.addEventListener("click", function (e) {
           const type = password.getAttribute("type") === "password" ? "text" : "password";
           password.setAttribute("type", type);
           this.classList.toggle("show");
         });
       });
     }
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
       {
         containerForm.dataset.formState = "success";

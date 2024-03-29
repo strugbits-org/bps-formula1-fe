@@ -1,12 +1,13 @@
-import usePageInitialization from "../hooks/usePageInitialization";
-import AddToCartModal from "../pages/Product/AddToCartModal";
+import usePageInitialization from '../hooks/usePageInitialization';
+import AddToCartModal from '../pages/Product/AddToCartModal';
+import AnimateLink from './AnimateLink';
 
 const MatchedProducts = () => {
   usePageInitialization(
-    "pg-products-post",
-    ".initScript",
-    ".productsPost",
-    ".cartPage"
+    'pg-products-post',
+    '.initScript',
+    '.productsPost'
+    // '.cartPage'
   );
   return (
     <>
@@ -28,7 +29,7 @@ const MatchedProducts = () => {
                         <div
                           key={index}
                           class="swiper-slide"
-                          style={{ margin: "16px", borderRadius: "30px" }}
+                          style={{ margin: '16px', borderRadius: '30px' }}
                         >
                           <div
                             class="product-link large active"
@@ -54,13 +55,13 @@ const MatchedProducts = () => {
                                 class="copy-link-url"
                                 value="MODCH39"
                                 style={{
-                                  position: "absolute",
+                                  position: 'absolute',
                                   opacity: 0,
-                                  pointerEvents: "none",
+                                  pointerEvents: 'none',
                                 }}
                               />
                             </div>
-                            <a href="products-post.html" class="link">
+                            <AnimateLink to="/products-post" className="link">
                               <div class="container-top">
                                 <h2 class="product-title">Pilot Chairred</h2>
                                 <div class="container-info">
@@ -108,7 +109,7 @@ const MatchedProducts = () => {
                               <div class="container-bottom">
                                 <div class="price">$ 99.99</div>
                               </div>
-                            </a>
+                            </AnimateLink>
                             <div class="container-color-options">
                               <ul class="list-color-options">
                                 <li

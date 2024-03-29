@@ -1,84 +1,122 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
+import usePageInitialization from '../hooks/usePageInitialization';
 
-import { AnimationFunction } from "../utils/AnimationFunctions";
-import AnimateLink from "../components/AnimateLink";
+import { AnimationFunction } from '../utils/AnimationFunctions';
+import AnimateLink from '../components/AnimateLink';
+import { useEffect, useState } from 'react';
 
 const collectionFilter = [
   {
-    name: "All",
-    href: "/collections",
+    name: 'All',
+    href: '/collections',
   },
   {
-    name: "Legacy",
-    href: "/collections",
+    name: 'Legacy',
+    href: '/collections',
   },
   {
-    name: "Neon house",
-    href: "/collections",
+    name: 'Neon house',
+    href: '/collections',
   },
   {
-    name: "Classic Vegas",
-    href: "/collections",
+    name: 'Classic Vegas',
+    href: '/collections',
   },
   {
-    name: "Paddock",
-    href: "/collections",
+    name: 'Paddock',
+    href: '/collections',
   },
 ];
 const categoryFilter = [
   {
-    name: "All",
-    href: "/products",
+    name: 'All',
+    href: '/products',
   },
   {
-    name: "Highboys",
-    href: "/products",
+    name: 'Highboys',
+    href: '/products',
   },
   {
-    name: "Barstools",
-    href: "/products",
+    name: 'Barstools',
+    href: '/products',
   },
   {
-    name: "Cafe tables",
-    href: "/products",
+    name: 'Cafe tables',
+    href: '/products',
   },
   {
-    name: "Communal",
-    href: "/products",
+    name: 'Communal',
+    href: '/products',
   },
   {
-    name: "Banquettes",
-    href: "/products",
+    name: 'Banquettes',
+    href: '/products',
   },
   {
-    name: "Chairs",
-    href: "/products",
+    name: 'Chairs',
+    href: '/products',
   },
   {
-    name: "Bars",
-    href: "/products",
+    name: 'Bars',
+    href: '/products',
   },
   {
-    name: "Greenery",
-    href: "/products",
+    name: 'Greenery',
+    href: '/products',
   },
   {
-    name: "Lighting",
-    href: "/products",
+    name: 'Lighting',
+    href: '/products',
   },
 ];
 const SignedUserNavbar = () => {
   const navigate = useNavigate();
+  usePageInitialization('pg-home', '.initScript', '.home');
+
+  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState('Collections');
+  const [selectedCategory, setSelectedCategory] = useState('Categories');
+  // Function to handle selection of a collection
+
+  const location = useLocation();
+  const [previousPath, setPreviousPath] = useState(null);
+  useEffect(() => {
+    // Store the previous path when the location changes
+    if (location) {
+      setPreviousPath(location);
+    }
+  }, [location]);
+
+  const handleCollectionSelection = (name) => {
+    setSelectedCollection(name);
+    setCollectionDropdownOpen(false);
+    navigate('/collections');
+  };
+  const handleCategorySelection = (name) => {
+    setSelectedCategory(name);
+    setCategoryDropdownOpen(false);
+    navigate('/products');
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       AnimationFunction();
       setTimeout(() => {
         // Replace this with your navigation logic
-        navigate("/search");
+        navigate('/search');
       }, 1000);
     } catch (error) {}
   };
+
+  const signIn = () => {
+    try {
+      navigate('/#sign-in');
+      document.body.setAttribute('data-home-state', 'sign-in');
+    } catch (error) {}
+  };
+
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
@@ -103,36 +141,57 @@ const SignedUserNavbar = () => {
           </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
-          <button
-            className="btn-small btn-red btn-hover-white btn-sign-in"
-            data-href="index.html#sign-in"
-          >
-            <i className="icon-profile"></i>
-            <div className="split-chars">
-              <span className="no-phone">Sign In</span>
-            </div>
-          </button>
+          {previousPath?.pathname === '/gallery' ? (
+            <button
+              onClick={signIn}
+              className="btn-small btn-red btn-hover-white"
+            >
+              <i className="icon-profile"></i>
+              <div className="split-chars">
+                <span className="no-phone">Sign In</span>
+              </div>
+            </button>
+          ) : (
+            <button
+              className="btn-small btn-red btn-hover-white btn-sign-in"
+              data-href="index.html#sign-in"
+            >
+              <i className="icon-profile"></i>
+              <div className="split-chars">
+                <span className="no-phone">Sign In</span>
+              </div>
+            </button>
+          )}
         </div>
       </div>
       <div className="container-header-logged">
         <div className="container-h-1 order-mobile-2">
           <div className="container-dropdown dropdown-collections">
-            <button className="btn-dropdown" data-set-submenu="collections">
-              <span>Collections</span>
+            <button
+              onClick={() => setCollectionDropdownOpen(true)}
+              className="btn-dropdown"
+              data-set-submenu="collections"
+            >
+              <span>{selectedCollection}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className="wrapper-list-dropdown"
+              className={`wrapper-list-dropdown ${
+                collectionDropdownOpen ? 'active' : 'leave'
+              }`}
               data-get-submenu="collections"
             >
-              <ul className="list-dropdown">
+              <ul className="list-dropdown ">
                 {collectionFilter.map((data, index) => {
-                  const { name, href } = data;
+                  const { name } = data;
                   return (
-                    <li key={index}>
-                      <AnimateLink to={href} className="link-dropdown">
+                    <li
+                      key={index}
+                      onClick={() => handleCollectionSelection(name)}
+                    >
+                      <span className="link-dropdown">
                         <span>{name}</span>
-                      </AnimateLink>
+                      </span>
                     </li>
                   );
                 })}
@@ -140,19 +199,31 @@ const SignedUserNavbar = () => {
             </div>
           </div>
           <div className="container-dropdown dropdown-category">
-            <button className="btn-dropdown" data-set-submenu="category">
-              <span>Categories</span>
+            <button
+              onClick={() => setCategoryDropdownOpen(true)}
+              className="btn-dropdown"
+              data-set-submenu="category"
+            >
+              <span>{selectedCategory}</span>
               <i className="icon-arrow-down"></i>
             </button>
-            <div className="wrapper-list-dropdown" data-get-submenu="category">
+            <div
+              className={`wrapper-list-dropdown ${
+                categoryDropdownOpen ? 'active' : 'leave'
+              }`}
+              data-get-submenu="category"
+            >
               <ul className="list-dropdown">
                 {categoryFilter.map((data, index) => {
-                  const { name, href } = data;
+                  const { name } = data;
                   return (
-                    <li key={index}>
-                      <AnimateLink to={href} className="link-dropdown">
+                    <li
+                      key={index}
+                      onClick={() => handleCategorySelection(name)}
+                    >
+                      <span className="link-dropdown">
                         <span>{name}</span>
-                      </AnimateLink>
+                      </span>
                     </li>
                   );
                 })}

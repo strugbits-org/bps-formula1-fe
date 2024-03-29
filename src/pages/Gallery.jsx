@@ -1,11 +1,11 @@
-import usePageInitialization from "../hooks/usePageInitialization";
+import usePageInitialization from '../hooks/usePageInitialization';
 
 const Gallery = () => {
   usePageInitialization(
-    "pg-gallery",
-    ".initScript",
-    ".galleryImages",
-    ".productsPost"
+    'pg-gallery',
+    '.initScript',
+    '.galleryImages',
+    '.productsPost'
   );
 
   return (

@@ -1,78 +1,78 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import usePageInitialization from "../../hooks/usePageInitialization";
-import OtherCollections from "../../components/OtherCollections";
-import MatchedProducts from "../../components/MatchedProducts";
-import AnimateLink from "../../components/AnimateLink";
+import usePageInitialization from '../../hooks/usePageInitialization';
+import OtherCollections from '../../components/OtherCollections';
+import MatchedProducts from '../../components/MatchedProducts';
+import AnimateLink from '../../components/AnimateLink';
 
 const breadCrumbData = [
-  { name: "Home", href: "/" },
-  { name: "Collections", href: "/collections" },
-  { name: "Collection detail", href: "/collections-post" },
-  { name: "Category", href: "/collections-category" },
-  { name: "Product list", href: "#" },
+  { name: 'Home', href: '/' },
+  { name: 'Collections', href: '/collections' },
+  { name: 'Collection detail', href: '/collections-post' },
+  { name: 'Category', href: '/collections-category' },
+  { name: 'Product list', href: '#' },
 ];
 
 const productImages = [
   {
-    source: "images/products/img-01.png",
+    source: 'images/products/img-01.png',
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: 'images/products/img-02.png',
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: 'images/products/img-03.png',
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: 'images/3d.svg',
+    imgSource: 'images/products/chair/0_',
     bool: true,
   },
   {
-    source: "images/products/img-01.png",
+    source: 'images/products/img-01.png',
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: 'images/products/img-02.png',
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: 'images/products/img-03.png',
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: 'images/3d.svg',
+    imgSource: 'images/products/chair/0_',
     bool: true,
   },
   {
-    source: "images/products/img-01.png",
+    source: 'images/products/img-01.png',
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: 'images/products/img-02.png',
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: 'images/products/img-03.png',
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: 'images/3d.svg',
+    imgSource: 'images/products/chair/0_',
     bool: true,
   },
 ];
 
 const ProductPost = () => {
   usePageInitialization(
-    "pg-products-post",
-    ".initScript",
-    ".productsPost",
-    ".cartPage"
+    'pg-products-post',
+    '.initScript',
+    '.productsPost',
+    '.cartPage'
   );
 
   return (
@@ -146,7 +146,7 @@ const ProductPost = () => {
                             return (
                               <div key={index} className="swiper-slide">
                                 <div
-                                  className={`wrapper-img ${bool && "img-3"}`}
+                                  className={`wrapper-img ${bool && 'img-3'}`}
                                 >
                                   <div className="container-img">
                                     <img

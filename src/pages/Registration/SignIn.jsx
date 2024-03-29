@@ -1,32 +1,39 @@
-import { useNavigate } from "react-router-dom";
-import AnimateLink from "../../components/AnimateLink";
+import { useNavigate } from 'react-router-dom';
+import AnimateLink from '../../components/AnimateLink';
 
 const SignIn = () => {
   const navigate = useNavigate();
   const submit = (e) => {
     e.preventDefault();
     try {
-      localStorage.setItem("userLoginStatus", "logged-in");
+      localStorage.setItem('userLoginStatus', 'logged-in');
       // data-home-state
-      document.body.setAttribute("data-login-state", "logged");
-      document.body.setAttribute("data-home-state", "");
-      document.body.classList.add("page-leave-active");
+      document.body.setAttribute('data-login-state', 'logged');
+      document.body.setAttribute('data-home-state', '');
+      document.body.classList.add('page-leave-active');
       setTimeout(() => {
-        document.body.classList.remove("page-leave-active");
-        document.body.classList.add("page-enter-active");
+        document.body.classList.remove('page-leave-active');
+        document.body.classList.add('page-enter-active');
       }, 900);
 
       setTimeout(() => {
         // Replace this with your navigation logic
-        navigate("/collections");
+        navigate('/collections');
         // window.location.href = to;
         // Update the attribute after navigation if needed
         // document.body.setAttribute("data-login-state", "logged");
       }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
       // document.querySelector(".initScript").click();
     } catch (error) {
-      console.log("Error:", error);
+      console.log('Error:', error);
     }
+  };
+
+  const create = () => {
+    try {
+      navigate('/#create-account');
+      document.body.setAttribute('data-home-state', 'sign-in');
+    } catch (error) {}
   };
   return (
     <div className="container-sign-in">
@@ -84,7 +91,10 @@ const SignIn = () => {
           <span> Privacy Policy.</span>
         </AnimateLink>
       </p>
-      <button className="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
+      <button
+        onClick={create}
+        className="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25"
+      >
         <div className="split-chars">
           <span>Create your account</span>
         </div>

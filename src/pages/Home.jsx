@@ -3,7 +3,7 @@ import CreateAccount from "./Registration/CreateAccount";
 import SignIn from "./Registration/SignIn";
 
 const Home = () => {
-  usePageInitialization("pg-home", ".initScript");
+  usePageInitialization("pg-home", ".initScript", ".home");
 
   return (
     <section
