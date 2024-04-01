@@ -31,9 +31,9 @@ const Search = () => {
                 class="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((data, index) => {
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
                   return (
-                    <li class="grid-item">
+                    <li key={index} class="grid-item">
                       <div
                         key={index}
                         class="product-link small saved-products landscape-fix active"
