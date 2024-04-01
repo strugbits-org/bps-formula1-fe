@@ -90,7 +90,7 @@ const Navbar = () => {
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
-                <span className="no-phone">Sign In asd</span>
+                <span className="no-phone">Sign In</span>
               </div>
             </button>
           ) : (
