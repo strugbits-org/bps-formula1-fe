@@ -1,7 +1,6 @@
-import flattenDeep from "lodash/flattenDeep";
-import React from "react";
 import { Route, Routes as ReactRoutes } from "react-router-dom";
 import ProtectedRoute from "./protectedRoutes/Index";
+import flattenDeep from "lodash/flattenDeep";
 
 const generateFlattenRoutes = (routes) => {
   if (!routes) return [];

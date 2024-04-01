@@ -4,79 +4,17 @@ import usePageInitialization from '../hooks/usePageInitialization';
 import { AnimationFunction } from '../utils/AnimationFunctions';
 import AnimateLink from '../components/AnimateLink';
 import { useEffect, useState } from 'react';
+import { categoryFilter } from "../utils/Categories";
+import { collectionFilter } from "../utils/Collections";
 
-const collectionFilter = [
-  {
-    name: 'All',
-    href: '/collections',
-  },
-  {
-    name: 'Legacy',
-    href: '/collections',
-  },
-  {
-    name: 'Neon house',
-    href: '/collections',
-  },
-  {
-    name: 'Classic Vegas',
-    href: '/collections',
-  },
-  {
-    name: 'Paddock',
-    href: '/collections',
-  },
-];
-const categoryFilter = [
-  {
-    name: 'All',
-    href: '/products',
-  },
-  {
-    name: 'Highboys',
-    href: '/products',
-  },
-  {
-    name: 'Barstools',
-    href: '/products',
-  },
-  {
-    name: 'Cafe tables',
-    href: '/products',
-  },
-  {
-    name: 'Communal',
-    href: '/products',
-  },
-  {
-    name: 'Banquettes',
-    href: '/products',
-  },
-  {
-    name: 'Chairs',
-    href: '/products',
-  },
-  {
-    name: 'Bars',
-    href: '/products',
-  },
-  {
-    name: 'Greenery',
-    href: '/products',
-  },
-  {
-    name: 'Lighting',
-    href: '/products',
-  },
-];
-const SignedUserNavbar = () => {
+const Navbar = () => {
   const navigate = useNavigate();
-  usePageInitialization('pg-home', '.initScript', '.home');
+  usePageInitialization("pg-home", ".initScript", ".home");
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState('Collections');
-  const [selectedCategory, setSelectedCategory] = useState('Categories');
+  const [selectedCollection, setSelectedCollection] = useState("Collections");
+  const [selectedCategory, setSelectedCategory] = useState("Categories");
   // Function to handle selection of a collection
 
   const location = useLocation();
@@ -85,18 +23,22 @@ const SignedUserNavbar = () => {
     // Store the previous path when the location changes
     if (location) {
       setPreviousPath(location);
+      if (location.pathname === "/" && location.hash !== "#sign-in") {
+        console.log(location.pathname, "location>>");
+        document.body.setAttribute("data-home-state", "");
+      }
     }
   }, [location]);
 
   const handleCollectionSelection = (name) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
-    navigate('/collections');
+    navigate("/collections");
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
-    navigate('/products');
+    navigate("/products");
   };
 
   const handleSubmit = (e) => {
@@ -105,15 +47,15 @@ const SignedUserNavbar = () => {
       AnimationFunction();
       setTimeout(() => {
         // Replace this with your navigation logic
-        navigate('/search');
+        navigate("/search");
       }, 1000);
     } catch (error) {}
   };
 
   const signIn = () => {
     try {
-      navigate('/#sign-in');
-      document.body.setAttribute('data-home-state', 'sign-in');
+      navigate("/#sign-in");
+      document.body.setAttribute("data-home-state", "sign-in");
     } catch (error) {}
   };
 
@@ -141,14 +83,14 @@ const SignedUserNavbar = () => {
           </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
-          {previousPath?.pathname === '/gallery' ? (
+          {previousPath?.pathname === "/gallery" ? (
             <button
               onClick={signIn}
               className="btn-small btn-red btn-hover-white"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
-                <span className="no-phone">Sign In</span>
+                <span className="no-phone">Sign In asd</span>
               </div>
             </button>
           ) : (
@@ -177,7 +119,7 @@ const SignedUserNavbar = () => {
             </button>
             <div
               className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? 'active' : 'leave'
+                collectionDropdownOpen ? "active" : "leave"
               }`}
               data-get-submenu="collections"
             >
@@ -209,7 +151,7 @@ const SignedUserNavbar = () => {
             </button>
             <div
               className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? 'active' : 'leave'
+                categoryDropdownOpen ? "active" : "leave"
               }`}
               data-get-submenu="category"
             >
@@ -281,4 +223,4 @@ const SignedUserNavbar = () => {
     </header>
   );
 };
-export default SignedUserNavbar;
+export default Navbar;

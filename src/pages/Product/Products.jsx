@@ -1,10 +1,10 @@
 import usePageInitialization from "../../hooks/usePageInitialization";
 import OtherCollections from "../../components/OtherCollections";
+import FilterButton from "../../components/FilterButton";
 import AnimateLink from "../../components/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import FilterButton from "../../components/FilterButton";
 
-const productCategory = [
+const chairCategory = [
   "Accent chairs",
   "Arm chairs",
   "Conference chairs",
@@ -36,7 +36,7 @@ const Products = () => {
                 className="list-tags"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {productCategory.map((data, index) => {
+                {chairCategory.map((data, index) => {
                   return (
                     <li key={index} className="list-item">
                       <button className="btn-tag ">

@@ -1,6 +1,5 @@
 // Layouts
 
-import SignedUserLayout from "../layout/SignedUserLayout";
 import AnonymousLayout from "../layout/AnonymousLayout";
 import { renderRoutes } from "./generate-routes";
 
@@ -18,12 +17,11 @@ import ProductPost from "../pages/Product/ProductsPost";
 import MyAccount from "../pages/Account/MyAccount";
 import Error404Page from "../pages/Error404Page";
 import Products from "../pages/Product/Products";
+import UserLayout from "../layout/UserLayout";
 import Gallery from "../pages/Gallery";
+import Home from "../pages/Home/Home";
 import Search from "../pages/Search";
-import Home from "../pages/Home";
 import Cart from "../pages/Cart";
-
-
 
 export const routes = [
   {
@@ -50,7 +48,7 @@ export const routes = [
     ],
   },
   {
-    layout: SignedUserLayout,
+    layout: UserLayout,
     routes: [
       {
         name: "Home",

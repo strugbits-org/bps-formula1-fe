@@ -37,7 +37,7 @@ const Cart = () => {
                     className="list-cart list-cart-product mt-35"
                     data-aos="d:loop"
                   >
-                    {[1, 2, 3, 4].map((data, index) => {
+                    {[1, 2, 3, 4].map((index) => {
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
