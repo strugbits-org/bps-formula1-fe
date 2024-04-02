@@ -24,7 +24,6 @@ const Navbar = () => {
     if (location) {
       setPreviousPath(location);
       if (location.pathname === "/" && location.hash !== "#sign-in") {
-        console.log(location.pathname, "location>>");
         document.body.setAttribute("data-home-state", "");
       }
     }

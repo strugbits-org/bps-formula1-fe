@@ -4,7 +4,8 @@ function usePageInitialization(
   pageName,
   initialClickSelector,
   secondaryClickSelector,
-  tertiaryClickSelector
+  tertiaryClickSelector,
+  status
 ) {
   useEffect(() => {
     document.body.dataset.pg = pageName;
@@ -28,6 +29,7 @@ function usePageInitialization(
     initialClickSelector,
     secondaryClickSelector,
     tertiaryClickSelector,
+    status,
   ]);
 }
 
