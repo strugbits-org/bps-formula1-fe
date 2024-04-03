@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import createWixClient from "../../config/WixConfig";
 
 const WixClient = createWixClient();
-export const HomeBottomRightSocialLinks = createAsyncThunk(
-  "data/HomeBottomRightSocialLinks",
+export const homeBottomRightSocialLinks = createAsyncThunk(
+  "data/homeBottomRightSocialLinks",
   async () => {
     try {
       let options = {
@@ -38,7 +38,7 @@ export const homePageData = createAsyncThunk("data/homePageData", async () => {
   }
 });
 
-export const HomeBottomLeftLink = createAsyncThunk(
+export const homeBottomLeftLink = createAsyncThunk(
   "data/homeBottomLeftLink",
   async () => {
     try {

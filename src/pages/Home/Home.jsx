@@ -5,31 +5,35 @@ import { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {
-  HomeBottomLeftLink,
-  HomeBottomRightSocialLinks,
+  homeBottomLeftLink,
+  homeBottomRightSocialLinks,
   homePageData,
 } from "../../redux/thunks/homePageThunk";
 import { AnimationFunction } from "../../utils/AnimationFunctions";
 import RenderImage from "../../utils/RenderImage";
 import RenderVideo from "../../utils/RenderVideo";
 import { Link } from "react-router-dom";
+import {
+  createAccountForm,
+  signInForm,
+} from "../../redux/thunks/registrationPageThunk";
 
 const Home = () => {
-  const { status, pages, error } = useAppSelector((state) => state.data);
+  const { status, pages } = useAppSelector((state) => state.data);
   const dispatch = useAppDispatch();
-  console.log(pages, status, error, "Data>>");
   useEffect(() => {
-    // Dispatch both thunks only when the status is idle
     if (status === "idle") {
       dispatch(homePageData());
-      dispatch(HomeBottomRightSocialLinks());
-      dispatch(HomeBottomLeftLink());
+      dispatch(homeBottomRightSocialLinks());
+      dispatch(homeBottomLeftLink());
+      dispatch(signInForm());
+      dispatch(createAccountForm());
       AnimationFunction();
     }
   }, [dispatch, status]);
-  usePageInitialization("pg-home", ".initScript", ".home" ,status);
+  usePageInitialization("pg-home", ".initScript", ".home");
   if (status === "succeeded") {
-    document.querySelector(".initScript").click();
+    document.querySelector(".home").click();
     return (
       <section
         className="home-intro home-sign-in section-intro"
@@ -42,7 +46,7 @@ const Home = () => {
                 <div className="container-logos mb-lg-40 mb-mobile-45">
                   <div className="container-img logo-formula-1">
                     <img
-                      src="images/logo-formula-1-red.svg"
+                      src={RenderImage(pages["signInPage"]?.redLogo)}
                       data-preload
                       className="media"
                       alt="product"
@@ -50,17 +54,18 @@ const Home = () => {
                   </div>
                   <div className="container-img logo-blueprint-rentals">
                     <img
-                      src="images/blueprint-rentals.svg"
+                      src={RenderImage(pages["signInPage"]?.textImage)}
                       data-preload
                       className="media"
                       alt="product"
                     />
                   </div>
                 </div>
+                {pages?.signInPage && <SignIn data={pages.signInPage} />}
 
-                <SignIn />
-
-                <CreateAccount />
+                {pages?.createAccountPage && (
+                  <CreateAccount data={pages.createAccountPage} />
+                )}
               </div>
             </div>
           </div>
@@ -70,7 +75,7 @@ const Home = () => {
           <div className="logo-bottom">
             <div className="container-img">
               <img
-                src={RenderImage(pages["pagesData"]?.logo)}
+                src={RenderImage(pages["homePageData"]?.logo)}
                 data-preload
                 className="media"
                 alt="logo"
@@ -78,10 +83,10 @@ const Home = () => {
             </div>
             <div className="container-text">
               <h2 className="font-2 fs--20 fs-tablet-9 fs-phone-11 text-uppercase">
-                {pages["pagesData"]?.footerFirstText}
+                {pages["homePageData"]?.footerFirstText}
               </h2>
               <h3 className="fs--14 fs-mobile-7 mt-lg-20 mt-mobile-10 text-uppercase">
-                {pages["pagesData"]?.footerSecondText}
+                {pages["homePageData"]?.footerSecondText}
               </h3>
             </div>
           </div>
@@ -125,10 +130,10 @@ const Home = () => {
 
         <div className="bg" data-aos="d:loop">
           <div className="container-img bg-video">
-            {pages["pagesData"]?.backgroundVideo && (
+            {pages["homePageData"]?.backgroundVideo && (
               <video
-                data-src={RenderVideo(pages["pagesData"].backgroundVideo)}
-                src={RenderVideo(pages["pagesData"].backgroundVideo)}
+                data-src={RenderVideo(pages["homePageData"].backgroundVideo)}
+                src={RenderVideo(pages["homePageData"].backgroundVideo)}
                 data-preload
                 className="media"
                 alt="product"
@@ -141,7 +146,7 @@ const Home = () => {
           </div>
           <div className="container-img bg-img">
             <img
-              src="images/home/img-01.jpg"
+              src={RenderImage(pages["signInPage"]?.backgroundImage)}
               data-preload
               className="media"
               alt="product"

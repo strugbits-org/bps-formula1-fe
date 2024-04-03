@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  HomeBottomLeftLink,
-  HomeBottomRightSocialLinks,
+  homeBottomLeftLink,
+  homeBottomRightSocialLinks,
   homePageData,
 } from "../thunks/homePageThunk";
+import { createAccountForm, signInForm } from "../thunks/registrationPageThunk";
+import { galleryPageData } from "../thunks/galleryPageThunk";
 
 const initialState = {
   status: "idle",
@@ -32,32 +34,63 @@ export const dataSlice = createSlice({
         state.status = "succeeded";
         state.pages = {
           ...state.pages,
-          pagesData: action.payload,
+          homePageData: action.payload,
         };
       })
       .addCase(homePageData.rejected, handleRejected)
 
-      .addCase(HomeBottomRightSocialLinks.pending, handlePending)
-      .addCase(HomeBottomRightSocialLinks.fulfilled, (state, action) => {
+      .addCase(homeBottomRightSocialLinks.pending, handlePending)
+      .addCase(homeBottomRightSocialLinks.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.pages = {
           ...state.pages,
           rightSectionIcons: action.payload,
         };
       })
-      .addCase(HomeBottomRightSocialLinks.rejected, handleRejected)
+      .addCase(homeBottomRightSocialLinks.rejected, handleRejected)
 
-      .addCase(HomeBottomLeftLink.pending, handlePending)
-      .addCase(HomeBottomLeftLink.fulfilled, (state, action) => {
+      .addCase(homeBottomLeftLink.pending, handlePending)
+      .addCase(homeBottomLeftLink.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.pages = {
           ...state.pages,
           leftSectionLinks: action.payload,
         };
       })
-      .addCase(HomeBottomLeftLink.rejected, handleRejected);
+      .addCase(homeBottomLeftLink.rejected, handleRejected)
 
-    //   SIGNIN DATA
+      //   SIGNIN DATA
+      .addCase(signInForm.pending, handlePending)
+      .addCase(signInForm.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.pages = state.pages = {
+          ...state.pages,
+          signInPage: action.payload,
+        };
+      })
+      .addCase(signInForm.rejected, handleRejected)
+
+      //   CREATE ACCOUNT DATA
+      .addCase(createAccountForm.pending, handlePending)
+      .addCase(createAccountForm.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.pages = state.pages = {
+          ...state.pages,
+          createAccountPage: action.payload,
+        };
+      })
+      .addCase(createAccountForm.rejected, handleRejected)
+
+      //   GALLERY PAGE DATA
+      .addCase(galleryPageData.pending, handlePending)
+      .addCase(galleryPageData.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.pages = state.pages = {
+          ...state.pages,
+          galleryPage: action.payload,
+        };
+      })
+      .addCase(galleryPageData.rejected, handleRejected);
   },
 });
 

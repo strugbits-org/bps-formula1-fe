@@ -18111,10 +18111,10 @@ var require_app2 = __commonJS({
     // Products Post page Cuctom JS
     document.querySelector(".home").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
-      main$8()
+      console.log("Hello>>");
+      main$8();
       Forms();
       FormSignIn();
-
     });
 
     // Products Post page Cuctom JS

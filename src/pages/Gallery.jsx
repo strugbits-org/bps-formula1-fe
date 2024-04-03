@@ -1,12 +1,27 @@
-import usePageInitialization from '../hooks/usePageInitialization';
+import { useEffect } from "react";
+import usePageInitialization from "../hooks/usePageInitialization";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { galleryPageData } from "../redux/thunks/galleryPageThunk";
+import { AnimationFunction } from "../utils/AnimationFunctions";
+import RenderImage from "../utils/RenderImage";
 
 const Gallery = () => {
   usePageInitialization(
-    'pg-gallery',
-    '.initScript',
-    '.galleryImages',
-    '.productsPost'
+    "pg-gallery",
+    ".initScript",
+    ".galleryImages",
+    ".productsPost"
   );
+  const { status, pages } = useAppSelector((state) => state.data);
+  console.log(pages["galleryPage"], "pages>>");
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(galleryPageData());
+
+      AnimationFunction();
+    }
+  }, [dispatch, status]);
 
   return (
     <section className="gallery pt-lg-145 pb-90">
@@ -33,52 +48,28 @@ const Gallery = () => {
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
-                    <li>
-                      <button
-                        data-option-dropdown
-                        data-set-collections
-                        data-default-collections-active
-                        className="link-dropdown"
-                      >
-                        <span>All collections</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        data-option-dropdown
-                        data-set-collections="legacy"
-                        className="link-dropdown"
-                      >
-                        <span>Legacy</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        data-option-dropdown
-                        data-set-collections="neon-house"
-                        className="link-dropdown"
-                      >
-                        <span>Neon house</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        data-option-dropdown
-                        data-set-collections="classic-vegas"
-                        className="link-dropdown"
-                      >
-                        <span>Classic Vegas</span>
-                      </button>
-                    </li>
-                    <li>
-                      <button
-                        data-option-dropdown
-                        data-set-collections="paddock"
-                        className="link-dropdown"
-                      >
-                        <span>Paddock</span>
-                      </button>
-                    </li>
+                    {pages["galleryPage"]?.collectionsFilter?.map(
+                      (data, index) => {
+                        const formattedData = data
+                          .toLowerCase()
+                          .replace(/\s+/g, "-");
+                        return (
+                          <li key={index}>
+                            <button
+                              data-option-dropdown
+                              data-set-collections={
+                                formattedData === "all-collections"
+                                  ? ""
+                                  : formattedData
+                              }
+                              className="link-dropdown"
+                            >
+                              <span>{data}</span>
+                            </button>
+                          </li>
+                        );
+                      }
+                    )}
                   </ul>
                 </div>
               </div>
@@ -92,528 +83,123 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="legacy"
               >
-                <li>
-                  <a
-                    href="images/gallery/img-01.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-01.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-02.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-02.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-03.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-03.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-04.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-04.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-01.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-01.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-01.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-01.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-05.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-legacy"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-05.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
+                {pages["galleryPage"]?.legacyCollection?.map((data, index) => {
+                  const { src } = data;
+                  return (
+                    <li key={index}>
+                      <a
+                        href="images/gallery/img-01.jpg"
+                        className="gallery-link no-pjax"
+                        data-fancybox="gallery-legacy"
+                      >
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(src)}
+                            data-preload
+                            className="media"
+                            data-parallax
+                            data-translate-y="20%"
+                            alt="product"
+                          />
+                        </div>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
+
               <ul
                 className="list-gallery"
                 data-default-collections-active
                 data-get-collections="neon-house"
               >
-                <li>
-                  <a
-                    href="images/gallery/img-06.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-06.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-07.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-07.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-08.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-08.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-05.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-05.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-04.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-04.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-09.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-09.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-01.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-neon-house"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-01.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
+                {pages["galleryPage"]?.neonHouseCollection?.map(
+                  (data, index) => {
+                    const { src } = data;
+                    return (
+                      <li key={index}>
+                        <a
+                          href="images/gallery/img-06.jpg"
+                          className="gallery-link no-pjax"
+                          data-fancybox="gallery-neon-house"
+                        >
+                          <div className="container-img">
+                            <img
+                              src={RenderImage(src)}
+                              data-preload
+                              className="media"
+                              data-parallax
+                              data-translate-y="20%"
+                              alt="product"
+                            />
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
+
               <ul
                 className="list-gallery"
                 data-default-collections-active
                 data-get-collections="classic-vegas"
               >
-                <li>
-                  <a
-                    href="images/gallery/img-02.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-02.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-03.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-03.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-04.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-04.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-05.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-05.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-06.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-06.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-07.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-07.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-08.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-classic-vegas"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-08.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
+                {pages["galleryPage"]?.classicVegasCollection?.map(
+                  (data, index) => {
+                    const { src } = data;
+                    return (
+                      <li key={index}>
+                        <a
+                          href="images/gallery/img-02.jpg"
+                          className="gallery-link no-pjax"
+                          data-fancybox="gallery-classic-vegas"
+                        >
+                          <div className="container-img">
+                            <img
+                              src={RenderImage(src)}
+                              data-preload
+                              className="media"
+                              data-parallax
+                              data-translate-y="20%"
+                              alt="product"
+                            />
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
+
               <ul
                 className="list-gallery"
                 data-default-collections-active
                 data-get-collections="paddock"
               >
-                <li>
-                  <a
-                    href="images/gallery/img-09.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-09.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-01.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-01.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-02.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-02.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-03.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-03.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-04.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-04.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-05.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-05.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="images/gallery/img-06.jpg"
-                    className="gallery-link no-pjax"
-                    data-fancybox="gallery-paddock"
-                  >
-                    <div className="container-img">
-                      <img
-                        src="images/gallery/img-06.jpg"
-                        data-preload
-                        className="media"
-                        data-parallax
-                        data-translate-y="20%"
-                        alt="product"
-                      />
-                    </div>
-                  </a>
-                </li>
+                {pages["galleryPage"]?.paddockCollection?.map((data, index) => {
+                  const { src } = data;
+                  return (
+                    <li key={index}>
+                      <a
+                        href="images/gallery/img-09.jpg"
+                        className="gallery-link no-pjax"
+                        data-fancybox="gallery-paddock"
+                      >
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(src)}
+                            data-preload
+                            className="media"
+                            data-parallax
+                            data-translate-y="20%"
+                            alt="product"
+                          />
+                        </div>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
             <div className="flex-center mt-lg-30 mt-mobile-45">
