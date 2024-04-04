@@ -307,6 +307,7 @@ var require_app2 = __commonJS({
         ".container-create-account"
       );
       recalcWrapperHeight();
+      console.log(btnCreateAccount, "btnCreateAccount>>");
       btnCreateAccount.addEventListener("click", function () {
         wrapperForm.classList.add("create-account");
         location.hash = "create-account";
@@ -341,9 +342,9 @@ var require_app2 = __commonJS({
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
-          // if (document.body.dataset.pg != "pg-home") {
-          //   singlePjaxInstance.loadUrl(btnSignIn.dataset.href);
-          // }
+          if (document.body.dataset.pg != "pg-home") {
+            singlePjaxInstance.loadUrl(btnSignIn.dataset.href);
+          }
           if (document.body.dataset.homeState == "sign-in") {
             if (wrapperForm.classList.contains("create-account")) {
               location.hash = "sign-in";
@@ -412,6 +413,7 @@ var require_app2 = __commonJS({
               recalcInputHeight();
             } else {
               if (other) {
+                console.log("tese2");
                 setTimeout(() => {
                   recalcWrapperHeight();
                 }, 1e3);

@@ -5,7 +5,6 @@ import {
   homePageData,
 } from "../thunks/homePageThunk";
 import { createAccountForm, signInForm } from "../thunks/registrationPageThunk";
-import { galleryPageData } from "../thunks/galleryPageThunk";
 
 const initialState = {
   status: "idle",
@@ -79,18 +78,7 @@ export const dataSlice = createSlice({
           createAccountPage: action.payload,
         };
       })
-      .addCase(createAccountForm.rejected, handleRejected)
-
-      //   GALLERY PAGE DATA
-      .addCase(galleryPageData.pending, handlePending)
-      .addCase(galleryPageData.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.pages = state.pages = {
-          ...state.pages,
-          galleryPage: action.payload,
-        };
-      })
-      .addCase(galleryPageData.rejected, handleRejected);
+      .addCase(createAccountForm.rejected, handleRejected);
   },
 });
 

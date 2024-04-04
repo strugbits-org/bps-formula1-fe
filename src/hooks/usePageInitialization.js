@@ -24,20 +24,20 @@ function usePageInitialization(
       }
     }
 
-    setTimeout(() => {
-      if (secondaryElement) {
-        // console.log("secondaryElement Clicked");
+    if (secondaryElement) {
+      // console.log("secondaryElement Clicked");
 
-        if (secondaryElement.click) {
-          secondaryElement.click();
-        } else {
-          console.warn(
-            "Element does not support click method:",
-            secondaryElement
-          );
-        }
+      if (secondaryElement.click) {
+        secondaryElement.click();
+      } else {
+        console.warn(
+          "Element does not support click method:",
+          secondaryElement
+        );
       }
-    }, 2000);
+    }
+    // setTimeout(() => {
+    // }, 2000);
 
     if (tertiaryElement) {
       // console.log("tertiaryElement Clicked");

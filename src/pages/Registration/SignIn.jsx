@@ -1,34 +1,92 @@
 import { useNavigate } from 'react-router-dom';
 import AnimateLink from '../../components/AnimateLink';
-
+import { useState } from "react";
+import createWixClient from "../../config/WixConfig";
 
 const SignIn = ({ data }) => {
   const navigate = useNavigate();
-  const submit = (e) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const WixClient = createWixClient();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      localStorage.setItem("userLoginStatus", "logged-in");
-      // data-home-state
-      document.body.setAttribute("data-login-state", "logged");
-      document.body.setAttribute("data-home-state", "");
-      document.body.classList.add("page-leave-active");
-      setTimeout(() => {
-        document.body.classList.remove("page-leave-active");
-        document.body.classList.add("page-enter-active");
-      }, 900);
+      console.log(formData);
+      const userData = {
+        loginEmail: "attaurrahmanfarooqi9@gmail.com",
+        password: "123",
+        recaptchaToken: "skdgf78sydt48397yhusd",
+      };
+      // const response = await WixClient.members.createMember(userData);
 
-      setTimeout(() => {
-        // Replace this with your navigation logic
-        navigate("/collections");
-        // window.location.href = to;
-        // Update the attribute after navigation if needed
-        // document.body.setAttribute("data-login-state", "logged");
-      }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
-      // document.querySelector(".initScript").click();
+      const response = await WixClient.authentication.register(
+        userData.loginEmail,
+        userData.password,
+        userData.recaptchaToken
+      );
+
+      console.log(response);
     } catch (error) {
       console.log("Error:", error);
     }
   };
+  const LoginUser = async (e) => {
+    e.preventDefault();
+    try {
+      console.log(formData);
+      const userData = {
+        loginEmail: "atta@strugbitsglobal.com",
+        password: "03325312621",
+      };
+      const response = await WixClient.authentication.login(
+        userData.loginEmail,
+        userData.password
+      );
+
+      console.log(response);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(value, name, "inputs");
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   // You can now use formData object to send data to the server or perform any other actions.
+  //   console.log(formData);
+  // };
+  // const submit = (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     localStorage.setItem("userLoginStatus", "logged-in");
+  //     // data-home-state
+  //     document.body.setAttribute("data-login-state", "logged");
+  //     document.body.setAttribute("data-home-state", "");
+  //     document.body.classList.add("page-leave-active");
+  //     setTimeout(() => {
+  //       document.body.classList.remove("page-leave-active");
+  //       document.body.classList.add("page-enter-active");
+  //     }, 900);
+
+  //     setTimeout(() => {
+  //       // Replace this with your navigation logic
+  //       navigate("/collections");
+  //       // window.location.href = to;
+  //       // Update the attribute after navigation if needed
+  //       // document.body.setAttribute("data-login-state", "logged");
+  //     }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
+  //     // document.querySelector(".initScript").click();
+  //   } catch (error) {
+  //     console.log("Error:", error);
+  //   }
+  // };
 
   const create = () => {
     try {
@@ -39,8 +97,11 @@ const SignIn = ({ data }) => {
 
   return (
     <div className="container-sign-in">
+      <button onClick={handleSubmit}>REGISTER</button>
+      <button onClick={LoginUser}>Login</button>
+
       <div className="wrapper-form-sign-in" data-form-sign-in-container>
-        <form className="form-sign-in form-base">
+        <form className="form-sign-in form-base" onSubmit={LoginUser}>
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
             <label htmlFor="login-email">{data?.firstInputName} </label>
@@ -49,6 +110,8 @@ const SignIn = ({ data }) => {
               name="email"
               type="email"
               placeholder="exemple@myemail.com"
+              value={formData.email}
+              onChange={handleChange}
               required
             />
           </div>
@@ -60,6 +123,8 @@ const SignIn = ({ data }) => {
               name="password"
               type="password"
               placeholder="* * * * * *"
+              value={formData.password}
+              onChange={handleChange}
               required
             />
             <div className="toggle-password">
@@ -69,7 +134,7 @@ const SignIn = ({ data }) => {
           </div>
           <div className="container-submit col-12 mt-mobile-10">
             <button
-              onClick={submit}
+              type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
             >
               <i className="icon-profile"></i>
@@ -95,7 +160,7 @@ const SignIn = ({ data }) => {
       </p>
       <button
         onClick={create}
-        className="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25"
+        className="btn-small-wide btn-gray btn-hover-red  w-mobile-100 mt-25"
       >
         <div className="split-chars">
           <span>{data?.createAccountButtonText}</span>

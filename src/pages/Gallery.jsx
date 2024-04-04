@@ -1,28 +1,24 @@
 import { useEffect } from "react";
 import usePageInitialization from "../hooks/usePageInitialization";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { galleryPageData } from "../redux/thunks/galleryPageThunk";
-import { AnimationFunction } from "../utils/AnimationFunctions";
 import RenderImage from "../utils/RenderImage";
+import { galleryPageData } from "../redux/thunks/galleryPageThunk";
 
 const Gallery = () => {
+  const { status, pages } = useAppSelector((state) => state.gallery);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(galleryPageData());
+    }
+  }, [dispatch, status]);
+
   usePageInitialization(
     "pg-gallery",
     ".initScript",
     ".galleryImages",
     ".productsPost"
   );
-  const { status, pages } = useAppSelector((state) => state.data);
-  console.log(pages["galleryPage"], "pages>>");
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (status === "idle") {
-      dispatch(galleryPageData());
-
-      AnimationFunction();
-    }
-  }, [dispatch, status]);
-
   return (
     <section className="gallery pt-lg-145 pb-90">
       <div className="container-fluid">
@@ -48,7 +44,7 @@ const Gallery = () => {
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
-                    {pages["galleryPage"]?.collectionsFilter?.map(
+                    {pages["galleryPageData"]?.collectionsFilter?.map(
                       (data, index) => {
                         const formattedData = data
                           .toLowerCase()
@@ -83,29 +79,31 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="legacy"
               >
-                {pages["galleryPage"]?.legacyCollection?.map((data, index) => {
-                  const { src } = data;
-                  return (
-                    <li key={index}>
-                      <a
-                        href="images/gallery/img-01.jpg"
-                        className="gallery-link no-pjax"
-                        data-fancybox="gallery-legacy"
-                      >
-                        <div className="container-img">
-                          <img
-                            src={RenderImage(src)}
-                            data-preload
-                            className="media"
-                            data-parallax
-                            data-translate-y="20%"
-                            alt="product"
-                          />
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
+                {pages["galleryPageData"]?.legacyCollection?.map(
+                  (data, index) => {
+                    const { src } = data;
+                    return (
+                      <li key={index}>
+                        <a
+                          href="images/gallery/img-01.jpg"
+                          className="gallery-link no-pjax"
+                          data-fancybox="gallery-legacy"
+                        >
+                          <div className="container-img">
+                            <img
+                              src={RenderImage(src)}
+                              data-preload
+                              className="media"
+                              data-parallax
+                              data-translate-y="20%"
+                              alt="product"
+                            />
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
 
               <ul
@@ -113,7 +111,7 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="neon-house"
               >
-                {pages["galleryPage"]?.neonHouseCollection?.map(
+                {pages["galleryPageData"]?.neonHouseCollection?.map(
                   (data, index) => {
                     const { src } = data;
                     return (
@@ -145,7 +143,7 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="classic-vegas"
               >
-                {pages["galleryPage"]?.classicVegasCollection?.map(
+                {pages["galleryPageData"]?.classicVegasCollection?.map(
                   (data, index) => {
                     const { src } = data;
                     return (
@@ -177,29 +175,31 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="paddock"
               >
-                {pages["galleryPage"]?.paddockCollection?.map((data, index) => {
-                  const { src } = data;
-                  return (
-                    <li key={index}>
-                      <a
-                        href="images/gallery/img-09.jpg"
-                        className="gallery-link no-pjax"
-                        data-fancybox="gallery-paddock"
-                      >
-                        <div className="container-img">
-                          <img
-                            src={RenderImage(src)}
-                            data-preload
-                            className="media"
-                            data-parallax
-                            data-translate-y="20%"
-                            alt="product"
-                          />
-                        </div>
-                      </a>
-                    </li>
-                  );
-                })}
+                {pages["galleryPageData"]?.paddockCollection?.map(
+                  (data, index) => {
+                    const { src } = data;
+                    return (
+                      <li key={index}>
+                        <a
+                          href="images/gallery/img-09.jpg"
+                          className="gallery-link no-pjax"
+                          data-fancybox="gallery-paddock"
+                        >
+                          <div className="container-img">
+                            <img
+                              src={RenderImage(src)}
+                              data-preload
+                              className="media"
+                              data-parallax
+                              data-translate-y="20%"
+                              alt="product"
+                            />
+                          </div>
+                        </a>
+                      </li>
+                    );
+                  }
+                )}
               </ul>
             </div>
             <div className="flex-center mt-lg-30 mt-mobile-45">

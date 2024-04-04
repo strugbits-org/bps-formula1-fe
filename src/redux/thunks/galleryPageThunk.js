@@ -13,7 +13,6 @@ export const galleryPageData = createAsyncThunk(
       const { items: fetchGalleryData } = await WixClient.items
         .queryDataItems(options)
         .find();
-      console.log(fetchGalleryData, "fetchGalleryData>>>");
       return fetchGalleryData[0].data;
     } catch (error) {
       throw new Error(error.message);

@@ -1,10 +1,11 @@
-// src/app/rootReducer.js
 import { combineReducers } from "@reduxjs/toolkit";
-import dataReducer from "./slices/pagesDataSlice";
+
+import galleryPageSlice from "./slices/galleryPageSlice";
+import dataReducer from "./slices/homePageDataSlice";
 
 const rootReducer = combineReducers({
   data: dataReducer,
-  // Add other reducers here
+  gallery: galleryPageSlice,
 });
 
 export default rootReducer;

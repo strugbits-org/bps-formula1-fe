@@ -9,7 +9,6 @@ import {
   homeBottomRightSocialLinks,
   homePageData,
 } from "../../redux/thunks/homePageThunk";
-import { AnimationFunction } from "../../utils/AnimationFunctions";
 import RenderImage from "../../utils/RenderImage";
 import RenderVideo from "../../utils/RenderVideo";
 import { Link } from "react-router-dom";
@@ -20,6 +19,7 @@ import {
 
 const Home = () => {
   const { status, pages } = useAppSelector((state) => state.data);
+  console.log(pages, status, "Home Data");
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (status === "idle") {
@@ -28,11 +28,11 @@ const Home = () => {
       dispatch(homeBottomLeftLink());
       dispatch(signInForm());
       dispatch(createAccountForm());
-      AnimationFunction();
     }
   }, [dispatch, status]);
   usePageInitialization("pg-home", ".initScript", ".home");
   if (status === "succeeded") {
+    document.querySelector(".initScript").click();
     document.querySelector(".home").click();
     return (
       <section
