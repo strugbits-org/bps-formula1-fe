@@ -1,105 +1,42 @@
 import { useNavigate } from 'react-router-dom';
 import AnimateLink from '../../components/AnimateLink';
-import { useState } from "react";
-import createWixClient from "../../config/WixConfig";
+import { useEffect, useState } from "react";
+import { signInUser } from "../../redux/thunks/registrationPageThunk";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 const SignIn = ({ data }) => {
   const navigate = useNavigate();
+  const { userSignIn } = useAppSelector((state) => state.data);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const WixClient = createWixClient();
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      console.log(formData);
-      const userData = {
-        loginEmail: "attaurrahmanfarooqi9@gmail.com",
-        password: "123",
-        recaptchaToken: "skdgf78sydt48397yhusd",
-      };
-      // const response = await WixClient.members.createMember(userData);
-
-      const response = await WixClient.authentication.register(
-        userData.loginEmail,
-        userData.password,
-        userData.recaptchaToken
-      );
-
-      console.log(response);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
   const LoginUser = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
       const userData = {
-        loginEmail: "atta@strugbitsglobal.com",
-        password: "03325312621",
+        loginEmail: formData.email,
+        password: formData.password,
       };
-      const response = await WixClient.authentication.login(
-        userData.loginEmail,
-        userData.password
-      );
-
-      console.log(response);
+      dispatch(signInUser(userData));
     } catch (error) {
       console.log("Error:", error);
     }
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // You can now use formData object to send data to the server or perform any other actions.
-  //   console.log(formData);
-  // };
-  // const submit = (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     localStorage.setItem("userLoginStatus", "logged-in");
-  //     // data-home-state
-  //     document.body.setAttribute("data-login-state", "logged");
-  //     document.body.setAttribute("data-home-state", "");
-  //     document.body.classList.add("page-leave-active");
-  //     setTimeout(() => {
-  //       document.body.classList.remove("page-leave-active");
-  //       document.body.classList.add("page-enter-active");
-  //     }, 900);
-
-  //     setTimeout(() => {
-  //       // Replace this with your navigation logic
-  //       navigate("/collections");
-  //       // window.location.href = to;
-  //       // Update the attribute after navigation if needed
-  //       // document.body.setAttribute("data-login-state", "logged");
-  //     }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
-  //     // document.querySelector(".initScript").click();
-  //   } catch (error) {
-  //     console.log("Error:", error);
-  //   }
-  // };
-
-  const create = () => {
-    try {
-      navigate("/#create-account");
-      document.body.setAttribute("data-home-state", "sign-in");
-    } catch (error) {}
-  };
+  useEffect(() => {
+    if (userSignIn) navigate("/collections");
+  }, [userSignIn, navigate]);
 
   return (
     <div className="container-sign-in">
-      <button onClick={handleSubmit}>REGISTER</button>
-      <button onClick={LoginUser}>Login</button>
-
       <div className="wrapper-form-sign-in" data-form-sign-in-container>
         <form className="form-sign-in form-base" onSubmit={LoginUser}>
           <input type="hidden" name="login" value="[Login]" />
@@ -133,6 +70,7 @@ const SignIn = ({ data }) => {
             </div>
           </div>
           <div className="container-submit col-12 mt-mobile-10">
+            {/* <button type="submit">Submit</button> */}
             <button
               type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
@@ -149,18 +87,36 @@ const SignIn = ({ data }) => {
         </h3>
       </div>
       <p className="text-agree mt-lg-25 mt-mobile-30">
-        By continuing, you are agreeing with
-        <AnimateLink to="/terms-and-condition" className="btn-underlined-white">
-          <span> Blueprint Studios Terms & Conditions </span>
+        {data.richcontent.nodes[0].nodes[0].textData.text}
+        <AnimateLink
+          to={
+            data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData
+              .link.url
+          }
+          className="btn-underlined-white"
+        >
+          <span>{data?.richcontent.nodes[0].nodes[1].textData.text} </span>
         </AnimateLink>
-        and
-        <AnimateLink to="/privacy-and-policy" className="btn-underlined-white">
-          <span> Privacy Policy.</span>
+        {data.richcontent.nodes[0].nodes[2].textData.text}
+        <AnimateLink
+          to={
+            data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData
+              .link.url
+          }
+          className="btn-underlined-white"
+        >
+          <span> {data.richcontent.nodes[0].nodes[3].textData.text}</span>
         </AnimateLink>
       </p>
+      {/* <AnimateLink to="/terms-and-condition" className="btn-underlined-white">
+      <span>Terms</span>
+    </AnimateLink>
+    <AnimateLink to="/privacy-and-policy" className="btn-underlined-white">
+      <span>Privacy</span>
+    </AnimateLink> */}
       <button
-        onClick={create}
-        className="btn-small-wide btn-gray btn-hover-red  w-mobile-100 mt-25"
+        // onClick={create}
+        class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25"
       >
         <div className="split-chars">
           <span>{data?.createAccountButtonText}</span>

@@ -1,16 +1,14 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import usePageInitialization from '../hooks/usePageInitialization';
-
-import { AnimationFunction } from '../utils/AnimationFunctions';
-import AnimateLink from '../components/AnimateLink';
-import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
+import { AnimationFunction } from "../utils/AnimationFunctions";
+import AnimateLink from "../components/AnimateLink";
+import { useEffect, useState } from "react";
 import { categoryFilter } from "../utils/Categories";
-import { collectionFilter } from "../utils/Collections";
+import { useAppSelector } from "../redux/hooks";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  usePageInitialization("pg-home", ".initScript", ".home");
-
+  const { pages } = useAppSelector((state) => state.data);
+  // usePageInitialization(status, "pg-home", ".initScript", ".home");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
@@ -19,6 +17,17 @@ const Navbar = () => {
 
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
+
+  // useEffect(() => {
+  //   if (status === "succeeded") {
+  //     console.log(status, "Navbar status>>>>>");
+  //     setTimeout(() => {
+  //       document.body.dataset.pg = "pg-home";
+  //       document.querySelector(".initScript").click();
+  //       document.querySelector(".home").click();
+  //     }, 1000);
+  //   }
+  // }, [status]);
   useEffect(() => {
     // Store the previous path when the location changes
     if (location) {
@@ -51,23 +60,23 @@ const Navbar = () => {
     } catch (error) {}
   };
 
-  const signIn = () => {
-    try {
-      navigate("/#sign-in");
-      document.body.setAttribute("data-home-state", "sign-in");
-    } catch (error) {}
-  };
-
+  // const signIn = () => {
+  //   try {
+  //     // AnimationFunction();
+  //     navigate("/#sign-in");
+  //     document.body.setAttribute("data-home-state", "sign-in");
+  //   } catch (error) {}
+  // };
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
         <div className="container-h-1 order-phone-2 mr-phone-10">
           <AnimateLink
-            to="/gallery"
+            to={pages?.homePageData?.galleryButtonAction}
             className="btn-small btn-dark btn-hover-white-black"
           >
             <div className="split-chars">
-              <span>Gallery</span>
+              <span>{pages?.homePageData?.galleryButtonLabel}</span>
             </div>
           </AnimateLink>
         </div>
@@ -82,16 +91,22 @@ const Navbar = () => {
           </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
-          {previousPath?.pathname === "/gallery" ? (
-            <button
-              onClick={signIn}
-              className="btn-small btn-red btn-hover-white"
+          {previousPath?.pathname === "/gallery" ||
+          previousPath?.pathname === "/privacy-and-policy" ||
+          previousPath?.pathname === "/terms-and-condition" ? (
+            <AnimateLink
+              to="/#sign-in"
+              // onClick={signIn}
+              className="btn-small btn-red btn-hover-white btn-sign-in"
+              // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
-                <span className="no-phone">Sign In</span>
+                <span className="no-phone">
+                  {pages?.homePageData?.signInButtonLabel}
+                </span>
               </div>
-            </button>
+            </AnimateLink>
           ) : (
             <button
               className="btn-small btn-red btn-hover-white btn-sign-in"
@@ -99,7 +114,9 @@ const Navbar = () => {
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
-                <span className="no-phone">Sign In</span>
+                <span className="no-phone">
+                  {pages?.homePageData?.signInButtonLabel}
+                </span>
               </div>
             </button>
           )}
@@ -123,15 +140,15 @@ const Navbar = () => {
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
-                {collectionFilter.map((data, index) => {
-                  const { name } = data;
+                {pages.collectionData?.map((data, index) => {
+                  const { collectionName } = data;
                   return (
                     <li
                       key={index}
-                      onClick={() => handleCollectionSelection(name)}
+                      onClick={() => handleCollectionSelection(collectionName)}
                     >
                       <span className="link-dropdown">
-                        <span>{name}</span>
+                        <span>{collectionName}</span>
                       </span>
                     </li>
                   );

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import AnimateLink from "../../components/AnimateLink";
 import createWixClient from "../../config/WixConfig";
-
-const CreateAccount = ({ data }) => {
+import ReCAPTCHA from 'react-google-recaptcha-enterprise';
+const CreateAccount = ({ data, dropdown }) => {
+  const [captcha, setCaptcha] = useState('');
   // const navigate = useNavigate();
   // const submit = (e) => {
   //   e.preventDefault();
@@ -30,19 +31,19 @@ const CreateAccount = ({ data }) => {
   const WixClient = createWixClient();
 
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    company: "",
-    phone: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-    hospitality_space: "",
+    first_name: '',
+    last_name: '',
+    company: '',
+    phone: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+    hospitality_space: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, name, "inputs");
+    console.log(value, name, 'inputs');
     setFormData({ ...formData, [name]: value });
   };
 
@@ -51,27 +52,26 @@ const CreateAccount = ({ data }) => {
     try {
       console.log(formData);
       const userData = {
-        loginEmail: "atta@gmail.com",
-        password: "123",
-        recaptchaToken: "skdgf78sydt48397yhusd",
+        loginEmail: formData.email,
+        password: formData.password,
+        recaptchaToken: captcha,
       };
       // const response = await WixClient.members.createMember(userData);
 
       const response = await WixClient.authentication.register(
         userData.loginEmail,
         userData.password,
-        userData.recaptchaToken
+        { recaptchaToken: captcha }
       );
 
       console.log(response);
     } catch (error) {
-      console.log("Error:", error);
+      console.log('Error:', error);
     }
   };
   return (
-    <div className="container-create-account d-none">
+    <div class="container-create-account d-none">
       <div className="container-account" data-form-container>
-        <button onClick={handleSubmit}>REGISTER</button>
         <form
           className="form-account form-create-account"
           onSubmit={handleSubmit}
@@ -187,10 +187,11 @@ const CreateAccount = ({ data }) => {
                     onChange={handleChange}
                     value={formData.hospitality_space}
                   >
-                    {data?.dropdownItems.map((data, index) => {
+                    {dropdown?.map((data, index) => {
+                      const { title } = data;
                       return (
                         <option key={index} value={data}>
-                          {data}
+                          {title}
                         </option>
                       );
                     })}
@@ -214,6 +215,14 @@ const CreateAccount = ({ data }) => {
             Error, Try again!
           </h3>
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
+            <ReCAPTCHA
+              // size="normal"
+              // ref={captchaRef}
+              sitekey={WixClient.auth.captchaVisibleSiteKey}
+              onChange={setCaptcha}
+            />
+          </div>
+          <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
               type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white mt-tablet-10 w-mobile-100"
@@ -228,14 +237,26 @@ const CreateAccount = ({ data }) => {
           Success!
         </h3>
       </div>
-      <p className="text-agree mt-lg-15 mt-mobile-20">
-        By continuing, you are agreeing with
-        <AnimateLink to="/terms-and-condition" className="btn-underlined-white">
-          <span> Blueprint Studios Terms & Conditions </span>
+      <p className="text-agree mt-lg-25 mt-mobile-30">
+        {data.disclaimer.nodes[0].nodes[0].textData.text}
+        <AnimateLink
+          to={
+            data?.disclaimer.nodes[0].nodes[1].textData.decorations[0].linkData
+              .link.url
+          }
+          className="btn-underlined-white"
+        >
+          <span>{data?.disclaimer.nodes[0].nodes[1].textData.text} </span>
         </AnimateLink>
-        and
-        <AnimateLink to="/privacy-and-policy" className="btn-underlined-white">
-          <span> Privacy Policy.</span>
+        {data.disclaimer.nodes[0].nodes[2].textData.text}
+        <AnimateLink
+          to={
+            data?.disclaimer.nodes[0].nodes[3].textData.decorations[0].linkData
+              .link.url
+          }
+          className="btn-underlined-white"
+        >
+          <span> {data.disclaimer.nodes[0].nodes[3].textData.text}</span>
         </AnimateLink>
       </p>
     </div>

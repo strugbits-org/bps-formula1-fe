@@ -1,23 +1,28 @@
 import { galleryPageData } from "../thunks/galleryPageThunk";
 import { createSlice } from "@reduxjs/toolkit";
-
+import {
+  homeBottomLeftLink,
+  homeBottomRightSocialLinks,
+} from "../thunks/homePageThunk";
 const initialState = {
-  status: "idle",
+  homeStatus: "idle",
+  galleryStatus: "idle",
+  userSignIn: false,
   pages: {},
   error: null,
 };
 
 export const gallerySlice = createSlice({
-  name: "data",
+  name: "gallery",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     const handlePending = (state) => {
-      state.status = "loading";
+      state.galleryStatus = "loading";
       state.error = null;
     };
     const handleRejected = (state, action) => {
-      state.status = "failed";
+      state.galleryStatus = "failed";
       state.error = action.error.message;
     };
 
@@ -25,16 +30,33 @@ export const gallerySlice = createSlice({
       //   GALLERY PAGE DATA
       .addCase(galleryPageData.pending, handlePending)
       .addCase(galleryPageData.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.galleryStatus = "succeeded";
         state.pages = {
           ...state.pages,
-          galleryPageData: {
-            ...state.pages.galleryPageData,
-            ...action.payload,
-          },
+          galleryPageData: action.payload,
         };
       })
-      .addCase(galleryPageData.rejected, handleRejected);
+      .addCase(galleryPageData.rejected, handleRejected)
+
+      .addCase(homeBottomLeftLink.pending, handlePending)
+      .addCase(homeBottomLeftLink.fulfilled, (state, action) => {
+        state.galleryStatus = "succeeded";
+        state.pages = {
+          ...state.pages,
+          bottomLinks: action.payload,
+        };
+      })
+      .addCase(homeBottomLeftLink.rejected, handleRejected)
+
+      .addCase(homeBottomRightSocialLinks.pending, handlePending)
+      .addCase(homeBottomRightSocialLinks.fulfilled, (state, action) => {
+        state.galleryStatus = "succeeded";
+        state.pages = {
+          ...state.pages,
+          bottomSocialLinks: action.payload,
+        };
+      })
+      .addCase(homeBottomRightSocialLinks.rejected, handleRejected);
   },
 });
 

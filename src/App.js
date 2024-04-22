@@ -4,23 +4,30 @@ import "./App.css";
 
 import Loader from "./components/Loader";
 import { Routes } from "./routes/Index";
+import { homePageData } from "./redux/thunks/homePageThunk";
+import { useAppDispatch, useAppSelector } from "./redux/hooks";
 
 function App() {
   const [userStatus] = useState(true);
-
+  const { userSignIn } = useAppSelector((state) => state.data);
   useEffect(() => {
-    const user = localStorage.getItem("userLoginStatus");
-    if (user === "logged-in") {
-      // setUserStatus(true);
+    // const user = localStorage.getItem("userLoginStatus");
+    if (userSignIn) {
       document.body.setAttribute("data-login-state", "logged");
+      // setUserStatus(true);
     }
-    if (user === "logged-out") {
+    if (!userSignIn) {
       // setUserStatus(false);
       document.body.setAttribute("data-home-state", "");
 
       // document.body.setAttribute("data-login-state", "sign-in");
     }
-  }, []);
+  }, [userSignIn]);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(homePageData());
+  }, [dispatch]);
 
   return (
     <div>

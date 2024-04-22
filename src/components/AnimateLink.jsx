@@ -1,38 +1,48 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
-const AnimateLink = ({ to, children, className }) => {
+const AnimateLink = ({ to, children, className, target, attributes }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const delayedRedirect = (e) => {
+    if (location.hash !== "") {
+      navigate(to);
+    }
+    if (to === undefined) {
+      return;
+    }
 
-  const navigationAnimation = (e) => {
-    try {
-      // Add animation class to trigger animation
-
+    if (location.pathname !== to) {
+      if (target === undefined) {
+        document.body.classList.add("page-leave-active");
+      } else {
+        window.open(to, target);
+        return;
+      }
+      setTimeout(() => {
+        navigate(to);
+      }, 900);
+    } else {
       document.body.classList.add("page-leave-active");
       setTimeout(() => {
-        document.body.classList.remove("page-leave-active");
+        window.scrollTo({ top: 0 });
         document.body.classList.add("page-enter-active");
+        document.body.classList.remove("page-leave-active");
+        setTimeout(() => {
+          document.body.classList.remove("page-enter-active");
+        }, 900);
       }, 900);
-
-      setTimeout(() => {
-        // Replace this with your navigation logic
-        navigate(to);
-        // window.location.href = to;
-        // Update the attribute after navigation if needed
-        // document.body.setAttribute("data-login-state", "logged");
-      }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
-      // document.querySelector(".initScript").click();
-
-      // navigate("/collections");
-      // document.body.setAttribute("data-login-state", "logged");
-      // e.preventDefault();
-    } catch (error) {
-      console.log("Error:", error);
     }
     e.preventDefault();
   };
   return (
-    <Link to={to} className={className} onClick={navigationAnimation}>
+    <Link
+      to={to}
+      target={target}
+      className={className}
+      onClick={delayedRedirect}
+      {...attributes}
+    >
       {children}
     </Link>
   );

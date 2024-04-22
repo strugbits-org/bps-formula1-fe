@@ -48,7 +48,50 @@ export const homeBottomLeftLink = createAsyncThunk(
       const { items: fetchHomeData } = await WixClient.items
         .queryDataItems(options)
         .find();
-      return fetchHomeData[0].data;
+      const desiredData = [];
+      for (let i = 0; i < fetchHomeData.length; i++) {
+        const element = fetchHomeData[i];
+        desiredData.push(element.data);
+      }
+      return desiredData;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+);
+
+
+// Privacy and Policy
+
+export const privacyAndPolicy = createAsyncThunk(
+  "data/privacyAndPolicy",
+  async () => {
+    try {
+      let options = {
+        dataCollectionId: "PrivacyandPolicyPageContent",
+      };
+      const { items: fetchHomeData } = await WixClient.items
+        .queryDataItems(options)
+        .find();
+      return fetchHomeData[0].data.content.nodes;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+);
+
+
+export const termsAndCondition = createAsyncThunk(
+  "data/termsAndCondition",
+  async () => {
+    try {
+      let options = {
+        dataCollectionId: "TermsAndConditions_f1",
+      };
+      const { items: fetchHomeData } = await WixClient.items
+        .queryDataItems(options)
+        .find();
+      return fetchHomeData[0].data.content.nodes;
     } catch (error) {
       throw new Error(error.message);
     }

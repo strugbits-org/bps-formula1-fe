@@ -1,8 +1,11 @@
 import AnimateLink from "../components/AnimateLink";
 import usePageInitialization from "../hooks/usePageInitialization";
+import { useAppSelector } from "../redux/hooks";
 
 const PrivacyAndPolicy = () => {
-  usePageInitialization("pg-privacy-policy", ".initScript");
+  const { pages } = useAppSelector((state) => state.data);
+
+  usePageInitialization("succeeded", "pg-privacy-policy", ".initScript");
 
   return (
     <section class="section-terms">
@@ -13,38 +16,34 @@ const PrivacyAndPolicy = () => {
               class="fs--30 text-center text-uppercase white-1 split-chars"
               data-aos="d:loop"
             >
-              Privacy Policy
+              {pages?.privacy[0].nodes[0].textData.text}
             </h1>
             <div
               class="editor mt-lg-50 mt-mobile-30"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              <h2>
-                Quid ei reliquisti, nisi te, quoquo modo loqueretur,
-                intellegere, quid diceret?
-              </h2>
+              <h2>{pages?.privacy[1].nodes[0].textData.text}</h2>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quis
-                est autem dignus nomine hominis, qui unum diem totum velit esse
-                in genere isto voluptatis? Vos autem cum perspicuis dubia
-                debeatis illustrare, dubiis perspicua conamini tollere. Et quae
-                per vim oblatum stuprum volontaria morte lueret inventa est et
-                qui interficeret filiam, ne stupraretur. Quodsi Graeci leguntur
-                a Graecis isdem de rebus alia ratione compositis, quid est, cur
-                nostri a nostris non legantur? Licet hic rursus ea commemores,
-                quae optimis verbis ab Epicuro de laude amicitiae dicta sunt. An
-                est aliquid, quod te sua sponte delectet? Duo Reges: constructio
-                interrete. Utrum enim sit voluptas in iis rebus, quas primas
-                secundum naturam esse diximus, necne sit ad id, quod agimus,
-                nihil interest. Princeps huius civitatis Phalereus Demetrius cum
-                patria pulsus esset iniuria, ad Ptolomaeum se regem Alexandream
-                contulit.
-                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
-                  Uterque enim summo bono fruitur, id est voluptate.
+                {pages?.privacy[2].nodes[0].textData.text}{" "}
+                <a
+                  href={
+                    pages?.privacy[2].nodes[1].textData?.decorations[0].linkData
+                      .link.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {pages?.privacy[2].nodes[1].textData.text}
                 </a>
               </p>
+
               <ol>
-                <li>Tibi hoc incredibile, quod beatissimum.</li>
+                {pages?.privacy[3].nodes.map((data, index) => {
+                  return (
+                    <li key={index}>{data.nodes[0].nodes[0].textData.text}</li>
+                  );
+                })}
+                {/* <li>Tibi hoc incredibile, quod beatissimum.</li>
                 <li>Addidisti ad extremum etiam indoctum fuisse.</li>
                 <li>
                   Praeclare enim Plato: Beatum, cui etiam in senectute
@@ -55,30 +54,41 @@ const PrivacyAndPolicy = () => {
                   Superiores tres erant, quae esse possent, quarum est una sola
                   defensa, eaque vehementer.
                 </li>
-                <li>Eadem nunc mea adversum te oratio est.</li>
+                <li>Eadem nunc mea adversum te oratio est.</li> */}
               </ol>
               <p>
-                <i>Nihilo magis.</i>
-                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
-                  Bork
+                <i>{pages?.privacy[4].nodes[0].textData.text}</i>
+                <a
+                  href={
+                    pages?.privacy[4].nodes[2].textData?.decorations[0].linkData
+                      .link.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {pages?.privacy[4].nodes[2].textData.text}
                 </a>
-                <i>Isto modo ne improbos quidem, si essent boni viri.</i>
-                Is ita vivebat, ut nulla tam exquisita posset inveniri voluptas,
-                qua non abundaret. Sed quoniam et advesperascit et mihi ad
-                villam revertendum est, nunc quidem hactenus; Qua tu etiam
-                inprudens utebare non numquam. Sapientem locupletat ipsa natura,
-                cuius divitias Epicurus parabiles esse docuit.
-                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
-                  Duarum enim vitarum nobis erunt instituta capienda.
+                <i>
+                  {pages?.privacy[4].nodes[4].textData.text}
+                  {pages?.privacy[4].nodes[5].textData.text}
+                </i>
+                <a
+                  href={
+                    pages?.privacy[4].nodes[6].textData?.decorations[0].linkData
+                      .link.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {pages?.privacy[4].nodes[6].textData.text}
                 </a>
               </p>
               <ul>
-                <li>Aufert enim sensus actionemque tollit omnem.</li>
-                <li>
-                  Nam quibus rebus efficiuntur voluptates, eae non sunt in
-                  potestate sapientis.
-                </li>
-                <li>Ille enim occurrentia nescio quae comminiscebatur;</li>
+                {pages?.privacy[5].nodes.map((data, index) => {
+                  return (
+                    <li key={index}>{data.nodes[0].nodes[0].textData.text}</li>
+                  );
+                })}
               </ul>
               <blockquote cite="http://loripsum.net">
                 Quid affers, cur Thorius, cur Caius Postumius, cur omnium horum
@@ -86,55 +96,36 @@ const PrivacyAndPolicy = () => {
               </blockquote>
               <dl>
                 <dt>
-                  <dfn>Bork</dfn>
+                  <dfn>{pages?.privacy[7].nodes[0].textData.text}</dfn>
                 </dt>
-                <dd>
-                  At quicum ioca seria, ut dicitur, quicum arcana, quicum
-                  occulta omnia?
-                </dd>
+                <dd>{pages?.privacy[8].nodes[0].textData.text}</dd>
                 <dt>
-                  <dfn>Scrupulum, inquam, abeunti;</dfn>
+                  <dfn>{pages?.privacy[9].nodes[0].textData.text}</dfn>
                 </dt>
-                <dd>
-                  Sit, inquam, tam facilis, quam vultis, comparatio voluptatis,
-                  quid de dolore dicemus?
-                </dd>
+                <dd>{pages?.privacy[10].nodes[0].textData.text}</dd>
               </dl>
-              <h3>Sit hoc ultimum bonorum, quod nunc a me defenditur;</h3>
+              <h3>{pages?.privacy[12].nodes[0].textData.text}</h3>
               <p>
-                Quibus autem in rebus tanta obscuratio non fit, fieri tamen
-                potest, ut id ipsum, quod interest, non sit magnum. Hunc igitur
-                finem illi tenuerunt, quodque ego pluribus verbis, illi brevius
-                secundum naturam vivere, hoc iis bonorum videbatur extremum.
-                Mihi quidem Homerus huius modi quiddam vidisse videatur in iis,
-                quae de Sirenum cantibus finxerit. Quare, quoniam de primis
-                naturae commodis satis dietum est nunc de maioribus
-                consequentibusque videamus. Multoque hoc melius nos veriusque
-                quam Stoici.
-                <b>
-                  Quantum Aristoxeni ingenium consumptum videmus in musicis?
-                </b>
-                <a href="http://loripsum.net/" target="_blank" rel="noreferrer">
-                  Quod equidem non reprehendo;
+                {pages?.privacy[14].nodes[0].textData.text}
+                <b>{pages?.privacy[14].nodes[1].textData.text}</b>
+                <a
+                  href={
+                    pages?.privacy[14].nodes[3].textData?.decorations[0]
+                      .linkData.link.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {pages?.privacy[14].nodes[3].textData.text}
                 </a>
-                Sed utrum hortandus es nobis, Luci, inquit, an etiam tua sponte
-                propensus es? Qui potest igitur habitare in beata vita summi
-                mali metus? Tum ego: Non mehercule, inquam, soleo temere contra
-                Stoicos, non quo illis admodum assentiar, sed pudore impedior;
-                Se omnia, quae secundum naturam sint, b o n a appellare, quae
-                autem contra, m a l a. Teneo, inquit, finem illi videri nihil
-                dolere. Itaque haec cum illis est dissensio, cum Peripateticis
-                nulla sane. Quibus natura iure responderit non esse verum
-                aliunde finem beate vivendi, a se principia rei gerendae peti;
-                Quae qui non vident, nihil umquam magnum ac cognitione dignum
-                amaverunt.
-                <i>Deinde dolorem quem maximum?</i>
+                {pages?.privacy[14].nodes[4].textData.text}
+                <i>{pages?.privacy[14].nodes[5].textData.text}</i>
               </p>
             </div>
             <div class="flex-center mt-50">
               <AnimateLink
                 to="/collections"
-                class="btn-small-wide btn-gray btn-hover-red"
+                className="btn-small-wide btn-gray btn-hover-red"
               >
                 <div class="split-chars">
                   <span>Back to collections</span>
@@ -152,13 +143,13 @@ const PrivacyAndPolicy = () => {
             class="no-mobile media"
             data-parallax-top
             data-translate-y="-20%"
-            alt="poduct"
+            alt="terms-1"
           />
           <img
             src="images/img-02.jpg"
             data-preload
             class="no-desktop media"
-            alt="poduct"
+            alt="terms-2"
           />
         </div>
       </div>

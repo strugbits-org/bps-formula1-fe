@@ -1,14 +1,27 @@
 import usePageInitialization from "../../hooks/usePageInitialization";
-import collectionImage from "../../images/gallery/img-09.jpg";
+// import collectionImage from "../../images/gallery/img-09.jpg";
 import AnimateLink from "../../components/AnimateLink";
-const CollectionData = [
-  { name: "Legacy collection", image: collectionImage },
-  { name: "Legacy collection", image: collectionImage },
-  { name: "Legacy collection", image: collectionImage },
-  { name: "Legacy collection", image: collectionImage },
-];
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+
+import RenderImage from "../../utils/RenderImage";
+import { collectionsData } from "../../redux/thunks/collections";
+import { useEffect } from "react";
+// const CollectionData = [
+//   { name: "Legacy collection", image: collectionImage },
+//   { name: "Legacy collection", image: collectionImage },
+//   { name: "Legacy collection", image: collectionImage },
+//   { name: "Legacy collection", image: collectionImage },
+// ];
 const Collections = () => {
-  usePageInitialization("pg-collections", ".initScript");
+  const { homeStatus, pages } = useAppSelector((state) => state.data);
+  console.log(homeStatus,'homeStatus>>');
+  usePageInitialization(homeStatus, "pg-collections", ".initScript",'.home');
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+   
+    dispatch(collectionsData());
+
+  }, [dispatch]);
 
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
@@ -25,18 +38,18 @@ const Collections = () => {
               className="list-other-collections grid-md-50 mt-30"
               data-aos="d:loop"
             >
-              {CollectionData.map((data, index) => {
-                const { name, image } = data;
+              {pages?.collectionData?.map((data, index) => {
+                const { collectionName, mainImage } = data;
                 return (
                   <li key={index} className="grid-item">
                     <AnimateLink
                       to="/collections-post"
                       className="collection-link large"
                     >
-                      <h3 className="collection-title">{name}</h3>
+                      <h3 className="collection-title">{collectionName}</h3>
                       <div className="container-img">
                         <img
-                          src={image}
+                          src={RenderImage(mainImage)}
                           data-preload
                           className="media"
                           alt="product"

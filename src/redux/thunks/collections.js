@@ -2,8 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import createWixClient from "../../config/WixConfig";
 
 const WixClient = createWixClient();
-
-export const galleryPageData = createAsyncThunk("data/galleryPageData", async () => {
+export const collectionsData = createAsyncThunk("data/collectionsData", async () => {
   try {
     let options = {
       dataCollectionId: "Collections_f1",
@@ -16,7 +15,7 @@ export const galleryPageData = createAsyncThunk("data/galleryPageData", async ()
       const element = collectionsItemData[i];
       desiredData.push(element.data);
     }
-    return desiredData;
+    return desiredData
   } catch (error) {
     throw new Error(error.message);
   }
