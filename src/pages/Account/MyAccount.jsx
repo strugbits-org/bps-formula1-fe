@@ -1,8 +1,12 @@
+import { useEffect } from "react";
 import usePageInitialization from "../../hooks/usePageInitialization";
+import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
 
 const MyAccount = () => {
-  usePageInitialization("pg-my-account", ".initScript");
-
+  usePageInitialization("succeeded", "pg-my-account", ".initScript");
+  useEffect(() => {
+    handleCollectionLoaded();
+  });
   return (
     <section className="my-account-intro section-my-account">
       <div className="container-fluid">

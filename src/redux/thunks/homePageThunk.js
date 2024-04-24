@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import createWixClient from "../../config/WixConfig";
+import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
 
 const WixClient = createWixClient();
 export const homeBottomRightSocialLinks = createAsyncThunk(
@@ -17,6 +18,7 @@ export const homeBottomRightSocialLinks = createAsyncThunk(
         const element = fetchHomeTopData[i];
         desiredData.push(element.data);
       }
+      handleCollectionLoaded();
       return desiredData;
     } catch (error) {
       throw new Error(error.message);
@@ -32,6 +34,8 @@ export const homePageData = createAsyncThunk("data/homePageData", async () => {
     const { items: fetchHomeData } = await WixClient.items
       .queryDataItems(options)
       .find();
+    handleCollectionLoaded();
+
     return fetchHomeData[0].data;
   } catch (error) {
     throw new Error(error.message);
@@ -53,13 +57,14 @@ export const homeBottomLeftLink = createAsyncThunk(
         const element = fetchHomeData[i];
         desiredData.push(element.data);
       }
+      handleCollectionLoaded();
+
       return desiredData;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 );
-
 
 // Privacy and Policy
 
@@ -73,13 +78,14 @@ export const privacyAndPolicy = createAsyncThunk(
       const { items: fetchHomeData } = await WixClient.items
         .queryDataItems(options)
         .find();
+      handleCollectionLoaded();
+      console.log(fetchHomeData, "fetchHomeData<><><>");
       return fetchHomeData[0].data.content.nodes;
     } catch (error) {
       throw new Error(error.message);
     }
   }
 );
-
 
 export const termsAndCondition = createAsyncThunk(
   "data/termsAndCondition",
@@ -91,6 +97,8 @@ export const termsAndCondition = createAsyncThunk(
       const { items: fetchHomeData } = await WixClient.items
         .queryDataItems(options)
         .find();
+      handleCollectionLoaded();
+
       return fetchHomeData[0].data.content.nodes;
     } catch (error) {
       throw new Error(error.message);

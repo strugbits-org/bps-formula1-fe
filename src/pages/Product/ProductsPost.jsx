@@ -68,7 +68,9 @@ const productImages = [
 ];
 
 const ProductPost = () => {
+  const status = 'succeeded';
   usePageInitialization(
+    status,
     'pg-products-post',
     '.initScript',
     '.productsPost',

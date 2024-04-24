@@ -1,27 +1,28 @@
 import usePageInitialization from "../../hooks/usePageInitialization";
-// import collectionImage from "../../images/gallery/img-09.jpg";
 import AnimateLink from "../../components/AnimateLink";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import RenderImage from "../../utils/RenderImage";
 import { collectionsData } from "../../redux/thunks/collections";
 import { useEffect } from "react";
-// const CollectionData = [
-//   { name: "Legacy collection", image: collectionImage },
-//   { name: "Legacy collection", image: collectionImage },
-//   { name: "Legacy collection", image: collectionImage },
-//   { name: "Legacy collection", image: collectionImage },
-// ];
+
 const Collections = () => {
-  const { homeStatus, pages } = useAppSelector((state) => state.data);
-  console.log(homeStatus,'homeStatus>>');
-  usePageInitialization(homeStatus, "pg-collections", ".initScript",'.home');
+  const { collectionsStatus, pages } = useAppSelector(
+    (state) => state.collections
+  );
+
   const dispatch = useAppDispatch();
   useEffect(() => {
-   
     dispatch(collectionsData());
-
   }, [dispatch]);
+
+  // Initialize page
+  usePageInitialization(
+    collectionsStatus,
+    "pg-collections",
+    ".initScript"
+    // ".home"
+  );
 
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
@@ -38,27 +39,30 @@ const Collections = () => {
               className="list-other-collections grid-md-50 mt-30"
               data-aos="d:loop"
             >
-              {pages?.collectionData?.map((data, index) => {
-                const { collectionName, mainImage } = data;
-                return (
-                  <li key={index} className="grid-item">
-                    <AnimateLink
-                      to="/collections-post"
-                      className="collection-link large"
-                    >
-                      <h3 className="collection-title">{collectionName}</h3>
-                      <div className="container-img">
-                        <img
-                          src={RenderImage(mainImage)}
-                          data-preload
-                          className="media"
-                          alt="product"
-                        />
-                      </div>
-                    </AnimateLink>
-                  </li>
-                );
-              })}
+              {pages &&
+                collectionsStatus === "succeeded" &&
+                pages["collectionData"].length &&
+                pages["collectionData"].map((data, index) => {
+                  const { collectionName, mainImage } = data;
+                  return (
+                    <li key={index} className="grid-item">
+                      <AnimateLink
+                        to="/collections-post"
+                        className="collection-link large"
+                      >
+                        <h3 className="collection-title">{collectionName}</h3>
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(mainImage)}
+                            data-preload
+                            className="media"
+                            alt="product"
+                          />
+                        </div>
+                      </AnimateLink>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

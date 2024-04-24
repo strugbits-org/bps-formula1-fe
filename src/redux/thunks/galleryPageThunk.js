@@ -1,25 +1,26 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import createWixClient from "../../config/WixConfig";
+import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
 
 const WixClient = createWixClient();
 
-export const galleryPageData = createAsyncThunk("data/galleryPageData", async () => {
-  try {
-    let options = {
-      dataCollectionId: "Collections_f1",
-    };
-    const { items: collectionsItemData } = await WixClient.items
-      .queryDataItems(options)
-      .find();
-    const desiredData = [];
-    for (let i = 0; i < collectionsItemData.length; i++) {
-      const element = collectionsItemData[i];
-      desiredData.push(element.data);
+export const galleryPageData = createAsyncThunk(
+  "data/galleryPageData",
+  async () => {
+    try {
+      let options = {
+        dataCollectionId: "GalleryPage_f1",
+      };
+      const { items: collectionsItemData } = await WixClient.items
+        .queryDataItems(options)
+        .find();
+
+      handleCollectionLoaded();
+      return collectionsItemData[0].data;
+    } catch (error) {
+      throw new Error(error.message);
     }
-    return desiredData;
-  } catch (error) {
-    throw new Error(error.message);
   }
-});
+);
 
 

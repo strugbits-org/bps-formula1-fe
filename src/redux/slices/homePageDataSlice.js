@@ -12,12 +12,16 @@ import {
   signInForm,
   signInUser,
 } from "../thunks/registrationPageThunk";
-import { collectionsData } from "../thunks/collections";
 
 const initialState = {
   homeStatus: "idle",
   galleryStatus: "idle",
-  userSignIn: false,
+  collectionsStatus: "idle",
+  privacyAndPolicyState: "idle",
+  termsAndConditionState: "idle",
+  loginStatus: "idle",
+  loginError: null,
+  user: false,
   pages: {},
   error: null,
 };
@@ -37,10 +41,17 @@ export const dataSlice = createSlice({
     };
 
     builder
-      .addCase(signInUser.rejected, handleRejected)
-      .addCase(signInUser.pending, handlePending)
+      .addCase(signInUser.pending, (state) => {
+        state.loginStatus = "loading";
+        state.loginError = null;
+      })
       .addCase(signInUser.fulfilled, (state, action) => {
-        state.userSignIn = true;
+        state.loginStatus = "succeeded";
+        state.user = true;
+      })
+      .addCase(signInUser.rejected, (state, action) => {
+        state.loginStatus = "failed";
+        state.loginError = JSON.parse(action.error.message);
       })
 
       // HOME DATA
@@ -110,7 +121,7 @@ export const dataSlice = createSlice({
       //   Privacy
       .addCase(privacyAndPolicy.pending, handlePending)
       .addCase(privacyAndPolicy.fulfilled, (state, action) => {
-        state.homeStatus = "succeeded";
+        state.privacyAndPolicyState = "succeeded";
         state.pages = state.pages = {
           ...state.pages,
           privacy: action.payload,
@@ -120,24 +131,13 @@ export const dataSlice = createSlice({
 
       .addCase(termsAndCondition.pending, handlePending)
       .addCase(termsAndCondition.fulfilled, (state, action) => {
-        state.homeStatus = "succeeded";
+        state.termsAndConditionState = "succeeded";
         state.pages = state.pages = {
           ...state.pages,
           terms: action.payload,
         };
       })
-      .addCase(termsAndCondition.rejected, handleRejected)
-
-      //   Collections DATA
-      .addCase(collectionsData.pending, handlePending)
-      .addCase(collectionsData.fulfilled, (state, action) => {
-        state.homeStatus = "succeeded";
-        state.pages = state.pages = {
-          ...state.pages,
-          collectionData: action.payload,
-        };
-      })
-      .addCase(collectionsData.rejected, handleRejected);
+      .addCase(termsAndCondition.rejected, handleRejected);
   },
 });
 

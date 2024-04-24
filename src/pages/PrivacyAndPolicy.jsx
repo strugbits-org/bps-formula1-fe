@@ -1,11 +1,25 @@
+import { useEffect } from "react";
 import AnimateLink from "../components/AnimateLink";
 import usePageInitialization from "../hooks/usePageInitialization";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { privacyAndPolicy } from "../redux/thunks/homePageThunk";
 
 const PrivacyAndPolicy = () => {
-  const { pages } = useAppSelector((state) => state.data);
+  const { privacyAndPolicyState, pages } = useAppSelector(
+    (state) => state.data
+  );
 
-  usePageInitialization("succeeded", "pg-privacy-policy", ".initScript");
+  console.log(pages, "pages>>");
+  usePageInitialization(
+    privacyAndPolicyState,
+    "pg-privacy-policy",
+    ".initScript"
+  );
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(privacyAndPolicy());
+  }, [dispatch]);
 
   return (
     <section class="section-terms">
@@ -16,110 +30,171 @@ const PrivacyAndPolicy = () => {
               class="fs--30 text-center text-uppercase white-1 split-chars"
               data-aos="d:loop"
             >
-              {pages?.privacy[0].nodes[0].textData.text}
+              {pages &&
+                privacyAndPolicyState === "succeeded" &&
+                pages?.privacy[0].nodes[0].textData.text}
             </h1>
             <div
               class="editor mt-lg-50 mt-mobile-30"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              <h2>{pages?.privacy[1].nodes[0].textData.text}</h2>
+              <h2>
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[1].nodes[0].textData.text}
+              </h2>
               <p>
-                {pages?.privacy[2].nodes[0].textData.text}{" "}
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[2].nodes[0].textData.text}{" "}
                 <a
                   href={
+                    pages &&
+                    privacyAndPolicyState === "succeeded" &&
                     pages?.privacy[2].nodes[1].textData?.decorations[0].linkData
                       .link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {pages?.privacy[2].nodes[1].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[2].nodes[1].textData.text}
                 </a>
               </p>
 
               <ol>
-                {pages?.privacy[3].nodes.map((data, index) => {
-                  return (
-                    <li key={index}>{data.nodes[0].nodes[0].textData.text}</li>
-                  );
-                })}
-                {/* <li>Tibi hoc incredibile, quod beatissimum.</li>
-                <li>Addidisti ad extremum etiam indoctum fuisse.</li>
-                <li>
-                  Praeclare enim Plato: Beatum, cui etiam in senectute
-                  contigerit, ut sapientiam verasque opiniones assequi possit.
-                </li>
-                <li>Et non ex maxima parte de tota iudicabis?</li>
-                <li>
-                  Superiores tres erant, quae esse possent, quarum est una sola
-                  defensa, eaque vehementer.
-                </li>
-                <li>Eadem nunc mea adversum te oratio est.</li> */}
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[3].nodes.map((data, index) => {
+                    return (
+                      <li key={index}>
+                        {data.nodes[0].nodes[0].textData.text}
+                      </li>
+                    );
+                  })}
               </ol>
               <p>
-                <i>{pages?.privacy[4].nodes[0].textData.text}</i>
+                <i>
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[4].nodes[0].textData.text}
+                </i>
                 <a
                   href={
+                    pages &&
+                    privacyAndPolicyState === "succeeded" &&
                     pages?.privacy[4].nodes[2].textData?.decorations[0].linkData
                       .link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {pages?.privacy[4].nodes[2].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[4].nodes[2].textData.text}
                 </a>
                 <i>
-                  {pages?.privacy[4].nodes[4].textData.text}
-                  {pages?.privacy[4].nodes[5].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[4].nodes[4].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[4].nodes[5].textData.text}
                 </i>
                 <a
                   href={
+                    pages &&
+                    privacyAndPolicyState === "succeeded" &&
                     pages?.privacy[4].nodes[6].textData?.decorations[0].linkData
                       .link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {pages?.privacy[4].nodes[6].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[4].nodes[6].textData.text}
                 </a>
               </p>
               <ul>
-                {pages?.privacy[5].nodes.map((data, index) => {
-                  return (
-                    <li key={index}>{data.nodes[0].nodes[0].textData.text}</li>
-                  );
-                })}
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[5].nodes.map((data, index) => {
+                    return (
+                      <li key={index}>
+                        {data.nodes[0].nodes[0].textData.text}
+                      </li>
+                    );
+                  })}
               </ul>
               <blockquote cite="http://loripsum.net">
-                Quid affers, cur Thorius, cur Caius Postumius, cur omnium horum
-                magister, Orata, non iucundissime vixerit?
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[7].nodes[0].textData.text}
               </blockquote>
               <dl>
                 <dt>
-                  <dfn>{pages?.privacy[7].nodes[0].textData.text}</dfn>
+                  <dfn>
+                    {pages &&
+                      privacyAndPolicyState === "succeeded" &&
+                      pages?.privacy[9].nodes[0].textData.text}
+                  </dfn>
                 </dt>
-                <dd>{pages?.privacy[8].nodes[0].textData.text}</dd>
+                <dd>
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[10].nodes[0].textData.text}
+                </dd>
                 <dt>
-                  <dfn>{pages?.privacy[9].nodes[0].textData.text}</dfn>
+                  <dfn>
+                    {pages &&
+                      privacyAndPolicyState === "succeeded" &&
+                      pages?.privacy[11].nodes[0].textData.text}
+                  </dfn>
                 </dt>
-                <dd>{pages?.privacy[10].nodes[0].textData.text}</dd>
+                <dd>
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[12].nodes[0].textData.text}
+                </dd>
               </dl>
-              <h3>{pages?.privacy[12].nodes[0].textData.text}</h3>
+              <h3>
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[14].nodes[0].textData.text}
+              </h3>
               <p>
-                {pages?.privacy[14].nodes[0].textData.text}
-                <b>{pages?.privacy[14].nodes[1].textData.text}</b>
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[16].nodes[0].textData.text}
+                <b>
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[16].nodes[1].textData.text}
+                </b>
                 <a
                   href={
-                    pages?.privacy[14].nodes[3].textData?.decorations[0]
+                    pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[16].nodes[3].textData?.decorations[0]
                       .linkData.link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {pages?.privacy[14].nodes[3].textData.text}
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[16].nodes[3].textData.text}
                 </a>
-                {pages?.privacy[14].nodes[4].textData.text}
-                <i>{pages?.privacy[14].nodes[5].textData.text}</i>
+                {pages &&
+                  privacyAndPolicyState === "succeeded" &&
+                  pages?.privacy[16].nodes[4].textData.text}
+                <i>
+                  {pages &&
+                    privacyAndPolicyState === "succeeded" &&
+                    pages?.privacy[16].nodes[5].textData.text}
+                </i>
               </p>
             </div>
             <div class="flex-center mt-50">

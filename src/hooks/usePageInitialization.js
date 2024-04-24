@@ -5,8 +5,7 @@ function usePageInitialization(
   pageName,
   initialClickSelector,
   secondaryClickSelector,
-  tertiaryClickSelector,
-  quaternaryClickSelector
+  tertiaryClickSelector
 ) {
   useEffect(() => {
     if (status === "succeeded") {
@@ -46,7 +45,7 @@ function usePageInitialization(
             );
           }
         }
-      }, 500);
+      }, 800);
     }
   }, [
     status,
@@ -54,7 +53,6 @@ function usePageInitialization(
     initialClickSelector,
     secondaryClickSelector,
     tertiaryClickSelector,
-    quaternaryClickSelector,
   ]);
 }
 

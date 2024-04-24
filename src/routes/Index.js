@@ -6,7 +6,6 @@ import { renderRoutes } from "./generate-routes";
 // Pages
 
 import CollectionsCategory from "../pages/Collection/CollectionsCategory";
-import CollectionsPost from "../pages/Collection/CollectionsPost";
 import ChangePassword from "../pages/Account/ChangePassword";
 import QuotesHistory from "../pages/Account/QuotesHistory";
 import TermsAndCondition from "../pages/TermsAndCondition";
@@ -22,11 +21,18 @@ import Gallery from "../pages/Gallery";
 import Home from "../pages/Home/Home";
 import Search from "../pages/Search";
 import Cart from "../pages/Cart";
+import CollectionsPost from "../pages/Collection/CollectionsPost";
 
 export const routes = [
   {
     layout: AnonymousLayout,
     routes: [
+      {
+        name: "Home",
+        title: "Home page",
+        component: Home,
+        path: "/",
+      },
       {
         name: "Privacy and Policy",
         title: "Privacy and Policy page",

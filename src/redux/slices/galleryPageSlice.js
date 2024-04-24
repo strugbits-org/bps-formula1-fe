@@ -4,6 +4,7 @@ import {
   homeBottomLeftLink,
   homeBottomRightSocialLinks,
 } from "../thunks/homePageThunk";
+import { collectionsData } from "../thunks/collections";
 const initialState = {
   homeStatus: "idle",
   galleryStatus: "idle",
@@ -28,6 +29,17 @@ export const gallerySlice = createSlice({
 
     builder
       //   GALLERY PAGE DATA
+
+      .addCase(collectionsData.pending, handlePending)
+      .addCase(collectionsData.fulfilled, (state, action) => {
+        state.galleryStatus = "succeeded";
+        state.pages = {
+          ...state.pages,
+          collectionsData: action.payload,
+        };
+      })
+      .addCase(collectionsData.rejected, handleRejected)
+
       .addCase(galleryPageData.pending, handlePending)
       .addCase(galleryPageData.fulfilled, (state, action) => {
         state.galleryStatus = "succeeded";

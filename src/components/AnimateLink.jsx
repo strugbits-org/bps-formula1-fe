@@ -1,40 +1,37 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { pageLoadFinished, pageLoadStart } from "../utils/AnimationFunctions";
+import { resetCount } from "../utils/CollectionsLoader";
 
 const AnimateLink = ({ to, children, className, target, attributes }) => {
   const navigate = useNavigate();
   const location = useLocation();
+
   const delayedRedirect = (e) => {
+    e.preventDefault();
     if (location.hash !== "") {
       navigate(to);
     }
-    if (to === undefined) {
+
+    if (to === undefined) return;
+
+    if (location.pathname === to) {
+      pageLoadStart();
+      setTimeout(() => pageLoadFinished(), 900);
       return;
     }
 
-    if (location.pathname !== to) {
-      if (target === undefined) {
-        document.body.classList.add("page-leave-active");
-      } else {
-        window.open(to, target);
-        return;
-      }
+    if (target === undefined) {
+      pageLoadStart();
       setTimeout(() => {
+        resetCount();
         navigate(to);
       }, 900);
     } else {
-      document.body.classList.add("page-leave-active");
-      setTimeout(() => {
-        window.scrollTo({ top: 0 });
-        document.body.classList.add("page-enter-active");
-        document.body.classList.remove("page-leave-active");
-        setTimeout(() => {
-          document.body.classList.remove("page-enter-active");
-        }, 900);
-      }, 900);
+      window.open(to, target);
     }
-    e.preventDefault();
   };
+
   return (
     <Link
       to={to}

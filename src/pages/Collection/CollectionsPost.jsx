@@ -1,5 +1,7 @@
 import usePageInitialization from "../../hooks/usePageInitialization";
 import AnimateLink from "../../components/AnimateLink";
+import { useEffect } from "react";
+import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
 
 const collectionImages = [
   "images/gallery/img-05.jpg",
@@ -10,12 +12,18 @@ const collectionImages = [
   "images/gallery/img-09.jpg",
 ];
 
-const CollectionPost = () => {
+const CollectionsPost = () => {
+  const status = "succeeded";
   usePageInitialization(
+    status,
     "pg-collections-post",
     ".initScript",
     ".galleryLightBox"
   );
+
+  useEffect(() => {
+    handleCollectionLoaded();
+  });
 
   return (
     <div>
@@ -145,4 +153,4 @@ const CollectionPost = () => {
   );
 };
 
-export default CollectionPost;
+export default CollectionsPost;

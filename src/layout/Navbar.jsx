@@ -8,7 +8,7 @@ import { useAppSelector } from "../redux/hooks";
 const Navbar = () => {
   const navigate = useNavigate();
   const { pages } = useAppSelector((state) => state.data);
-  // usePageInitialization(status, "pg-home", ".initScript", ".home");
+  // usePageInitialization(homeStatus, "pg-home", ".initScript", ".home");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
@@ -18,21 +18,14 @@ const Navbar = () => {
   const location = useLocation();
   const [previousPath, setPreviousPath] = useState(null);
 
-  // useEffect(() => {
-  //   if (status === "succeeded") {
-  //     console.log(status, "Navbar status>>>>>");
-  //     setTimeout(() => {
-  //       document.body.dataset.pg = "pg-home";
-  //       document.querySelector(".initScript").click();
-  //       document.querySelector(".home").click();
-  //     }, 1000);
-  //   }
-  // }, [status]);
   useEffect(() => {
-    // Store the previous path when the location changes
     if (location) {
       setPreviousPath(location);
-      if (location.pathname === "/" && location.hash !== "#sign-in") {
+      if (
+        location.pathname === "/" &&
+        location.hash !== "#sign-in" &&
+        location.hash !== "#create-account"
+      ) {
         document.body.setAttribute("data-home-state", "");
       }
     }
@@ -71,6 +64,14 @@ const Navbar = () => {
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
         <div className="container-h-1 order-phone-2 mr-phone-10">
+          {/* <a
+            href="gallery.html"
+            class="btn-small btn-dark btn-hover-white-black"
+          >
+            <div class="split-chars">
+              <span>Gallery</span>
+            </div>
+          </a> */}
           <AnimateLink
             to={pages?.homePageData?.galleryButtonAction}
             className="btn-small btn-dark btn-hover-white-black"

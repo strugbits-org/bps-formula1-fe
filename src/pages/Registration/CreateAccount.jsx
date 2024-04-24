@@ -3,47 +3,26 @@ import AnimateLink from "../../components/AnimateLink";
 import createWixClient from "../../config/WixConfig";
 import ReCAPTCHA from 'react-google-recaptcha-enterprise';
 const CreateAccount = ({ data, dropdown }) => {
-  const [captcha, setCaptcha] = useState('');
-  // const navigate = useNavigate();
-  // const submit = (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     localStorage.setItem("userLoginStatus", true);
-  //     document.body.setAttribute("data-login-state", "logged");
-  //     document.body.classList.add("page-leave-active");
-  //     setTimeout(() => {
-  //       document.body.classList.remove("page-leave-active");
-  //       document.body.classList.add("page-enter-active");
-  //     }, 900);
-
-  //     setTimeout(() => {
-  //       // Replace this with your navigation logic
-  //       navigate("/collections");
-  //       // window.location.href = to;
-  //       // Update the attribute after navigation if needed
-  //       // document.body.setAttribute("data-login-state", "logged");
-  //     }, 1000); // Adjust the timeout accordingly (animation duration + additional delay)
-  //     // document.querySelector(".initScript").click();
-  //   } catch (error) {
-  //     console.log("Error:", error);
-  //   }
-  // };
+  const [captcha, setCaptcha] = useState("");
   const WixClient = createWixClient();
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [message, setMessage] = useState("");
 
   const [formData, setFormData] = useState({
-    first_name: '',
-    last_name: '',
-    company: '',
-    phone: '',
-    email: '',
-    password: '',
-    confirm_password: '',
-    hospitality_space: '',
+    first_name: "",
+    last_name: "",
+    company: "",
+    phone: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+    hospitality_space: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, name, 'inputs');
+    console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
 
@@ -63,15 +42,32 @@ const CreateAccount = ({ data, dropdown }) => {
         userData.password,
         { recaptchaToken: captcha }
       );
-
+      if (response) {
+        setMessage("success");
+      }
+      if (response.success) {
+        setSuccessMessageVisible(true);
+        setErrorMessageVisible(false);
+      } else {
+        setSuccessMessageVisible(false);
+        setErrorMessageVisible(true);
+      }
       console.log(response);
     } catch (error) {
-      console.log('Error:', error);
+      setMessage("error");
+
+      console.log("Error:", error);
+      setSuccessMessageVisible(false);
+      setErrorMessageVisible(true);
     }
   };
   return (
     <div class="container-create-account d-none">
-      <div className="container-account" data-form-container>
+      <div
+        className="container-account"
+        data-form-container
+        data-form-state={message}
+      >
         <form
           className="form-account form-create-account"
           onSubmit={handleSubmit}
@@ -211,17 +207,16 @@ const CreateAccount = ({ data, dropdown }) => {
               </div>
             </div>
           </div>
+          {errorMessageVisible && <h3>Error, Try again!</h3>}
           <h3 data-aos="fadeIn" data-form-error>
             Error, Try again!
           </h3>
-          <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
+          {/* <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <ReCAPTCHA
-              // size="normal"
-              // ref={captchaRef}
               sitekey={WixClient.auth.captchaVisibleSiteKey}
               onChange={setCaptcha}
             />
-          </div>
+          </div> */}
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
               type="submit"
@@ -233,6 +228,7 @@ const CreateAccount = ({ data, dropdown }) => {
             </button>
           </div>
         </form>
+        {successMessageVisible && <h3>Success!</h3>}
         <h3 data-aos="fadeIn" data-form-success>
           Success!
         </h3>

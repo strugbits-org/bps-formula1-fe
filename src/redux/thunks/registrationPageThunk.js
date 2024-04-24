@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import createWixClient from "../../config/WixConfig";
+import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
 
 const WixClient = createWixClient();
 export const signInForm = createAsyncThunk("data/signInForm", async () => {
@@ -10,6 +11,8 @@ export const signInForm = createAsyncThunk("data/signInForm", async () => {
     const { items: fetchSignInPageData } = await WixClient.items
       .queryDataItems(options)
       .find();
+    handleCollectionLoaded();
+
     return fetchSignInPageData[0].data;
   } catch (error) {
     throw new Error(error.message);
@@ -26,6 +29,8 @@ export const createAccountForm = createAsyncThunk(
       const { items: fetchSignInPageData } = await WixClient.items
         .queryDataItems(options)
         .find();
+      handleCollectionLoaded();
+
       return fetchSignInPageData[0].data;
     } catch (error) {
       throw new Error(error.message);
@@ -48,6 +53,8 @@ export const createAccountDropdown = createAsyncThunk(
         const element = fetchSignInPageData[i];
         desiredData.push(element.data);
       }
+      handleCollectionLoaded();
+
       return desiredData;
     } catch (error) {
       throw new Error(error.message);
@@ -55,6 +62,7 @@ export const createAccountDropdown = createAsyncThunk(
   }
 );
 
+// User Sign In
 export const signInUser = createAsyncThunk(
   "data/signInUser",
   async (userData) => {
@@ -68,7 +76,7 @@ export const signInUser = createAsyncThunk(
       }
       return response;
     } catch (error) {
-      throw new Error(error.message);
+      throw Error(error.message);
     }
   }
 );

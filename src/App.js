@@ -9,20 +9,20 @@ import { useAppDispatch, useAppSelector } from "./redux/hooks";
 
 function App() {
   const [userStatus] = useState(true);
-  const { userSignIn } = useAppSelector((state) => state.data);
+  const { user } = useAppSelector((state) => state.data);
   useEffect(() => {
     // const user = localStorage.getItem("userLoginStatus");
-    if (userSignIn) {
+    if (user) {
       document.body.setAttribute("data-login-state", "logged");
       // setUserStatus(true);
     }
-    if (!userSignIn) {
+    if (!user) {
       // setUserStatus(false);
       document.body.setAttribute("data-home-state", "");
 
       // document.body.setAttribute("data-login-state", "sign-in");
     }
-  }, [userSignIn]);
+  }, [user]);
 
   const dispatch = useAppDispatch();
   useEffect(() => {

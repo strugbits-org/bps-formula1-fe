@@ -3,10 +3,14 @@ import AnimateLink from '../../components/AnimateLink';
 import { useEffect, useState } from "react";
 import { signInUser } from "../../redux/thunks/registrationPageThunk";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { AnimationFunction } from "../../utils/AnimationFunctions";
 
 const SignIn = ({ data }) => {
   const navigate = useNavigate();
-  const { userSignIn } = useAppSelector((state) => state.data);
+  const { loginError, loginStatus, user } = useAppSelector(
+    (state) => state.data
+  );
+  console.log(loginError, loginStatus, user, "signin");
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,8 +36,16 @@ const SignIn = ({ data }) => {
   };
 
   useEffect(() => {
-    if (userSignIn) navigate("/collections");
-  }, [userSignIn, navigate]);
+    if (loginError !== null) {
+      document.body.setAttribute("data-form-cart-state", "success");
+    }
+    if (user) {
+      AnimationFunction();
+      setTimeout(() => {
+        navigate("/collections");
+      }, 1000);
+    }
+  }, [user, loginError, navigate]);
 
   return (
     <div className="container-sign-in">
@@ -70,7 +82,6 @@ const SignIn = ({ data }) => {
             </div>
           </div>
           <div className="container-submit col-12 mt-mobile-10">
-            {/* <button type="submit">Submit</button> */}
             <button
               type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
@@ -89,20 +100,22 @@ const SignIn = ({ data }) => {
       <p className="text-agree mt-lg-25 mt-mobile-30">
         {data.richcontent.nodes[0].nodes[0].textData.text}
         <AnimateLink
-          to={
-            data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData
-              .link.url
-          }
+          to={data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData.link.url.substring(
+            data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData.link.url.lastIndexOf(
+              "/"
+            ) + 1
+          )}
           className="btn-underlined-white"
         >
           <span>{data?.richcontent.nodes[0].nodes[1].textData.text} </span>
         </AnimateLink>
         {data.richcontent.nodes[0].nodes[2].textData.text}
         <AnimateLink
-          to={
-            data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData
-              .link.url
-          }
+          to={data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData.link.url.substring(
+            data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData.link.url.lastIndexOf(
+              "/"
+            ) + 1
+          )}
           className="btn-underlined-white"
         >
           <span> {data.richcontent.nodes[0].nodes[3].textData.text}</span>
@@ -114,12 +127,15 @@ const SignIn = ({ data }) => {
     <AnimateLink to="/privacy-and-policy" className="btn-underlined-white">
       <span>Privacy</span>
     </AnimateLink> */}
-      <button
-        // onClick={create}
-        class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25"
-      >
+      {/* <button class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
         <div className="split-chars">
           <span>{data?.createAccountButtonText}</span>
+        </div>
+      </button> */}
+
+      <button class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
+        <div class="split-chars">
+          <span>Create your account</span>
         </div>
       </button>
     </div>

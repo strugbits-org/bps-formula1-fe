@@ -8,8 +8,6 @@ import {
   homeBottomLeftLink,
   homeBottomRightSocialLinks,
   homePageData,
-  privacyAndPolicy,
-  termsAndCondition,
 } from "../../redux/thunks/homePageThunk";
 import RenderImage from "../../utils/RenderImage";
 import RenderVideo from "../../utils/RenderVideo";
@@ -19,38 +17,28 @@ import {
   createAccountForm,
   signInForm,
 } from "../../redux/thunks/registrationPageThunk";
-import { collectionsData } from "../../redux/thunks/collections";
+import ErrorModal from "../../components/ErrorModal";
 
 const Home = () => {
   const { homeStatus, pages } = useAppSelector((state) => state.data);
-
-  usePageInitialization(homeStatus, "pg-home", ".initScript", ".home");
   const dispatch = useAppDispatch();
   useEffect(() => {
-    // if (status === "succeeded") {
-    //   setTimeout(() => {
-    //     document.body.dataset.pg = "pg-home";
-    //     document.querySelector(".initScript").click();
-    //     document.querySelector(".home").click();
-    //   }, 500);
-    // }
     dispatch(homePageData());
     dispatch(homeBottomRightSocialLinks());
     dispatch(homeBottomLeftLink());
     dispatch(signInForm());
     dispatch(createAccountForm());
-    dispatch(privacyAndPolicy());
     dispatch(createAccountDropdown());
-    dispatch(termsAndCondition());
-    dispatch(collectionsData());
-
   }, [dispatch]);
 
+  usePageInitialization(homeStatus, "pg-home", ".initScript", ".home");
   return (
     <section
       className="home-intro home-sign-in section-intro"
       data-aos="d:loop"
     >
+      <ErrorModal message={"loginError"} />
+
       <div className="container-fluid pos-relative z-5">
         <div className="row">
           <div className="col-lg-12 column-form">
