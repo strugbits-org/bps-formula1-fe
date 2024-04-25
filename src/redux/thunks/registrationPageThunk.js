@@ -81,4 +81,25 @@ export const signInUser = createAsyncThunk(
   }
 );
 
+export const createAccount = createAsyncThunk(
+  "data/createAccount",
+  async (userData) => {
+    try {
+      console.log(userData, "userData>>");
+      const response = await WixClient.authentication.register(
+        userData.loginEmail,
+        userData.password,
+        { recaptchaToken: userData.recaptchaToken }
+      );
+
+      if (response) {
+        console.log(response);
+      }
+      return response;
+    } catch (error) {
+      throw Error(error.message);
+    }
+  }
+);
+
 

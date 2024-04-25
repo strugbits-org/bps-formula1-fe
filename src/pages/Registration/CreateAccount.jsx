@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AnimateLink from "../../components/AnimateLink";
 import createWixClient from "../../config/WixConfig";
-import ReCAPTCHA from 'react-google-recaptcha-enterprise';
+import ReCAPTCHA from "react-google-recaptcha-enterprise";
+import { createAccount } from "../../redux/thunks/registrationPageThunk";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 const CreateAccount = ({ data, dropdown }) => {
   const [captcha, setCaptcha] = useState("");
   const WixClient = createWixClient();
+
+  const { createAccountStatus, createAccountError, user } = useAppSelector(
+    (state) => state.data
+  );
+  console.log(createAccountStatus, createAccountError, user, "create account");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("");
@@ -25,6 +32,7 @@ const CreateAccount = ({ data, dropdown }) => {
     console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,23 +44,24 @@ const CreateAccount = ({ data, dropdown }) => {
         recaptchaToken: captcha,
       };
       // const response = await WixClient.members.createMember(userData);
+      dispatch(createAccount(userData));
 
-      const response = await WixClient.authentication.register(
-        userData.loginEmail,
-        userData.password,
-        { recaptchaToken: captcha }
-      );
-      if (response) {
-        setMessage("success");
-      }
-      if (response.success) {
-        setSuccessMessageVisible(true);
-        setErrorMessageVisible(false);
-      } else {
-        setSuccessMessageVisible(false);
-        setErrorMessageVisible(true);
-      }
-      console.log(response);
+      // const response = await WixClient.authentication.register(
+      //   userData.loginEmail,
+      //   userData.password,
+      //   { recaptchaToken: captcha }
+      // );
+      // if (response) {
+      //   setMessage("success");
+      // }
+      // if (response.success) {
+      //   setSuccessMessageVisible(true);
+      //   setErrorMessageVisible(false);
+      // } else {
+      //   setSuccessMessageVisible(false);
+      //   setErrorMessageVisible(true);
+      // }
+      // console.log(response);
     } catch (error) {
       setMessage("error");
 
@@ -61,6 +70,18 @@ const CreateAccount = ({ data, dropdown }) => {
       setErrorMessageVisible(true);
     }
   };
+
+  useEffect(() => {
+    if (createAccountStatus === "succeeded") {
+      document.body.setAttribute("data-form-cart-state", "success");
+    }
+    // if (user) {
+    //   AnimationFunction();
+    //   setTimeout(() => {
+    //     navigate("/collections");
+    //   }, 1000);
+    // }
+  }, [createAccountError, createAccountStatus]);
   return (
     <div class="container-create-account d-none">
       <div
@@ -207,16 +228,13 @@ const CreateAccount = ({ data, dropdown }) => {
               </div>
             </div>
           </div>
-          {errorMessageVisible && <h3>Error, Try again!</h3>}
-          <h3 data-aos="fadeIn" data-form-error>
-            Error, Try again!
-          </h3>
-          {/* <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
+
+          <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <ReCAPTCHA
               sitekey={WixClient.auth.captchaVisibleSiteKey}
               onChange={setCaptcha}
             />
-          </div> */}
+          </div>
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
               type="submit"
@@ -228,10 +246,6 @@ const CreateAccount = ({ data, dropdown }) => {
             </button>
           </div>
         </form>
-        {successMessageVisible && <h3>Success!</h3>}
-        <h3 data-aos="fadeIn" data-form-success>
-          Success!
-        </h3>
       </div>
       <p className="text-agree mt-lg-25 mt-mobile-30">
         {data.disclaimer.nodes[0].nodes[0].textData.text}

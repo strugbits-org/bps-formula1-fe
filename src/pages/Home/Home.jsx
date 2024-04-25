@@ -18,9 +18,20 @@ import {
   signInForm,
 } from "../../redux/thunks/registrationPageThunk";
 import ErrorModal from "../../components/ErrorModal";
+import SuccessModal from "../../components/SuccessModal";
 
 const Home = () => {
-  const { homeStatus, pages } = useAppSelector((state) => state.data);
+  const {
+    homeStatus,
+    successMessage,
+    loginError,
+    errorMessage,
+    createAccountStatus,
+    createAccountError,
+    pages,
+  } = useAppSelector((state) => state.data);
+
+  console.log(errorMessage, "errorMessage>>");
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(homePageData());
@@ -37,7 +48,10 @@ const Home = () => {
       className="home-intro home-sign-in section-intro"
       data-aos="d:loop"
     >
-      <ErrorModal message={"loginError"} />
+      {/* {loginError !== null && <ErrorModal message={errorMessage} />}
+      {createAccountError !== null && <ErrorModal message={errorMessage} />} */}
+      <ErrorModal message={errorMessage} />
+      {/* <SuccessModal message={successMessage} /> */}
 
       <div className="container-fluid pos-relative z-5">
         <div className="row">

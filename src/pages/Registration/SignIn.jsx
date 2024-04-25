@@ -36,15 +36,15 @@ const SignIn = ({ data }) => {
   };
 
   useEffect(() => {
-    if (loginError !== null) {
+    if (loginStatus === "succeeded" || loginError !== null) {
       document.body.setAttribute("data-form-cart-state", "success");
     }
-    if (user) {
-      AnimationFunction();
-      setTimeout(() => {
-        navigate("/collections");
-      }, 1000);
-    }
+    // if (user) {
+    //   AnimationFunction();
+    //   setTimeout(() => {
+    //     navigate("/collections");
+    //   }, 2000);
+    // }
   }, [user, loginError, navigate]);
 
   return (

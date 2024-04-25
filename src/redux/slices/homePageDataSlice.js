@@ -7,6 +7,7 @@ import {
   termsAndCondition,
 } from "../thunks/homePageThunk";
 import {
+  createAccount,
   createAccountDropdown,
   createAccountForm,
   signInForm,
@@ -19,8 +20,12 @@ const initialState = {
   collectionsStatus: "idle",
   privacyAndPolicyState: "idle",
   termsAndConditionState: "idle",
+  successMessage: "idle",
+  errorMessage: "idle",
   loginStatus: "idle",
+  createAccountStatus: "idle",
   loginError: null,
+  createAccountError: null,
   user: false,
   pages: {},
   error: null,
@@ -41,19 +46,40 @@ export const dataSlice = createSlice({
     };
 
     builder
+
+      // USER SIGNIN
       .addCase(signInUser.pending, (state) => {
         state.loginStatus = "loading";
         state.loginError = null;
       })
       .addCase(signInUser.fulfilled, (state, action) => {
         state.loginStatus = "succeeded";
+        state.successMessage = "User Signed In";
+
         state.user = true;
       })
       .addCase(signInUser.rejected, (state, action) => {
         state.loginStatus = "failed";
         state.loginError = JSON.parse(action.error.message);
+        state.errorMessage = "Sign In error";
       })
 
+      // USER REGISTRATION
+      .addCase(createAccount.pending, (state) => {
+        state.createAccountStatus = "loading";
+        state.createAccountError = null;
+      })
+      .addCase(createAccount.fulfilled, (state, action) => {
+        state.createAccountStatus = "succeeded";
+        state.successMessage = "Account Created";
+
+        // state.user = true;
+      })
+      .addCase(createAccount.rejected, (state, action) => {
+        state.createAccountStatus = "failed";
+        state.createAccountError = JSON.parse(action.error.message);
+        state.errorMessage = "create account error";
+      })
       // HOME DATA
       .addCase(homePageData.pending, handlePending)
       .addCase(homePageData.fulfilled, (state, action) => {
