@@ -1,48 +1,40 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
+"use client";
+import RenderImage from "@/utils/RenderImage";
+
+import Link from "next/link";
+import RenderVideo from "@/utils/RenderVideo";
+import usePageInitialization from "@/hooks/usePageInitialization";
 import SignIn from "../Registration/SignIn";
 import CreateAccount from "../Registration/CreateAccount";
-import { useEffect } from "react";
 
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import {
-  homeBottomLeftLink,
-  homeBottomRightSocialLinks,
+const HomePage = ({
   homePageData,
-} from "../../redux/thunks/homePageThunk";
-import RenderImage from "../../utils/RenderImage";
-import RenderVideo from "../../utils/RenderVideo";
-import { Link } from "react-router-dom";
-import {
+  leftSectionLinks,
+  rightSectionIcons,
+  signInPage,
+  createAccountPage,
   createAccountDropdown,
-  createAccountForm,
-  signInForm,
-} from "../../redux/thunks/registrationPageThunk";
-import ErrorModal from "../../components/ErrorModal";
-import SuccessModal from "../../components/SuccessModal";
+}) => {
+  // const {
+  //   homeStatus,
+  //   successMessage,
+  //   loginError,
+  //   errorMessage,
+  //   createAccountStatus,
+  //   createAccountError,
+  // } = useAppSelector((state) => state.data);
 
-const Home = () => {
-  const {
-    homeStatus,
-    successMessage,
-    loginError,
-    errorMessage,
-    createAccountStatus,
-    createAccountError,
-    pages,
-  } = useAppSelector((state) => state.data);
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(homePageData());
+  //   dispatch(homeBottomRightSocialLinks());
+  //   dispatch(homeBottomLeftLink());
+  //   dispatch(signInForm());
+  //   dispatch(createAccountForm());
+  //   dispatch(createAccountDropdown());
+  // }, [dispatch]);
 
-  console.log(errorMessage, "errorMessage>>");
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(homePageData());
-    dispatch(homeBottomRightSocialLinks());
-    dispatch(homeBottomLeftLink());
-    dispatch(signInForm());
-    dispatch(createAccountForm());
-    dispatch(createAccountDropdown());
-  }, [dispatch]);
-
-  usePageInitialization(homeStatus, "pg-home", ".initScript", ".home");
+  usePageInitialization("succeeded", "pg-home", ".initScript", ".home");
   return (
     <section
       className="home-intro home-sign-in section-intro"
@@ -50,7 +42,7 @@ const Home = () => {
     >
       {/* {loginError !== null && <ErrorModal message={errorMessage} />}
       {createAccountError !== null && <ErrorModal message={errorMessage} />} */}
-      <ErrorModal message={errorMessage} />
+      {/* <ErrorModal message={errorMessage} /> */}
       {/* <SuccessModal message={successMessage} /> */}
 
       <div className="container-fluid pos-relative z-5">
@@ -60,7 +52,7 @@ const Home = () => {
               <div className="container-logos mb-lg-40 mb-mobile-45">
                 <div className="container-img logo-formula-1">
                   <img
-                    src={RenderImage(pages["signInPage"]?.redLogo)}
+                    src={RenderImage(signInPage?.redLogo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -68,19 +60,19 @@ const Home = () => {
                 </div>
                 <div className="container-img logo-blueprint-rentals">
                   <img
-                    src={RenderImage(pages["signInPage"]?.textImage)}
+                    src={RenderImage(signInPage?.textImage)}
                     data-preload
                     className="media"
                     alt="product"
                   />
                 </div>
               </div>
-              {pages?.signInPage && <SignIn data={pages.signInPage} />}
+              {signInPage && <SignIn data={signInPage} />}
 
-              {pages?.createAccountPage && (
+              {createAccountPage && (
                 <CreateAccount
-                  data={pages.createAccountPage}
-                  dropdown={pages.createAccountDropdown}
+                  data={createAccountPage}
+                  dropdown={createAccountDropdown}
                 />
               )}
             </div>
@@ -92,7 +84,7 @@ const Home = () => {
         <div className="logo-bottom">
           <div className="container-img">
             <img
-              src={RenderImage(pages["homePageData"]?.logo)}
+              src={RenderImage(homePageData?.logo)}
               data-preload
               className="media"
               alt="logo"
@@ -100,10 +92,10 @@ const Home = () => {
           </div>
           <div className="container-text">
             <h2 className="font-2 fs--20 fs-tablet-9 fs-phone-11 text-uppercase">
-              {pages["homePageData"]?.footerFirstText}
+              {homePageData?.footerFirstText}
             </h2>
             <h3 className="fs--14 fs-mobile-7 mt-lg-20 mt-mobile-10 text-uppercase">
-              {pages["homePageData"]?.footerSecondText}
+              {homePageData?.footerSecondText}
             </h3>
           </div>
         </div>
@@ -112,12 +104,12 @@ const Home = () => {
       <div className="container-fluid container-footer no-phone">
         <div className="row row-1">
           <div className="col-lg-3 col-md-6 offset-lg-1 column-1">
-            {pages["leftSectionLinks"]?.map((data, index) => {
+            {leftSectionLinks?.map((data, index) => {
               const { links, title } = data;
               return (
                 <Link
                   key={index}
-                  to={links}
+                  href={links}
                   className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
                 >
                   <span>{title}</span>
@@ -127,11 +119,11 @@ const Home = () => {
           </div>
           <div className="col-lg-2 col-md-6 offset-lg-5 column-2">
             <ul className="list-social-media">
-              {pages["rightSectionIcons"]?.map((data, index) => {
+              {rightSectionIcons?.map((data, index) => {
                 const { link, iconClass } = data;
                 return (
                   <li key={index}>
-                    <Link to={link} className="link-social-media">
+                    <Link href={link} className="link-social-media">
                       <i className={iconClass}></i>
                     </Link>
                   </li>
@@ -144,10 +136,10 @@ const Home = () => {
 
       <div className="bg" data-aos="d:loop">
         <div className="container-img bg-video">
-          {pages["homePageData"]?.backgroundVideo && (
+          {homePageData?.backgroundVideo && (
             <video
-              data-src={RenderVideo(pages["homePageData"].backgroundVideo)}
-              src={RenderVideo(pages["homePageData"].backgroundVideo)}
+              data-src={RenderVideo(homePageData.backgroundVideo)}
+              src={RenderVideo(homePageData.backgroundVideo)}
               data-preload
               className="media"
               alt="product"
@@ -160,7 +152,7 @@ const Home = () => {
         </div>
         <div className="container-img bg-img">
           <img
-            src={RenderImage(pages["signInPage"]?.backgroundImage)}
+            src={RenderImage(signInPage?.backgroundImage)}
             data-preload
             className="media"
             alt="product"
@@ -171,4 +163,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

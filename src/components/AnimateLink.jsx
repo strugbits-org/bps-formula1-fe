@@ -1,21 +1,23 @@
+"use client";
 import React from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
 import { pageLoadFinished, pageLoadStart } from "../utils/AnimationFunctions";
 import { resetCount } from "../utils/CollectionsLoader";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 const AnimateLink = ({ to, children, className, target, attributes }) => {
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const delayedRedirect = (e) => {
     e.preventDefault();
-    if (location.hash !== "") {
-      navigate(to);
-    }
+    // if (location.hash !== "") {
+    //   redirect(to);
+    // }
 
     if (to === undefined) return;
 
-    if (location.pathname === to) {
+    if (pathname === to) {
       pageLoadStart();
       setTimeout(() => pageLoadFinished(), 900);
       return;
@@ -25,7 +27,7 @@ const AnimateLink = ({ to, children, className, target, attributes }) => {
       pageLoadStart();
       setTimeout(() => {
         resetCount();
-        navigate(to);
+        router.push(to);
       }, 900);
     } else {
       window.open(to, target);
@@ -34,7 +36,7 @@ const AnimateLink = ({ to, children, className, target, attributes }) => {
 
   return (
     <Link
-      to={to}
+      href={to}
       target={target}
       className={className}
       onClick={delayedRedirect}

@@ -1,21 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import AnimateLink from '../../components/AnimateLink';
+"use client";
+import AnimateLink from "../../components/AnimateLink";
 import { useEffect, useState } from "react";
-import { signInUser } from "../../redux/thunks/registrationPageThunk";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { AnimationFunction } from "../../utils/AnimationFunctions";
 
 const SignIn = ({ data }) => {
-  const navigate = useNavigate();
-  const { loginError, loginStatus, user } = useAppSelector(
-    (state) => state.data
-  );
-  console.log(loginError, loginStatus, user, "signin");
+  // const { loginError, loginStatus, user } = useAppSelector(
+  //   (state) => state.data
+  // );
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const LoginUser = async (e) => {
     e.preventDefault();
@@ -24,7 +19,7 @@ const SignIn = ({ data }) => {
         loginEmail: formData.email,
         password: formData.password,
       };
-      dispatch(signInUser(userData));
+      // dispatch(signInUser(userData));
     } catch (error) {
       console.log("Error:", error);
     }
@@ -35,17 +30,12 @@ const SignIn = ({ data }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  useEffect(() => {
-    if (loginStatus === "succeeded" || loginError !== null) {
-      document.body.setAttribute("data-form-cart-state", "success");
-    }
-    // if (user) {
-    //   AnimationFunction();
-    //   setTimeout(() => {
-    //     navigate("/collections");
-    //   }, 2000);
-    // }
-  }, [user, loginError, navigate]);
+  // useEffect(() => {
+  //   if (loginStatus === "succeeded" || loginError !== null) {
+  //     document.body.setAttribute("data-form-cart-state", "success");
+  //   }
+
+  // }, [ loginError]);
 
   return (
     <div className="container-sign-in">

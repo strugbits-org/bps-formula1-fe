@@ -1,32 +1,29 @@
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import usePageInitialization from "../hooks/usePageInitialization";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import RenderImage from "../utils/RenderImage";
-import { galleryPageData } from "../redux/thunks/galleryPageThunk";
-import {
-  homeBottomLeftLink,
-  homeBottomRightSocialLinks,
-} from "../redux/thunks/homePageThunk";
-import AnimateLink from "../components/AnimateLink";
-import { collectionsData } from "../redux/thunks/collections";
+import AnimateLink from "@/components/AnimateLink";
 
-const Gallery = () => {
-  const dispatch = useAppDispatch();
+const Gallery = ({
+  galleryPageData,
+  collectionsData,
+  bottomLinks,
+  bottomSocialLinks,
+}) => {
   const selectRef = useRef(null);
 
-  const { galleryStatus, pages } = useAppSelector((state) => state.gallery);
   const [collectionFilter, setCollectionFilter] = useState("all");
   const [option, setOption] = useState(false);
 
-  useEffect(() => {
-    dispatch(collectionsData());
-    dispatch(galleryPageData());
-    dispatch(homeBottomLeftLink());
-    dispatch(homeBottomRightSocialLinks());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(collectionsData());
+  //   dispatch(galleryPageData());
+  //   dispatch(homeBottomLeftLink());
+  //   dispatch(homeBottomRightSocialLinks());
+  // }, [dispatch]);
 
   usePageInitialization(
-    galleryStatus,
+    "succeeded",
     "pg-gallery",
     ".initScript",
     ".galleryImages",
@@ -61,9 +58,7 @@ const Gallery = () => {
                 className="fs--30 text-uppercase white-1 split-chars"
                 data-aos="d:loop"
               >
-                {pages.galleryPageData &&
-                  galleryStatus === "succeeded" &&
-                  pages.galleryPageData.galleryHeading}
+                {galleryPageData && galleryPageData.galleryHeading}
               </h1>
               <div class="container-dropdown active" data-parent-dropdown>
                 <button
@@ -92,22 +87,20 @@ const Gallery = () => {
                       </button>
                     </li>
                     {/* )} */}
-                    {pages &&
-                      galleryStatus === "succeeded" &&
-                      pages["collectionsData"]?.map((data, index) => {
-                        const { collectionName, collectionClass } = data;
-                        return (
-                          <li key={index}>
-                            <button
-                              onClick={() => filterCollection(collectionClass)}
-                              data-option-dropdown
-                              className="link-dropdown"
-                            >
-                              <span>{collectionName}</span>
-                            </button>
-                          </li>
-                        );
-                      })}
+                    {collectionsData?.map((data, index) => {
+                      const { collectionName, collectionClass } = data;
+                      return (
+                        <li key={index}>
+                          <button
+                            onClick={() => filterCollection(collectionClass)}
+                            data-option-dropdown
+                            className="link-dropdown"
+                          >
+                            <span>{collectionName}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
@@ -121,65 +114,61 @@ const Gallery = () => {
                 data-default-collections-active
                 data-get-collections="legacy"
               >
-                {pages &&
-                  galleryStatus === "succeeded" &&
-                  pages["collectionsData"]
-                    ?.slice()
-                    .sort((a, b) => a.order - b.order)
-                    .map((data, index) => {
-                      const { gallery, collectionClass } = data;
-                      if (
-                        collectionFilter === collectionClass ||
-                        collectionFilter === "all"
-                      ) {
-                        return (
-                          <React.Fragment key={index}>
-                            {gallery?.map((galleryData, galleryIndex) => {
-                              const { src } = galleryData;
+                {collectionsData
+                  ?.slice()
+                  .sort((a, b) => a.order - b.order)
+                  .map((data, index) => {
+                    const { gallery, collectionClass } = data;
+                    if (
+                      collectionFilter === collectionClass ||
+                      collectionFilter === "all"
+                    ) {
+                      return (
+                        <React.Fragment key={index}>
+                          {gallery?.map((galleryData, galleryIndex) => {
+                            const { src } = galleryData;
 
-                              return (
-                                <li key={galleryIndex}>
-                                  <a
-                                    href={RenderImage(src)}
-                                    className="gallery-link no-pjax"
-                                    data-fancybox="gallery-legacy"
-                                  >
-                                    <div className="container-img">
-                                      <img
-                                        src={RenderImage(src)}
-                                        data-preload
-                                        className="media"
-                                        data-parallax
-                                        data-translate-y="20%"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  </a>
-                                </li>
-                              );
-                            })}
-                          </React.Fragment>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
+                            return (
+                              <li key={galleryIndex}>
+                                <a
+                                  href={RenderImage(src)}
+                                  className="gallery-link no-pjax"
+                                  data-fancybox="gallery-legacy"
+                                >
+                                  <div className="container-img">
+                                    <img
+                                      src={RenderImage(src)}
+                                      data-preload
+                                      className="media"
+                                      data-parallax
+                                      data-translate-y="20%"
+                                      alt="product"
+                                    />
+                                  </div>
+                                </a>
+                              </li>
+                            );
+                          })}
+                        </React.Fragment>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
               </ul>
             </div>
             <div className="flex-center mt-lg-30 mt-mobile-45">
               <button className="btn-medium btn-red btn-hover-white">
                 <div className="split-chars">
                   <span>
-                    {pages.galleryPageData &&
-                      galleryStatus === "succeeded" &&
-                      pages.galleryPageData.loadMoreButtonLabel}
+                    {galleryPageData && galleryPageData.loadMoreButtonLabel}
                   </span>
                 </div>
               </button>
             </div>
             <div className="footer-gallery mt-40">
               <div className="column-text mb-20">
-                {pages["bottomLinks"]?.map((data, index) => {
+                {bottomLinks?.map((data, index) => {
                   const { links, title } = data;
                   return (
                     <AnimateLink
@@ -193,7 +182,7 @@ const Gallery = () => {
                 })}
               </div>
               <ul className="list-social-media">
-                {pages["bottomSocialLinks"]?.map((data, index) => {
+                {bottomSocialLinks?.map((data, index) => {
                   const { link, iconClass } = data;
                   return (
                     <li key={index}>

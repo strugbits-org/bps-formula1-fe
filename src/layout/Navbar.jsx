@@ -1,35 +1,35 @@
-import { useLocation, useNavigate } from "react-router-dom";
+"use client";
 import { AnimationFunction } from "../utils/AnimationFunctions";
-import AnimateLink from "../components/AnimateLink";
-import { useEffect, useState } from "react";
-import { categoryFilter } from "../utils/Categories";
-import { useAppSelector } from "../redux/hooks";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import usePageInitialization from "@/hooks/usePageInitialization";
+import AnimateLink from "@/components/AnimateLink";
 
-const Navbar = () => {
-  const navigate = useNavigate();
-  const { pages } = useAppSelector((state) => state.data);
-  // usePageInitialization(homeStatus, "pg-home", ".initScript", ".home");
+const Navbar = ({ homePageData }) => {
+  // const navigate = useNavigate();
+  // const { pages } = useAppSelector((state) => state.data);
+  usePageInitialization("succeeded", "pg-home", ".initScript", ".home");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
   const [selectedCategory, setSelectedCategory] = useState("Categories");
   // Function to handle selection of a collection
+  const pathname = usePathname();
+  // const location = useLocation();
+  // const [previousPath, setPreviousPath] = useState(null);
 
-  const location = useLocation();
-  const [previousPath, setPreviousPath] = useState(null);
-
-  useEffect(() => {
-    if (location) {
-      setPreviousPath(location);
-      if (
-        location.pathname === "/" &&
-        location.hash !== "#sign-in" &&
-        location.hash !== "#create-account"
-      ) {
-        document.body.setAttribute("data-home-state", "");
-      }
-    }
-  }, [location]);
+  // useEffect(() => {
+  //   if (location) {
+  //     setPreviousPath(location);
+  //     if (
+  //       location.pathname === "/" &&
+  //       location.hash !== "#sign-in" &&
+  //       location.hash !== "#create-account"
+  //     ) {
+  //       document.body.setAttribute("data-home-state", "");
+  //     }
+  //   }
+  // }, [location]);
 
   const handleCollectionSelection = (name) => {
     setSelectedCollection(name);
@@ -73,11 +73,11 @@ const Navbar = () => {
             </div>
           </a> */}
           <AnimateLink
-            to={pages?.homePageData?.galleryButtonAction}
+            to={homePageData?.galleryButtonAction}
             className="btn-small btn-dark btn-hover-white-black"
           >
             <div className="split-chars">
-              <span>{pages?.homePageData?.galleryButtonLabel}</span>
+              <span>{homePageData?.galleryButtonLabel}</span>
             </div>
           </AnimateLink>
         </div>
@@ -92,9 +92,9 @@ const Navbar = () => {
           </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
-          {previousPath?.pathname === "/gallery" ||
-          previousPath?.pathname === "/privacy-and-policy" ||
-          previousPath?.pathname === "/terms-and-condition" ? (
+          {pathname === "/gallery" ||
+          pathname === "/privacy-and-policy" ||
+          pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               // onClick={signIn}
@@ -104,7 +104,7 @@ const Navbar = () => {
               <i className="icon-profile"></i>
               <div className="split-chars">
                 <span className="no-phone">
-                  {pages?.homePageData?.signInButtonLabel}
+                  {homePageData?.signInButtonLabel}
                 </span>
               </div>
             </AnimateLink>
@@ -116,14 +116,14 @@ const Navbar = () => {
               <i className="icon-profile"></i>
               <div className="split-chars">
                 <span className="no-phone">
-                  {pages?.homePageData?.signInButtonLabel}
+                  {homePageData?.signInButtonLabel}
                 </span>
               </div>
             </button>
           )}
         </div>
       </div>
-      <div className="container-header-logged">
+      {/* <div className="container-header-logged">
         <div className="container-h-1 order-mobile-2">
           <div className="container-dropdown dropdown-collections">
             <button
@@ -236,7 +236,7 @@ const Navbar = () => {
             <i className="icon-cart"></i>
           </AnimateLink>
         </div>
-      </div>
+      </div> */}
     </header>
   );
 };

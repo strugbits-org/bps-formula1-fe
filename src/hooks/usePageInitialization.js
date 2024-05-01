@@ -15,7 +15,6 @@ function usePageInitialization(
         const initElement = document.querySelector(initialClickSelector);
         const secondaryElement = document.querySelector(secondaryClickSelector);
         const tertiaryElement = document.querySelector(tertiaryClickSelector);
-
         if (initElement) {
           if (initElement.click) {
             initElement.click();

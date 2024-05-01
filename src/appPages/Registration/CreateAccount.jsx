@@ -1,17 +1,16 @@
+"use client";
 import { useEffect, useState } from "react";
 import AnimateLink from "../../components/AnimateLink";
 import createWixClient from "../../config/WixConfig";
-import ReCAPTCHA from "react-google-recaptcha-enterprise";
-import { createAccount } from "../../redux/thunks/registrationPageThunk";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+// import ReCAPTCHA from "react-google-recaptcha-enterprise";
+// import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 const CreateAccount = ({ data, dropdown }) => {
   const [captcha, setCaptcha] = useState("");
   const WixClient = createWixClient();
 
-  const { createAccountStatus, createAccountError, user } = useAppSelector(
-    (state) => state.data
-  );
-  console.log(createAccountStatus, createAccountError, user, "create account");
+  // const { createAccountStatus, createAccountError, user } = useAppSelector(
+  //   (state) => state.data
+  // );
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("");
@@ -32,7 +31,7 @@ const CreateAccount = ({ data, dropdown }) => {
     console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +43,7 @@ const CreateAccount = ({ data, dropdown }) => {
         recaptchaToken: captcha,
       };
       // const response = await WixClient.members.createMember(userData);
-      dispatch(createAccount(userData));
+      // dispatch(createAccount(userData));
 
       // const response = await WixClient.authentication.register(
       //   userData.loginEmail,
@@ -71,17 +70,12 @@ const CreateAccount = ({ data, dropdown }) => {
     }
   };
 
-  useEffect(() => {
-    if (createAccountStatus === "succeeded") {
-      document.body.setAttribute("data-form-cart-state", "success");
-    }
-    // if (user) {
-    //   AnimationFunction();
-    //   setTimeout(() => {
-    //     navigate("/collections");
-    //   }, 1000);
-    // }
-  }, [createAccountError, createAccountStatus]);
+  // useEffect(() => {
+  //   if (createAccountStatus === "succeeded") {
+  //     document.body.setAttribute("data-form-cart-state", "success");
+  //   }
+
+  // }, [createAccountError, createAccountStatus]);
   return (
     <div class="container-create-account d-none">
       <div
@@ -230,10 +224,10 @@ const CreateAccount = ({ data, dropdown }) => {
           </div>
 
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
-            <ReCAPTCHA
+            {/* <ReCAPTCHA
               sitekey={WixClient.auth.captchaVisibleSiteKey}
               onChange={setCaptcha}
-            />
+            /> */}
           </div>
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button

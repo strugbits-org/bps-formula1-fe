@@ -1,20 +1,22 @@
 export const AnimationFunction = () => {
-  document.body.classList.add("page-leave-active");
-  setTimeout(() => {
-    document.body.classList.remove("page-leave-active");
-    document.body.classList.add("page-enter-active");
-  }, 900);
+  if (typeof window !== "undefined") {
+    document.body.classList.add("page-leave-active");
+    setTimeout(() => {
+      document.body.classList.remove("page-leave-active");
+      document.body.classList.add("page-enter-active");
+    }, 900);
+  }
 };
 
-
-
-
-
-const page =
-  window.location.pathname.trim() === "/"
-    ? "home"
-    : window.location.pathname.substring(1);
-const cleanPage = page.split("/")[0].trim();
+let page;
+let cleanPage;
+if (typeof window !== "undefined") {
+  page =
+    window.location.pathname.trim() === "/"
+      ? "home"
+      : window.location.pathname.substring(1);
+  cleanPage = page.split("/")[0].trim();
+}
 
 export const initAnimations = () => {
   setTimeout(() => {
