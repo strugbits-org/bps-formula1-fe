@@ -1,25 +1,8 @@
-import { useEffect } from "react";
 import AnimateLink from "../components/AnimateLink";
 import usePageInitialization from "../hooks/usePageInitialization";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { privacyAndPolicy } from "../redux/thunks/homePageThunk";
 
-const PrivacyAndPolicy = () => {
-  const { privacyAndPolicyState, pages } = useAppSelector(
-    (state) => state.data
-  );
-
-  console.log(pages, "pages>>");
-  usePageInitialization(
-    privacyAndPolicyState,
-    "pg-privacy-policy",
-    ".initScript"
-  );
-
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(privacyAndPolicy());
-  }, [dispatch]);
+const PrivacyAndPolicy = ({ pages }) => {
+  usePageInitialization("succeeded", "pg-privacy-policy", ".initScript");
 
   return (
     <section class="section-terms">

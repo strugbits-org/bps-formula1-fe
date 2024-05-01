@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
-import AnimateLink from "../../components/AnimateLink";
+import { useState } from "react";
 import createWixClient from "../../config/WixConfig";
+import Disclaimer from "./Discalimer";
 // import ReCAPTCHA from "react-google-recaptcha-enterprise";
 // import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 const CreateAccount = ({ data, dropdown }) => {
@@ -241,28 +241,8 @@ const CreateAccount = ({ data, dropdown }) => {
           </div>
         </form>
       </div>
-      <p className="text-agree mt-lg-25 mt-mobile-30">
-        {data.disclaimer.nodes[0].nodes[0].textData.text}
-        <AnimateLink
-          to={
-            data?.disclaimer.nodes[0].nodes[1].textData.decorations[0].linkData
-              .link.url
-          }
-          className="btn-underlined-white"
-        >
-          <span>{data?.disclaimer.nodes[0].nodes[1].textData.text} </span>
-        </AnimateLink>
-        {data.disclaimer.nodes[0].nodes[2].textData.text}
-        <AnimateLink
-          to={
-            data?.disclaimer.nodes[0].nodes[3].textData.decorations[0].linkData
-              .link.url
-          }
-          className="btn-underlined-white"
-        >
-          <span> {data.disclaimer.nodes[0].nodes[3].textData.text}</span>
-        </AnimateLink>
-      </p>
+
+      <Disclaimer data={data.disclaimer} />
     </div>
   );
 };

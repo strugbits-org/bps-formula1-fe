@@ -10,11 +10,10 @@ const Gallery = ({
   bottomLinks,
   bottomSocialLinks,
 }) => {
+  // pageLoadFinished();
   const selectRef = useRef(null);
-
   const [collectionFilter, setCollectionFilter] = useState("all");
   const [option, setOption] = useState(false);
-
   // useEffect(() => {
   //   dispatch(collectionsData());
   //   dispatch(galleryPageData());
@@ -118,14 +117,14 @@ const Gallery = ({
                   ?.slice()
                   .sort((a, b) => a.order - b.order)
                   .map((data, index) => {
-                    const { gallery, collectionClass } = data;
+                    const { gallery1, collectionClass } = data;
                     if (
                       collectionFilter === collectionClass ||
                       collectionFilter === "all"
                     ) {
                       return (
                         <React.Fragment key={index}>
-                          {gallery?.map((galleryData, galleryIndex) => {
+                          {gallery1?.map((galleryData, galleryIndex) => {
                             const { src } = galleryData;
 
                             return (

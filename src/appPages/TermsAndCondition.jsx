@@ -1,23 +1,18 @@
+"use client";
 import { useEffect } from "react";
 import AnimateLink from "../components/AnimateLink";
 import usePageInitialization from "../hooks/usePageInitialization";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { termsAndCondition } from "../redux/thunks/homePageThunk";
 
-const TermsAndCondition = () => {
-  const { termsAndConditionState, pages } = useAppSelector(
-    (state) => state.data
-  );
-  usePageInitialization(
-    termsAndConditionState,
-    "pg-terms-policy",
-    ".initScript"
-  );
+const TermsAndCondition = ({ pages }) => {
+  // const { termsAndConditionState, pages } = useAppSelector(
+  //   (state) => state.data
+  // );
+  usePageInitialization("succeeded", "pg-terms-policy", ".initScript");
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(termsAndCondition());
-  }, [dispatch]);
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(termsAndCondition());
+  // }, [dispatch]);
   return (
     <section class="section-terms">
       <div class="container-fluid">

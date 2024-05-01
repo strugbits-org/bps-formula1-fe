@@ -1,24 +1,21 @@
+import AnimateLink from "@/components/AnimateLink";
 import usePageInitialization from "../../hooks/usePageInitialization";
-import AnimateLink from "../../components/AnimateLink";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 import RenderImage from "../../utils/RenderImage";
-import { collectionsData } from "../../redux/thunks/collections";
-import { useEffect } from "react";
 
-const Collections = () => {
-  const { collectionsStatus, pages } = useAppSelector(
-    (state) => state.collections
-  );
+const Collections = ({ collectionsData }) => {
+  // const { collectionsStatus, pages } = useAppSelector(
+  //   (state) => state.collections
+  // );
 
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(collectionsData());
-  }, [dispatch]);
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(collectionsData());
+  // }, [dispatch]);
 
   // Initialize page
   usePageInitialization(
-    collectionsStatus,
+    "succeeded",
     "pg-collections",
     ".initScript"
     // ".home"
@@ -39,10 +36,8 @@ const Collections = () => {
               className="list-other-collections grid-md-50 mt-30"
               data-aos="d:loop"
             >
-              {pages &&
-                collectionsStatus === "succeeded" &&
-                pages["collectionData"].length &&
-                pages["collectionData"].map((data, index) => {
+              {collectionsData.length &&
+                collectionsData.map((data, index) => {
                   const { collectionName, mainImage } = data;
                   return (
                     <li key={index} className="grid-item">

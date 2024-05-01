@@ -1,10 +1,11 @@
 import HomePage from "@/appPages/Home/Home";
 import createWixClient from "@/config/WixConfig";
 const WixClient = createWixClient();
+
 export const getHomePageData = async () => {
   try {
     let options = {
-      dataCollectionId: "HomePageData_f1",
+      dataCollectionId: "HomePageContentF1",
     };
     const { items: fetchHomeData } = await WixClient.items
       .queryDataItems(options)
@@ -19,7 +20,7 @@ export const getHomePageData = async () => {
 export const getHomeBottomRightSocialLinks = async () => {
   try {
     let options = {
-      dataCollectionId: "HomeBottomRightSocialLinks_f1",
+      dataCollectionId: "SocialMediaLinksF1",
     };
     const { items: fetchHomeTopData } = await WixClient.items
       .queryDataItems(options)
@@ -38,7 +39,7 @@ export const getHomeBottomRightSocialLinks = async () => {
 export const getHomeBottomLeftLink = async () => {
   try {
     let options = {
-      dataCollectionId: "HomeBottomLeftLink_f1",
+      dataCollectionId: "HomePageBottomLeftLinksF1",
     };
     const { items: fetchHomeData } = await WixClient.items
       .queryDataItems(options)
@@ -58,7 +59,7 @@ export const getHomeBottomLeftLink = async () => {
 export const getSignInPage = async () => {
   try {
     let options = {
-      dataCollectionId: "SignInPage_f1",
+      dataCollectionId: "SignInPageF1",
     };
     const { items: fetchSignInPageData } = await WixClient.items
       .queryDataItems(options)
@@ -73,7 +74,7 @@ export const getSignInPage = async () => {
 export const getCreateAccountForm = async () => {
   try {
     let options = {
-      dataCollectionId: "CreateAccountPage_f1",
+      dataCollectionId: "CreateAccountPageF11",
     };
     const { items: fetchSignInPageData } = await WixClient.items
       .queryDataItems(options)
@@ -88,7 +89,7 @@ export const getCreateAccountForm = async () => {
 export const getCreateAccountDropdown = async () => {
   try {
     let options = {
-      dataCollectionId: "CreateAccountDropdown_f1",
+      dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
     };
     const { items: fetchSignInPageData } = await WixClient.items
       .queryDataItems(options)
@@ -112,6 +113,7 @@ export default async function Page() {
   const signInPage = await getSignInPage();
   const createAccountPage = await getCreateAccountForm();
   const createAccountDropdown = await getCreateAccountDropdown(0);
+
   return (
     <HomePage
       homePageData={homePageData}

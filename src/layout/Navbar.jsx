@@ -1,11 +1,11 @@
 "use client";
 import { AnimationFunction } from "../utils/AnimationFunctions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "@/components/AnimateLink";
 
-const Navbar = ({ homePageData }) => {
+const Navbar = ({ homePageData, collectionsData }) => {
   // const navigate = useNavigate();
   // const { pages } = useAppSelector((state) => state.data);
   usePageInitialization("succeeded", "pg-home", ".initScript", ".home");
@@ -16,20 +16,20 @@ const Navbar = ({ homePageData }) => {
   // Function to handle selection of a collection
   const pathname = usePathname();
   // const location = useLocation();
-  // const [previousPath, setPreviousPath] = useState(null);
+  const [previousPath, setPreviousPath] = useState(null);
 
-  // useEffect(() => {
-  //   if (location) {
-  //     setPreviousPath(location);
-  //     if (
-  //       location.pathname === "/" &&
-  //       location.hash !== "#sign-in" &&
-  //       location.hash !== "#create-account"
-  //     ) {
-  //       document.body.setAttribute("data-home-state", "");
-  //     }
-  //   }
-  // }, [location]);
+  useEffect(() => {
+    if (location) {
+      setPreviousPath(location);
+      if (
+        pathname === "/" &&
+        window.location.hash !== "#sign-in" &&
+        window.location.hash !== "#create-account"
+      ) {
+        document.body.setAttribute("data-home-state", "");
+      }
+    }
+  }, [pathname]);
 
   const handleCollectionSelection = (name) => {
     setSelectedCollection(name);
@@ -73,7 +73,7 @@ const Navbar = ({ homePageData }) => {
             </div>
           </a> */}
           <AnimateLink
-            to={homePageData?.galleryButtonAction}
+            to={homePageData?.galleryButtonRedirection}
             className="btn-small btn-dark btn-hover-white-black"
           >
             <div className="split-chars">
@@ -123,7 +123,7 @@ const Navbar = ({ homePageData }) => {
           )}
         </div>
       </div>
-      {/* <div className="container-header-logged">
+      <div className="container-header-logged">
         <div className="container-h-1 order-mobile-2">
           <div className="container-dropdown dropdown-collections">
             <button
@@ -141,7 +141,7 @@ const Navbar = ({ homePageData }) => {
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
-                {pages.collectionData?.map((data, index) => {
+                {collectionsData?.map((data, index) => {
                   const { collectionName } = data;
                   return (
                     <li
@@ -173,7 +173,7 @@ const Navbar = ({ homePageData }) => {
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
-                {categoryFilter.map((data, index) => {
+                {collectionsData.map((data, index) => {
                   const { name } = data;
                   return (
                     <li
@@ -236,7 +236,7 @@ const Navbar = ({ homePageData }) => {
             <i className="icon-cart"></i>
           </AnimateLink>
         </div>
-      </div> */}
+      </div>
     </header>
   );
 };

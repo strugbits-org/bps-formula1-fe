@@ -6,6 +6,7 @@ import RenderVideo from "@/utils/RenderVideo";
 import usePageInitialization from "@/hooks/usePageInitialization";
 import SignIn from "../Registration/SignIn";
 import CreateAccount from "../Registration/CreateAccount";
+import { pageLoadFinished } from "@/utils/AnimationFunctions";
 
 const HomePage = ({
   homePageData,
@@ -15,6 +16,7 @@ const HomePage = ({
   createAccountPage,
   createAccountDropdown,
 }) => {
+  // pageLoadFinished();
   // const {
   //   homeStatus,
   //   successMessage,
@@ -33,7 +35,6 @@ const HomePage = ({
   //   dispatch(createAccountForm());
   //   dispatch(createAccountDropdown());
   // }, [dispatch]);
-
   usePageInitialization("succeeded", "pg-home", ".initScript", ".home");
   return (
     <section
@@ -52,7 +53,7 @@ const HomePage = ({
               <div className="container-logos mb-lg-40 mb-mobile-45">
                 <div className="container-img logo-formula-1">
                   <img
-                    src={RenderImage(signInPage?.redLogo)}
+                    src={RenderImage(signInPage?.f1Logo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -60,7 +61,7 @@ const HomePage = ({
                 </div>
                 <div className="container-img logo-blueprint-rentals">
                   <img
-                    src={RenderImage(signInPage?.textImage)}
+                    src={RenderImage(signInPage?.bluePrintLogo)}
                     data-preload
                     className="media"
                     alt="product"

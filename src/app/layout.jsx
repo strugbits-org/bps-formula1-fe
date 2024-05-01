@@ -7,6 +7,7 @@ import Script from "next/script";
 import Navbar from "@/layout/Navbar";
 import createWixClient from "@/config/WixConfig";
 import { headers } from "next/headers";
+import Wrapper from "@/layout/Wrapper";
 
 const WixClient = createWixClient();
 
@@ -18,7 +19,7 @@ export const metadata = {
 export const getHomePageData = async () => {
   try {
     let options = {
-      dataCollectionId: "HomePageData_f1",
+      dataCollectionId: "HomePageContentF1",
     };
     const { items: fetchHomeData } = await WixClient.items
       .queryDataItems(options)
@@ -30,13 +31,35 @@ export const getHomePageData = async () => {
   }
 };
 
+const getCollectionsData = async () => {
+  try {
+    let options = {
+      dataCollectionId: "Collectionsf1",
+    };
+    const { items: collectionsItemData } = await WixClient.items
+      .queryDataItems(options)
+      .find();
+    const desiredData = [];
+    for (let i = 0; i < collectionsItemData.length; i++) {
+      const element = collectionsItemData[i];
+      desiredData.push(element.data);
+    }
+
+    return desiredData;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default async function RootLayout({ children }) {
   const homePageData = await getHomePageData();
+  const collectionsData = await getCollectionsData();
   const headersList = headers();
   const referer = headersList.get("referer");
-  const url = new URL(referer);
-  const pathname = url.pathname.substring(1); // Remove the leading '/'
 
+  const slicedString = "/" + referer?.split("/").slice(3).join("/");
+
+  const pathname = slicedString === "/" ? "home" : slicedString.substring(1);
   console.log("PATHNAME", pathname);
   return (
     <>
@@ -99,16 +122,14 @@ export default async function RootLayout({ children }) {
           <span class="galleryImages d-none"></span>
           <span class="updateWatched d-none"></span>
           <Loader />
-          <Navbar homePageData={homePageData} />
-          <div id="main-transition">
-            <div
-              id={`pg-${pathname}`}
-              className="wrapper"
-              data-scroll-container
-            >
-              <main>{children}</main>
-            </div>
-          </div>
+          <Navbar
+            homePageData={homePageData}
+            collectionsData={collectionsData}
+          />
+
+          <Wrapper>
+            <main>{children}</main>
+          </Wrapper>
         </body>
       </html>
     </>

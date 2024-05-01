@@ -1,6 +1,7 @@
 "use client";
 import AnimateLink from "../../components/AnimateLink";
 import { useEffect, useState } from "react";
+import Disclaimer from "./Discalimer";
 
 const SignIn = ({ data }) => {
   // const { loginError, loginStatus, user } = useAppSelector(
@@ -78,7 +79,7 @@ const SignIn = ({ data }) => {
             >
               <i className="icon-profile"></i>
               <span className="submit-text split-chars">
-                <span>{data?.signInButtonText}</span>
+                <span>{data?.signInButtonLabel}</span>
               </span>
             </button>
           </div>
@@ -87,42 +88,8 @@ const SignIn = ({ data }) => {
           Error, Try again!
         </h3>
       </div>
-      <p className="text-agree mt-lg-25 mt-mobile-30">
-        {data.richcontent.nodes[0].nodes[0].textData.text}
-        <AnimateLink
-          to={data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData.link.url.substring(
-            data?.richcontent.nodes[0].nodes[1].textData.decorations[0].linkData.link.url.lastIndexOf(
-              "/"
-            ) + 1
-          )}
-          className="btn-underlined-white"
-        >
-          <span>{data?.richcontent.nodes[0].nodes[1].textData.text} </span>
-        </AnimateLink>
-        {data.richcontent.nodes[0].nodes[2].textData.text}
-        <AnimateLink
-          to={data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData.link.url.substring(
-            data?.richcontent.nodes[0].nodes[3].textData.decorations[0].linkData.link.url.lastIndexOf(
-              "/"
-            ) + 1
-          )}
-          className="btn-underlined-white"
-        >
-          <span> {data.richcontent.nodes[0].nodes[3].textData.text}</span>
-        </AnimateLink>
-      </p>
-      {/* <AnimateLink to="/terms-and-condition" className="btn-underlined-white">
-      <span>Terms</span>
-    </AnimateLink>
-    <AnimateLink to="/privacy-and-policy" className="btn-underlined-white">
-      <span>Privacy</span>
-    </AnimateLink> */}
-      {/* <button class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
-        <div className="split-chars">
-          <span>{data?.createAccountButtonText}</span>
-        </div>
-      </button> */}
 
+      <Disclaimer data={data.disclaimer} />
       <button class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
         <div class="split-chars">
           <span>Create your account</span>

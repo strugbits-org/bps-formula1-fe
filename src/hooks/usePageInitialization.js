@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 
 function usePageInitialization(
@@ -25,6 +26,7 @@ function usePageInitialization(
 
         if (secondaryElement) {
           if (secondaryElement.click) {
+            console.log(secondaryElement);
             secondaryElement.click();
           } else {
             console.warn(
