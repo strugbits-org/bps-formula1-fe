@@ -1,8 +1,8 @@
 import { Outlet, useLocation } from "react-router-dom";
 
 import Account from "../pages/Account/Index";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
+import Footer from "../components/Common/Footer";
+import Navbar from "../components/Common/Navbar";
 
 const UserLayout = () => {
   const location = useLocation();

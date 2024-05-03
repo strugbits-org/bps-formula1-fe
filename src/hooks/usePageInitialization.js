@@ -1,4 +1,5 @@
 "use client";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useEffect } from "react";
 
 function usePageInitialization(
@@ -47,6 +48,7 @@ function usePageInitialization(
           }
         }
       }, 800);
+      markPageLoaded();
     }
   }, [
     status,
