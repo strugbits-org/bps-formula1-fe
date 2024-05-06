@@ -43,11 +43,14 @@ export default function Document() {
         <span class="home d-none"></span>
         <span class="updateWatched d-none"></span>
         <span class="galleryLightBox d-none"></span>
+        <span class="collections d-none"></span>
         <span class="products d-none"></span>
         <span class="productsPost d-none"></span>
         <span class="cartPage d-none"></span>
+        <span class="myAccount d-none"></span>
         <span class="savedProducts d-none"></span>
         <span class="quotesHistory d-none"></span>
+        <span class="changePassword d-none"></span>
         <span class="galleryImages d-none"></span>
         <Main />
         <NextScript />

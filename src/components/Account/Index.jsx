@@ -1,6 +1,6 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
+"use client";
+import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
-import { useNavigate } from "react-router-dom";
 
 const links = [
   { name: "My Account", icon: "icon-account", href: "/my-account" },
@@ -22,13 +22,11 @@ const links = [
 ];
 
 const Account = () => {
-  usePageInitialization(".initScript", ".home");
-  const navigate = useNavigate();
+  // usePageInitialization(".initScript", ".home");
   const handleLogOut = () => {
     try {
       localStorage.setItem("userLoginStatus", "logged-out");
       document.body.setAttribute("data-login-state", "");
-      navigate("/");
     } catch (error) {
       console.log("Error:", error);
     }

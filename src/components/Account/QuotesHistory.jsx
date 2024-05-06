@@ -1,8 +1,8 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
+import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
 import CartModal from "../Common/CartModal";
 
-const QuotesHistory = () => {
+const QuotesHistory = ({ quoteHistoryPageData }) => {
   usePageInitialization(
     "pg-my-account-quotes-history",
     ".initScript",
@@ -18,7 +18,7 @@ const QuotesHistory = () => {
                 class="fs--60 red-1 text-uppercase split-words"
                 data-aos="d:loop"
               >
-                Quotes history
+                {quoteHistoryPageData && quoteHistoryPageData.pageTitle}
               </h1>
               <div class="no-results d-none">
                 <h2 class="fs--30 fw-400 red-1 split-words" data-aos="d:loop">

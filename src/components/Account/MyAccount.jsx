@@ -1,12 +1,9 @@
-import { useEffect } from "react";
-import usePageInitialization from "../../hooks/usePageInitialization";
-import { handleCollectionLoaded } from "../../utils/CollectionsLoader";
+"use client";
+import usePageInitialization from "@/hooks/usePageInitialization";
 
-const MyAccount = () => {
-  usePageInitialization("succeeded", "pg-my-account", ".initScript");
-  useEffect(() => {
-    handleCollectionLoaded();
-  });
+const MyAccount = ({ myAccountPageData }) => {
+  usePageInitialization("pg-my-account", ".initScript", ".myAccount");
+
   return (
     <section className="my-account-intro section-my-account">
       <div className="container-fluid">
@@ -17,25 +14,25 @@ const MyAccount = () => {
                 className="fs--60 red-1 text-uppercase split-words"
                 data-aos="d:loop"
               >
-                My Account
+                {myAccountPageData && myAccountPageData.mainTitle}
               </h1>
               <p
                 className="fs--16 fs-tablet-12 mt-lg-5 mt-mobile-15"
                 data-aos="fadeIn .8s ease-in-out .4s, d:loop"
               >
-                View and edit your personal info below.
+                {myAccountPageData && myAccountPageData.mainDescription}
               </p>
               <h2
                 className="fs--16 fs-tablet-12 fw-600 text-uppercase mt-lg-45 mt-mobile-15 split-words"
                 data-aos="d:loop"
               >
-                Account
+                {myAccountPageData && myAccountPageData.subTitle}
               </h2>
               <p
                 className="fs--16 fs-tablet-12 mt-lg-10 mt-mobile-5"
                 data-aos="fadeIn .8s ease-in-out .4s, d:loop"
               >
-                Update your personal information.
+                {myAccountPageData && myAccountPageData.subDescription}
               </p>
             </div>
             <div
@@ -43,10 +40,12 @@ const MyAccount = () => {
               data-aos="fadeIn .8s ease-in-out .4s, d:loop"
             >
               <div className="container-text mb-lg-55 mb-tablet-25 mb-phone-35">
-                <p className="fs--16 fs-tablet-12">Login Email:</p>
+                <p className="fs--16 fs-tablet-12">
+                  {myAccountPageData && myAccountPageData.loginEmailTitle}
+                </p>
                 <span className="email">gabriel@petrikor.design</span>
                 <p className="fs--16 fs-tablet-12">
-                  Your Login email can’t be changed
+                  {myAccountPageData && myAccountPageData.loginEmailNote}
                 </p>
               </div>
               <div className="container-account" data-form-container>
@@ -141,7 +140,11 @@ const MyAccount = () => {
                       className="bt-submit btn-medium-wide btn-red btn-hover-black-white w-lg-100"
                     >
                       <span className="submit-text split-chars">
-                        <span> Update info </span>
+                        <span>
+                          {" "}
+                          {myAccountPageData &&
+                            myAccountPageData.updateInfoButtonLabel}
+                        </span>
                       </span>
                     </button>
                   </div>
@@ -152,7 +155,11 @@ const MyAccount = () => {
                       className="btn-small-wide btn-white btn-hover-black-white btn-discard"
                     >
                       <div className="split-chars">
-                        <span>Discard</span>
+                        <span>
+                          {" "}
+                          {myAccountPageData &&
+                            myAccountPageData.discordButtonLabel}
+                        </span>
                       </div>
                     </a>
                   </div>

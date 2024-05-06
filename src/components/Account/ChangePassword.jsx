@@ -1,7 +1,11 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
+import usePageInitialization from "@/hooks/usePageInitialization";
 
-const ChangePassword = () => {
-  usePageInitialization("pg-my-account-change-password", ".initScript");
+const ChangePassword = ({ changePasswordPageData }) => {
+  usePageInitialization(
+    "pg-my-account-change-password",
+    ".initScript",
+    ".changePassword"
+  );
   return (
     <section class="my-account-intro section-change-password">
       <div class="container-fluid">
@@ -12,13 +16,14 @@ const ChangePassword = () => {
                 class="fs--60 lh-110 red-1 text-uppercase split-words"
                 data-aos="d:loop"
               >
-                Change password
+                {changePasswordPageData && changePasswordPageData.pageTitle}
               </h1>
               <p
                 class="fs--16 fs-tablet-12 mt-md-15 mt-phone-10"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                Enter your new password below
+                {changePasswordPageData &&
+                  changePasswordPageData.pageDescription}
               </p>
             </div>
             <div
@@ -30,7 +35,8 @@ const ChangePassword = () => {
                   <input type="hidden" name="subject" value="[password]" />
                   <div class="container-input container-input-password col-lg-12">
                     <label for="login-password-old">
-                      Enter your old password
+                      {changePasswordPageData &&
+                        changePasswordPageData.enterYourOldPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-old"
@@ -47,7 +53,8 @@ const ChangePassword = () => {
                   </div>
                   <div class="container-input container-input-password col-lg-12">
                     <label for="login-password-new-1">
-                      Enter your NEW password
+                      {changePasswordPageData &&
+                        changePasswordPageData.enterYourNewPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-new-1"
@@ -64,7 +71,8 @@ const ChangePassword = () => {
                   </div>
                   <div class="container-input container-input-password col-lg-12">
                     <label for="login-password-new-2">
-                      Confirm your NEW password
+                      {changePasswordPageData &&
+                        changePasswordPageData.confirmYourNewPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-new-2"
@@ -85,7 +93,11 @@ const ChangePassword = () => {
                       class="bt-submit btn-medium-wide btn-red btn-hover-black-white w-lg-100"
                     >
                       <span class="submit-text split-chars">
-                        <span>Reset password</span>
+                        <span>
+                          {" "}
+                          {changePasswordPageData &&
+                            changePasswordPageData.resetPasswordButtonLabel}
+                        </span>
                       </span>
                     </button>
                   </div>

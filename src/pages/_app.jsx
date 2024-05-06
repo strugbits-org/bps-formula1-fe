@@ -9,11 +9,11 @@ import {
   getHomePageData,
 } from "@/services/apiServices";
 
-import "@/styles/globals.css";
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
 import Footer from "@/components/Common/Footer";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import Account from "@/components/Account/Index";
 
 export default function App({
   Component,
@@ -29,6 +29,9 @@ export default function App({
     router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
   const cleanPath = pathname.split("/")[0].trim();
   markPageLoaded();
+  if (typeof document !== "undefined") {
+    document.body.setAttribute("data-login-state", "");
+  }
 
   return (
     <div>
@@ -38,9 +41,12 @@ export default function App({
         homePageData={homePageData[0]}
         collectionsData={collectionsData}
       />
+      <Account />
       <div id="main-transition">
         <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
-          <Component {...pageProps} />
+          <main>
+            <Component {...pageProps} />
+          </main>
         </div>
       </div>
       <Footer

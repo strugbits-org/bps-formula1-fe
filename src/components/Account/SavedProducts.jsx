@@ -1,7 +1,7 @@
 import AddToCartModal from "../Product/AddToCartModal";
 import usePageInitialization from "../../hooks/usePageInitialization";
 
-const SavedProducts = () => {
+const SavedProducts = ({ savedProductPageData }) => {
   usePageInitialization(
     "pg-my-account-saved-products",
     ".initScript",
@@ -19,7 +19,7 @@ const SavedProducts = () => {
                   class="fs--60 red-1 text-uppercase split-words"
                   data-aos="d:loop"
                 >
-                  Saved products
+                  {savedProductPageData && savedProductPageData.pageTitle}
                 </h1>
               </div>
               <div class="wrapper-bottom mt-lg-55 mt-tablet-45 mt-phone-25">

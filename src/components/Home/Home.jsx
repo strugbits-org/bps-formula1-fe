@@ -35,7 +35,7 @@ const HomePage = ({
   //   dispatch(createAccountForm());
   //   dispatch(createAccountDropdown());
   // }, [dispatch]);
-  usePageInitialization("succeeded", "pg-home", ".initScript", ".home");
+  usePageInitialization("pg-home", ".initScript", ".home");
   return (
     <section
       className="home-intro home-sign-in section-intro"

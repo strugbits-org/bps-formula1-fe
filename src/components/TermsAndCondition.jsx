@@ -4,17 +4,11 @@ import { pageLoadFinished } from "@/utils/AnimationFunctions";
 import AnimateLink from "./Common/AnimateLink";
 
 const TermsAndCondition = ({ pages }) => {
-  // const { termsAndConditionState, pages } = useAppSelector(
-  //   (state) => state.data
-  // );
+  
   pageLoadFinished();
 
-  usePageInitialization("succeeded", "pg-terms-policy", ".initScript");
+  usePageInitialization("pg-terms-policy", ".initScript");
 
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(termsAndCondition());
-  // }, [dispatch]);
   return (
     <section class="section-terms">
       <div class="container-fluid">

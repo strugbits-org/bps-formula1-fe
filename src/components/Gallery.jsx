@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import usePageInitialization from "../hooks/usePageInitialization";
-import RenderImage from "../utils/RenderImage";
 import AnimateLink from "@/components/Common/AnimateLink";
+import RenderImage from "../utils/RenderImage";
 
 const Gallery = ({
   galleryPageData,
@@ -13,15 +13,11 @@ const Gallery = ({
   const selectRef = useRef(null);
   const [collectionFilter, setCollectionFilter] = useState("all");
   const [option, setOption] = useState(false);
-  // useEffect(() => {
-  //   dispatch(collectionsData());
-  //   dispatch(galleryPageData());
-  //   dispatch(homeBottomLeftLink());
-  //   dispatch(homeBottomRightSocialLinks());
-  // }, [dispatch]);
+  const [allItemsLoaded, setAllItemsLoaded] = useState(false);
+  let totalItems = 0;
+  const [visibleItems, setVisibleItems] = useState(3);
 
   usePageInitialization(
-    "succeeded",
     "pg-gallery",
     ".initScript",
     ".galleryImages",
@@ -29,6 +25,7 @@ const Gallery = ({
   );
   const filterCollection = (data) => {
     setOption(false);
+    setVisibleItems(5);
     setCollectionFilter(data);
   };
 
@@ -46,6 +43,16 @@ const Gallery = ({
     };
   }, [option]);
 
+  const handleLoadMore = () => {
+    setVisibleItems((prevVisibleItems) => {
+      if (prevVisibleItems < totalItems) {
+        return prevVisibleItems + 3;
+      } else {
+        setAllItemsLoaded(true);
+        return prevVisibleItems;
+      }
+    });
+  };
   return (
     <section className="gallery pt-lg-145 pb-90" ref={selectRef}>
       <div className="container-fluid">
@@ -121,32 +128,35 @@ const Gallery = ({
                       collectionFilter === collectionClass ||
                       collectionFilter === "all"
                     ) {
+                      totalItems += gallery1.length;
                       return (
                         <React.Fragment key={index}>
-                          {gallery1?.map((galleryData, galleryIndex) => {
-                            const { src } = galleryData;
+                          {gallery1
+                            ?.slice(0, visibleItems) // Show only the first 'visibleItems' items
+                            .map((galleryData, galleryIndex) => {
+                              const { src } = galleryData;
 
-                            return (
-                              <li key={galleryIndex}>
-                                <a
-                                  href={RenderImage(src)}
-                                  className="gallery-link no-pjax"
-                                  data-fancybox="gallery-legacy"
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src={RenderImage(src)}
-                                      data-preload
-                                      className="media"
-                                      data-parallax
-                                      data-translate-y="20%"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </a>
-                              </li>
-                            );
-                          })}
+                              return (
+                                <li key={galleryIndex}>
+                                  <a
+                                    href={RenderImage(src)}
+                                    className="gallery-link no-pjax"
+                                    data-fancybox="gallery-legacy"
+                                  >
+                                    <div className="container-img">
+                                      <img
+                                        src={RenderImage(src)}
+                                        data-preload
+                                        className="media"
+                                        data-parallax
+                                        data-translate-y="20%"
+                                        alt="product"
+                                      />
+                                    </div>
+                                  </a>
+                                </li>
+                              );
+                            })}
                         </React.Fragment>
                       );
                     } else {
@@ -155,8 +165,12 @@ const Gallery = ({
                   })}
               </ul>
             </div>
+            {/* Load More Button */}
             <div className="flex-center mt-lg-30 mt-mobile-45">
-              <button className="btn-medium btn-red btn-hover-white">
+              <button
+                onClick={handleLoadMore}
+                className="btn-medium btn-red btn-hover-white"
+              >
                 <div className="split-chars">
                   <span>
                     {galleryPageData && galleryPageData.loadMoreButtonLabel}

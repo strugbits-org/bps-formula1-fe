@@ -3,7 +3,7 @@ var __commonJS = (cb, mod) =>
   function __require() {
     return (
       mod ||
-      (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
+        (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
       mod.exports
     );
   };
@@ -30,7 +30,7 @@ import {
 } from "./navigation.js";
 import { productContent } from "./product-content.js";
 import { collections } from "./collections.js";
-import { FormSignIn } from './form-sign-in.js';
+import { FormSignIn } from "./form-sign-in.js";
 var require_app2 = __commonJS({
   "assets/app2.js"(exports, module) {
     const defaultConfig = {
@@ -49,7 +49,7 @@ var require_app2 = __commonJS({
         "iframe" === a2.nodeName.toLowerCase() &&
           a2.getAttribute("data-src") &&
           (a2.setAttribute("src", a2.getAttribute("data-src")),
-            a2.setAttribute("data-loaded", "true"));
+          a2.setAttribute("data-loaded", "true"));
         if (
           "video" === a2.nodeName.toLowerCase() &&
           !a2.getAttribute("data-src") &&
@@ -26995,7 +26995,6 @@ var require_app2 = __commonJS({
       copyLink();
       viewportHeight();
     }
-    whenContainerReady();
 
     // Saved Poducts Page Custom JS
     document.querySelector(".savedProducts").addEventListener("click", () => {
@@ -27004,6 +27003,43 @@ var require_app2 = __commonJS({
     });
 
     // Saved Poducts Page Custom JS
+
+    //  Change Password Page
+    const pageName$01 = "my-account-change-password";
+    function main$01() {}
+    const pgChangePassword = new Page({
+      pageName: pageName$01,
+      main: main$01,
+    });
+
+    document.querySelector(".changePassword").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+    //  Change Password Page
+
+    const pageName$02 = "pg-collections";
+    function main$02() {}
+    const pgCollections = new Page({
+      pageName: pageName$02,
+      main: main$02,
+    });
+
+    document.querySelector(".collections").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+
+    // My Acocunt
+    const pageName$03 = "pg-my-account";
+    function main$03() {}
+    const pgMyAccount = new Page({
+      pageName: pageName$03,
+      main: main$03,
+    });
+
+    document.querySelector(".myAccount").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    });
+    // My Acocunt
 
     // Custom js
     document.querySelector(".initScript").addEventListener("click", () => {
@@ -27034,9 +27070,12 @@ var require_app2 = __commonJS({
     pages.add(pgCart);
     pages.add(pgSearch);
     pages.add(pgGallery);
+    pages.add(pgCollections);
     pages.add(pgCollectionsPost);
+    pages.add(pgMyAccount);
     pages.add(pgMyAccountQuotesHistory);
     pages.add(pgMyAccountSavedProducts);
+    pages.add(pgChangePassword);
     if (pages.updateCurrent()) {
       pages.runCurrent();
     }

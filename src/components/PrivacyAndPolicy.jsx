@@ -2,7 +2,7 @@ import AnimateLink from "./Common/AnimateLink";
 import usePageInitialization from "../hooks/usePageInitialization";
 
 const PrivacyAndPolicy = ({ pages }) => {
-  usePageInitialization("succeeded", "pg-privacy-policy", ".initScript");
+  usePageInitialization("pg-privacy-policy", ".initScript");
 
   return (
     <section class="section-terms">

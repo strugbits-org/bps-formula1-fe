@@ -6,9 +6,8 @@ import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
 
 const Navbar = ({ homePageData, collectionsData }) => {
-  // const navigate = useNavigate();
-  // const { pages } = useAppSelector((state) => state.data);
-  usePageInitialization("succeeded", "pg-home", ".initScript");
+
+  usePageInitialization("pg-home", ".initScript");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");

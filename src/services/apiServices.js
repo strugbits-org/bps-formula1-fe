@@ -17,7 +17,12 @@ export const getCreateAccountDropdown = () =>
 export const getGalleryPageData = () => fetchData("GalleryPageF1");
 
 // COLLECTIONS PAGE API
+export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
 export const getCollectionsData = () => fetchData("Collectionsf1");
+
+// COLLECTIONS POST PAGE DATA
+export const getCollectionsPostPageData = () =>
+  fetchData("CollectionsPostPageDataF1");
 
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = () =>
@@ -30,3 +35,14 @@ export const getPrivacyAndPolicyPageData = () =>
 // FOOTER APIS
 export const getFooterData = () => fetchData("FooterDataF1");
 export const getFooterLinksData = () => fetchData("FooterLinksDataF1");
+
+// USER ACCOUNT APIS
+export const getMyAccountPageData = () => fetchData("MyAccountPageDataF1");
+
+export const getChangePasswordPageData = () =>
+  fetchData("ChangePasswordPageDataF1");
+
+export const getQuoteHistoryPageData = () =>
+  fetchData("QuotesHistoryPageDataF1");
+
+export const getSavedProductPageData = () => fetchData("SavedProductPageData");

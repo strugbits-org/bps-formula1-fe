@@ -3,55 +3,51 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useEffect } from "react";
 
 function usePageInitialization(
-  status,
   pageName,
   initialClickSelector,
   secondaryClickSelector,
   tertiaryClickSelector
 ) {
   useEffect(() => {
-    if (status === "succeeded") {
-      setTimeout(() => {
-        document.body.dataset.pg = pageName;
+    setTimeout(() => {
+      document.body.dataset.pg = pageName;
 
-        const initElement = document.querySelector(initialClickSelector);
-        const secondaryElement = document.querySelector(secondaryClickSelector);
-        const tertiaryElement = document.querySelector(tertiaryClickSelector);
-        if (initElement) {
-          if (initElement.click) {
-            initElement.click();
-          } else {
-            console.warn("Element does not support click method:", initElement);
-          }
+      const initElement = document.querySelector(initialClickSelector);
+      const secondaryElement = document.querySelector(secondaryClickSelector);
+      const tertiaryElement = document.querySelector(tertiaryClickSelector);
+      if (initElement) {
+        if (initElement.click) {
+          initElement.click();
+        } else {
+          console.warn("Element does not support click method:", initElement);
         }
+      }
 
-        if (secondaryElement) {
-          if (secondaryElement.click) {
-            console.log(secondaryElement);
-            secondaryElement.click();
-          } else {
-            console.warn(
-              "Element does not support click method:",
-              secondaryElement
-            );
-          }
+      if (secondaryElement) {
+        if (secondaryElement.click) {
+          console.log(secondaryElement);
+          secondaryElement.click();
+        } else {
+          console.warn(
+            "Element does not support click method:",
+            secondaryElement
+          );
         }
+      }
 
-        if (tertiaryElement) {
-          if (tertiaryElement.click) {
-            tertiaryElement.click();
-          } else {
-            console.warn(
-              "Element does not support click method:",
-              tertiaryElement
-            );
-          }
+      if (tertiaryElement) {
+        if (tertiaryElement.click) {
+          tertiaryElement.click();
+        } else {
+          console.warn(
+            "Element does not support click method:",
+            tertiaryElement
+          );
         }
-      }, 800);
-      markPageLoaded();
-    }
+      }
+    }, 800);
+    markPageLoaded();
   }, [
-    status,
     pageName,
     initialClickSelector,
     secondaryClickSelector,
