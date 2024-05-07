@@ -5,18 +5,18 @@ const PrivacyAndPolicy = ({ pages }) => {
   usePageInitialization("pg-privacy-policy", ".initScript");
 
   return (
-    <section class="section-terms">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-6 col-11 mx-mobile-auto offset-lg-3">
+    <section className="section-terms">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-6 col-11 mx-mobile-auto offset-lg-3">
             <h1
-              class="fs--30 text-center text-uppercase white-1 split-chars"
+              className="fs--30 text-center text-uppercase white-1 split-chars"
               data-aos="d:loop"
             >
               {pages && pages[0].nodes[0].textData.text}
             </h1>
             <div
-              class="editor mt-lg-50 mt-mobile-30"
+              className="editor mt-lg-50 mt-mobile-30"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
               <h2>{pages && pages[1].nodes[0].textData.text}</h2>
@@ -113,12 +113,12 @@ const PrivacyAndPolicy = ({ pages }) => {
                 <i>{pages && pages[16].nodes[5].textData.text}</i>
               </p>
             </div>
-            <div class="flex-center mt-50">
+            <div className="flex-center mt-50">
               <AnimateLink
                 to="/collections"
                 className="btn-small-wide btn-gray btn-hover-red"
               >
-                <div class="split-chars">
+                <div className="split-chars">
                   <span>Back to collections</span>
                 </div>
               </AnimateLink>
@@ -126,12 +126,12 @@ const PrivacyAndPolicy = ({ pages }) => {
           </div>
         </div>
       </div>
-      <div class="bg-fixed no-tablet" data-aos="d:loop">
-        <div class="container-img">
+      <div className="bg-fixed no-tablet" data-aos="d:loop">
+        <div className="container-img">
           <img
             src="images/img-01.jpg"
             data-preload
-            class="no-mobile media"
+            className="no-mobile media"
             data-parallax-top
             data-translate-y="-20%"
             alt="terms-1"
@@ -139,7 +139,7 @@ const PrivacyAndPolicy = ({ pages }) => {
           <img
             src="images/img-02.jpg"
             data-preload
-            class="no-desktop media"
+            className="no-desktop media"
             alt="terms-2"
           />
         </div>

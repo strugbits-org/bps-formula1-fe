@@ -1,11 +1,26 @@
-import collectionImage from "../images/gallery/img-09.jpg";
 import AnimateLink from "./AnimateLink";
 
 const CollectionData = [
-  { name: "Legacy collection", image: collectionImage, link: "/collections" },
-  { name: "Legacy collection", image: collectionImage, link: "/collections" },
-  { name: "Legacy collection", image: collectionImage, link: "/collections" },
-  { name: "Legacy collection", image: collectionImage, link: "/collections" },
+  {
+    name: "Legacy collection",
+    image: "/images/gallery/img-09.jpg",
+    link: "/collections",
+  },
+  {
+    name: "Legacy collection",
+    image: "/images/gallery/img-09.jpg",
+    link: "/collections",
+  },
+  {
+    name: "Legacy collection",
+    image: "/images/gallery/img-09.jpg",
+    link: "/collections",
+  },
+  {
+    name: "Legacy collection",
+    image: "/images/gallery/img-09.jpg",
+    link: "/collections",
+  },
 ];
 const OtherCollections = () => {
   return (

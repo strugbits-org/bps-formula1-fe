@@ -1,7 +1,16 @@
+import usePageInitialization from "@/hooks/usePageInitialization";
+import { useEffect } from "react";
+
 const ErrorModal = ({ message }) => {
   function closeModal() {
     document.body.setAttribute("data-form-cart-state", "");
   }
+  useEffect(() => {
+    document.body.setAttribute("data-form-cart-state", "success");
+  }, []);
+
+  usePageInitialization("pg-home", ".initScript", ".home");
+
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -37,7 +46,7 @@ const ErrorModal = ({ message }) => {
                         </div>
                       </div>
                       <h2
-                        className="fs--70 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
+                        className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
                         data-aos="d:loop"
                       >
                         {message}

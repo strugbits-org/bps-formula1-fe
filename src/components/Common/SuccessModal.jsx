@@ -1,7 +1,19 @@
+import usePageInitialization from "@/hooks/usePageInitialization";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 const SuccessModal = ({ message }) => {
+  const router = useRouter();
   function closeModal() {
     document.body.setAttribute("data-form-cart-state", "");
+    router.push("/");
   }
+  useEffect(() => {
+    document.body.setAttribute("data-form-cart-state", "success");
+  }, []);
+
+  usePageInitialization("pg-home", ".initScript", ".home");
+
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -37,12 +49,22 @@ const SuccessModal = ({ message }) => {
                         </div>
                       </div>
                       <h2
-                        className="fs--70 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
+                        className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
                         data-aos="d:loop"
                       >
                         {message}
                       </h2>
                       <div className="container-btn">
+                        <button
+                          onClick={closeModal}
+                          className="btn-small-wide btn-red btn-my-account btn-hover-black"
+                          data-close-feedback
+                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                        >
+                          <span className="split-chars">
+                            <span>Ok</span>
+                          </span>
+                        </button>
                         {/* <AnimateLink
                           to={"/collections"}
                           className="btn-small-wide btn-gray btn-back-to-collections btn-hover-red-white mt-md-30 mt-phone-20"

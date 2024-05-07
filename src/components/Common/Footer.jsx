@@ -1,7 +1,6 @@
+import SocialLinks from "@/components/Common/SocialLinks";
 import RenderImage from "@/utils/RenderImage";
 import AnimateLink from "./AnimateLink";
-import Link from "next/link";
-import SocialLinks from "@/components/Common/SocialLinks";
 
 const Footer = ({ footerData, footerLinksData, socialLinks }) => {
   return (
@@ -55,16 +54,18 @@ const Footer = ({ footerData, footerLinksData, socialLinks }) => {
           <div className="col-lg-2 col-4 offset-lg-2 column-3 order-mobile-2">
             <ul className="list-menu-footer">
               {footerLinksData &&
-                footerLinksData.reverse().map((data, index) => {
-                  const { title, link } = data;
-                  return (
-                    <li key={index}>
-                      <AnimateLink to={link || ""} className="link-footer">
-                        <span>{title}</span>
-                      </AnimateLink>
-                    </li>
-                  );
-                })}
+                footerLinksData
+                  .sort((a, b) => a.order - b.order)
+                  .map((data, index) => {
+                    const { title, link } = data;
+                    return (
+                      <li key={index}>
+                        <AnimateLink to={link || ""} className="link-footer">
+                          <span>{title}</span>
+                        </AnimateLink>
+                      </li>
+                    );
+                  })}
             </ul>
           </div>
         </div>

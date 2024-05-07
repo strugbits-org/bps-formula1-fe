@@ -11,48 +11,48 @@ const MatchedProducts = () => {
   );
   return (
     <>
-      <section class="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-10 offset-lg-1 column-1">
+      <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-10 offset-lg-1 column-1">
               <h2
-                class="fs--30 fs-mobile-20 text-uppercase text-center white-1 split-words"
+                className="fs--30 fs-mobile-20 text-uppercase text-center white-1 split-words"
                 data-aos="d:loop"
               >
                 Match with
               </h2>
-              <div id="slider-match-with" class="mt-35" data-aos="d:loop">
-                <div class="swiper-container">
-                  <div class="swiper-wrapper">
+              <div id="slider-match-with" className="mt-35" data-aos="d:loop">
+                <div className="swiper-container">
+                  <div className="swiper-wrapper">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
                       return (
                         <div
                           key={index}
-                          class="swiper-slide"
+                          className="swiper-slide"
                           style={{ margin: "16px", borderRadius: "30px" }}
                         >
                           <div
-                            class="product-link large active"
+                            className="product-link large active"
                             data-product-category
                             data-product-location
                             data-product-colors
                           >
-                            <div class="container-tags">
-                              <div class="best-seller">
+                            <div className="container-tags">
+                              <div className="best-seller">
                                 <span>Best Seller</span>
                               </div>
-                              <button class="btn-bookmark">
-                                <i class="icon-bookmark"></i>
+                              <button className="btn-bookmark">
+                                <i className="icon-bookmark"></i>
                               </button>
                             </div>
-                            <div class="container-copy">
-                              <a href="/#" class="btn-copy copy-link">
+                            <div className="container-copy">
+                              <a href="/#" className="btn-copy copy-link">
                                 <span>MODCH39</span>
-                                <i class="icon-copy"></i>
+                                <i className="icon-copy"></i>
                               </a>
                               <input
                                 type="text"
-                                class="copy-link-url"
+                                className="copy-link-url"
                                 value="MODCH39"
                                 style={{
                                   position: "absolute",
@@ -62,107 +62,109 @@ const MatchedProducts = () => {
                               />
                             </div>
                             <AnimateLink to="/products-post" className="link">
-                              <div class="container-top">
-                                <h2 class="product-title">Pilot Chairred</h2>
-                                <div class="container-info">
-                                  <div class="dimensions">
+                              <div className="container-top">
+                                <h2 className="product-title">
+                                  Pilot Chairred
+                                </h2>
+                                <div className="container-info">
+                                  <div className="dimensions">
                                     <span>24”L X 30”W X 37”H</span>
                                   </div>
                                 </div>
                               </div>
-                              <div class="wrapper-product-img">
+                              <div className="wrapper-product-img">
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="red"
                                   data-default-product-link-active
                                 >
                                   <img
                                     src="images/products/img-01.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="yellow"
                                 >
                                   <img
                                     src="images/products/img-01-blue.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="blue"
                                 >
                                   <img
                                     src="images/products/img-01-brown.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                               </div>
-                              <div class="container-bottom">
-                                <div class="price">$ 99.99</div>
+                              <div className="container-bottom">
+                                <div className="price">$ 99.99</div>
                               </div>
                             </AnimateLink>
-                            <div class="container-color-options">
-                              <ul class="list-color-options">
+                            <div className="container-color-options">
+                              <ul className="list-color-options">
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="red"
                                   data-default-product-link-active
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="yellow"
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01-blue.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="blue"
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01-brown.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                               </ul>
-                              <div class="colors-number">
+                              <div className="colors-number">
                                 <span>+3</span>
                               </div>
                             </div>
                             <btn-modal-open
                               group="modal-product"
-                              class="modal-add-to-cart"
+                              className="modal-add-to-cart"
                             >
                               <span>Add to cart</span>
-                              <i class="icon-cart"></i>
+                              <i className="icon-cart"></i>
                             </btn-modal-open>
                           </div>
                         </div>
@@ -170,13 +172,13 @@ const MatchedProducts = () => {
                     })}
                   </div>
                 </div>
-                <div class="swiper-button-prev no-mobile">
-                  <i class="icon-arrow-left"></i>
+                <div className="swiper-button-prev no-mobile">
+                  <i className="icon-arrow-left"></i>
                 </div>
-                <div class="swiper-button-next no-mobile">
-                  <i class="icon-arrow-right"></i>
+                <div className="swiper-button-next no-mobile">
+                  <i className="icon-arrow-right"></i>
                 </div>
-                <div class="swiper-pagination swiper-pagination-01 no-desktop no-tablet"></div>
+                <div className="swiper-pagination swiper-pagination-01 no-desktop no-tablet"></div>
               </div>
             </div>
           </div>

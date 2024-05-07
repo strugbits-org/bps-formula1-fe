@@ -37,21 +37,21 @@ export default function Document() {
         // className={inter.className}
         data-scroll-direction="initial"
         data-load="first-loading"
-        class="overflow-hidden"
+        className="overflow-hidden"
       >
-        <span class="initScript d-none"></span>
-        <span class="home d-none"></span>
-        <span class="updateWatched d-none"></span>
-        <span class="galleryLightBox d-none"></span>
-        <span class="collections d-none"></span>
-        <span class="products d-none"></span>
-        <span class="productsPost d-none"></span>
-        <span class="cartPage d-none"></span>
-        <span class="myAccount d-none"></span>
-        <span class="savedProducts d-none"></span>
-        <span class="quotesHistory d-none"></span>
-        <span class="changePassword d-none"></span>
-        <span class="galleryImages d-none"></span>
+        <span className="initScript d-none"></span>
+        <span className="home d-none"></span>
+        <span className="updateWatched d-none"></span>
+        <span className="galleryLightBox d-none"></span>
+        <span className="collections d-none"></span>
+        <span className="products d-none"></span>
+        <span className="productsPost d-none"></span>
+        <span className="cartPage d-none"></span>
+        <span className="myAccount d-none"></span>
+        <span className="savedProducts d-none"></span>
+        <span className="quotesHistory d-none"></span>
+        <span className="changePassword d-none"></span>
+        <span className="galleryImages d-none"></span>
         <Main />
         <NextScript />
       </body>

@@ -1,16 +1,26 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Disclaimer from "./Discalimer";
+import createWixClient from "@/config/WixConfig";
 // import ReCAPTCHA from "react-google-recaptcha-enterprise";
 // import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-const CreateAccount = ({ data, dropdown }) => {
+
+const WixClient = createWixClient();
+
+const CreateAccount = ({
+  data,
+  dropdown,
+  successMessageVisible,
+  setSuccessMessageVisible,
+  setErrorMessageVisible,
+  setMessage,
+}) => {
   const [captcha, setCaptcha] = useState("");
   // const { createAccountStatus, createAccountError, user } = useAppSelector(
   //   (state) => state.data
   // );
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
-  const [message, setMessage] = useState("");
+  // const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  // const [errorMessageVisible, setErrorMessageVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -32,6 +42,9 @@ const CreateAccount = ({ data, dropdown }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessageVisible(false);
+    setSuccessMessageVisible(false);
+
     try {
       console.log(formData);
       const userData = {
@@ -39,46 +52,49 @@ const CreateAccount = ({ data, dropdown }) => {
         password: formData.password,
         recaptchaToken: captcha,
       };
-      // const response = await WixClient.members.createMember(userData);
-      // dispatch(createAccount(userData));
 
-      // const response = await WixClient.authentication.register(
-      //   userData.loginEmail,
-      //   userData.password,
-      //   { recaptchaToken: captcha }
-      // );
-      // if (response) {
-      //   setMessage("success");
-      // }
-      // if (response.success) {
-      //   setSuccessMessageVisible(true);
-      //   setErrorMessageVisible(false);
-      // } else {
-      //   setSuccessMessageVisible(false);
-      //   setErrorMessageVisible(true);
-      // }
-      // console.log(response);
+      const response = await WixClient.authentication.register(
+        userData.loginEmail,
+        userData.password,
+        { recaptchaToken: captcha }
+      );
+      if (response) {
+        setMessage("Account created Successfully!");
+        setSuccessMessageVisible(true);
+        setErrorMessageVisible(false);
+        setFormData({
+          first_name: "",
+          last_name: "",
+          company: "",
+          phone: "",
+          email: "",
+          password: "",
+          confirm_password: "",
+          hospitality_space: "",
+        });
+      }
+      console.log(response);
+      return response;
     } catch (error) {
-      setMessage("error");
+      let err = JSON.parse(error.message);
+      setMessage(err.message);
 
-      console.log("Error:", error);
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
     }
   };
 
   // useEffect(() => {
-  //   if (createAccountStatus === "succeeded") {
-  //     document.body.setAttribute("data-form-cart-state", "success");
-  //   }
-
-  // }, [createAccountError, createAccountStatus]);
+  //   // if (createAccountStatus === "succeeded") {
+  //   document.body.setAttribute("data-form-cart-state", "");
+  //   // }
+  // }, []);
   return (
-    <div class="container-create-account d-none">
+    <div className="container-create-account d-none">
       <div
-        className="container-account"
-        data-form-container
-        data-form-state={message}
+      // className="container-account"
+      // data-form-container
+      // data-form-state={"message"}
       >
         <form
           className="form-account form-create-account"
@@ -181,6 +197,7 @@ const CreateAccount = ({ data, dropdown }) => {
               <i className="icon-password-hide"></i>
             </div>
           </div>
+
           {/* <div className="container-input container-select col-lg-12">
             <div className="container-select-hospitality-space">
               <label htmlFor="account-hospitality-space">

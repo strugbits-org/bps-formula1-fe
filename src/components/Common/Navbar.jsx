@@ -5,8 +5,7 @@ import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
 
-const Navbar = ({ homePageData, collectionsData }) => {
-
+const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   usePageInitialization("pg-home", ".initScript");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
@@ -29,15 +28,15 @@ const Navbar = ({ homePageData, collectionsData }) => {
     }
   }, [pathname, router]);
 
-  const handleCollectionSelection = (name) => {
+  const handleCollectionSelection = (name, collectionSlug) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
-    navigate("/collections");
+    router.push(`/collections-post/` + collectionSlug);
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
-    navigate("/products");
+    router.push("/products");
   };
 
   const handleSubmit = (e) => {
@@ -46,7 +45,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
       AnimationFunction();
       setTimeout(() => {
         // Replace this with your navigation logic
-        navigate("/search");
+        router.push("/search");
       }, 1000);
     } catch (error) {}
   };
@@ -64,9 +63,9 @@ const Navbar = ({ homePageData, collectionsData }) => {
         <div className="container-h-1 order-phone-2 mr-phone-10">
           {/* <a
             href="gallery.html"
-            class="btn-small btn-dark btn-hover-white-black"
+            className="btn-small btn-dark btn-hover-white-black"
           >
-            <div class="split-chars">
+            <div className="split-chars">
               <span>Gallery</span>
             </div>
           </a> */}
@@ -140,19 +139,37 @@ const Navbar = ({ homePageData, collectionsData }) => {
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
-                {collectionsData?.map((data, index) => {
-                  const { collectionName } = data;
-                  return (
-                    <li
-                      key={index}
-                      onClick={() => handleCollectionSelection(collectionName)}
-                    >
-                      <span className="link-dropdown">
-                        <span>{collectionName}</span>
-                      </span>
-                    </li>
-                  );
-                })}
+                <li
+                  onClick={() => {
+                    setSelectedCollection("All");
+                    setCollectionDropdownOpen(false);
+                    router.push("/collections");
+                  }}
+                >
+                  <span className="link-dropdown">
+                    <span>All</span>
+                  </span>
+                </li>
+                {collectionsData
+                  .sort((a, b) => a.order - b.order)
+                  .map((data, index) => {
+                    const { collectionName, collectionSlug } = data;
+                    return (
+                      <li
+                        key={index}
+                        onClick={() =>
+                          handleCollectionSelection(
+                            collectionName,
+                            collectionSlug
+                          )
+                        }
+                      >
+                        <span className="link-dropdown">
+                          <span>{collectionName}</span>
+                        </span>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           </div>
@@ -172,8 +189,19 @@ const Navbar = ({ homePageData, collectionsData }) => {
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
-                {collectionsData.map((data, index) => {
-                  const { name } = data;
+                <li
+                  onClick={() => {
+                    setSelectedCollection("All");
+                    setCategoryDropdownOpen(false);
+                    router.push("/products");
+                  }}
+                >
+                  <span className="link-dropdown">
+                    <span>All</span>
+                  </span>
+                </li>
+                {categoriesData.map((data, index) => {
+                  const { name } = data.parentCollection;
                   return (
                     <li
                       key={index}
@@ -208,7 +236,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
               data-search-form
             >
               <div className="container-input input-header">
-                <label for="search" className="split-chars">
+                <label htmlFor="search" className="split-chars">
                   Search
                 </label>
                 <input type="search" className="search" name="for" required />

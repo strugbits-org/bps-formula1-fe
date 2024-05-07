@@ -1,28 +1,45 @@
 "use client";
-import AnimateLink from "../Common/AnimateLink";
 import { useEffect, useState } from "react";
 import Disclaimer from "./Discalimer";
+import createWixClient from "@/config/WixConfig";
+import { useRouter } from "next/router";
+import Error from "next/error";
+const WixClient = createWixClient();
 
-const SignIn = ({ data }) => {
-  // const { loginError, loginStatus, user } = useAppSelector(
-  //   (state) => state.data
-  // );
+const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  // const dispatch = useAppDispatch();
 
   const LoginUser = async (e) => {
     e.preventDefault();
+    setErrorMessageVisible(false);
     try {
       const userData = {
         loginEmail: formData.email,
         password: formData.password,
       };
-      // dispatch(signInUser(userData));
+
+      const response = await WixClient.authentication.login(
+        userData.loginEmail,
+        userData.password
+      );
+      if (response) {
+        console.log(response);
+        document.cookie =
+          "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
+        router.push("/collections");
+        setTimeout(() => {
+          document.body.dataset.loginState = "logged";
+        }, 800);
+      }
+      return response;
     } catch (error) {
-      console.log("Error:", error);
+      let err = JSON.parse(error.message);
+      setMessage(err.message);
+      setErrorMessageVisible(true);
     }
   };
 
@@ -40,7 +57,7 @@ const SignIn = ({ data }) => {
 
   return (
     <div className="container-sign-in">
-      <div className="wrapper-form-sign-in" data-form-sign-in-container>
+      <div className="wrapper-form-sign-in">
         <form className="form-sign-in form-base" onSubmit={LoginUser}>
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
@@ -90,8 +107,8 @@ const SignIn = ({ data }) => {
       </div>
 
       <Disclaimer data={data.disclaimer} />
-      <button class="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
-        <div class="split-chars">
+      <button className="btn-small-wide btn-gray btn-hover-red btn-create-account w-mobile-100 mt-25">
+        <div className="split-chars">
           <span>Create your account</span>
         </div>
       </button>

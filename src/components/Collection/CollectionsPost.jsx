@@ -1,4 +1,4 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
+import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
 import RenderImage from "@/utils/RenderImage";
 
@@ -14,7 +14,7 @@ const CollectionsPost = ({
   );
 
   const filteredCollectionData = collectionsData.find(
-    (data) => data.collectionClass === `gallery-${slug}`
+    (data) => data.collectionSlug === slug
   );
 
   return (
@@ -37,7 +37,7 @@ const CollectionsPost = ({
                   filteredCollectionData.collectionName}
               </h1>
               <AnimateLink
-                to="/collections-category"
+                to={filteredCollectionData.shopButtonRedirection}
                 className="btn-medium btn-red btn-hover-white mt-lg-35 mt-tablet-25 mt-phone-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
@@ -105,16 +105,16 @@ const CollectionsPost = ({
                 className="container-text fs--14 fs-mobile-12 white-1 collection-text text-center mt-lg-20 mt-tablet-30 mt-phone-25"
                 data-aos="fadeInUp .8s ease-in-out .2s, d:loop"
               >
-                {collectionsPostPageData && (
+                {filteredCollectionData && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: collectionsPostPageData.paragraphContent,
+                      __html: filteredCollectionData.paragraphContent,
                     }}
                   />
                 )}
               </div>
               <AnimateLink
-                to="/collections-category"
+                to={filteredCollectionData.shopButtonRedirection}
                 className="btn-medium btn-red btn-hover-white mt-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >

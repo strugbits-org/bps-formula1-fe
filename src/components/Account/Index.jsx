@@ -1,6 +1,6 @@
 "use client";
-import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
+import { useRouter } from "next/router";
 
 const links = [
   { name: "My Account", icon: "icon-account", href: "/my-account" },
@@ -23,10 +23,18 @@ const links = [
 
 const Account = () => {
   // usePageInitialization(".initScript", ".home");
+  const router = useRouter();
   const handleLogOut = () => {
     try {
-      localStorage.setItem("userLoginStatus", "logged-out");
-      document.body.setAttribute("data-login-state", "");
+      const loggedIn = document.cookie
+        .split(";")
+        .some((item) => item.trim().startsWith("loggedIn=true"));
+      if (loggedIn) {
+        document.cookie =
+          "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.body.setAttribute("data-login-state", "");
+        router.push("/");
+      }
     } catch (error) {
       console.log("Error:", error);
     }

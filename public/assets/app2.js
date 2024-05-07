@@ -307,7 +307,6 @@ var require_app2 = __commonJS({
         ".container-create-account"
       );
       recalcWrapperHeight();
-      console.log(btnCreateAccount, "btnCreateAccount>>>>>");
       btnCreateAccount.addEventListener("click", function () {
         wrapperForm.classList.add("create-account");
         location.hash = "create-account";
@@ -27044,11 +27043,7 @@ var require_app2 = __commonJS({
     // Custom js
     document.querySelector(".initScript").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
-      console.log("Clicked >>>>>>");
       whenContainerReady();
-      // if (!firstLoad) {
-      //   closeSearch();
-      // }
     });
 
     document.querySelector(".updateWatched").addEventListener("click", () => {

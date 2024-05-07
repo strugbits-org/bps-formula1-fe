@@ -2,6 +2,7 @@ import Navbar from "@/components/Common/Navbar";
 import { useRouter } from "next/router";
 import Loader from "@/components/Common/Loader";
 import {
+  getCategoriesData,
   getCollectionsData,
   getFooterData,
   getFooterLinksData,
@@ -20,6 +21,7 @@ export default function App({
   pageProps,
   homePageData,
   collectionsData,
+  categoriesData,
   footerData,
   footerLinksData,
   footerBottomRightSocialLinks,
@@ -30,9 +32,13 @@ export default function App({
   const cleanPath = pathname.split("/")[0].trim();
   markPageLoaded();
   if (typeof document !== "undefined") {
-    document.body.setAttribute("data-login-state", "");
+    const loggedIn = document.cookie
+      .split(";")
+      .some((item) => item.trim().startsWith("loggedIn=true"));
+    if (loggedIn) {
+      document.body.setAttribute("data-login-state", "logged");
+    }
   }
-
   return (
     <div>
       <Loader />
@@ -40,6 +46,7 @@ export default function App({
       <Navbar
         homePageData={homePageData[0]}
         collectionsData={collectionsData}
+        categoriesData={categoriesData}
       />
       <Account />
       <div id="main-transition">
@@ -67,12 +74,14 @@ App.getInitialProps = async (context) => {
   const [
     homePageData,
     collectionsData,
+    categoriesData,
     footerData,
     footerLinksData,
     footerBottomRightSocialLinks,
   ] = await Promise.all([
     getHomePageData(),
     getCollectionsData(),
+    getCategoriesData(),
     getFooterData(),
     getFooterLinksData(),
     getHomeBottomRightSocialLinks(),
@@ -81,6 +90,7 @@ App.getInitialProps = async (context) => {
   return {
     homePageData,
     collectionsData,
+    categoriesData,
     footerData,
     footerLinksData,
     footerBottomRightSocialLinks,

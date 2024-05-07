@@ -6,7 +6,7 @@ const Loader = () => {
           <div className="wrapper-img logo-formula-1">
             <div className="container-img">
               <img
-                src="images/logo-formula-1.svg"
+                src="/images/logo-formula-1.svg"
                 data-preload
                 className="media"
                 alt="logo"
@@ -17,7 +17,7 @@ const Loader = () => {
           <div className="wrapper-img logo-blueprint-rentals">
             <div className="container-img">
               <img
-                src="images/logo-blueprint-rentals.svg"
+                src="/images/logo-blueprint-rentals.svg"
                 data-preload
                 className="media"
                 alt="logo"

@@ -7,19 +7,19 @@ const ChangePassword = ({ changePasswordPageData }) => {
     ".changePassword"
   );
   return (
-    <section class="my-account-intro section-change-password">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-4 col-md-8 offset-lg-4 offset-md-4 column-1">
-            <div class="wrapper-top">
+    <section className="my-account-intro section-change-password">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-lg-4 col-md-8 offset-lg-4 offset-md-4 column-1">
+            <div className="wrapper-top">
               <h1
-                class="fs--60 lh-110 red-1 text-uppercase split-words"
+                className="fs--60 lh-110 red-1 text-uppercase split-words"
                 data-aos="d:loop"
               >
                 {changePasswordPageData && changePasswordPageData.pageTitle}
               </h1>
               <p
-                class="fs--16 fs-tablet-12 mt-md-15 mt-phone-10"
+                className="fs--16 fs-tablet-12 mt-md-15 mt-phone-10"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {changePasswordPageData &&
@@ -27,72 +27,72 @@ const ChangePassword = ({ changePasswordPageData }) => {
               </p>
             </div>
             <div
-              class="wrapper-bottom mt-lg-50 mt-tablet-25 mt-phone-35"
+              className="wrapper-bottom mt-lg-50 mt-tablet-25 mt-phone-35"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              <div class="container-password" data-form-container>
-                <form class="form-password form-password">
+              <div className="container-password" data-form-container>
+                <form className="form-password form-password">
                   <input type="hidden" name="subject" value="[password]" />
-                  <div class="container-input container-input-password col-lg-12">
-                    <label for="login-password-old">
+                  <div className="container-input container-input-password col-lg-12">
+                    <label htmlFor="login-password-old">
                       {changePasswordPageData &&
                         changePasswordPageData.enterYourOldPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-old"
-                      class="password"
+                      className="password"
                       name="password"
                       type="password"
                       placeholder="* * * * * *"
                       required
                     />
-                    <div class="toggle-password">
-                      <i class="icon-password"></i>
-                      <i class="icon-password-hide"></i>
+                    <div className="toggle-password">
+                      <i className="icon-password"></i>
+                      <i className="icon-password-hide"></i>
                     </div>
                   </div>
-                  <div class="container-input container-input-password col-lg-12">
-                    <label for="login-password-new-1">
+                  <div className="container-input container-input-password col-lg-12">
+                    <label htmlFor="login-password-new-1">
                       {changePasswordPageData &&
                         changePasswordPageData.enterYourNewPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-new-1"
-                      class="password"
+                      className="password"
                       name="password"
                       type="password"
                       placeholder="* * * * * *"
                       required
                     />
-                    <div class="toggle-password">
-                      <i class="icon-password"></i>
-                      <i class="icon-password-hide"></i>
+                    <div className="toggle-password">
+                      <i className="icon-password"></i>
+                      <i className="icon-password-hide"></i>
                     </div>
                   </div>
-                  <div class="container-input container-input-password col-lg-12">
-                    <label for="login-password-new-2">
+                  <div className="container-input container-input-password col-lg-12">
+                    <label htmlFor="login-password-new-2">
                       {changePasswordPageData &&
                         changePasswordPageData.confirmYourNewPasswordInputLabel}
                     </label>
                     <input
                       id="login-password-new-2"
-                      class="password"
+                      className="password"
                       name="password"
                       type="password"
                       placeholder="* * * * * *"
                       required
                     />
-                    <div class="toggle-password">
-                      <i class="icon-password"></i>
-                      <i class="icon-password-hide"></i>
+                    <div className="toggle-password">
+                      <i className="icon-password"></i>
+                      <i className="icon-password-hide"></i>
                     </div>
                   </div>
-                  <div class="container-submit flex-mobile-center col-lg-12 mt-tablet-15 mt-phone-40">
+                  <div className="container-submit flex-mobile-center col-lg-12 mt-tablet-15 mt-phone-40">
                     <button
                       type="submit"
-                      class="bt-submit btn-medium-wide btn-red btn-hover-black-white w-lg-100"
+                      className="bt-submit btn-medium-wide btn-red btn-hover-black-white w-lg-100"
                     >
-                      <span class="submit-text split-chars">
+                      <span className="submit-text split-chars">
                         <span>
                           {" "}
                           {changePasswordPageData &&

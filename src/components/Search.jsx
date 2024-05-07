@@ -13,13 +13,13 @@ const Search = () => {
 
   return (
     <>
-      <section class="search pt-lg-150 pb-95">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-lg-10 offset-lg-1">
-              <div class="container-title mb-30">
+      <section className="search pt-lg-150 pb-95">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-10 offset-lg-1">
+              <div className="container-title mb-30">
                 <h1
-                  class="fs--30 text-uppercase white-1 split-words"
+                  className="fs--30 text-uppercase white-1 split-words"
                   data-aos="d:loop"
                 >
                   Search result
@@ -28,121 +28,121 @@ const Search = () => {
                 <FilterButton />
               </div>
               <ul
-                class="list-search grid-lg-20 grid-md-50 grid-50"
+                className="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
                   return (
-                    <li key={index} class="grid-item">
+                    <li key={index} className="grid-item">
                       <div
                         key={index}
-                        class="product-link small saved-products landscape-fix active"
+                        className="product-link small saved-products landscape-fix active"
                         data-product-category
                         data-product-location
                         data-product-colors
                       >
-                        <div class="container-tags">
-                          <button class="btn-bookmark">
-                            <i class="icon-bookmark"></i>
+                        <div className="container-tags">
+                          <button className="btn-bookmark">
+                            <i className="icon-bookmark"></i>
                           </button>
                         </div>
-                        <Link to="/products-post" class="link">
-                          <div class="container-top">
-                            <h2 class="product-title">Pilot Chairred</h2>
+                        <Link to="/products-post" className="link">
+                          <div className="container-top">
+                            <h2 className="product-title">Pilot Chairred</h2>
                           </div>
-                          <div class="wrapper-product-img">
+                          <div className="wrapper-product-img">
                             <div
-                              class="container-img product-img"
+                              className="container-img product-img"
                               data-get-product-link-color="red"
                               data-default-product-link-active
                             >
                               <img
                                 src={productImage}
                                 data-preload
-                                class="media"
+                                className="media"
                                 alt="search-1"
                               />
                             </div>
                             <div
-                              class="container-img product-img"
+                              className="container-img product-img"
                               data-get-product-link-color="yellow"
                             >
                               <img
                                 src={productImageBlue}
                                 data-preload
-                                class="media"
+                                className="media"
                                 alt="search-2"
                               />
                             </div>
                             <div
-                              class="container-img product-img"
+                              className="container-img product-img"
                               data-get-product-link-color="blue"
                             >
                               <img
                                 src={productImageBrown}
                                 data-preload
-                                class="media"
+                                className="media"
                                 alt="search-3"
                               />
                             </div>
                           </div>
-                          <div class="container-bottom">
-                            <div class="price">$ 99.99</div>
+                          <div className="container-bottom">
+                            <div className="price">$ 99.99</div>
                           </div>
                         </Link>
-                        <div class="container-color-options">
-                          <ul class="list-color-options">
+                        <div className="container-color-options">
+                          <ul className="list-color-options">
                             <li
-                              class="list-item"
+                              className="list-item"
                               data-set-product-link-color="red"
                               data-default-product-link-active
                             >
-                              <div class="container-img">
+                              <div className="container-img">
                                 <img
                                   src="images/products/img-01.png"
                                   data-preload
-                                  class="media"
+                                  className="media"
                                   alt="search-4"
                                 />
                               </div>
                             </li>
                             <li
-                              class="list-item"
+                              className="list-item"
                               data-set-product-link-color="yellow"
                             >
-                              <div class="container-img">
+                              <div className="container-img">
                                 <img
                                   src="images/products/img-01-blue.png"
                                   data-preload
-                                  class="media"
+                                  className="media"
                                   alt="search-4"
                                 />
                               </div>
                             </li>
                             <li
-                              class="list-item"
+                              className="list-item"
                               data-set-product-link-color="blue"
                             >
-                              <div class="container-img">
+                              <div className="container-img">
                                 <img
                                   src="images/products/img-01-brown.png"
                                   data-preload
-                                  class="media"
+                                  className="media"
                                   alt="search-"
                                 />
                               </div>
                             </li>
                           </ul>
-                          <div class="colors-number">
+                          <div className="colors-number">
                             <span>+3</span>
                           </div>
                         </div>
                         <btn-modal-open
                           group="modal-product"
-                          class="modal-add-to-cart"
+                          className="modal-add-to-cart"
                         >
                           <span>Add to cart</span>
-                          <i class="icon-cart"></i>
+                          <i className="icon-cart"></i>
                         </btn-modal-open>
                       </div>
                     </li>

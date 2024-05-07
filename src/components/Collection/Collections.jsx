@@ -22,28 +22,29 @@ const Collections = ({ collectionsPageData, collectionsData }) => {
               className="list-other-collections grid-md-50 mt-30"
               data-aos="d:loop"
             >
-              {collectionsData.map((data, index) => {
-                const { collectionName, mainImage, collectionClass } = data;
-                const slug = collectionClass.split("gallery-")[1];
-                return (
-                  <li key={index} className="grid-item">
-                    <AnimateLink
-                      to={`/collections-post/${slug}`}
-                      className="collection-link large"
-                    >
-                      <h3 className="collection-title">{collectionName}</h3>
-                      <div className="container-img">
-                        <img
-                          src={RenderImage(mainImage)}
-                          data-preload
-                          className="media"
-                          alt="product"
-                        />
-                      </div>
-                    </AnimateLink>
-                  </li>
-                );
-              })}
+              {collectionsData
+                .sort((a, b) => a.order - b.order)
+                .map((data, index) => {
+                  const { collectionName, mainImage, collectionSlug } = data;
+                  return (
+                    <li key={index} className="grid-item">
+                      <AnimateLink
+                        to={`/collections-post/${collectionSlug}`}
+                        className="collection-link large"
+                      >
+                        <h3 className="collection-title">{collectionName}</h3>
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(mainImage)}
+                            data-preload
+                            className="media"
+                            alt="product"
+                          />
+                        </div>
+                      </AnimateLink>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

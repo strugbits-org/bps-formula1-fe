@@ -65,7 +65,7 @@ const Gallery = ({
               >
                 {galleryPageData && galleryPageData.galleryHeading}
               </h1>
-              <div class="container-dropdown active" data-parent-dropdown>
+              <div className="container-dropdown active" data-parent-dropdown>
                 <button
                   className="btn-dropdown"
                   onClick={() => setOption(!option)}
@@ -75,7 +75,7 @@ const Gallery = ({
                   <i className="icon-arrow-down"></i>
                 </button>
                 <div
-                  class={`wrapper-list-dropdown ${
+                  className={`wrapper-list-dropdown ${
                     option === true ? "active" : ""
                   }`}
                   data-get-dropdown="collections"

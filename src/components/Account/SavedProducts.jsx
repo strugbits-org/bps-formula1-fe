@@ -10,135 +10,137 @@ const SavedProducts = ({ savedProductPageData }) => {
 
   return (
     <>
-      <section class="my-account-intro section-saved-products">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-8 offset-lg-3 offset-md-4 column-1">
-              <div class="wrapper-top">
+      <section className="my-account-intro section-saved-products">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-8 offset-lg-3 offset-md-4 column-1">
+              <div className="wrapper-top">
                 <h1
-                  class="fs--60 red-1 text-uppercase split-words"
+                  className="fs--60 red-1 text-uppercase split-words"
                   data-aos="d:loop"
                 >
                   {savedProductPageData && savedProductPageData.pageTitle}
                 </h1>
               </div>
-              <div class="wrapper-bottom mt-lg-55 mt-tablet-45 mt-phone-25">
+              <div className="wrapper-bottom mt-lg-55 mt-tablet-45 mt-phone-25">
                 <ul
-                  class="list-saved-products grid-lg-25 grid-mobile-50"
+                  className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
                     (data, index) => {
                       return (
-                        <li key={index} class="grid-item">
+                        <li key={index} className="grid-item">
                           <div
-                            class="product-link small saved-products active"
+                            className="product-link small saved-products active"
                             data-product-category
                             data-product-location
                             data-product-colors
                           >
-                            <div class="container-tags">
-                              <button class="btn-bookmark">
-                                <i class="icon-bookmark"></i>
+                            <div className="container-tags">
+                              <button className="btn-bookmark">
+                                <i className="icon-bookmark"></i>
                               </button>
                             </div>
-                            <a href="products-post.html" class="link">
-                              <div class="container-top">
-                                <h2 class="product-title">Pilot Chairred</h2>
+                            <a href="products-post.html" className="link">
+                              <div className="container-top">
+                                <h2 className="product-title">
+                                  Pilot Chairred
+                                </h2>
                               </div>
-                              <div class="wrapper-product-img">
+                              <div className="wrapper-product-img">
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="red"
                                   data-default-product-link-active
                                 >
                                   <img
                                     src="images/products/img-01.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="yellow"
                                 >
                                   <img
                                     src="images/products/img-01-blue.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                                 <div
-                                  class="container-img product-img"
+                                  className="container-img product-img"
                                   data-get-product-link-color="blue"
                                 >
                                   <img
                                     src="images/products/img-01-brown.png"
                                     data-preload
-                                    class="media"
+                                    className="media"
                                     alt="product"
                                   />
                                 </div>
                               </div>
-                              <div class="container-bottom">
-                                <div class="price">$ 99.99</div>
+                              <div className="container-bottom">
+                                <div className="price">$ 99.99</div>
                               </div>
                             </a>
-                            <div class="container-color-options">
-                              <ul class="list-color-options">
+                            <div className="container-color-options">
+                              <ul className="list-color-options">
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="red"
                                   data-default-product-link-active
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="yellow"
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01-blue.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                                 <li
-                                  class="list-item"
+                                  className="list-item"
                                   data-set-product-link-color="blue"
                                 >
-                                  <div class="container-img">
+                                  <div className="container-img">
                                     <img
                                       src="images/products/img-01-brown.png"
                                       data-preload
-                                      class="media"
+                                      className="media"
                                       alt="product"
                                     />
                                   </div>
                                 </li>
                               </ul>
-                              <div class="colors-number">
+                              <div className="colors-number">
                                 <span>+3</span>
                               </div>
                             </div>
                             <btn-modal-open
                               group="modal-product"
-                              class="modal-add-to-cart"
+                              className="modal-add-to-cart"
                             >
                               <span>Add to cart</span>
-                              <i class="icon-cart"></i>
+                              <i className="icon-cart"></i>
                             </btn-modal-open>
                           </div>
                         </li>
@@ -146,9 +148,9 @@ const SavedProducts = ({ savedProductPageData }) => {
                     }
                   )}
                 </ul>
-                <div class="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                  <button class="btn-medium btn-red btn-hover-white">
-                    <span class="split-chars">
+                <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
+                  <button className="btn-medium btn-red btn-hover-white">
+                    <span className="split-chars">
                       <span>Load more</span>
                     </span>
                   </button>

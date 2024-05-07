@@ -1,8 +1,8 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
 import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
+import usePageInitialization from "@/hooks/usePageInitialization";
 
 const chairCategory = [
   "Accent chairs",
@@ -40,7 +40,7 @@ const Products = () => {
                   return (
                     <li key={index} className="list-item">
                       <button className="btn-tag ">
-                        {/* active- class for active button */}
+                        {/* active- className for active button */}
                         <span>{data}</span>
                       </button>
                     </li>
@@ -124,7 +124,7 @@ const Products = () => {
                               <img
                                 src="images/products/img-01.png"
                                 data-preload
-                                class="media"
+                                className="media"
                                 alt="product"
                               />
                             </div>
@@ -135,7 +135,7 @@ const Products = () => {
                               <img
                                 src="images/products/img-01-blue.png"
                                 data-preload
-                                class="media"
+                                className="media"
                                 alt="product"
                               />
                             </div>
@@ -204,10 +204,10 @@ const Products = () => {
                         </div>
                         <btn-modal-open
                           group="modal-product"
-                          class="modal-add-to-cart"
+                          className="modal-add-to-cart"
                         >
                           <span>Add to cart</span>
-                          <i class="icon-cart"></i>
+                          <i className="icon-cart"></i>
                         </btn-modal-open>
                       </div>
                     </li>

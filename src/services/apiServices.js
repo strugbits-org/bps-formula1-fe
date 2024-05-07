@@ -1,4 +1,4 @@
-import fetchData from "./fetchFunction";
+import fetchData, { fetchReferenceData } from "./fetchFunction";
 
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
@@ -16,9 +16,15 @@ export const getCreateAccountDropdown = () =>
 // GALLERY PAGE APIS
 export const getGalleryPageData = () => fetchData("GalleryPageF1");
 
+// COLLECTIONS DATA
+export const getCollectionsData = () => fetchData("Collectionsf1");
+
+// CATEGORY DATA
+export const getCategoriesData = () =>
+  fetchReferenceData("BPSCatalogStructure");
+
 // COLLECTIONS PAGE API
 export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
-export const getCollectionsData = () => fetchData("Collectionsf1");
 
 // COLLECTIONS POST PAGE DATA
 export const getCollectionsPostPageData = () =>

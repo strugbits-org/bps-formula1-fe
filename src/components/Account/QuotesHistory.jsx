@@ -10,52 +10,55 @@ const QuotesHistory = ({ quoteHistoryPageData }) => {
   );
   return (
     <>
-      <section class="my-account-intro section-quotes-history">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-8 offset-lg-3 offset-md-4">
+      <section className="my-account-intro section-quotes-history">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-md-8 offset-lg-3 offset-md-4">
               <h1
-                class="fs--60 red-1 text-uppercase split-words"
+                className="fs--60 red-1 text-uppercase split-words"
                 data-aos="d:loop"
               >
                 {quoteHistoryPageData && quoteHistoryPageData.pageTitle}
               </h1>
-              <div class="no-results d-none">
-                <h2 class="fs--30 fw-400 red-1 split-words" data-aos="d:loop">
+              <div className="no-results d-none">
+                <h2
+                  className="fs--30 fw-400 red-1 split-words"
+                  data-aos="d:loop"
+                >
                   No quotes history
                 </h2>
               </div>
               <ul
-                class="list-quotes-history mt-lg-70 mt-mobile-30"
+                className="list-quotes-history mt-lg-70 mt-mobile-30"
                 data-aos="d:loop"
               >
                 {[1, 2, 3, 4].map((data, index) => {
                   return (
-                    <li key={index} class="list-item">
-                      <div class="content">
-                        <div class="name-date">
-                          <h2 class="name">Ferrari</h2>
-                          <div class="date">February, 09h, 2024</div>
+                    <li key={index} className="list-item">
+                      <div className="content">
+                        <div className="name-date">
+                          <h2 className="name">Ferrari</h2>
+                          <div className="date">February, 09h, 2024</div>
                         </div>
-                        <div class="value">$ 45.000</div>
-                        <div class="container-btn">
+                        <div className="value">$ 45.000</div>
+                        <div className="container-btn">
                           <btn-modal-open
                             group="modal-quotes-history"
-                            class="btn-small btn-white-red btn-hover-red-white"
+                            className="btn-small btn-white-red btn-hover-red-white"
                           >
-                            <div class="split-chars">
+                            <div className="split-chars">
                               <span>View</span>
                             </div>
-                            <i class="icon-arrow-diagonal"></i>
+                            <i className="icon-arrow-diagonal"></i>
                           </btn-modal-open>
                           <AnimateLink
                             to="/cart"
                             className="btn-small btn-red btn-hover-black"
                           >
-                            <div class="split-chars">
+                            <div className="split-chars">
                               <span>Order again</span>
                             </div>
-                            <i class="icon-arrow-diagonal"></i>
+                            <i className="icon-arrow-diagonal"></i>
                           </AnimateLink>
                         </div>
                       </div>

@@ -7,6 +7,10 @@ import RenderVideo from "@/utils/RenderVideo";
 import RenderImage from "@/utils/RenderImage";
 import SignIn from "../Registration/SignIn";
 import SocialLinks from "@/components/Common/SocialLinks";
+import SuccessModal from "../Common/SuccessModal";
+import { useState } from "react";
+import ErrorModal from "../Common/ErrorModal";
+import { pageLoadFinished } from "@/utils/AnimationFunctions";
 
 const HomePage = ({
   homePageData,
@@ -16,7 +20,10 @@ const HomePage = ({
   createAccountPage,
   createAccountDropdown,
 }) => {
-  // pageLoadFinished();
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [message, setMessage] = useState("Mes");
+
   // const {
   //   homeStatus,
   //   successMessage,
@@ -43,8 +50,8 @@ const HomePage = ({
     >
       {/* {loginError !== null && <ErrorModal message={errorMessage} />}
       {createAccountError !== null && <ErrorModal message={errorMessage} />} */}
-      {/* <ErrorModal message={errorMessage} /> */}
-      {/* <SuccessModal message={successMessage} /> */}
+      {errorMessageVisible && <ErrorModal message={message} />}
+      {successMessageVisible && <SuccessModal message={message} />}
 
       <div className="container-fluid pos-relative z-5">
         <div className="row">
@@ -68,12 +75,22 @@ const HomePage = ({
                   />
                 </div>
               </div>
-              {signInPage && <SignIn data={signInPage} />}
+              {signInPage && (
+                <SignIn
+                  data={signInPage}
+                  setErrorMessageVisible={setErrorMessageVisible}
+                  setMessage={setMessage}
+                />
+              )}
 
               {createAccountPage && (
                 <CreateAccount
                   data={createAccountPage}
                   dropdown={createAccountDropdown}
+                  successMessageVisible={successMessageVisible}
+                  setSuccessMessageVisible={setSuccessMessageVisible}
+                  setErrorMessageVisible={setErrorMessageVisible}
+                  setMessage={setMessage}
                 />
               )}
             </div>
