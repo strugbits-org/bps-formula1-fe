@@ -1,16 +1,8 @@
-import { Link } from "react-router-dom";
-
-import usePageInitialization from "../hooks/usePageInitialization";
 import AddToCartModal from "./Product/AddToCartModal";
-
-import productImageBrown from "../images/products/img-01-brown.png";
-import productImageBlue from "../images/products/img-01-blue.png";
-import productImage from "../images/products/img-01.png";
 import FilterButton from "./Common/FilterButton";
+import Link from "next/link";
 
 const Search = () => {
-  usePageInitialization("pg-search", ".initScript", ".products");
-
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -46,7 +38,7 @@ const Search = () => {
                             <i className="icon-bookmark"></i>
                           </button>
                         </div>
-                        <Link to="/products-post" className="link">
+                        <Link href="/products-post" className="link">
                           <div className="container-top">
                             <h2 className="product-title">Pilot Chairred</h2>
                           </div>
@@ -57,7 +49,7 @@ const Search = () => {
                               data-default-product-link-active
                             >
                               <img
-                                src={productImage}
+                                src={"/images/products/img-01.png"}
                                 data-preload
                                 className="media"
                                 alt="search-1"
@@ -68,7 +60,7 @@ const Search = () => {
                               data-get-product-link-color="yellow"
                             >
                               <img
-                                src={productImageBlue}
+                                src={"/images/products/img-01-blue.png"}
                                 data-preload
                                 className="media"
                                 alt="search-2"
@@ -79,7 +71,7 @@ const Search = () => {
                               data-get-product-link-color="blue"
                             >
                               <img
-                                src={productImageBrown}
+                                src={"/images/products/img-01-brown.png"}
                                 data-preload
                                 className="media"
                                 alt="search-3"
@@ -139,7 +131,7 @@ const Search = () => {
                         </div>
                         <btn-modal-open
                           group="modal-product"
-                          className="modal-add-to-cart"
+                          class="modal-add-to-cart"
                         >
                           <span>Add to cart</span>
                           <i className="icon-cart"></i>
@@ -154,7 +146,7 @@ const Search = () => {
         </div>
       </section>
 
-      <AddToCartModal />
+      {/* <AddToCartModal /> */}
     </>
   );
 };
