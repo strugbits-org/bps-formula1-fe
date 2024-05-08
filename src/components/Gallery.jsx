@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import usePageInitialization from "../hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import RenderImage from "../utils/RenderImage";
+import SocialLinks from "./Common/SocialLinks";
 
 const Gallery = ({
   galleryPageData,
@@ -14,15 +15,19 @@ const Gallery = ({
   const [collectionFilter, setCollectionFilter] = useState("all");
   const [option, setOption] = useState(false);
   const [allItemsLoaded, setAllItemsLoaded] = useState(false);
-  let totalItems = 0;
-  const [visibleItems, setVisibleItems] = useState(3);
+  const [visibleItems, setVisibleItems] = useState(15);
 
+  const loadMore = () => {
+    setVisibleItems((prev) => prev + 15);
+  };
+  let totalVisibleItems = 0;
   usePageInitialization(
     "pg-gallery",
     ".initScript",
     ".galleryImages",
     ".productsPost"
   );
+
   const filterCollection = (data) => {
     setOption(false);
     setVisibleItems(5);
@@ -43,16 +48,26 @@ const Gallery = ({
     };
   }, [option]);
 
-  const handleLoadMore = () => {
-    setVisibleItems((prevVisibleItems) => {
-      if (prevVisibleItems < totalItems) {
-        return prevVisibleItems + 3;
-      } else {
-        setAllItemsLoaded(true);
-        return prevVisibleItems;
+  useEffect(() => {
+    let totalItemsCount = 0;
+    collectionsData.forEach((data) => {
+      if (
+        collectionFilter === "all" ||
+        data.collectionSlug === collectionFilter
+      ) {
+        totalItemsCount += data.gallery1.length;
       }
     });
-  };
+    if (visibleItems >= totalItemsCount) {
+      setAllItemsLoaded(true);
+    } else {
+      setAllItemsLoaded(false);
+    }
+  }, [visibleItems, collectionsData, collectionFilter]);
+
+  collectionsData.sort((a, b) => a.order - b.order);
+
+  let allItems = 0;
   return (
     <section className="gallery pt-lg-145 pb-90" ref={selectRef}>
       <div className="container-fluid">
@@ -93,11 +108,11 @@ const Gallery = ({
                     </li>
                     {/* )} */}
                     {collectionsData?.map((data, index) => {
-                      const { collectionName, collectionClass } = data;
+                      const { collectionName, collectionSlug } = data;
                       return (
                         <li key={index}>
                           <button
-                            onClick={() => filterCollection(collectionClass)}
+                            onClick={() => filterCollection(collectionSlug)}
                             data-option-dropdown
                             className="link-dropdown"
                           >
@@ -119,20 +134,24 @@ const Gallery = ({
                 data-default-collections-active
                 data-get-collections="legacy"
               >
-                {collectionsData
-                  ?.slice()
-                  .sort((a, b) => a.order - b.order)
-                  .map((data, index) => {
-                    const { gallery1, collectionClass } = data;
-                    if (
-                      collectionFilter === collectionClass ||
-                      collectionFilter === "all"
-                    ) {
-                      totalItems += gallery1.length;
+                {collectionsData.map((data, index) => {
+                  const { gallery1, collectionSlug } = data;
+                  const isVisibleCollection =
+                    collectionFilter === collectionSlug ||
+                    collectionFilter === "all";
+                  if (isVisibleCollection) {
+                    const remainingItems = visibleItems - totalVisibleItems;
+                    const visibleItemsFromCollection = Math.min(
+                      remainingItems,
+                      gallery1.length
+                    );
+                    totalVisibleItems += visibleItemsFromCollection;
+
+                    if (visibleItemsFromCollection > 0) {
                       return (
                         <React.Fragment key={index}>
                           {gallery1
-                            ?.slice(0, visibleItems) // Show only the first 'visibleItems' items
+                            .slice(0, visibleItemsFromCollection)
                             .map((galleryData, galleryIndex) => {
                               const { src } = galleryData;
 
@@ -162,14 +181,17 @@ const Gallery = ({
                     } else {
                       return null;
                     }
-                  })}
+                  }
+                })}
               </ul>
             </div>
             {/* Load More Button */}
             <div className="flex-center mt-lg-30 mt-mobile-45">
               <button
-                onClick={handleLoadMore}
+                onClick={loadMore}
                 className="btn-medium btn-red btn-hover-white"
+                style={allItemsLoaded ? { cursor: "not-allowed" } : {}}
+                disabled={allItemsLoaded}
               >
                 <div className="split-chars">
                   <span>
@@ -193,21 +215,7 @@ const Gallery = ({
                   );
                 })}
               </div>
-              <ul className="list-social-media">
-                {bottomSocialLinks?.map((data, index) => {
-                  const { link, iconClass } = data;
-                  return (
-                    <li key={index}>
-                      <AnimateLink
-                        to={link || ""}
-                        className="link-social-media"
-                      >
-                        <i className={iconClass}></i>
-                      </AnimateLink>
-                    </li>
-                  );
-                })}
-              </ul>
+              <SocialLinks data={bottomSocialLinks} />
             </div>
           </div>
         </div>

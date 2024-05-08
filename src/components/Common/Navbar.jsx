@@ -1,12 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import usePageInitialization from "@/hooks/usePageInitialization";
-import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
 
+import { pageLoadStart } from "@/utils/AnimationFunctions";
+import AnimateLink from "@/components/Common/AnimateLink";
+
+const selectedCollectionName = {
+  "classic-vegas":"Classic Vegas",
+  "paddock":"Paddock",
+  "neon-house":"Neon House",
+  "legacy":"Legacy",
+}
+
+
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
-  usePageInitialization("pg-home", ".initScript");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
@@ -17,6 +25,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const [previousPath, setPreviousPath] = useState(null);
   useEffect(() => {
     if (router) {
+      setSelectedCollection(selectedCollectionName[router.query.slug ] || "All");
       setPreviousPath(location);
       if (
         pathname === "/" &&
@@ -31,18 +40,20 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const handleCollectionSelection = (name, collectionSlug) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
+    pageLoadStart();
     router.push(`/collections-post/` + collectionSlug);
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
+    pageLoadStart();
     router.push("/products");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      AnimationFunction();
+      pageLoadStart();
       setTimeout(() => {
         // Replace this with your navigation logic
         router.push("/search");
@@ -143,10 +154,12 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                   onClick={() => {
                     setSelectedCollection("All");
                     setCollectionDropdownOpen(false);
+                    pageLoadStart();
+
                     router.push("/collections");
                   }}
                 >
-                  <span className="link-dropdown">
+                  <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>
                 </li>
@@ -157,6 +170,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     return (
                       <li
                         key={index}
+                        className="cursor-pointer"
                         onClick={() =>
                           handleCollectionSelection(
                             collectionName,
@@ -191,12 +205,14 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <ul className="list-dropdown">
                 <li
                   onClick={() => {
-                    setSelectedCollection("All");
+                    handleCategorySelection("All");
                     setCategoryDropdownOpen(false);
+                    pageLoadStart();
+
                     router.push("/products");
                   }}
                 >
-                  <span className="link-dropdown">
+                  <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>
                 </li>
@@ -207,7 +223,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                       key={index}
                       onClick={() => handleCategorySelection(name)}
                     >
-                      <span className="link-dropdown">
+                      <span className="link-dropdown cursor-pointer">
                         <span>{name}</span>
                       </span>
                     </li>

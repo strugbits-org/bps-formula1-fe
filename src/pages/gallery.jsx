@@ -5,6 +5,7 @@ import {
   getHomeBottomLeftLink,
   getHomeBottomRightSocialLinks,
 } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({
   galleryPageData,
@@ -12,6 +13,8 @@ export default function Page({
   homeBottomRightSocialLinks,
   homeBottomLeftLink,
 }) {
+  markPageLoaded();
+
   return (
     <Gallery
       galleryPageData={galleryPageData[0]}

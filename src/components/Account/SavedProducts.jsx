@@ -2,11 +2,11 @@ import AddToCartModal from "../Product/AddToCartModal";
 import usePageInitialization from "../../hooks/usePageInitialization";
 
 const SavedProducts = ({ savedProductPageData }) => {
-  usePageInitialization(
-    "pg-my-account-saved-products",
-    ".initScript",
-    ".savedProducts"
-  );
+  // usePageInitialization(
+  //   "pg-my-account-saved-products",
+  //   ".initScript",
+  //   ".savedProducts"
+  // );
 
   return (
     <>

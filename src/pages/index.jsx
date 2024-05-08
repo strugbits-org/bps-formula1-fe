@@ -1,5 +1,5 @@
 import HomePage from "@/components/Home/Home";
-import { pageLoadFinished } from "@/utils/AnimationFunctions";
+// import { pageLoadFinished } from "@/utils/AnimationFunctions";
 import {
   getCreateAccountDropdown,
   getCreateAccountForm,
@@ -8,6 +8,7 @@ import {
   getHomePageData,
   getSignInPage,
 } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({
   homePageData,
@@ -17,6 +18,8 @@ export default function Page({
   createAccountPage,
   createAccountDropdown,
 }) {
+
+  markPageLoaded();
   return (
     <HomePage
       homePageData={homePageData[0]}
@@ -45,7 +48,7 @@ export const getServerSideProps = async () => {
     getCreateAccountForm(),
     getCreateAccountDropdown(),
   ]);
-  pageLoadFinished();
+  // pageLoadFinished();
 
   return {
     props: {

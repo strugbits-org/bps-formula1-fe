@@ -1,4 +1,4 @@
-import usePageInitialization from "@/hooks/usePageInitialization";
+// import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
 import RenderImage from "@/utils/RenderImage";
 
@@ -7,11 +7,11 @@ const CollectionsPost = ({
   collectionsPostPageData,
   collectionsData,
 }) => {
-  usePageInitialization(
-    "pg-collections-post",
-    ".initScript",
-    ".galleryLightBox"
-  );
+  // usePageInitialization(
+  //   "pg-collections-post",
+  //   ".initScript",
+  //   ".galleryLightBox"
+  // );
 
   const filteredCollectionData = collectionsData.find(
     (data) => data.collectionSlug === slug

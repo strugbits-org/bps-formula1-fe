@@ -3,8 +3,11 @@ import {
   getCollectionsData,
   getCollectionsPageData,
 } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ collectionsPageData, collectionsData }) {
+  markPageLoaded();
+
   return (
     <Collections
       collectionsPageData={collectionsPageData[0]}

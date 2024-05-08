@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Disclaimer from "./Discalimer";
 import createWixClient from "@/config/WixConfig";
 import { useRouter } from "next/router";
-import Error from "next/error";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 const WixClient = createWixClient();
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
@@ -12,6 +12,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     email: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const LoginUser = async (e) => {
     e.preventDefault();
@@ -27,9 +28,9 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         userData.password
       );
       if (response) {
-        console.log(response);
         document.cookie =
           "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
+          pageLoadStart();
         router.push("/collections");
         setTimeout(() => {
           document.body.dataset.loginState = "logged";
@@ -54,7 +55,10 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   //   }
 
   // }, [ loginError]);
-
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  }
+  
   return (
     <div className="container-sign-in">
       <div className="wrapper-form-sign-in">
@@ -78,13 +82,13 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               id="login-password"
               className="password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.password}
               onChange={handleChange}
               required
             />
-            <div className="toggle-password">
+            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>

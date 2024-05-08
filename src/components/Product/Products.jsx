@@ -16,7 +16,7 @@ const chairCategory = [
 ];
 
 const Products = () => {
-  usePageInitialization("pg-products", ".initScript", ".products");
+  // usePageInitialization("pg-products", ".initScript", ".products");
 
   return (
     <>
@@ -74,9 +74,8 @@ const Products = () => {
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((data, index) => {
                   return (
-                    <li className="grid-item" data-aos="d:loop">
+                    <li key={index} className="grid-item" data-aos="d:loop">
                       <div
-                        key={index}
                         className="product-link large active"
                         data-product-category
                         data-product-location
@@ -204,10 +203,10 @@ const Products = () => {
                         </div>
                         <btn-modal-open
                           group="modal-product"
-                          className="modal-add-to-cart"
+                          class="modal-add-to-cart"
                         >
                           <span>Add to cart</span>
-                          <i className="icon-cart"></i>
+                          <i class="icon-cart"></i>
                         </btn-modal-open>
                       </div>
                     </li>

@@ -5,7 +5,7 @@ import RenderImage from "@/utils/RenderImage";
 
 const Collections = ({ collectionsPageData, collectionsData }) => {
   // Initialize page
-  usePageInitialization("pg-collections", ".initScript");
+  // usePageInitialization("pg-collections", ".initScript");
 
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">

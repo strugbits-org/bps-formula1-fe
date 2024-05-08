@@ -3,11 +3,11 @@ import AnimateLink from "../Common/AnimateLink";
 import CartModal from "../Common/CartModal";
 
 const QuotesHistory = ({ quoteHistoryPageData }) => {
-  usePageInitialization(
-    "pg-my-account-quotes-history",
-    ".initScript",
-    ".quotesHistory"
-  );
+  // usePageInitialization(
+  //   "pg-my-account-quotes-history",
+  //   ".initScript",
+  //   ".quotesHistory"
+  // );
   return (
     <>
       <section className="my-account-intro section-quotes-history">

@@ -15,6 +15,8 @@ const CreateAccount = ({
   setErrorMessageVisible,
   setMessage,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captcha, setCaptcha] = useState("");
   // const { createAccountStatus, createAccountError, user } = useAppSelector(
   //   (state) => state.data
@@ -83,6 +85,12 @@ const CreateAccount = ({
       setErrorMessageVisible(true);
     }
   };
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  }
+  const toggleConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  }
 
   // useEffect(() => {
   //   // if (createAccountStatus === "succeeded") {
@@ -167,13 +175,13 @@ const CreateAccount = ({
               id="account-password"
               className="password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.password}
               onChange={handleChange}
               required
             />
-            <div className="toggle-password">
+            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
@@ -186,22 +194,22 @@ const CreateAccount = ({
               id="account-confirm-password"
               className="password"
               name="confirm_password"
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.confirm_password}
               onChange={handleChange}
               required
             />
-            <div className="toggle-password">
+            <div onClick={toggleConfirmPassword} className={`toggle-password ${showConfirmPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
           </div>
 
-          {/* <div className="container-input container-select col-lg-12">
+          <div className="container-input container-select col-lg-12">
             <div className="container-select-hospitality-space">
               <label htmlFor="account-hospitality-space">
-                {data?.dropdownLabel}
+                {data?.hospitalityDropdownLabel}
               </label>
               <div className="select">
                 <i className="icon-arrow-down no-desktop"></i>
@@ -212,7 +220,10 @@ const CreateAccount = ({
                     onChange={handleChange}
                     value={formData.hospitality_space}
                   >
-                    {dropdown?.map((data, index) => {
+                    {!formData.hospitality_space && <option >
+                      Choice
+                    </option>}
+                    {dropdown?.sort((a, b) => a.order - b.order).map((data, index) => {
                       const { title } = data;
                       return (
                         <option key={index} value={data}>
@@ -235,7 +246,7 @@ const CreateAccount = ({
                 />
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
