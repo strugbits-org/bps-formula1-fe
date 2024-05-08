@@ -15,6 +15,7 @@ const CreateAccount = ({
   setErrorMessageVisible,
   setMessage,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const [captcha, setCaptcha] = useState("");
   // const { createAccountStatus, createAccountError, user } = useAppSelector(
   //   (state) => state.data
@@ -83,6 +84,9 @@ const CreateAccount = ({
       setErrorMessageVisible(true);
     }
   };
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  }
 
   // useEffect(() => {
   //   // if (createAccountStatus === "succeeded") {
@@ -167,13 +171,13 @@ const CreateAccount = ({
               id="account-password"
               className="password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.password}
               onChange={handleChange}
               required
             />
-            <div className="toggle-password">
+            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
@@ -186,13 +190,13 @@ const CreateAccount = ({
               id="account-confirm-password"
               className="password"
               name="confirm_password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.confirm_password}
               onChange={handleChange}
               required
             />
-            <div className="toggle-password">
+            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
@@ -212,9 +216,9 @@ const CreateAccount = ({
                     onChange={handleChange}
                     value={formData.hospitality_space}
                   >
-                   {!formData.hospitality_space&& <option >
-                         Choice
-                        </option>}
+                    {!formData.hospitality_space && <option >
+                      Choice
+                    </option>}
                     {dropdown?.sort((a, b) => a.order - b.order).map((data, index) => {
                       const { title } = data;
                       return (
