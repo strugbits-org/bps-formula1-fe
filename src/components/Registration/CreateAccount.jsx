@@ -16,6 +16,7 @@ const CreateAccount = ({
   setMessage,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captcha, setCaptcha] = useState("");
   // const { createAccountStatus, createAccountError, user } = useAppSelector(
   //   (state) => state.data
@@ -86,6 +87,9 @@ const CreateAccount = ({
   };
   const togglePassword = () => {
     setShowPassword(!showPassword);
+  }
+  const toggleConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   }
 
   // useEffect(() => {
@@ -190,13 +194,13 @@ const CreateAccount = ({
               id="account-confirm-password"
               className="password"
               name="confirm_password"
-              type={showPassword ? "text" : "password"}
+              type={showConfirmPassword ? "text" : "password"}
               placeholder="* * * * * *"
               value={formData.confirm_password}
               onChange={handleChange}
               required
             />
-            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
+            <div onClick={toggleConfirmPassword} className={`toggle-password ${showConfirmPassword ? "show" : ""}`}>
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>

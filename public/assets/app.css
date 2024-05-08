@@ -16279,6 +16279,9 @@ html.with-fancybox body.hide-scrollbar {
   transition-delay: 0s;
 }
 
-.hidden{
+.hidden {
   display: none;
+}
+.cursor-pointer {
+  cursor: pointer;
 }

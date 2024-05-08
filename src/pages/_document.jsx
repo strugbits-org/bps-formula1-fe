@@ -4,6 +4,8 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
+        <title>Blueprint Studios | F1 Las Vegas Grand Prix</title>
+        <link rel='shortcut icon' href='/favicon.png' />
         <link rel="modulepreload" href="/assets/loader.js" />
         <link rel="modulepreload" href="/assets/app2.js" />
         <link rel="modulepreload" href="/assets/product-link-color.js" />

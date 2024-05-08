@@ -151,7 +151,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     router.push("/collections");
                   }}
                 >
-                  <span className="link-dropdown">
+                  <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>
                 </li>
@@ -162,6 +162,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     return (
                       <li
                         key={index}
+                        className="cursor-pointer"
                         onClick={() =>
                           handleCollectionSelection(
                             collectionName,
@@ -203,7 +204,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     router.push("/products");
                   }}
                 >
-                  <span className="link-dropdown">
+                  <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>
                 </li>
@@ -214,7 +215,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                       key={index}
                       onClick={() => handleCategorySelection(name)}
                     >
-                      <span className="link-dropdown">
+                      <span className="link-dropdown cursor-pointer">
                         <span>{name}</span>
                       </span>
                     </li>

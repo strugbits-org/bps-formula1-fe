@@ -67,7 +67,7 @@ const Account = () => {
             );
           })}
           <li onClick={handleLogOut} className="list-item">
-            <span className="link-account">
+            <span className="link-account cursor-pointer">
               <i className="icon-logout"></i>
               <span>Log Out</span>
             </span>
