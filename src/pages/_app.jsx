@@ -13,7 +13,7 @@ import {
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
 import Footer from "@/components/Common/Footer";
-import { markPageLoaded } from "@/utils/AnimationFunctions";
+// import { markPageLoaded } from "@/utils/AnimationFunctions";
 import Account from "@/components/Account/Index";
 
 export default function App({
@@ -30,7 +30,7 @@ export default function App({
   const pathname =
     router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
   const cleanPath = pathname.split("/")[0].trim();
-  markPageLoaded();
+  // markPageLoaded();
   if (typeof document !== "undefined") {
     const loggedIn = document.cookie
       .split(";")

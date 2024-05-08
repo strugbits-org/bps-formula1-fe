@@ -1,10 +1,7 @@
 "use client";
-import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
 
-const MyAccount = ({ myAccountPageData }) => {
-  usePageInitialization("pg-my-account", ".initScript", ".myAccount");
-
+const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   return (
     <section className="my-account-intro section-my-account">
       <div className="container-fluid">
@@ -53,7 +50,9 @@ const MyAccount = ({ myAccountPageData }) => {
                 <form className="form-account form-my-account">
                   <input type="hidden" name="subject" value="[account]" />
                   <div className="container-input col-lg-3">
-                    <label htmlFor="account-first-name">First name</label>
+                    <label htmlFor="account-first-name">
+                      {createAccountForm && createAccountForm.firstNameLabel}
+                    </label>
                     <input
                       id="account-first-name"
                       name="first_name"
@@ -63,7 +62,10 @@ const MyAccount = ({ myAccountPageData }) => {
                     />
                   </div>
                   <div className="container-input col-lg-3">
-                    <label htmlFor="account-last-name">Last name</label>
+                    <label htmlFor="account-last-name">
+                      {" "}
+                      {createAccountForm && createAccountForm.lastNameLabel}
+                    </label>
                     <input
                       id="account-last-name"
                       name="last_name"
@@ -73,7 +75,10 @@ const MyAccount = ({ myAccountPageData }) => {
                     />
                   </div>
                   <div className="container-input col-lg-3">
-                    <label htmlFor="account-company">Company</label>
+                    <label htmlFor="account-company">
+                      {" "}
+                      {createAccountForm && createAccountForm.companyLabel}
+                    </label>
                     <input
                       id="account-company"
                       name="company"
@@ -83,7 +88,10 @@ const MyAccount = ({ myAccountPageData }) => {
                     />
                   </div>
                   <div className="container-input col-lg-3">
-                    <label htmlFor="account-phone">Phone Number</label>
+                    <label htmlFor="account-phone">
+                      {" "}
+                      {createAccountForm && createAccountForm.phoneNumberLabel}
+                    </label>
                     <input
                       id="account-phone"
                       name="phone"
@@ -93,7 +101,10 @@ const MyAccount = ({ myAccountPageData }) => {
                     />
                   </div>
                   <div className="container-input col-lg-3">
-                    <label htmlFor="account-email">E-mail</label>
+                    <label htmlFor="account-email">
+                      {" "}
+                      {createAccountForm && createAccountForm.emailLabel}
+                    </label>
                     <input
                       id="account-email"
                       name="email"
@@ -102,20 +113,28 @@ const MyAccount = ({ myAccountPageData }) => {
                       required
                     />
                   </div>
-                  {/* <div className="container-input container-select col-lg-9">
+                  <div className="container-input container-select col-lg-9">
                     <div className="container-select-hospitality-space">
                       <label htmlFor="account-hospitality-space">
-                        Where is your hospitality space located?
+                        {createAccountForm && createAccountForm.dropdownLabel}
                       </label>
                       <div className="select">
                         <i className="icon-arrow-down no-desktop"></i>
                         <div className="wrapper-select">
-                          <select className="main-select" name="hospitality_space">
-                            <option value="Choice">Choice</option>
-                            <option value="Paddock">Paddock</option>
-                            <option value="Koval">Koval</option>
-                            <option value="Skybox">Skybox</option>
-                            <option value="Other">Other</option>
+                          <select
+                            className="main-select"
+                            name="hospitality_space"
+                          >
+                            {dropdown
+                              ?.sort((a, b) => a.order - b.order)
+                              .map((data, index) => {
+                                const { title } = data;
+                                return (
+                                  <option key={index} value={data}>
+                                    {title}
+                                  </option>
+                                );
+                              })}
                           </select>
                         </div>
                       </div>
@@ -131,7 +150,8 @@ const MyAccount = ({ myAccountPageData }) => {
                         />
                       </div>
                     </div>
-                  </div> */}
+                  </div>
+
                   <div className="container-submit flex-mobile-center col-lg-6 mt-lg-30 mt-tablet-15 mt-phone-40">
                     <button
                       type="submit"

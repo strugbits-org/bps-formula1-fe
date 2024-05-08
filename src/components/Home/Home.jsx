@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import usePageInitialization from "@/hooks/usePageInitialization";
+// import usePageInitialization from "@/hooks/usePageInitialization";
 import CreateAccount from "../Registration/CreateAccount";
 import RenderVideo from "@/utils/RenderVideo";
 import RenderImage from "@/utils/RenderImage";
@@ -10,7 +10,7 @@ import SocialLinks from "@/components/Common/SocialLinks";
 import SuccessModal from "../Common/SuccessModal";
 import { useState } from "react";
 import ErrorModal from "../Common/ErrorModal";
-import { pageLoadFinished } from "@/utils/AnimationFunctions";
+// import { pageLoadFinished } from "@/utils/AnimationFunctions";
 
 const HomePage = ({
   homePageData,
@@ -42,7 +42,7 @@ const HomePage = ({
   //   dispatch(createAccountForm());
   //   dispatch(createAccountDropdown());
   // }, [dispatch]);
-  usePageInitialization("pg-home", ".initScript", ".home");
+  // usePageInitialization("pg-home", ".initScript", ".home");
   return (
     <section
       className="home-intro home-sign-in section-intro"

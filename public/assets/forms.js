@@ -141,5 +141,5 @@ function Forms() {
     });
   }
 }
-Forms();
-document.addEventListener("pjax:complete", Forms);
+// Forms();
+// document.addEventListener("pjax:complete", Forms);

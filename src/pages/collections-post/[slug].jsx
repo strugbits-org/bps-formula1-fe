@@ -3,10 +3,12 @@ import {
   getCollectionsData,
   getCollectionsPostPageData,
 } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 
 export default function Page({ collectionsPostPageData, collectionsData }) {
   const router = useRouter();
+  markPageLoaded();
 
   return (
     <CollectionsPost

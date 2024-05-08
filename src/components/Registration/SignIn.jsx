@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import Disclaimer from "./Discalimer";
 import createWixClient from "@/config/WixConfig";
 import { useRouter } from "next/router";
-import Error from "next/error";
 const WixClient = createWixClient();
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
@@ -27,7 +26,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         userData.password
       );
       if (response) {
-        console.log(response);
         document.cookie =
           "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
         router.push("/collections");

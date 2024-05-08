@@ -198,7 +198,7 @@ const CreateAccount = ({
             </div>
           </div>
 
-          {/* <div className="container-input container-select col-lg-12">
+          <div className="container-input container-select col-lg-12">
             <div className="container-select-hospitality-space">
               <label htmlFor="account-hospitality-space">
                 {data?.dropdownLabel}
@@ -212,7 +212,10 @@ const CreateAccount = ({
                     onChange={handleChange}
                     value={formData.hospitality_space}
                   >
-                    {dropdown?.map((data, index) => {
+                   {!formData.hospitality_space&& <option >
+                         Choice
+                        </option>}
+                    {dropdown?.sort((a, b) => a.order - b.order).map((data, index) => {
                       const { title } = data;
                       return (
                         <option key={index} value={data}>
@@ -235,7 +238,7 @@ const CreateAccount = ({
                 />
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button

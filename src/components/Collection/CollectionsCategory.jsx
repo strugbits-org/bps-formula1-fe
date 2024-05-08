@@ -14,7 +14,7 @@ const CollectionData = [
   { name: "Legacy collection", image: collectionImage, link: "/products" },
 ];
 const CollectionCategory = () => {
-  usePageInitialization("pg-collections-category", ".initScript");
+  // usePageInitialization("pg-collections-category", ".initScript");
 
   return (
     <>

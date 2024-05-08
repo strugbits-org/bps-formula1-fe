@@ -1,11 +1,11 @@
 import usePageInitialization from "@/hooks/usePageInitialization";
 
 const ChangePassword = ({ changePasswordPageData }) => {
-  usePageInitialization(
-    "pg-my-account-change-password",
-    ".initScript",
-    ".changePassword"
-  );
+  // usePageInitialization(
+  //   "pg-my-account-change-password",
+  //   ".initScript",
+  //   ".changePassword"
+  // );
   return (
     <section className="my-account-intro section-change-password">
       <div className="container-fluid">
