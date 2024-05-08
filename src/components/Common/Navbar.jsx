@@ -1,13 +1,20 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import usePageInitialization from "@/hooks/usePageInitialization";
-import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
+
 import { pageLoadStart } from "@/utils/AnimationFunctions";
+import AnimateLink from "@/components/Common/AnimateLink";
+
+const selectedCollectionName = {
+  "classic-vegas":"Classic Vegas",
+  "paddock":"Paddock",
+  "neon-house":"Neon House",
+  "legacy":"Legacy",
+}
+
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
-  usePageInitialization("pg-home", ".initScript");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
@@ -18,6 +25,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const [previousPath, setPreviousPath] = useState(null);
   useEffect(() => {
     if (router) {
+      setSelectedCollection(selectedCollectionName[router.query.slug ] || "All");
       setPreviousPath(location);
       if (
         pathname === "/" &&
