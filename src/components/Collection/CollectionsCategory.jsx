@@ -1,20 +1,8 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
-import collectionImage from "../../images/gallery/img-09.jpg";
+import RenderImage from "@/utils/RenderImage";
 import AnimateLink from "../Common/AnimateLink";
 
-const CollectionData = [
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-  { name: "Legacy collection", image: collectionImage, link: "/products" },
-];
-const CollectionCategory = () => {
-  // usePageInitialization("pg-collections-category", ".initScript");
+
+const CollectionCategory = ({filteredCategories}) => {
 
   return (
     <>
@@ -35,15 +23,15 @@ const CollectionCategory = () => {
                 Classic vegas
               </h1>
               <ul className="list-collections grid-lg-33 grid-tablet-50">
-                {CollectionData.map((data, index) => {
-                  const { name, image, link } = data;
+                {filteredCategories.map((data, index) => {
+                  const { parentCollection, link } = data;
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
-                      <AnimateLink to={link} className="collection-link small">
-                        <h3 className="collection-title">{name}</h3>
+                      <AnimateLink to={link||""} className="collection-link small">
+                        <h3 className="collection-title">{parentCollection.name}</h3>
                         <div className="container-img">
                           <img
-                            src={image}
+                            src={RenderImage(parentCollection.mainMedia)}
                             data-preload
                             className="media"
                             alt="product"
@@ -106,7 +94,7 @@ const CollectionCategory = () => {
       <div className="bg-fixed no-mobile" data-aos="d:loop">
         <div className="container-img">
           <img
-            src="images/img-03.jpg"
+            src="/images/img-03.jpg"
             data-preload
             className="no-mobile media"
             data-parallax-top
@@ -114,7 +102,7 @@ const CollectionCategory = () => {
             alt="asd"
           />
           <img
-            src="images/img-02.jpg"
+            src="/images/img-02.jpg"
             data-preload
             className="no-desktop media"
             alt="asd"
