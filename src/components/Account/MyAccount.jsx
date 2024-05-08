@@ -2,6 +2,7 @@
 import AnimateLink from "../Common/AnimateLink";
 
 const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
+
   return (
     <section className="my-account-intro section-my-account">
       <div className="container-fluid">
@@ -116,7 +117,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                   <div className="container-input container-select col-lg-9">
                     <div className="container-select-hospitality-space">
                       <label htmlFor="account-hospitality-space">
-                        {createAccountForm && createAccountForm.dropdownLabel}
+                        {createAccountForm && createAccountForm.hospitalityDropdownLabel}
                       </label>
                       <div className="select">
                         <i className="icon-arrow-down no-desktop"></i>

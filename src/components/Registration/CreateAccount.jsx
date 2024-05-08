@@ -201,7 +201,7 @@ const CreateAccount = ({
           <div className="container-input container-select col-lg-12">
             <div className="container-select-hospitality-space">
               <label htmlFor="account-hospitality-space">
-                {data?.dropdownLabel}
+                {data?.hospitalityDropdownLabel}
               </label>
               <div className="select">
                 <i className="icon-arrow-down no-desktop"></i>

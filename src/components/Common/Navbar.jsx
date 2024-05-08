@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   usePageInitialization("pg-home", ".initScript");
@@ -31,18 +32,20 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const handleCollectionSelection = (name, collectionSlug) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
+    pageLoadStart();
     router.push(`/collections-post/` + collectionSlug);
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
+    pageLoadStart();
     router.push("/products");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      AnimationFunction();
+      pageLoadStart();
       setTimeout(() => {
         // Replace this with your navigation logic
         router.push("/search");
@@ -143,6 +146,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                   onClick={() => {
                     setSelectedCollection("All");
                     setCollectionDropdownOpen(false);
+                    pageLoadStart();
+
                     router.push("/collections");
                   }}
                 >
@@ -191,8 +196,10 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <ul className="list-dropdown">
                 <li
                   onClick={() => {
-                    setSelectedCollection("All");
+                    handleCategorySelection("All");
                     setCategoryDropdownOpen(false);
+                    pageLoadStart();
+
                     router.push("/products");
                   }}
                 >

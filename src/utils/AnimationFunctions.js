@@ -131,6 +131,7 @@ export const firstLoadAnimation = async () => {
     document.body.dataset.load = "first-done";
   }, 1200);
   document.body.classList.add("first-load-done");
+  document.body.classList.remove("overflow-hidden");
   document.getElementById("loader").classList.add("hidden");
 };
 

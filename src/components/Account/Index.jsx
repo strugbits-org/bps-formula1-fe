@@ -1,4 +1,5 @@
 "use client";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "../Common/AnimateLink";
 import { useRouter } from "next/router";
 
@@ -32,8 +33,11 @@ const Account = () => {
       if (loggedIn) {
         document.cookie =
           "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.body.setAttribute("data-login-state", "");
-        router.push("/");
+          pageLoadStart();
+          router.push("/");
+          setTimeout(() => {
+            document.body.setAttribute("data-login-state", "");
+          }, 1000);
       }
     } catch (error) {
       console.log("Error:", error);

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Disclaimer from "./Discalimer";
 import createWixClient from "@/config/WixConfig";
 import { useRouter } from "next/router";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 const WixClient = createWixClient();
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
@@ -28,6 +29,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       if (response) {
         document.cookie =
           "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
+          pageLoadStart();
         router.push("/collections");
         setTimeout(() => {
           document.body.dataset.loginState = "logged";
