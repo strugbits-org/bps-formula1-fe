@@ -105,7 +105,6 @@ export const _pageLoadEnd = () => {
 };
 
 export const markPageLoaded = (watched = true) => {
-  console.log("mark page loaded");
   if (typeof window !== "undefined") {
     setTimeout(() => window.scrollTo({ top: 0 }), 200);
     initAnimations();

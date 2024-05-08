@@ -298,7 +298,6 @@ var require_app2 = __commonJS({
     }
     const pageName$8 = "home";
     function main$8() {
-      console.log("home ");
       let columnForm = document.querySelector(".column-form");
       let wrapperForm = document.querySelector(".wrapper-form");
       let btnSignIn = document.querySelector(".btn-sign-in:not(.js-running)");
@@ -26966,7 +26965,6 @@ var require_app2 = __commonJS({
     var firstLoad = true;
     function whenContainerReady() {
 
-      console.log("when container ready");
       if (firstLoad) {
         firstLoad = false;
       }
@@ -26983,7 +26981,6 @@ var require_app2 = __commonJS({
 
       const page = window.location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
       const page_name = page.split("/")[0].trim();
-      console.log(page_name, 'page_name>>');
       document.body.dataset.pg = `pg-${page_name}`;
 
       switch (page_name) {
