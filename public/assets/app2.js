@@ -18947,18 +18947,18 @@ var require_app2 = __commonJS({
     function main$4() {
       filterProducts();
       productLinkColor();
-      document.addEventListener(
-        "pjax:switch",
-        function () {
-          document.querySelector(".form-search").reset();
-          document
-            .querySelectorAll(".form-search .preenchido")
-            .forEach((element) => {
-              element.classList.remove("preenchido");
-            });
-        },
-        { once: true }
-      );
+      // document.addEventListener(
+      //   "pjax:switch",
+      //   function () {
+      //     document.querySelector(".form-search").reset();
+      //     document
+      //       .querySelectorAll(".form-search .preenchido")
+      //       .forEach((element) => {
+      //         element.classList.remove("preenchido");
+      //       });
+      //   },
+      //   { once: true }
+      // );
     }
     const pgSearch = new Page({
       pageName: pageName$4,
@@ -26392,7 +26392,7 @@ var require_app2 = __commonJS({
     const pageName$3 = "gallery";
     function main$3() {
       galleryLightbox();
-    
+
       new Dropdown({
         parentSelector: "[data-parent-dropdown]",
         setSelector: "[data-set-dropdown]",
@@ -26965,7 +26965,7 @@ var require_app2 = __commonJS({
     });
     var firstLoad = true;
     function whenContainerReady() {
-      
+
       console.log("when container ready");
       if (firstLoad) {
         firstLoad = false;
@@ -26983,33 +26983,40 @@ var require_app2 = __commonJS({
 
       const page = window.location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
       const page_name = page.split("/")[0].trim();
-      console.log(page_name,'page_name>>');
+      console.log(page_name, 'page_name>>');
       document.body.dataset.pg = `pg-${page_name}`;
 
       switch (page_name) {
         case 'home':
           main$8();
           break;
-          case 'gallery':
-          ()=>{
+        case 'gallery':
+          () => {
             main$3();
             collections();
             galleryLightbox();
           };
           break;
-          case 'collections-post':
-          ()=>{main$2()
-      galleryLightbox();
-      }
+        case 'collections-post':
+          () => {
+            main$2()
+            galleryLightbox();
+          }
           break;
-          case 'my-account':
+        case 'my-account':
           main$03();
-          case 'my-account-saved-products':
+        case 'my-account-saved-products':
           main();
-          case 'my-account-quotes-history':
+        case 'my-account-quotes-history':
           main$1();
-          case 'my-account-change-password':
+        case 'my-account-change-password':
           main$01();
+          break;
+        case 'search':
+          main$4();
+          break;
+        case 'cart':
+          main$6();
           break;
         default:
           break;

@@ -1,9 +1,7 @@
-import usePageInitialization from "../hooks/usePageInitialization";
 import RequestForQuote from "./Common/RequestForQuote";
 import AnimateLink from "./Common/AnimateLink";
 
 const Cart = () => {
-  usePageInitialization("pg-cart", ".initScript", ".cartPage");
 
   return (
     <>

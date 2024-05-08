@@ -1,13 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
-  usePageInitialization("pg-home", ".initScript");
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("Collections");
