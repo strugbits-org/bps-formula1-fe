@@ -2,7 +2,6 @@ import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import usePageInitialization from "@/hooks/usePageInitialization";
 
 const chairCategory = [
   "Accent chairs",
@@ -16,7 +15,6 @@ const chairCategory = [
 ];
 
 const Products = () => {
-  // usePageInitialization("pg-products", ".initScript", ".products");
 
   return (
     <>

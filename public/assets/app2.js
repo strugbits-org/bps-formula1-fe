@@ -27052,7 +27052,7 @@ var require_app2 = __commonJS({
           main$collectionspost();
           break;
         case 'products':
-          main$products();
+          // main$products();
           break;
         case 'my-account':
           main$03();

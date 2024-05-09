@@ -18,14 +18,15 @@ export const getGalleryPageData = () => fetchData("GalleryPageF1");
 
 // COLLECTIONS DATA
 export const getCollectionsData = () => fetchData("Collectionsf1");
-export const getSelectedCollectionData = (slug) => selectedCollectionData("Collectionsf1",slug);
+export const getSelectedCollectionData = (slug) => selectedCollectionData("Collectionsf1", slug);
 
 // CATEGORY DATA
-export const getCategoriesData = () =>
-  fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
+export const getCategoriesData = (collectionsIds) =>
+  fetchCategoriesReferenceData("BPSCatalogStructure", ["f1Collections", "parentCollection"], collectionsIds);
+// fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
 export const getFilterCategory = (selectedCollectionId) =>
-  fetchCategoriesReferenceData("BPSCatalogStructure",[ "parentCollection"],selectedCollectionId);
+  fetchCategoriesReferenceData("BPSCatalogStructure", ["parentCollection"], [selectedCollectionId]);
 
 // COLLECTIONS PAGE API
 export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
