@@ -8,7 +8,7 @@ import AnimateLink from "../Common/AnimateLink";
 const breadCrumbData = [
   { name: "Home", href: "/" },
   { name: "Collections", href: "/collections" },
-  { name: "Collection detail", href: "/collections-post" },
+  { name: "Collection detail", href: "/collections" },
   { name: "Category", href: "/collections-category" },
   { name: "Product list", href: "#" },
 ];

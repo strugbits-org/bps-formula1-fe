@@ -1,8 +1,10 @@
 import PrivacyAndPolicy from "@/components/PrivacyAndPolicy";
 import { getPrivacyAndPolicyPageData } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ privacyAndPolicy }) {
-  return <PrivacyAndPolicy pages={privacyAndPolicy[0].content.nodes} />;
+  markPageLoaded();
+  return <PrivacyAndPolicy data={privacyAndPolicy[0]} pages={privacyAndPolicy[0].content.nodes} />;
 }
 
 export const getServerSideProps = async () => {

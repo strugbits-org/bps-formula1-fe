@@ -3967,13 +3967,13 @@ body:not([data-login-state=logged]) #header .container-header-logged {
 }
 @media only screen and (max-width: 767.98px) and (orientation: portrait) {
   [data-pg=pg-collections] #header .container-header-logged .dropdown-collections,
-  [data-pg=pg-collections-post] #header .container-header-logged .dropdown-collections,
+  [data-pg=pg-collections] #header .container-header-logged .dropdown-collections,
   [data-pg=pg-collections-category] #header .container-header-logged .dropdown-collections {
     opacity: 0;
     pointer-events: none;
   }
   [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
-  [data-pg=pg-collections-post] #header .container-header-logged .dropdown-category,
+  [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
   [data-pg=pg-collections-category] #header .container-header-logged .dropdown-category {
     opacity: 1;
     pointer-events: auto;
@@ -7867,16 +7867,16 @@ html.with-fancybox body.hide-scrollbar {
   }
 }
 @media only screen and (max-width: 1025px) {
-  #pg-collections-post main {
+  #pg-collections main {
     padding-top: var(--pt-header);
   }
 }
-#pg-collections-post .collections-post-intro,
-#pg-collections-post .collections-post-gallery {
+#pg-collections .collections-intro,
+#pg-collections .collections-gallery {
   position: relative;
   z-index: 5;
 }
-#pg-collections-post .collections-post-intro .column-1 {
+#pg-collections .collections-intro .column-1 {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7885,12 +7885,12 @@ html.with-fancybox body.hide-scrollbar {
   flex-direction: column;
 }
 @media only screen and (min-width: 767.98px) and (max-width: 1025px) {
-  #pg-collections-post .collections-post-intro .column-1 h1 {
+  #pg-collections .collections-intro .column-1 h1 {
     max-width: 60rem;
   }
 }
 @media only screen and (min-width: 1025.1px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery {
     margin: calc(var(--padding) * -1);
     display: grid;
     grid-template-columns: repeat(10, 1fr);
@@ -7898,7 +7898,7 @@ html.with-fancybox body.hide-scrollbar {
   }
 }
 @media only screen and (min-width: 767.98px) and (max-width: 1025px), only screen and (max-width: 768px) and (max-height: 550px) and (orientation: landscape) and (min-width:420px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery {
     display: flex;
     justify-content: initial;
     align-items: initial;
@@ -7909,81 +7909,81 @@ html.with-fancybox body.hide-scrollbar {
   }
 }
 @media only screen and (min-width: 1025.1px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li {
     padding: var(--padding);
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+1) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+1) {
     grid-area: 8 span/4 span;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+2) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+2) {
     grid-area: 4 span/3 span;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+3) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+3) {
     grid-area: 4 span/3 span;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+4) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+4) {
     grid-area: 4 span/6 span;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+5) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+5) {
     grid-area: 6 span/5 span;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(6n+6) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(6n+6) {
     grid-area: 6 span/5 span;
   }
 }
 @media only screen and (max-width: 1025px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li {
     width: 100%;
   }
 }
 @media only screen and (min-width: 767.98px) and (max-width: 1025px), only screen and (max-width: 768px) and (max-height: 550px) and (orientation: landscape) and (min-width:420px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li {
     padding: var(--padding);
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(3n+1) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(3n+1) {
     --img-pt: 56.45%;
   }
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(3n+2), #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:nth-child(3n+3) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(3n+2), #pg-collections .collections-gallery .column-1 .list-collections-gallery li:nth-child(3n+3) {
     --img-pt: 122.67%;
     max-width: 50%;
   }
 }
 @media only screen and (max-width: 767.98px) and (orientation: portrait) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li:not(:last-child) {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li:not(:last-child) {
     margin-bottom: 1rem;
   }
 }
 @media only screen and (max-width: 1025px) {
-  #pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery li .container-img:before {
+  #pg-collections .collections-gallery .column-1 .list-collections-gallery li .container-img:before {
     content: "";
     width: 100%;
     display: block;
     padding-top: var(--img-pt, 100%);
   }
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li .gallery-link {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li .gallery-link {
   -webkit-animation: fadeInUp2 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) var(--delay, 0s) both 1;
   -moz-animation: fadeInUp2 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) var(--delay, 0s) both 1;
   -ms-animation: fadeInUp2 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) var(--delay, 0s) both 1;
   -o-animation: fadeInUp2 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) var(--delay, 0s) both 1;
   animation: fadeInUp2 0.8s cubic-bezier(0.645, 0.045, 0.355, 1) var(--delay, 0s) both 1;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+1) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+1) {
   --delay: .05s;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+2) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+2) {
   --delay: .1s;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+3) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+3) {
   --delay: .15s;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+4) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+4) {
   --delay: .2s;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+5) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+5) {
   --delay: .25s;
 }
-#pg-collections-post .collections-post-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+6) {
+#pg-collections .collections-gallery .column-1 .list-collections-gallery.aos-animate li:nth-child(6n+6) {
   --delay: .3;
 }
 @media only screen and (max-width: 1025px) {
@@ -8915,7 +8915,7 @@ html.with-fancybox body.hide-scrollbar {
   background: var(--black-2);
   opacity: 0.5;
 }
-[data-pg=pg-error] #footer {
+[data-pg=pg-error] #footer, body:has(#pg-error) #footer {
   display: none;
 }
 .section-terms {

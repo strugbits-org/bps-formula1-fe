@@ -1,11 +1,8 @@
 "use client";
-import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import RenderImage from "@/utils/RenderImage";
 
 const Collections = ({ collectionsPageData, collectionsData }) => {
-  // Initialize page
-  // usePageInitialization("pg-collections", ".initScript");
 
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
@@ -29,7 +26,7 @@ const Collections = ({ collectionsPageData, collectionsData }) => {
                   return (
                     <li key={index} className="grid-item">
                       <AnimateLink
-                        to={`/collections-post/${collectionSlug}`}
+                        to={`/collections/${collectionSlug}`}
                         className="collection-link large"
                       >
                         <h3 className="collection-title">{collectionName}</h3>

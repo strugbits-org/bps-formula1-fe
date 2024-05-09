@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import usePageInitialization from "../hooks/usePageInitialization";
 import AnimateLink from "@/components/Common/AnimateLink";
 import RenderImage from "../utils/RenderImage";
 import SocialLinks from "./Common/SocialLinks";
@@ -21,12 +20,6 @@ const Gallery = ({
     setVisibleItems((prev) => prev + 15);
   };
   let totalVisibleItems = 0;
-  usePageInitialization(
-    "pg-gallery",
-    ".initScript",
-    ".galleryImages",
-    ".productsPost"
-  );
 
   const filterCollection = (data) => {
     setOption(false);

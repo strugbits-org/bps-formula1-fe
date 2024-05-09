@@ -41,7 +41,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    router.push(`/collections-post/` + collectionSlug);
+    router.push(`/collections/` + collectionSlug);
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
