@@ -50,7 +50,7 @@ export default function App({
       />
       <Account />
       <div id="main-transition">
-        <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
+        <div id={`pg-${cleanPath === "404" ? "error" : cleanPath}`} className="wrapper" data-scroll-container>
           <main>
             <Component {...pageProps} />
           </main>
