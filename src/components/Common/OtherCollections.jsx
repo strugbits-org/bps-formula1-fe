@@ -39,14 +39,14 @@ const OtherCollections = () => {
               data-aos="d:loop"
             >
               {CollectionData.map((data, index) => {
-                const { name, link } = data;
+                const { name,image, link } = data;
                 return (
                   <li key={index} className="grid-item">
                     <AnimateLink to={link} className="collection-link large">
                       <h3 className="collection-title">{name}</h3>
                       <div className="container-img">
                         <img
-                          src="images/gallery/img-09.jpg"
+                          src={image}
                           data-preload
                           className="media"
                           alt="product"

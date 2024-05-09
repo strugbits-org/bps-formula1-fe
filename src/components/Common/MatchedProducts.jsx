@@ -73,7 +73,7 @@ const MatchedProducts = () => {
                                   data-default-product-link-active
                                 >
                                   <img
-                                    src="images/products/img-01.png"
+                                    src="/images/products/img-01.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -84,7 +84,7 @@ const MatchedProducts = () => {
                                   data-get-product-link-color="yellow"
                                 >
                                   <img
-                                    src="images/products/img-01-blue.png"
+                                    src="/images/products/img-01-blue.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -95,7 +95,7 @@ const MatchedProducts = () => {
                                   data-get-product-link-color="blue"
                                 >
                                   <img
-                                    src="images/products/img-01-brown.png"
+                                    src="/images/products/img-01-brown.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -115,7 +115,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01.png"
+                                      src="/images/products/img-01.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -128,7 +128,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01-blue.png"
+                                      src="/images/products/img-01-blue.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -141,7 +141,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01-brown.png"
+                                      src="/images/products/img-01-brown.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -155,7 +155,7 @@ const MatchedProducts = () => {
                             </div>
                             <btn-modal-open
                               group="modal-product"
-                              className="modal-add-to-cart"
+                              class="modal-add-to-cart"
                             >
                               <span>Add to cart</span>
                               <i className="icon-cart"></i>
