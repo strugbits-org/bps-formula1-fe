@@ -105,7 +105,7 @@ const Products = () => {
                             }}
                           />
                         </div>
-                        <AnimateLink to="/products-post" className="link">
+                        <AnimateLink to="/products" className="link">
                           <div className="container-top">
                             <h2 className="product-title">Pilot Chairred</h2>
                             <div className="container-info">

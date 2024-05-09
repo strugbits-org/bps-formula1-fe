@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
-
-import usePageInitialization from "../../hooks/usePageInitialization";
+// import usePageInitialization from "../../hooks/usePageInitialization";
 import OtherCollections from "../Common/OtherCollections";
 import MatchedProducts from "../Common/MatchedProducts";
 import AnimateLink from "../Common/AnimateLink";
+import Link from "next/link";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -69,13 +68,13 @@ const productImages = [
 
 const ProductPost = () => {
   const status = "succeeded";
-  usePageInitialization(
-    status,
-    "pg-products-post",
-    ".initScript",
-    ".productsPost",
-    ".cartPage"
-  );
+  // usePageInitialization(
+  //   status,
+  //   "pg-products",
+  //   ".initScript",
+  //   ".productsPost",
+  //   ".cartPage"
+  // );
 
   return (
     <>
@@ -1215,7 +1214,7 @@ const ProductPost = () => {
                       </button>
                     </div>
                     <Link
-                      to="/cart"
+                      href="/cart"
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
@@ -1333,7 +1332,7 @@ const ProductPost = () => {
         </div>
       </section>
 
-      <section className="products-post-snapshots pt-lg-355 pt-tablet-55 pt-phone-35">
+      <section className="products-snapshots pt-lg-355 pt-tablet-55 pt-phone-35">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">

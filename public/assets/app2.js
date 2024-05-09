@@ -18807,7 +18807,7 @@ var require_app2 = __commonJS({
     // Cart page Cuctom JS
 
     // Products Page
-    const pageName$5 = "products-post";
+    const pageName$5 = "products";
     function main$5() {
       filterProducts();
       productContent();
@@ -26981,11 +26981,14 @@ var require_app2 = __commonJS({
       copyLink();
       viewportHeight();
 
-      const main$gallery = () => {
-        console.log("gallery");
-        main$3();
-        collections();
-        galleryLightbox();
+      const main$products = () => {
+        main$5();
+        main$productsPost();
+        formCart();
+      }
+      const main$productsPost = () => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+
         new Swiper("#slider-match-with .swiper-container", {
           modules: [Navigation, Pagination],
           slidesPerView: 1,
@@ -27024,6 +27027,12 @@ var require_app2 = __commonJS({
         filterProducts();
         productContent();
       }
+      const main$gallery = () => {
+        main$3();
+        collections();
+        galleryLightbox();
+        main$productsPost();
+      }
       const main$collectionspost = () => {
         main$2()
         galleryLightbox();
@@ -27041,6 +27050,9 @@ var require_app2 = __commonJS({
           break;
         case 'collections':
           main$collectionspost();
+          break;
+        case 'products':
+          main$products();
           break;
         case 'my-account':
           main$03();

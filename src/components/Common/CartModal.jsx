@@ -60,7 +60,7 @@ const CartModal = () => {
                                             Arm Chair - Tapas
                                           </h2>
                                           <AnimateLink
-                                            to="/products-post"
+                                            to="/products"
                                             className="btn-view"
                                           >
                                             <span>View</span>

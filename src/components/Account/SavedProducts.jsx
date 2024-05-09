@@ -42,7 +42,7 @@ const SavedProducts = ({ savedProductPageData }) => {
                                 <i className="icon-bookmark"></i>
                               </button>
                             </div>
-                            <a href="products-post.html" className="link">
+                            <a href="products.html" className="link">
                               <div className="container-top">
                                 <h2 className="product-title">
                                   Pilot Chairred

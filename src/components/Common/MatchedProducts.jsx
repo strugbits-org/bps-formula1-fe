@@ -1,14 +1,8 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
-import AddToCartModal from "../pages/Product/AddToCartModal";
+import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
 
 const MatchedProducts = () => {
-  usePageInitialization(
-    "pg-products-post",
-    ".initScript",
-    ".productsPost"
-    // '.cartPage'
-  );
+
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -61,7 +55,7 @@ const MatchedProducts = () => {
                                 }}
                               />
                             </div>
-                            <AnimateLink to="/products-post" className="link">
+                            <AnimateLink to="/products" className="link">
                               <div className="container-top">
                                 <h2 className="product-title">
                                   Pilot Chairred
