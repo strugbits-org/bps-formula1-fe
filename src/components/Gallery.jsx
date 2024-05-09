@@ -90,9 +90,8 @@ const Gallery = ({
                   <i className="icon-arrow-down"></i>
                 </button>
                 <div
-                  className={`wrapper-list-dropdown ${
-                    option === true ? "active" : ""
-                  }`}
+                  className={`wrapper-list-dropdown ${option === true ? "active" : ""
+                    }`}
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
@@ -186,20 +185,23 @@ const Gallery = ({
               </ul>
             </div>
             {/* Load More Button */}
-            <div className="flex-center mt-lg-30 mt-mobile-45">
-              <button
-                onClick={loadMore}
-                className="btn-medium btn-red btn-hover-white"
-                style={allItemsLoaded ? { cursor: "not-allowed" } : {}}
-                disabled={allItemsLoaded}
-              >
-                <div className="split-chars">
-                  <span>
-                    {galleryPageData && galleryPageData.loadMoreButtonLabel}
-                  </span>
-                </div>
-              </button>
-            </div>
+            {!allItemsLoaded && (
+              <div className="flex-center mt-lg-30 mt-mobile-45">
+                <button
+                  onClick={loadMore}
+                  className="btn-medium btn-red btn-hover-white"
+                  // style={allItemsLoaded ? { cursor: "not-allowed" } : {}}
+                  // disabled={allItemsLoaded}
+                >
+                  <div className="split-chars">
+                    <span>
+                      {galleryPageData && galleryPageData.loadMoreButtonLabel}
+                    </span>
+                  </div>
+                </button>
+              </div>
+            )}
+
             <div className="footer-gallery mt-40">
               <div className="column-text mb-20">
                 {bottomLinks?.map((data, index) => {

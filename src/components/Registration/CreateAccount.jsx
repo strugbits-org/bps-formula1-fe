@@ -37,7 +37,7 @@ const CreateAccount = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, name, "inputs");
+    // console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
   // const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ const CreateAccount = ({
     setSuccessMessageVisible(false);
 
     try {
-      console.log(formData);
+      // console.log(formData);
       const userData = {
         loginEmail: formData.email,
         password: formData.password,
@@ -61,7 +61,7 @@ const CreateAccount = ({
         { recaptchaToken: captcha }
       );
       if (response) {
-        setMessage("Account created Successfully!");
+        setMessage("The Account is under approval");
         setSuccessMessageVisible(true);
         setErrorMessageVisible(false);
         setFormData({
@@ -75,11 +75,15 @@ const CreateAccount = ({
           hospitality_space: "",
         });
       }
-      console.log(response);
+      // console.log(response);
       return response;
     } catch (error) {
       let err = JSON.parse(error.message);
-      setMessage(err.message);
+      if (err?.details?.applicationError?.code === "-19995") {
+        setMessage("Email already exists!");
+      } else {
+        setMessage(err.message);
+      }
 
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
