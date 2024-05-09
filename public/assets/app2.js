@@ -18134,7 +18134,9 @@ var require_app2 = __commonJS({
 
     // Cart Page
     const pageName$6 = "cart";
-    function main$6() { }
+    function main$6() { 
+      formCart();
+    }
     const pgCart = new Page({
       pageName: pageName$6,
       main: main$6,
