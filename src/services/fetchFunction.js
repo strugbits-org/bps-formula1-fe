@@ -11,6 +11,18 @@ const fetchData = async (dataCollectionId) => {
     throw new Error(error.message);
   }
 };
+export const fetchSearchData = async (dataCollectionId, references, query) => {
+  try {
+    const options = {
+      dataCollectionId,
+      includeReferencedItems: references,
+    };
+    const { items } = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).contains("search", query).find();
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 
 export const selectedCollectionData = async (dataCollectionId, slug) => {

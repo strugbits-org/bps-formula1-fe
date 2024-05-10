@@ -6,14 +6,6 @@ import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 
-const selectedCollectionName = {
-  "classic-vegas": "Classic Vegas",
-  "paddock": "Paddock",
-  "neon-house": "Neon House",
-  "legacy": "Legacy",
-}
-
-
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -22,13 +14,12 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug)?.collectionSlug || "All";
   const [selectedCollection, setSelectedCollection] = useState(_selectedCollection);
+  const [searchTerm, setSearchTerm] = useState(router.query.for || "");
   const [selectedCategory, setSelectedCategory] = useState("Categories");
   // Function to handle selection of a collection
 
-  const [previousPath, setPreviousPath] = useState(null);
   useEffect(() => {
     if (router) {
-      setPreviousPath(location);
       if (
         pathname === "/" &&
         router.asPath !== "#sign-in" &&
@@ -55,13 +46,17 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   };
 
+  const handleInputChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       pageLoadStart();
       setTimeout(() => {
-        // Replace this with your navigation logic
-        router.push("/search");
+        router.push("/search?for=" + searchTerm);
       }, 1000);
     } catch (error) { }
   };
@@ -254,11 +249,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               data-pjax
               data-search-form
             >
-              <div className="container-input input-header">
+              <div className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""}`}>
                 <label htmlFor="search" className="split-chars">
                   Search
                 </label>
-                <input type="search" className="search" name="for" required />
+                <input type="search" className="search" name="for" value={searchTerm}
+                  onChange={handleInputChange}
+                  required />
                 <div className="container-submit">
                   <button
                     type="submit"
