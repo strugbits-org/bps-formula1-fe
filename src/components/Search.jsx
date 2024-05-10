@@ -3,7 +3,6 @@ import FilterButton from "./Common/FilterButton";
 import Link from "next/link";
 
 const Search = ({ data }) => {
-  console.log("data", data);
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -25,8 +24,8 @@ const Search = ({ data }) => {
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {data.map((item) => {
-                  const { product } = item;
-                  console.log("product",product);
+                  const { variantData, product } = item;
+
                   return (
                     <li key={item._id} className="grid-item">
                       <div
@@ -46,91 +45,54 @@ const Search = ({ data }) => {
                             <h2 className="product-title">{product.name}</h2>
                           </div>
                           <div className="wrapper-product-img">
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="red"
-                              data-default-product-link-active
-                            >
-                              <img
-                                src={"/images/products/img-01.png"}
-                                data-preload
-                                className="media"
-                                alt="search-1"
-                              />
-                            </div>
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="yellow"
-                            >
-                              <img
-                                src={"/images/products/img-01-blue.png"}
-                                data-preload
-                                className="media"
-                                alt="search-2"
-                              />
-                            </div>
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="blue"
-                            >
-                              <img
-                                src={"/images/products/img-01-brown.png"}
-                                data-preload
-                                className="media"
-                                alt="search-3"
-                              />
-                            </div>
+                            {variantData.filter((x,index)=>index < 2).map((variant) => {
+                              return (
+                                <div
+                                  className="container-img product-img"
+                                  data-get-product-link-color={variant.color[0]}
+                                  data-default-product-link-active
+                                >
+                                  <img
+                                  style={{padding:"20px"}}
+                                    src={variant.variant.imageSrc}
+                                    data-preload
+                                    className="media"
+                                    alt="search-1"
+                                  />
+                                </div>
+                              )
+                            })}
                           </div>
                           <div className="container-bottom">
-                            <div className="price">{product.name}</div>
+                            <div className="price">{product.formattedPrice}</div>
                           </div>
                         </Link>
                         <div className="container-color-options">
                           <ul className="list-color-options">
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="red"
-                              data-default-product-link-active
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-4"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="yellow"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-blue.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-4"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="blue"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-brown.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-"
-                                />
-                              </div>
-                            </li>
+                            {variantData.filter((x,index)=>index < 2).map((variant) => {
+                              return (
+                                <li
+                                  className="list-item"
+                                  data-set-product-link-color={variant.color[0]}
+                                  data-default-product-link-active
+                                >
+                                  <div className="container-img">
+                                    <img
+                                      src={variant.variant.imageSrc}
+                                      data-preload
+                                      className="media"
+                                      alt="search-4"
+                                    />
+                                  </div>
+                                </li>
+                              )
+                            })}
                           </ul>
-                          <div className="colors-number">
-                            <span>+3</span>
-                          </div>
+                          {variantData.length > 2 && (
+                            <div className="colors-number">
+                              <span>+{variantData.length - 2}</span>
+                            </div>
+                          )}
                         </div>
                         <btn-modal-open
                           group="modal-product"
