@@ -1,10 +1,8 @@
-import ProductPost from "@/components/Product/ProductsPost";
-import { markPageLoaded } from "@/utils/AnimationFunctions";
+import ProductPost from '@/components/Product/ProductsPost';
 
-export default function Page() {
-  markPageLoaded();
+export default function Page({ }) {
 
-  return (
-    <ProductPost />
-  );
+  return <ProductPost/>
+  
 }
+

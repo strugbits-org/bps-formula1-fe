@@ -2,6 +2,10 @@ import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
+import RenderImage from "@/utils/RenderImage";
+import React from "react";
+import { generateImageURL } from "@/utils/GenerateImageURL";
+import { hexToColorName } from "@/utils/ColorConverter";
 
 const chairCategory = [
   "Accent chairs",
@@ -14,8 +18,11 @@ const chairCategory = [
   "Swivel chairs",
 ];
 
-const Products = () => {
-
+const Products = ({
+  filteredProducts,
+  collectionsData,
+  selectedCategoryData,
+}) => {
   return (
     <>
       <section className="products-intro">
@@ -34,15 +41,18 @@ const Products = () => {
                 className="list-tags"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {chairCategory.map((data, index) => {
-                  return (
-                    <li key={index} className="list-item">
-                      <button className="btn-tag ">
-                        {/* active- className for active button */}
-                        <span>{data}</span>
-                      </button>
-                    </li>
-                  );
+                {selectedCategoryData?.level2Collections?.map((data, index) => {
+                  const { name } = data;
+                  if (name) {
+                    return (
+                      <li key={index} className="list-item">
+                        <button className="btn-tag ">
+                          {/* active- className for active button */}
+                          <span>{name}</span>
+                        </button>
+                      </li>
+                    );
+                  }
                 })}
               </ul>
             </div>
@@ -70,7 +80,9 @@ const Products = () => {
                 </h2>
               </div>
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((data, index) => {
+                {filteredProducts.map((data, index) => {
+                  const { product } = data;
+                  console.log(product.additionalInfoSections, "product>>");
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
@@ -103,23 +115,100 @@ const Products = () => {
                             }}
                           />
                         </div>
-                        <AnimateLink to="/products" className="link">
+                        <AnimateLink to="/products/1" className="link">
                           <div className="container-top">
-                            <h2 className="product-title">Pilot Chairred</h2>
+                            <h2 className="product-title">{product.name}</h2>
                             <div className="container-info">
                               <div className="dimensions">
-                                <span>24”L X 30”W X 37”H</span>
+                                {product.additionalInfoSections.map(
+                                  (data, index) => {
+                                    const { title, description } = data;
+                                    if (title == "Size") {
+                                      return (
+                                        <span key={index}>{description}</span>
+                                      );
+                                    }
+                                  }
+                                )}
                               </div>
                             </div>
                           </div>
                           <div className="wrapper-product-img">
-                            <div
+                            {product.productOptions.Color
+                              ? product.productOptions.Color.choices.map(
+                                  (option, index) => {
+                                    const colorName = hexToColorName(
+                                      option.value
+                                    );
+                                    return (
+                                      <React.Fragment key={index}>
+                                        {index < 4 && (
+                                          <div
+                                            className="container-img product-img"
+                                            data-get-product-link-color={
+                                              colorName
+                                            }
+                                            data-default-product-link-active
+                                          >
+                                            <img
+                                              style={{
+                                                padding: "100px",
+                                              }}
+                                              width={100}
+                                              src={generateImageURL({
+                                                wix_url: option.mainMedia,
+                                                w: "1000",
+                                                h: "1000",
+                                                fit: "fit",
+                                                q: "95",
+                                              })}
+                                              className="media"
+                                              alt="product"
+                                            />
+                                          </div>
+                                        )}
+                                      </React.Fragment>
+                                    );
+                                  }
+                                )
+                              : product.productOptions["Color "]
+                              ? product.productOptions["Color "].choices.map(
+                                  (option, index) => (
+                                    <React.Fragment key={index}>
+                                      {index < 4 && (
+                                        <div
+                                          className="container-img product-img"
+                                          data-get-product-link-color={
+                                            colorName
+                                          }
+                                          data-default-product-link-active
+                                        >
+                                          <img
+                                            src={generateImageURL({
+                                              wix_url: option.mainMedia
+                                                ? option.mainMedia
+                                                : item.mainMedia,
+                                              w: "1000",
+                                              h: "1000",
+                                              fit: "fit",
+                                              q: "95",
+                                            })}
+                                            className="media"
+                                            alt="product"
+                                          />
+                                        </div>
+                                      )}
+                                    </React.Fragment>
+                                  )
+                                )
+                              : null}
+                            {/* <div
                               className="container-img product-img"
                               data-get-product-link-color="red"
                               data-default-product-link-active
                             >
                               <img
-                                src="images/products/img-01.png"
+                                src={RenderImage(product.mainMedia)}
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -130,7 +219,7 @@ const Products = () => {
                               data-get-product-link-color="yellow"
                             >
                               <img
-                                src="images/products/img-01-blue.png"
+                                src="/images/products/img-01-blue.png"
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -141,63 +230,111 @@ const Products = () => {
                               data-get-product-link-color="blue"
                             >
                               <img
-                                src="images/products/img-01-brown.png"
+                                src="/images/products/img-01-brown.png"
                                 data-preload
                                 className="media"
                                 alt="product"
                               />
-                            </div>
+                            </div> */}
                           </div>
                           <div className="container-bottom">
-                            <div className="price">$ 99.99</div>
+                            <div className="price">
+                              {product.formattedPrice}
+                            </div>
                           </div>
                         </AnimateLink>
                         <div className="container-color-options">
                           <ul className="list-color-options">
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="red"
-                              data-default-product-link-active
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="yellow"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-blue.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="blue"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-brown.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product"
-                                />
-                              </div>
-                            </li>
+                            {product.productOptions.Color
+                              ? product.productOptions.Color.choices.map(
+                                  (option, index) => {
+                                    console.log(option, "ahghj");
+
+                                    const colorName = hexToColorName(
+                                      option.value
+                                    );
+                                    console.log("Color Name:", colorName);
+                                    return (
+                                      <React.Fragment key={index}>
+                                        {index < 4 && (
+                                          <li
+                                            className="list-item"
+                                            data-set-product-link-color={
+                                              colorName
+                                            }
+                                            // data-default-product-link-active
+                                          >
+                                            <div className="container-img">
+                                              <img
+                                                src={generateImageURL({
+                                                  wix_url: option.mainMedia
+                                                    ? option.mainMedia
+                                                    : item.mainMedia,
+                                                  w: "24",
+                                                  h: "24",
+                                                  fit: "fit",
+                                                  q: "95",
+                                                })}
+                                                data-preload
+                                                className="media"
+                                                alt="product"
+                                              />
+                                            </div>
+                                          </li>
+                                        )}
+                                      </React.Fragment>
+                                    );
+                                  }
+                                )
+                              : item.productOptions["Color "]
+                              ? item.productOptions["Color "].choices.map(
+                                  (option, index) => (
+                                    <React.Fragment key={index}>
+                                      {index < 4 && (
+                                        <li key={index}>
+                                          <div className="container-img">
+                                            <img
+                                              src={generateImageURL({
+                                                wix_url: option.mainMedia
+                                                  ? option.mainMedia
+                                                  : item.mainMedia,
+                                                w: "24",
+                                                h: "24",
+                                                fit: "fit",
+                                                q: "95",
+                                              })}
+                                              data-preload
+                                              className="media"
+                                              alt=""
+                                            />
+                                          </div>
+                                        </li>
+                                      )}
+                                    </React.Fragment>
+                                  )
+                                )
+                              : null}
                           </ul>
-                          <div className="colors-number">
-                            <span>+3</span>
-                          </div>
+                          {product.productOptions.Color &&
+                          product.productOptions.Color.choices.length > 4 ? (
+                            <div className="colors-number">
+                              <span>
+                                +
+                                {product.productOptions.Color.choices.length -
+                                  4}
+                              </span>
+                            </div>
+                          ) : product.productOptions["Color "] &&
+                            product.productOptions["Color "].choices.length >
+                              4 ? (
+                            <div className="colors-number">
+                              <span>
+                                +
+                                {product.productOptions["Color "].choices
+                                  .length - 4}
+                              </span>
+                            </div>
+                          ) : null}
                         </div>
                         <btn-modal-open
                           group="modal-product"
@@ -227,7 +364,7 @@ const Products = () => {
         <div className="bg-fixed no-tablet" data-aos="d:loop">
           <div className="container-img">
             <img
-              src="images/img-01.jpg"
+              src="/images/img-01.jpg"
               data-preload
               className="no-mobile media"
               data-parallax-top
@@ -235,7 +372,7 @@ const Products = () => {
               alt="product"
             />
             <img
-              src="images/img-02.jpg"
+              src="/images/img-02.jpg"
               data-preload
               className="no-desktop media"
               alt="product"
@@ -243,7 +380,7 @@ const Products = () => {
           </div>
         </div>
       </section>
-      <OtherCollections />
+      <OtherCollections data={collectionsData} />
       <AddToCartModal />
     </>
   );
