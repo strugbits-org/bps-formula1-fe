@@ -4,7 +4,7 @@ import { productColors } from "../../utils/Colors";
 const FilterButton = () => {
   return (
     <div
-      className="pos-relative z-10"
+      className="pos-relative filterButtonIndex"
       data-aos="fadeIn .8s ease-in-out .2s, d:loop"
     >
       <div className="container-filter-products">

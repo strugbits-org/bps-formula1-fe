@@ -16285,3 +16285,7 @@ html.with-fancybox body.hide-scrollbar {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.filterButtonIndex{
+  z-index: 15;
+}
