@@ -1,28 +1,29 @@
-import AnimateLink from "./AnimateLink";
+import RenderImage from '@/utils/RenderImage';
+import AnimateLink from './AnimateLink';
 
 const CollectionData = [
   {
-    name: "Legacy collection",
-    image: "/images/gallery/img-09.jpg",
-    link: "/collections",
+    name: 'Legacy collection',
+    image: '/images/gallery/img-09.jpg',
+    link: '/collections',
   },
   {
-    name: "Legacy collection",
-    image: "/images/gallery/img-09.jpg",
-    link: "/collections",
+    name: 'Legacy collection',
+    image: '/images/gallery/img-09.jpg',
+    link: '/collections',
   },
   {
-    name: "Legacy collection",
-    image: "/images/gallery/img-09.jpg",
-    link: "/collections",
+    name: 'Legacy collection',
+    image: '/images/gallery/img-09.jpg',
+    link: '/collections',
   },
   {
-    name: "Legacy collection",
-    image: "/images/gallery/img-09.jpg",
-    link: "/collections",
+    name: 'Legacy collection',
+    image: '/images/gallery/img-09.jpg',
+    link: '/collections',
   },
 ];
-const OtherCollections = () => {
+const OtherCollections = ({ data }) => {
   return (
     <section className="section-other-collections pos-relative mt-tablet-100 mt-phone-65 pb-lg-90 pb-tablet-40 pb-phone-165">
       <div className="container-fluid">
@@ -38,24 +39,31 @@ const OtherCollections = () => {
               className="list-other-collections grid-md-50 mt-35"
               data-aos="d:loop"
             >
-              {CollectionData.map((data, index) => {
-                const { name, link } = data;
-                return (
-                  <li key={index} className="grid-item">
-                    <AnimateLink to={link} className="collection-link large">
-                      <h3 className="collection-title">{name}</h3>
-                      <div className="container-img">
-                        <img
-                          src="images/gallery/img-09.jpg"
-                          data-preload
-                          className="media"
-                          alt="product"
-                        />
-                      </div>
-                    </AnimateLink>
-                  </li>
-                );
-              })}
+              {data
+                .sort((a, b) => a.order - b.order)
+                .map((data, index) => {
+                  const { collectionName, mainImage, collectionSlug } = data;
+                  console.log(data, 'data>>>');
+
+                  return (
+                    <li key={index} className="grid-item">
+                      <AnimateLink
+                        to={collectionSlug || ''}
+                        className="collection-link large"
+                      >
+                        <h3 className="collection-title">{collectionName}</h3>
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(mainImage)}
+                            data-preload
+                            className="media"
+                            alt="product"
+                          />
+                        </div>
+                      </AnimateLink>
+                    </li>
+                  );
+                })}
             </ul>
           </div>
         </div>

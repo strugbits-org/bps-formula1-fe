@@ -2,7 +2,6 @@ import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import usePageInitialization from "@/hooks/usePageInitialization";
 
 const chairCategory = [
   "Accent chairs",
@@ -15,9 +14,7 @@ const chairCategory = [
   "Swivel chairs",
 ];
 
-const Products = () => {
-  // usePageInitialization("pg-products", ".initScript", ".products");
-
+const Products = ({ filteredProducts, collectionsData }) => {
   return (
     <>
       <section className="products-intro">
@@ -72,7 +69,7 @@ const Products = () => {
                 </h2>
               </div>
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((data, index) => {
+                {[filteredProducts.length].map((data, index) => {
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
@@ -99,13 +96,13 @@ const Products = () => {
                             className="copy-link-url"
                             value="MODCH39"
                             style={{
-                              position: "absolute",
+                              position: 'absolute',
                               opacity: 0,
-                              pointerEvents: "none",
+                              pointerEvents: 'none',
                             }}
                           />
                         </div>
-                        <AnimateLink to="/products-post" className="link">
+                        <AnimateLink to="/products/1" className="link">
                           <div className="container-top">
                             <h2 className="product-title">Pilot Chairred</h2>
                             <div className="container-info">
@@ -121,7 +118,7 @@ const Products = () => {
                               data-default-product-link-active
                             >
                               <img
-                                src="images/products/img-01.png"
+                                src="/images/products/img-01.png"
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -132,7 +129,7 @@ const Products = () => {
                               data-get-product-link-color="yellow"
                             >
                               <img
-                                src="images/products/img-01-blue.png"
+                                src="/images/products/img-01-blue.png"
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -143,7 +140,7 @@ const Products = () => {
                               data-get-product-link-color="blue"
                             >
                               <img
-                                src="images/products/img-01-brown.png"
+                                src="/images/products/img-01-brown.png"
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -163,7 +160,7 @@ const Products = () => {
                             >
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="product"
@@ -176,7 +173,7 @@ const Products = () => {
                             >
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01-blue.png"
+                                  src="/images/products/img-01-blue.png"
                                   data-preload
                                   className="media"
                                   alt="product"
@@ -189,7 +186,7 @@ const Products = () => {
                             >
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01-brown.png"
+                                  src="/images/products/img-01-brown.png"
                                   data-preload
                                   className="media"
                                   alt="product"
@@ -229,7 +226,7 @@ const Products = () => {
         <div className="bg-fixed no-tablet" data-aos="d:loop">
           <div className="container-img">
             <img
-              src="images/img-01.jpg"
+              src="/images/img-01.jpg"
               data-preload
               className="no-mobile media"
               data-parallax-top
@@ -237,7 +234,7 @@ const Products = () => {
               alt="product"
             />
             <img
-              src="images/img-02.jpg"
+              src="/images/img-02.jpg"
               data-preload
               className="no-desktop media"
               alt="product"
@@ -245,7 +242,7 @@ const Products = () => {
           </div>
         </div>
       </section>
-      <OtherCollections />
+      <OtherCollections data={collectionsData} />
       <AddToCartModal />
     </>
   );
