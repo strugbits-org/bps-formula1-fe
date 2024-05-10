@@ -1,4 +1,4 @@
-import fetchData, { fetchCategoriesReferenceData, fetchReferenceData, selectedCollectionData } from "./fetchFunction";
+import fetchData, { fetchSearchData, fetchCategoriesReferenceData, fetchReferenceData, selectedCollectionData } from "./fetchFunction";
 
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
@@ -6,6 +6,9 @@ export const getHomeBottomRightSocialLinks = () =>
   fetchData("SocialMediaLinksF1");
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
+
+export const getSearchProducts = (query) =>
+  fetchSearchData("locationFilteredVariant", ["category", "product", "subCategory"], query);
 
 // REGISTRATION PAGE APIS
 export const getSignInPage = () => fetchData("SignInPageF1");

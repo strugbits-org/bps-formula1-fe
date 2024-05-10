@@ -2,7 +2,8 @@ import AddToCartModal from "./Product/AddToCartModal";
 import FilterButton from "./Common/FilterButton";
 import Link from "next/link";
 
-const Search = () => {
+const Search = ({ data }) => {
+  console.log("data", data);
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -23,11 +24,13 @@ const Search = () => {
                 className="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
+                {data.map((item) => {
+                  const { product } = item;
+                  console.log("product",product);
                   return (
-                    <li key={index} className="grid-item">
+                    <li key={item._id} className="grid-item">
                       <div
-                        key={index}
+                        key={item._id}
                         className="product-link small saved-products landscape-fix active"
                         data-product-category
                         data-product-location
@@ -40,7 +43,7 @@ const Search = () => {
                         </div>
                         <Link href="/products" className="link">
                           <div className="container-top">
-                            <h2 className="product-title">Pilot Chairred</h2>
+                            <h2 className="product-title">{product.name}</h2>
                           </div>
                           <div className="wrapper-product-img">
                             <div
@@ -79,7 +82,7 @@ const Search = () => {
                             </div>
                           </div>
                           <div className="container-bottom">
-                            <div className="price">$ 99.99</div>
+                            <div className="price">{product.name}</div>
                           </div>
                         </Link>
                         <div className="container-color-options">
@@ -146,7 +149,7 @@ const Search = () => {
         </div>
       </section>
 
-      {/* <AddToCartModal /> */}
+      <AddToCartModal />
     </>
   );
 };
