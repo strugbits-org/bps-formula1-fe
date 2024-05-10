@@ -46,7 +46,7 @@ const OtherCollections = ({ data }) => {
                   return (
                     <li key={index} className="grid-item">
                       <AnimateLink
-                        to={collectionSlug || ''}
+                        to={`/collections/${collectionSlug}`}
                         className="collection-link large"
                       >
                         <h3 className="collection-title">{collectionName}</h3>
