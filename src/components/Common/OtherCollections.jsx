@@ -39,11 +39,9 @@ const OtherCollections = ({ data }) => {
               className="list-other-collections grid-md-50 mt-35"
               data-aos="d:loop"
             >
-              {data
-                .sort((a, b) => a.order - b.order)
+              {data?.sort((a, b) => a.order - b.order)
                 .map((data, index) => {
                   const { collectionName, mainImage, collectionSlug } = data;
-                  console.log(data, 'data>>>');
 
                   return (
                     <li key={index} className="grid-item">

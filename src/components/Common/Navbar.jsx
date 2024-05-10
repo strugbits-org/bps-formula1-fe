@@ -45,11 +45,14 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     pageLoadStart();
     router.push(`/collections/` + collectionSlug);
   };
-  const handleCategorySelection = (name) => {
-    setSelectedCategory(name);
+  const handleCategorySelection = (parentCollection) => {
+    setSelectedCategory(parentCollection.name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    router.push("/products");
+    router.push(`/products?category=${parentCollection._id}`);
+                  // to={`/products?category=${parentCollection._id}`}
+
+
   };
 
   const handleSubmit = (e) => {
@@ -221,7 +224,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                   return (
                     <li
                       key={index}
-                      onClick={() => handleCategorySelection(name)}
+                      onClick={() => handleCategorySelection(data.parentCollection)}
                     >
                       <span className="link-dropdown cursor-pointer">
                         <span>{name}</span>

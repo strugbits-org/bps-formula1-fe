@@ -1373,8 +1373,8 @@ const ProductPost = () => {
         </div>
       </section>
 
-      <MatchedProducts />
-      <OtherCollections />
+      {/* <MatchedProducts /> */}
+      {/* <OtherCollections /> */}
     </>
   );
 };

@@ -28,7 +28,7 @@ const CollectionCategory = ({ selectedCollectionData, filteredCategories }) => {
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <AnimateLink
-                        to={"/products"}
+                        to={`/products?category=${parentCollection._id}`}
                         className="collection-link small"
                       >
                         <h3 className="collection-title">

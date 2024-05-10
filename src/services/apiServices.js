@@ -1,4 +1,4 @@
-import fetchData, { fetchCategoriesReferenceData, fetchCategoriesReferenceDataa, fetchReferenceData, selectedCollectionData } from "./fetchFunction";
+import fetchData, { fetchCategoriesReferenceData, fetchCategoriesReferenceDataa, fetchReferenceData, selectedCategoryData, selectedCollectionData } from "./fetchFunction";
 
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
@@ -23,6 +23,10 @@ export const getSelectedCollectionData = (slug) => selectedCollectionData("Colle
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
   fetchCategoriesReferenceData("BPSCatalogStructure", ["f1Collections", "parentCollection"], collectionsIds);
+
+export const getSelectedCategoryData = (slug) => selectedCategoryData("BPSCatalogStructure", [ "parentCollection",'level2Collections'], slug);
+
+
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
 export const getFilterCategory = (selectedCollectionId) =>
@@ -37,8 +41,8 @@ export const getCollectionsPostPageData = () =>
 
 
 // PRODUCTS PAGE APIS
-export const getFilterProducts = () =>
-  fetchCategoriesReferenceDataa("locationFilteredVariant", ["category"], ['selectedCollectionId']);
+export const getFilterProducts = (slug) =>
+  fetchCategoriesReferenceDataa("locationFilteredVariant", ["category","product",'subCategory'], slug);
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = () =>
   fetchData("TermsandConditionsPageContentF1");
