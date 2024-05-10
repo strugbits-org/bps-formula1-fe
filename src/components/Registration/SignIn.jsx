@@ -30,7 +30,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       if (response) {
         document.cookie =
           "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
-          pageLoadStart();
+        pageLoadStart();
         router.push("/collections");
         setTimeout(() => {
           document.body.dataset.loginState = "logged";
@@ -39,7 +39,9 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       return response;
     } catch (error) {
       let err = JSON.parse(error.message);
-      setMessage(err.message);
+      console.log("err", err);
+      // setMessage(err.message);
+      setMessage("Invalid email or password!");
       setErrorMessageVisible(true);
     }
   };
@@ -58,7 +60,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const togglePassword = () => {
     setShowPassword(!showPassword);
   }
-  
+
   return (
     <div className="container-sign-in">
       <div className="wrapper-form-sign-in">

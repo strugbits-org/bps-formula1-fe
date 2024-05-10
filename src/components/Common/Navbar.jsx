@@ -7,25 +7,27 @@ import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 
 const selectedCollectionName = {
-  "classic-vegas":"Classic Vegas",
-  "paddock":"Paddock",
-  "neon-house":"Neon House",
-  "legacy":"Legacy",
+  "classic-vegas": "Classic Vegas",
+  "paddock": "Paddock",
+  "neon-house": "Neon House",
+  "legacy": "Legacy",
 }
 
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
-  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState("Collections");
-  const [selectedCategory, setSelectedCategory] = useState("Categories");
-  // Function to handle selection of a collection
   const pathname = usePathname();
   const router = useRouter();
+
+  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug)?.collectionSlug || "All";
+  const [selectedCollection, setSelectedCollection] = useState(_selectedCollection);
+  const [selectedCategory, setSelectedCategory] = useState("Categories");
+  // Function to handle selection of a collection
+
   const [previousPath, setPreviousPath] = useState(null);
   useEffect(() => {
     if (router) {
-      setSelectedCollection(selectedCollectionName[router.query.slug ] || "All");
       setPreviousPath(location);
       if (
         pathname === "/" &&
@@ -41,7 +43,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    router.push(`/collections-post/` + collectionSlug);
+    router.push(`/collections/` + collectionSlug);
   };
   const handleCategorySelection = (name) => {
     setSelectedCategory(name);
@@ -58,7 +60,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         // Replace this with your navigation logic
         router.push("/search");
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // const signIn = () => {
@@ -101,13 +103,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               // onClick={signIn}
               className="btn-small btn-red btn-hover-white btn-sign-in"
-              // data-href="index.html#sign-in"
+            // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
@@ -144,9 +146,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -197,9 +198,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">

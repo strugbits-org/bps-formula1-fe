@@ -38,7 +38,7 @@ const Search = () => {
                             <i className="icon-bookmark"></i>
                           </button>
                         </div>
-                        <Link href="/products-post" className="link">
+                        <Link href="/products" className="link">
                           <div className="container-top">
                             <h2 className="product-title">Pilot Chairred</h2>
                           </div>

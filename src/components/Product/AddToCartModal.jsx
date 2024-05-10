@@ -1,12 +1,4 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
-
 const AddToCartModal = () => {
-  usePageInitialization(
-    "pg-products-post",
-    ".initScript",
-    ".productsPost",
-    ".cartPage"
-  );
 
   return (
     <div id="reloading-area">

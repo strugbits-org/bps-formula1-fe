@@ -44,5 +44,5 @@ function formCart() {
     });
   });
 }
-formCart();
-document.addEventListener("pjax:complete", formCart);
+// formCart();
+// document.addEventListener("pjax:complete", formCart);

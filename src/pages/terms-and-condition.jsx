@@ -1,9 +1,11 @@
 import TermsAndCondition from "@/components/TermsAndCondition";
 import { getTermsAndConditionsPageData } from "@/services/apiServices";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ termsAndConditionsPageData }) {
+  markPageLoaded();
   return (
-    <TermsAndCondition pages={termsAndConditionsPageData[0].content.nodes} />
+    <TermsAndCondition data={termsAndConditionsPageData[0]} />
   );
 }
 

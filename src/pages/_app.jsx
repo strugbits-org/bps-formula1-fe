@@ -50,7 +50,7 @@ export default function App({
       />
       <Account />
       <div id="main-transition">
-        <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
+        <div id={`pg-${cleanPath === "404" ? "error" : cleanPath}`} className="wrapper" data-scroll-container>
           <main>
             <Component {...pageProps} />
           </main>
@@ -67,21 +67,21 @@ export default function App({
 
 App.getInitialProps = async (context) => {
   const router = context.router;
-  const pathname =
-    router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
+  const pathname = router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
   const page_name = pathname.split("/")[0].trim();
+
+  const collectionsData = await getCollectionsData();
+  const selectedCollections = (page_name === "collections" && router.query?.slug) ? collectionsData.filter((x) => x.collectionSlug === router.query.slug).map((x) => x._id) : collectionsData.map((x) => x._id);
 
   const [
     homePageData,
-    collectionsData,
     categoriesData,
     footerData,
     footerLinksData,
     footerBottomRightSocialLinks,
   ] = await Promise.all([
     getHomePageData(),
-    getCollectionsData(),
-    getCategoriesData(),
+    getCategoriesData(selectedCollections),
     getFooterData(),
     getFooterLinksData(),
     getHomeBottomRightSocialLinks(),
