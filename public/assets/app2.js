@@ -26982,6 +26982,10 @@ var require_app2 = __commonJS({
       viewportHeight();
 
       const main$products = () => {
+        filterProducts();
+        main$productsPost();
+      }
+      const main$product = () => {
         main$5();
         main$productsPost();
         formCart();
@@ -27052,10 +27056,10 @@ var require_app2 = __commonJS({
           main$collectionspost();
           break;
         case 'products':
-          filterProducts();
+          main$products();
           break;
         case 'product':
-          main$products();
+          main$product();
           break;
         case 'my-account':
           main$03();
