@@ -125,7 +125,12 @@ const Products = ({
                                     const { title, description } = data;
                                     if (title == "Size") {
                                       return (
-                                        <span key={index}>{description}</span>
+                                        <span
+                                          key={index}
+                                          dangerouslySetInnerHTML={{
+                                            __html: description,
+                                          }}
+                                        ></span>
                                       );
                                     }
                                   }
