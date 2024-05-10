@@ -26982,16 +26982,9 @@ var require_app2 = __commonJS({
       viewportHeight();
 
       const main$products = () => {
-        const page = window.location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
-        const page_name = page.split("/")[0].trim();
-        document.body.dataset.pg = `pg-${page_name}`;
-        if (page.includes("/")) {
-          main$5();
-          main$productsPost();
-          formCart();
-        } else {
-          filterProducts();
-        }
+        main$5();
+        main$productsPost();
+        formCart();
       }
       const main$productsPost = () => {
         window.scrollTo({ top: 0, behavior: "instant" });
@@ -27059,6 +27052,9 @@ var require_app2 = __commonJS({
           main$collectionspost();
           break;
         case 'products':
+          filterProducts();
+          break;
+        case 'product':
           main$products();
           break;
         case 'my-account':
