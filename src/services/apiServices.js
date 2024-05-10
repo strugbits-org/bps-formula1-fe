@@ -1,4 +1,4 @@
-import fetchData, { fetchCategoriesReferenceData, fetchReferenceData, selectedCollectionData } from "./fetchFunction";
+import fetchData, { fetchSearchData, fetchCategoriesReferenceData, fetchCategoriesReferenceDataa, fetchReferenceData, selectedCategoryData, selectedCollectionData } from "./fetchFunction";
 
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
@@ -6,6 +6,9 @@ export const getHomeBottomRightSocialLinks = () =>
   fetchData("SocialMediaLinksF1");
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
+
+export const getSearchProducts = (query) =>
+  fetchSearchData("locationFilteredVariant", ["category", "product", "subCategory"], query);
 
 // REGISTRATION PAGE APIS
 export const getSignInPage = () => fetchData("SignInPageF1");
@@ -18,14 +21,19 @@ export const getGalleryPageData = () => fetchData("GalleryPageF1");
 
 // COLLECTIONS DATA
 export const getCollectionsData = () => fetchData("Collectionsf1");
-export const getSelectedCollectionData = (slug) => selectedCollectionData("Collectionsf1",slug);
+export const getSelectedCollectionData = (slug) => selectedCollectionData("Collectionsf1", slug);
 
 // CATEGORY DATA
-export const getCategoriesData = () =>
-  fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
+export const getCategoriesData = (collectionsIds) =>
+  fetchCategoriesReferenceData("BPSCatalogStructure", ["f1Collections", "parentCollection"], collectionsIds);
+
+export const getSelectedCategoryData = (slug) => selectedCategoryData("BPSCatalogStructure", ["parentCollection", 'level2Collections'], slug);
+
+
+// fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
 export const getFilterCategory = (selectedCollectionId) =>
-  fetchCategoriesReferenceData("BPSCatalogStructure",[ "parentCollection"],selectedCollectionId);
+  fetchCategoriesReferenceData("BPSCatalogStructure", ["parentCollection"], [selectedCollectionId]);
 
 // COLLECTIONS PAGE API
 export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
@@ -34,6 +42,10 @@ export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
 export const getCollectionsPostPageData = () =>
   fetchData("CollectionsPostPageDataF1");
 
+
+// PRODUCTS PAGE APIS
+export const getFilterProducts = (slug) =>
+  fetchCategoriesReferenceDataa("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = () =>
   fetchData("TermsandConditionsPageContentF1");

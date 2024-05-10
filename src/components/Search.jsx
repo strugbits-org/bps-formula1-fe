@@ -2,7 +2,7 @@ import AddToCartModal from "./Product/AddToCartModal";
 import FilterButton from "./Common/FilterButton";
 import Link from "next/link";
 
-const Search = () => {
+const Search = ({ data }) => {
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -23,11 +23,13 @@ const Search = () => {
                 className="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
+                {data.map((item) => {
+                  const { variantData, product } = item;
+
                   return (
-                    <li key={index} className="grid-item">
+                    <li key={item._id} className="grid-item">
                       <div
-                        key={index}
+                        key={item._id}
                         className="product-link small saved-products landscape-fix active"
                         data-product-category
                         data-product-location
@@ -38,96 +40,59 @@ const Search = () => {
                             <i className="icon-bookmark"></i>
                           </button>
                         </div>
-                        <Link href="/products-post" className="link">
+                        <Link href="/products" className="link">
                           <div className="container-top">
-                            <h2 className="product-title">Pilot Chairred</h2>
+                            <h2 className="product-title">{product.name}</h2>
                           </div>
                           <div className="wrapper-product-img">
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="red"
-                              data-default-product-link-active
-                            >
-                              <img
-                                src={"/images/products/img-01.png"}
-                                data-preload
-                                className="media"
-                                alt="search-1"
-                              />
-                            </div>
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="yellow"
-                            >
-                              <img
-                                src={"/images/products/img-01-blue.png"}
-                                data-preload
-                                className="media"
-                                alt="search-2"
-                              />
-                            </div>
-                            <div
-                              className="container-img product-img"
-                              data-get-product-link-color="blue"
-                            >
-                              <img
-                                src={"/images/products/img-01-brown.png"}
-                                data-preload
-                                className="media"
-                                alt="search-3"
-                              />
-                            </div>
+                            {variantData.filter((x,index)=>index < 2).map((variant) => {
+                              return (
+                                <div
+                                  className="container-img product-img"
+                                  data-get-product-link-color={variant.color[0]}
+                                  data-default-product-link-active
+                                >
+                                  <img
+                                  style={{padding:"20px"}}
+                                    src={variant.variant.imageSrc}
+                                    data-preload
+                                    className="media"
+                                    alt="search-1"
+                                  />
+                                </div>
+                              )
+                            })}
                           </div>
                           <div className="container-bottom">
-                            <div className="price">$ 99.99</div>
+                            <div className="price">{product.formattedPrice}</div>
                           </div>
                         </Link>
                         <div className="container-color-options">
                           <ul className="list-color-options">
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="red"
-                              data-default-product-link-active
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-4"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="yellow"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-blue.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-4"
-                                />
-                              </div>
-                            </li>
-                            <li
-                              className="list-item"
-                              data-set-product-link-color="blue"
-                            >
-                              <div className="container-img">
-                                <img
-                                  src="images/products/img-01-brown.png"
-                                  data-preload
-                                  className="media"
-                                  alt="search-"
-                                />
-                              </div>
-                            </li>
+                            {variantData.filter((x,index)=>index < 2).map((variant) => {
+                              return (
+                                <li
+                                  className="list-item"
+                                  data-set-product-link-color={variant.color[0]}
+                                  data-default-product-link-active
+                                >
+                                  <div className="container-img">
+                                    <img
+                                      src={variant.variant.imageSrc}
+                                      data-preload
+                                      className="media"
+                                      alt="search-4"
+                                    />
+                                  </div>
+                                </li>
+                              )
+                            })}
                           </ul>
-                          <div className="colors-number">
-                            <span>+3</span>
-                          </div>
+                          {variantData.length > 2 && (
+                            <div className="colors-number">
+                              <span>+{variantData.length - 2}</span>
+                            </div>
+                          )}
                         </div>
                         <btn-modal-open
                           group="modal-product"
@@ -146,7 +111,7 @@ const Search = () => {
         </div>
       </section>
 
-      {/* <AddToCartModal /> */}
+      <AddToCartModal />
     </>
   );
 };

@@ -1,14 +1,8 @@
-import usePageInitialization from "../../hooks/usePageInitialization";
-import AddToCartModal from "../pages/Product/AddToCartModal";
+import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
 
 const MatchedProducts = () => {
-  usePageInitialization(
-    "pg-products-post",
-    ".initScript",
-    ".productsPost"
-    // '.cartPage'
-  );
+
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -61,7 +55,7 @@ const MatchedProducts = () => {
                                 }}
                               />
                             </div>
-                            <AnimateLink to="/products-post" className="link">
+                            <AnimateLink to="/products" className="link">
                               <div className="container-top">
                                 <h2 className="product-title">
                                   Pilot Chairred
@@ -79,7 +73,7 @@ const MatchedProducts = () => {
                                   data-default-product-link-active
                                 >
                                   <img
-                                    src="images/products/img-01.png"
+                                    src="/images/products/img-01.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -90,7 +84,7 @@ const MatchedProducts = () => {
                                   data-get-product-link-color="yellow"
                                 >
                                   <img
-                                    src="images/products/img-01-blue.png"
+                                    src="/images/products/img-01-blue.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -101,7 +95,7 @@ const MatchedProducts = () => {
                                   data-get-product-link-color="blue"
                                 >
                                   <img
-                                    src="images/products/img-01-brown.png"
+                                    src="/images/products/img-01-brown.png"
                                     data-preload
                                     className="media"
                                     alt="product"
@@ -121,7 +115,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01.png"
+                                      src="/images/products/img-01.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -134,7 +128,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01-blue.png"
+                                      src="/images/products/img-01-blue.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -147,7 +141,7 @@ const MatchedProducts = () => {
                                 >
                                   <div className="container-img">
                                     <img
-                                      src="images/products/img-01-brown.png"
+                                      src="/images/products/img-01-brown.png"
                                       data-preload
                                       className="media"
                                       alt="product"
@@ -161,7 +155,7 @@ const MatchedProducts = () => {
                             </div>
                             <btn-modal-open
                               group="modal-product"
-                              className="modal-add-to-cart"
+                              class="modal-add-to-cart"
                             >
                               <span>Add to cart</span>
                               <i className="icon-cart"></i>

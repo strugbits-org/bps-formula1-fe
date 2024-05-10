@@ -11,36 +11,89 @@ const fetchData = async (dataCollectionId) => {
     throw new Error(error.message);
   }
 };
-
-export const selectedCollectionData = async (dataCollectionId,slug) => {
+export const fetchSearchData = async (dataCollectionId, references, query) => {
   try {
-    const options = { dataCollectionId };
-    const { items } = await WixClient.items.queryDataItems(options).eq("collectionSlug",slug).find();
+    const options = {
+      dataCollectionId,
+      includeReferencedItems: references,
+    };
+    const { items } = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).contains("search", query).find();
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
 };
-export const fetchReferenceData = async (dataCollectionId,references) => {
+
+
+export const selectedCollectionData = async (dataCollectionId, slug) => {
+  try {
+    const options = { dataCollectionId };
+    const { items } = await WixClient.items.queryDataItems(options).eq("collectionSlug", slug).find();
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+
+export const fetchReferenceData = async (dataCollectionId, references) => {
   try {
     const options = {
       dataCollectionId,
       includeReferencedItems: references,
     };
     const { items } = await WixClient.items.queryDataItems(options).find();
+
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-export const fetchCategoriesReferenceData = async (dataCollectionId,references,selectedCollectionId) => {
+
+
+
+export const selectedCategoryData = async (dataCollectionId,references, slug) => {
+  try {
+    const options = { dataCollectionId ,
+      includeReferencedItems: references,
+
+    };
+    const { items } = await WixClient.items.queryDataItems(options).hasSome("parentCollection", [slug]).find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+
+export const fetchCategoriesReferenceData = async (dataCollectionId, references, selectedCollectionId) => {
   try {
     const options = {
       dataCollectionId,
       includeReferencedItems: references,
     };
-    const { items } = await WixClient.items.queryDataItems(options).hasSome("f1Collections",[selectedCollectionId]).find();
+    const { items } = await WixClient.items.queryDataItems(options).hasSome("f1Collections", selectedCollectionId).find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
+export const fetchCategoriesReferenceDataa = async (dataCollectionId, references, slug) => {
+  try {
+    const options = {
+      dataCollectionId,
+      includeReferencedItems: references,
+
+    };
+ 
+    const { items } = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).hasSome("category", [slug]).find();
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);

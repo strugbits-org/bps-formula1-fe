@@ -6,27 +6,20 @@ import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 
-const selectedCollectionName = {
-  "classic-vegas":"Classic Vegas",
-  "paddock":"Paddock",
-  "neon-house":"Neon House",
-  "legacy":"Legacy",
-}
-
-
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
-  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
-  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState("Collections");
-  const [selectedCategory, setSelectedCategory] = useState("Categories");
-  // Function to handle selection of a collection
   const pathname = usePathname();
   const router = useRouter();
-  const [previousPath, setPreviousPath] = useState(null);
+
+  const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
+  const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
+  const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug)?.collectionSlug || "All";
+  const [selectedCollection, setSelectedCollection] = useState(_selectedCollection);
+  const [searchTerm, setSearchTerm] = useState(router.query.for || "");
+  const [selectedCategory, setSelectedCategory] = useState("Categories");
+  // Function to handle selection of a collection
+
   useEffect(() => {
     if (router) {
-      setSelectedCollection(selectedCollectionName[router.query.slug ] || "All");
-      setPreviousPath(location);
       if (
         pathname === "/" &&
         router.asPath !== "#sign-in" &&
@@ -41,13 +34,21 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    router.push(`/collections-post/` + collectionSlug);
+    router.push(`/collections/` + collectionSlug);
   };
-  const handleCategorySelection = (name) => {
-    setSelectedCategory(name);
+  const handleCategorySelection = (parentCollection) => {
+    setSelectedCategory(parentCollection.name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    router.push("/products");
+    router.push(`/products?category=${parentCollection._id}`);
+                  // to={`/products?category=${parentCollection._id}`}
+
+
+  };
+
+  const handleInputChange = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchTerm(value);
   };
 
   const handleSubmit = (e) => {
@@ -55,10 +56,9 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     try {
       pageLoadStart();
       setTimeout(() => {
-        // Replace this with your navigation logic
-        router.push("/search");
+        router.push("/search?for=" + searchTerm);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // const signIn = () => {
@@ -101,13 +101,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               // onClick={signIn}
               className="btn-small btn-red btn-hover-white btn-sign-in"
-              // data-href="index.html#sign-in"
+            // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
@@ -144,9 +144,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -197,9 +196,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
@@ -221,7 +219,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                   return (
                     <li
                       key={index}
-                      onClick={() => handleCategorySelection(name)}
+                      onClick={() => handleCategorySelection(data.parentCollection)}
                     >
                       <span className="link-dropdown cursor-pointer">
                         <span>{name}</span>
@@ -251,11 +249,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               data-pjax
               data-search-form
             >
-              <div className="container-input input-header">
+              <div className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""}`}>
                 <label htmlFor="search" className="split-chars">
                   Search
                 </label>
-                <input type="search" className="search" name="for" required />
+                <input type="search" className="search" name="for" value={searchTerm}
+                  onChange={handleInputChange}
+                  required />
                 <div className="container-submit">
                   <button
                     type="submit"

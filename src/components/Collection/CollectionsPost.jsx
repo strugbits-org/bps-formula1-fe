@@ -8,7 +8,7 @@ const CollectionsPost = ({
   collectionsData,
 }) => {
   // usePageInitialization(
-  //   "pg-collections-post",
+  //   "pg-collections",
   //   ".initScript",
   //   ".galleryLightBox"
   // );
@@ -19,7 +19,7 @@ const CollectionsPost = ({
 
   return (
     <div>
-      <section className="collections-post-intro pt-lg-205">
+      <section className="collections-intro pt-lg-205">
         <div className="container-fluid pos-relative z-5">
           <div className="row">
             <div className="col-lg-6 offset-lg-3 column-1">
@@ -52,7 +52,7 @@ const CollectionsPost = ({
           </div>
         </div>
       </section>
-      <section className="collections-post-gallery mt-lg-105 mt-tablet-50 mt-phone-35 pb-lg-90 pb-tablet-50 pb-phone-130">
+      <section className="collections-gallery mt-lg-105 mt-tablet-50 mt-phone-35 pb-lg-90 pb-tablet-50 pb-phone-130">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-10 offset-lg-1 column-1">

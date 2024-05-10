@@ -1,81 +1,72 @@
-import { Link } from "react-router-dom";
-
-import usePageInitialization from "../../hooks/usePageInitialization";
 import OtherCollections from "../Common/OtherCollections";
 import MatchedProducts from "../Common/MatchedProducts";
 import AnimateLink from "../Common/AnimateLink";
+import Link from "next/link";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
   { name: "Collections", href: "/collections" },
-  { name: "Collection detail", href: "/collections-post" },
+  { name: "Collection detail", href: "/collections" },
   { name: "Category", href: "/collections-category" },
   { name: "Product list", href: "#" },
 ];
 
 const productImages = [
   {
-    source: "images/products/img-01.png",
+    source: "/images/products/img-01.png",
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: "/images/products/img-02.png",
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: "/images/products/img-03.png",
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: "/images/3d.svg",
+    imgSource: "/images/products/chair/0_",
     bool: true,
   },
   {
-    source: "images/products/img-01.png",
+    source: "/images/products/img-01.png",
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: "/images/products/img-02.png",
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: "/images/products/img-03.png",
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: "/images/3d.svg",
+    imgSource: "/images/products/chair/0_",
     bool: true,
   },
   {
-    source: "images/products/img-01.png",
+    source: "/images/products/img-01.png",
     bool: false,
   },
   {
-    source: "images/products/img-02.png",
+    source: "/images/products/img-02.png",
     bool: false,
   },
   {
-    source: "images/products/img-03.png",
+    source: "/images/products/img-03.png",
     bool: false,
   },
   {
-    source: "images/3d.svg",
-    imgSource: "images/products/chair/0_",
+    source: "/images/3d.svg",
+    imgSource: "/images/products/chair/0_",
     bool: true,
   },
 ];
 
 const ProductPost = () => {
   const status = "succeeded";
-  usePageInitialization(
-    status,
-    "pg-products-post",
-    ".initScript",
-    ".productsPost",
-    ".cartPage"
-  );
 
   return (
     <>
@@ -177,7 +168,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltadf"
@@ -187,7 +178,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="asd"
@@ -197,7 +188,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="cvb"
@@ -218,7 +209,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltasdf"
@@ -228,7 +219,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="cxxcvb"
@@ -238,7 +229,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="bkgh"
@@ -259,7 +250,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltgthyj"
@@ -269,7 +260,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="bnmbnk"
@@ -279,7 +270,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="ioi"
@@ -315,7 +306,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="yui"
@@ -327,7 +318,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="iuoui"
@@ -339,7 +330,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="gfjh"
@@ -351,7 +342,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="fxdgfd"
@@ -364,7 +355,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="gbguyg"
@@ -376,7 +367,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -388,7 +379,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -400,7 +391,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -413,7 +404,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -425,7 +416,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -437,7 +428,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -449,7 +440,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="test-product"
@@ -473,7 +464,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltedtr"
@@ -483,7 +474,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="product-asd"
@@ -493,7 +484,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="product-vcv"
@@ -514,7 +505,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltvbmn"
@@ -524,7 +515,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="product-bnm"
@@ -534,7 +525,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="product-mko"
@@ -555,7 +546,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="imageAltil"
@@ -565,7 +556,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="product-no"
@@ -575,7 +566,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="product-no"
@@ -611,7 +602,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -623,7 +614,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -635,7 +626,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -647,7 +638,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -660,7 +651,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -672,7 +663,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -684,7 +675,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -696,7 +687,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -709,7 +700,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -721,7 +712,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -733,7 +724,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -745,7 +736,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="product-no"
@@ -769,7 +760,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="product-no"
@@ -779,7 +770,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -789,48 +780,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -851,7 +801,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-01.png"
+                              src="/images/products/img-01.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -861,7 +811,7 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-02.png"
+                              src="/images/products/img-02.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -871,7 +821,48 @@ const ProductPost = () => {
                         <div className="swiper-slide">
                           <div className="container-img">
                             <img
-                              src="images/products/img-03.png"
+                              src="/images/products/img-03.png"
+                              data-preload
+                              className="media"
+                              alt="pro-product"
+                            />
+                          </div>
+                        </div>
+                        <div className="swiper-slide slide-360">
+                          <i className="icon-360"></i>
+                          <div className="container-img">
+                            <canvas
+                              className="infinite-image-scroller"
+                              data-frames="49"
+                              data-path="images/products/chair/0_"
+                              data-extension="jpg"
+                            ></canvas>
+                          </div>
+                        </div>
+                        <div className="swiper-slide">
+                          <div className="container-img">
+                            <img
+                              src="/images/products/img-01.png"
+                              data-preload
+                              className="media"
+                              alt="pro-product"
+                            />
+                          </div>
+                        </div>
+                        <div className="swiper-slide">
+                          <div className="container-img">
+                            <img
+                              src="/images/products/img-02.png"
+                              data-preload
+                              className="media"
+                              alt="pro-product"
+                            />
+                          </div>
+                        </div>
+                        <div className="swiper-slide">
+                          <div className="container-img">
+                            <img
+                              src="/images/products/img-03.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -907,7 +898,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -919,7 +910,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -931,7 +922,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -943,7 +934,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -956,7 +947,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -968,7 +959,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -980,7 +971,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -992,7 +983,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -1005,7 +996,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-01.png"
+                                  src="/images/products/img-01.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -1017,7 +1008,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-02.png"
+                                  src="/images/products/img-02.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -1029,7 +1020,7 @@ const ProductPost = () => {
                             <div className="wrapper-img">
                               <div className="container-img">
                                 <img
-                                  src="images/products/img-03.png"
+                                  src="/images/products/img-03.png"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -1041,7 +1032,7 @@ const ProductPost = () => {
                             <div className="wrapper-img img-3d">
                               <div className="container-img">
                                 <img
-                                  src="images/3d.svg"
+                                  src="/images/3d.svg"
                                   data-preload
                                   className="media"
                                   alt="pro-product"
@@ -1138,7 +1129,7 @@ const ProductPost = () => {
                           />
                           <div className="container-img">
                             <img
-                              src="images/products/thumb.png"
+                              src="/images/products/thumb.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -1153,7 +1144,7 @@ const ProductPost = () => {
                           <input type="radio" name="colors" value="blue" />
                           <div className="container-img">
                             <img
-                              src="images/products/thumb.png"
+                              src="/images/products/thumb.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -1168,7 +1159,7 @@ const ProductPost = () => {
                           <input type="radio" name="colors" value="red" />
                           <div className="container-img">
                             <img
-                              src="images/products/thumb.png"
+                              src="/images/products/thumb.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -1183,7 +1174,7 @@ const ProductPost = () => {
                           <input type="radio" name="colors" value="pink" />
                           <div className="container-img">
                             <img
-                              src="images/products/thumb.png"
+                              src="/images/products/thumb.png"
                               data-preload
                               className="media"
                               alt="pro-product"
@@ -1215,7 +1206,7 @@ const ProductPost = () => {
                       </button>
                     </div>
                     <Link
-                      to="/cart"
+                      href="/cart"
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
@@ -1333,7 +1324,7 @@ const ProductPost = () => {
         </div>
       </section>
 
-      <section className="products-post-snapshots pt-lg-355 pt-tablet-55 pt-phone-35">
+      <section className="products-snapshots pt-lg-355 pt-tablet-55 pt-phone-35">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-10 offset-lg-1">
@@ -1347,7 +1338,7 @@ const ProductPost = () => {
                 <div className="module-column" data-aos="d:loop">
                   <div className="container-img">
                     <img
-                      src="images/lib/06_desktop.jpg"
+                      src="/images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
                       alt="pro-product"
@@ -1359,7 +1350,7 @@ const ProductPost = () => {
                 <div className="module-column" data-aos="d:loop">
                   <div className="container-img">
                     <img
-                      src="images/lib/06_desktop.jpg"
+                      src="/images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
                       alt="product-njk"
@@ -1369,7 +1360,7 @@ const ProductPost = () => {
                 <div className="module-column" data-aos="d:loop">
                   <div className="container-img">
                     <img
-                      src="images/lib/06_desktop.jpg"
+                      src="/images/lib/06_desktop.jpg"
                       data-preload
                       className="media"
                       alt="product-njk"
@@ -1382,8 +1373,8 @@ const ProductPost = () => {
         </div>
       </section>
 
-      <MatchedProducts />
-      <OtherCollections />
+      {/* <MatchedProducts /> */}
+      {/* <OtherCollections /> */}
     </>
   );
 };

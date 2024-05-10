@@ -18134,7 +18134,7 @@ var require_app2 = __commonJS({
 
     // Cart Page
     const pageName$6 = "cart";
-    function main$6() { 
+    function main$6() {
       formCart();
     }
     const pgCart = new Page({
@@ -18807,7 +18807,7 @@ var require_app2 = __commonJS({
     // Cart page Cuctom JS
 
     // Products Page
-    const pageName$5 = "products-post";
+    const pageName$5 = "products";
     function main$5() {
       filterProducts();
       productContent();
@@ -26422,7 +26422,7 @@ var require_app2 = __commonJS({
     // Collections Page Custom JS
 
     // Collections Page
-    const pageName$2 = "collections-post";
+    const pageName$2 = "collections";
     function main$2() {
       galleryLightbox();
     }
@@ -26981,6 +26981,62 @@ var require_app2 = __commonJS({
       copyLink();
       viewportHeight();
 
+      const main$products = () => {
+        main$5();
+        main$productsPost();
+        formCart();
+      }
+      const main$productsPost = () => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+
+        new Swiper("#slider-match-with .swiper-container", {
+          modules: [Navigation, Pagination],
+          slidesPerView: 1,
+          spaceBetween: 0,
+          slidesPerGroup: 1,
+          loop: false,
+          effect: "slide",
+          pagination: {
+            el: "#slider-match-with .swiper-pagination",
+            clickable: true,
+            dynamicBullets: true,
+          },
+          navigation: {
+            nextEl: "#slider-match-with .swiper-button-next",
+            prevEl: "#slider-match-with .swiper-button-prev",
+          },
+          loopFillGroupWithBlank: false,
+          centerInsufficientSlides: true,
+          grabCursor: false,
+          observer: true,
+          watchOverflow: true,
+          speed: 600,
+          preventClicksPropagation: false,
+          // Responsive breakpoints
+          breakpoints: {
+            767: {
+              slidesPerView: 1,
+              slidesPerGroup: 1,
+            },
+            1025: {
+              slidesPerView: "auto",
+              slidesPerGroup: 1,
+            },
+          },
+        });
+        filterProducts();
+        productContent();
+      }
+      const main$gallery = () => {
+        main$3();
+        collections();
+        galleryLightbox();
+        main$productsPost();
+      }
+      const main$collectionspost = () => {
+        main$2()
+        galleryLightbox();
+      }
       const page = window.location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
       const page_name = page.split("/")[0].trim();
       document.body.dataset.pg = `pg-${page_name}`;
@@ -26990,17 +27046,16 @@ var require_app2 = __commonJS({
           main$8();
           break;
         case 'gallery':
-          () => {
-            main$3();
-            collections();
-            galleryLightbox();
-          };
+          main$gallery();
           break;
-        case 'collections-post':
-          () => {
-            main$2()
-            galleryLightbox();
-          }
+        case 'collections':
+          main$collectionspost();
+          break;
+        case 'products':
+          filterProducts();
+          break;
+        case 'product':
+          main$products();
           break;
         case 'my-account':
           main$03();

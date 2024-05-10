@@ -31,7 +31,7 @@ export const handleCollectionLoaded = () => {
       home: 6,
       gallery: 4,
       collections: 1,
-      "collections-post": 1,
+      "collections": 1,
       "my-account": 1,
       "terms-and-condition": 1,
       "privacy-and-policy": 1,
