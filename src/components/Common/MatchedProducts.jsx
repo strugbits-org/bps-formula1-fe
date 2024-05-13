@@ -1,8 +1,9 @@
+import { useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
 
-const MatchedProducts = () => {
-
+const MatchedProducts = ({ matchedProductsData }) => {
+  const [productData, setProductData] = useState(null);
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -18,152 +19,150 @@ const MatchedProducts = () => {
               <div id="slider-match-with" className="mt-35" data-aos="d:loop">
                 <div className="swiper-container">
                   <div className="swiper-wrapper">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="swiper-slide"
-                          style={{ margin: "16px", borderRadius: "30px" }}
-                        >
+                    {matchedProductsData &&
+                      matchedProductsData.map((data, index) => {
+                        const { variantData, product } = data;
+                        return (
                           <div
-                            className="product-link large active"
-                            data-product-category
-                            data-product-location
-                            data-product-colors
+                            key={index}
+                            className="swiper-slide"
+                            style={{ margin: "16px", borderRadius: "30px" }}
                           >
-                            <div className="container-tags">
-                              <div className="best-seller">
-                                <span>Best Seller</span>
-                              </div>
-                              <button className="btn-bookmark">
-                                <i className="icon-bookmark"></i>
-                              </button>
-                            </div>
-                            <div className="container-copy">
-                              <a href="/#" className="btn-copy copy-link">
-                                <span>MODCH39</span>
-                                <i className="icon-copy"></i>
-                              </a>
-                              <input
-                                type="text"
-                                className="copy-link-url"
-                                value="MODCH39"
-                                style={{
-                                  position: "absolute",
-                                  opacity: 0,
-                                  pointerEvents: "none",
-                                }}
-                              />
-                            </div>
-                            <AnimateLink to="/products" className="link">
-                              <div className="container-top">
-                                <h2 className="product-title">
-                                  Pilot Chairred
-                                </h2>
-                                <div className="container-info">
-                                  <div className="dimensions">
-                                    <span>24”L X 30”W X 37”H</span>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="wrapper-product-img">
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="red"
-                                  data-default-product-link-active
-                                >
-                                  <img
-                                    src="/images/products/img-01.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="yellow"
-                                >
-                                  <img
-                                    src="/images/products/img-01-blue.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="blue"
-                                >
-                                  <img
-                                    src="/images/products/img-01-brown.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
-                              </div>
-                              <div className="container-bottom">
-                                <div className="price">$ 99.99</div>
-                              </div>
-                            </AnimateLink>
-                            <div className="container-color-options">
-                              <ul className="list-color-options">
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="red"
-                                  data-default-product-link-active
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="/images/products/img-01.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="yellow"
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="/images/products/img-01-blue.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="blue"
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="/images/products/img-01-brown.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
-                              </ul>
-                              <div className="colors-number">
-                                <span>+3</span>
-                              </div>
-                            </div>
-                            <btn-modal-open
-                              group="modal-product"
-                              class="modal-add-to-cart"
+                            <div
+                              className="product-link large active"
+                              data-product-category
+                              data-product-location
+                              data-product-colors
                             >
-                              <span>Add to cart</span>
-                              <i className="icon-cart"></i>
-                            </btn-modal-open>
+                              <div className="container-tags">
+                                <div className="best-seller">
+                                  <span>Best Seller</span>
+                                </div>
+                                <button className="btn-bookmark">
+                                  <i className="icon-bookmark"></i>
+                                </button>
+                              </div>
+                              <div className="container-copy">
+                                <a href="/#" className="btn-copy copy-link">
+                                  <span>MODCH39</span>
+                                  <i className="icon-copy"></i>
+                                </a>
+                                <input
+                                  type="text"
+                                  className="copy-link-url"
+                                  value="MODCH39"
+                                  style={{
+                                    position: "absolute",
+                                    opacity: 0,
+                                    pointerEvents: "none",
+                                  }}
+                                />
+                              </div>
+                              <AnimateLink
+                                to={`/product/${product.slug}`}
+                                className="link"
+                              >
+                                <div className="container-top">
+                                  <h2 className="product-title">
+                                    {product.name}
+                                  </h2>
+                                  <div className="container-info">
+                                    <div className="dimensions">
+                                      {product.additionalInfoSections?.map(
+                                        (data, index) => {
+                                          const { title, description } = data;
+                                          if (title == "Size") {
+                                            return (
+                                              <span
+                                                key={index}
+                                                dangerouslySetInnerHTML={{
+                                                  __html: description,
+                                                }}
+                                              ></span>
+                                            );
+                                          }
+                                        }
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="wrapper-product-img">
+                                  {variantData.map((variantData, index) => {
+                                    if (index < 4) {
+                                      return (
+                                        <div
+                                          key={index}
+                                          className="container-img product-img"
+                                          data-get-product-link-color={
+                                            variantData.color[0]
+                                          }
+                                          data-default-product-link-active
+                                        >
+                                          <img
+                                            src={variantData.variant.imageSrc}
+                                            style={{
+                                              padding: "100px",
+                                            }}
+                                            data-preload
+                                            className="media"
+                                            alt="product"
+                                          />
+                                        </div>
+                                      );
+                                    }
+                                  })}
+                                </div>
+                                <div className="container-bottom">
+                                  <div className="price">
+                                    {product.formattedPrice}
+                                  </div>
+                                </div>
+                              </AnimateLink>
+                              <div className="container-color-options">
+                                <ul className="list-color-options">
+                                  {variantData.map((variantData, index) => {
+                                    if (index < 4) {
+                                      return (
+                                        <li
+                                          key={index}
+                                          className="list-item"
+                                          data-set-product-link-color={
+                                            variantData.color[0]
+                                          }
+                                          data-default-product-link-active
+                                        >
+                                          <div className="container-img">
+                                            <img
+                                              src={variantData.variant.imageSrc}
+                                              data-preload
+                                              className="media"
+                                              alt="product"
+                                            />
+                                          </div>
+                                        </li>
+                                      );
+                                    }
+                                  })}
+                                </ul>
+
+                                {variantData.length > 4 && (
+                                  <div className="colors-number">
+                                    <span>+{variantData.length - 4}</span>
+                                  </div>
+                                )}
+                              </div>
+                              <btn-modal-open
+                                onClick={() => setProductData(product)}
+                                group="modal-product"
+                                class="modal-add-to-cart"
+                              >
+                                <span>Add to cart</span>
+                                <i className="icon-cart"></i>
+                              </btn-modal-open>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
                   </div>
                 </div>
                 <div className="swiper-button-prev no-mobile">
@@ -179,7 +178,10 @@ const MatchedProducts = () => {
         </div>
       </section>
 
-      <AddToCartModal />
+      <AddToCartModal
+        productData={productData}
+        setProductData={setProductData}
+      />
     </>
   );
 };
