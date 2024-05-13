@@ -1,6 +1,11 @@
 import { generateImageURL } from "@/utils/GenerateImageURL";
 
-const AddToCartModal = ({ productData }) => {
+const AddToCartModal = ({ productData, setProductData }) => {
+  const handleClose = () => {
+    setTimeout(() => {
+      setProductData(null);
+    }, 1000);
+  };
   return (
     <div id="reloading-area">
       <modal-group name="modal-product" class="modal-product">
@@ -306,7 +311,41 @@ const AddToCartModal = ({ productData }) => {
                               class="list-colors"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
-                              <li class="list-colors-item">
+                              {productData &&
+                                productData.mediaItems.map((data, index) => {
+                                  return (
+                                    <li key={index} class="list-colors-item">
+                                      <div
+                                        class="container-input active"
+                                        data-set-color="yellow"
+                                      >
+                                        <label>
+                                          <input
+                                            type="radio"
+                                            name="colors"
+                                            value="yellow"
+                                            checked
+                                          />
+                                          <div class="container-img">
+                                            <img
+                                              src={generateImageURL({
+                                                wix_url: data.src,
+                                                w: "1000",
+                                                h: "1000",
+                                                fit: "fit",
+                                                q: "95",
+                                              })}
+                                              data-preload
+                                              class="media"
+                                              alt="product"
+                                            />
+                                          </div>
+                                        </label>
+                                      </div>
+                                    </li>
+                                  );
+                                })}
+                              {/* <li class="list-colors-item">
                                 <div
                                   class="container-input active"
                                   data-set-color="yellow"
@@ -320,7 +359,7 @@ const AddToCartModal = ({ productData }) => {
                                     />
                                     <div class="container-img">
                                       <img
-                                        src="images/products/thumb.png"
+                                        src="/images/products/thumb.png"
                                         data-preload
                                         class="media"
                                         alt="product"
@@ -342,7 +381,7 @@ const AddToCartModal = ({ productData }) => {
                                     />
                                     <div class="container-img">
                                       <img
-                                        src="images/products/thumb.png"
+                                        src="/images/products/thumb.png"
                                         data-preload
                                         class="media"
                                         alt="product"
@@ -364,7 +403,7 @@ const AddToCartModal = ({ productData }) => {
                                     />
                                     <div class="container-img">
                                       <img
-                                        src="images/products/thumb.png"
+                                        src="/images/products/thumb.png"
                                         data-preload
                                         class="media"
                                         alt="product"
@@ -386,7 +425,7 @@ const AddToCartModal = ({ productData }) => {
                                     />
                                     <div class="container-img">
                                       <img
-                                        src="images/products/thumb.png"
+                                        src="/images/products/thumb.png"
                                         data-preload
                                         class="media"
                                         alt="product"
@@ -394,7 +433,7 @@ const AddToCartModal = ({ productData }) => {
                                     </div>
                                   </label>
                                 </div>
-                              </li>
+                              </li> */}
                             </ul>
                             <div
                               class="container-add-to-cart mt-md-40 mt-phone-20"
@@ -446,7 +485,7 @@ const AddToCartModal = ({ productData }) => {
                             </div>
                           </form>
                         </div>
-                        <btn-modal-close>
+                        <btn-modal-close onClick={handleClose}>
                           <i class="icon-close"></i>
                         </btn-modal-close>
                       </div>

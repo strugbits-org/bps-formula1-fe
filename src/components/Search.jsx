@@ -1,8 +1,12 @@
 import AddToCartModal from "./Product/AddToCartModal";
 import FilterButton from "./Common/FilterButton";
 import Link from "next/link";
+import { useState } from "react";
+import AnimateLink from "./Common/AnimateLink";
 
-const Search = ({ data }) => {
+const Search = ({ searchedProducts }) => {
+  const [selectedProductData, setSelectedProductData] = useState(null);
+
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -23,7 +27,7 @@ const Search = ({ data }) => {
                 className="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {data.map((item) => {
+                {searchedProducts.map((item) => {
                   const { variantData, product } = item;
 
                   return (
@@ -40,53 +44,68 @@ const Search = ({ data }) => {
                             <i className="icon-bookmark"></i>
                           </button>
                         </div>
-                        <Link href="/products" className="link">
+                        <AnimateLink
+                          to={`/product/${product.slug}`}
+                          className="link"
+                        >
                           <div className="container-top">
                             <h2 className="product-title">{product.name}</h2>
                           </div>
                           <div className="wrapper-product-img">
-                            {variantData.filter((x,index)=>index < 2).map((variant) => {
-                              return (
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color={variant.color[0]}
-                                  data-default-product-link-active
-                                >
-                                  <img
-                                  style={{padding:"20px"}}
-                                    src={variant.variant.imageSrc}
-                                    data-preload
-                                    className="media"
-                                    alt="search-1"
-                                  />
-                                </div>
-                              )
-                            })}
-                          </div>
-                          <div className="container-bottom">
-                            <div className="price">{product.formattedPrice}</div>
-                          </div>
-                        </Link>
-                        <div className="container-color-options">
-                          <ul className="list-color-options">
-                            {variantData.filter((x,index)=>index < 2).map((variant) => {
-                              return (
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color={variant.color[0]}
-                                  data-default-product-link-active
-                                >
-                                  <div className="container-img">
+                            {variantData
+                              .filter((x, index) => index < 2)
+                              .map((variant) => {
+                                return (
+                                  <div
+                                    className="container-img product-img"
+                                    data-get-product-link-color={
+                                      variant.color[0]
+                                    }
+                                    data-default-product-link-active
+                                  >
                                     <img
                                       src={variant.variant.imageSrc}
+                                      style={{
+                                        padding: "70px",
+                                      }}
                                       data-preload
                                       className="media"
-                                      alt="search-4"
+                                      alt="search-1"
                                     />
                                   </div>
-                                </li>
-                              )
-                            })}
+                                );
+                              })}
+                          </div>
+                          <div className="container-bottom">
+                            <div className="price">
+                              {product.formattedPrice}
+                            </div>
+                          </div>
+                        </AnimateLink>
+                        <div className="container-color-options">
+                          <ul className="list-color-options">
+                            {variantData
+                              .filter((x, index) => index < 2)
+                              .map((variant) => {
+                                return (
+                                  <li
+                                    className="list-item"
+                                    data-set-product-link-color={
+                                      variant.color[0]
+                                    }
+                                    data-default-product-link-active
+                                  >
+                                    <div className="container-img">
+                                      <img
+                                        src={variant.variant.imageSrc}
+                                        data-preload
+                                        className="media"
+                                        alt="search-4"
+                                      />
+                                    </div>
+                                  </li>
+                                );
+                              })}
                           </ul>
                           {variantData.length > 2 && (
                             <div className="colors-number">
@@ -95,6 +114,7 @@ const Search = ({ data }) => {
                           )}
                         </div>
                         <btn-modal-open
+                          onClick={() => setSelectedProductData(product)}
                           group="modal-product"
                           class="modal-add-to-cart"
                         >
@@ -111,7 +131,10 @@ const Search = ({ data }) => {
         </div>
       </section>
 
-      <AddToCartModal />
+      <AddToCartModal
+        productData={selectedProductData}
+        setProductData={setSelectedProductData}
+      />
     </>
   );
 };

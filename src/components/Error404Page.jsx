@@ -26,7 +26,7 @@ const Error404Page = () => {
           <div className="logo-bottom">
             <div className="container-img">
               <img
-                src="images/logo-formula-1.svg"
+                src="/images/logo-formula-1.svg"
                 data-preload
                 className="media"
                 alt="product"
@@ -89,7 +89,7 @@ const Error404Page = () => {
         <div className="bg-img" data-aos="d:loop">
           <div className="container-img bg-img">
             <img
-              src="images/home/img-01.jpg"
+              src="/images/home/img-01.jpg"
               data-preload
               className="media"
               alt="product"

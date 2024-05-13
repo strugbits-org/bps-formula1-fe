@@ -129,4 +129,102 @@ export const fetchCategoriesReferenceDataa = async (dataCollectionId, references
   }
 };
 
+export const fetchSelectedProductId = async (dataCollectionId, slug) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("slug", slug)
+      .find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchPairItWithProductsIds = async (dataCollectionId, slug) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("productId", slug)
+      .find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchPairItWithProducts = async (
+  dataCollectionId,
+  references,
+  productId
+) => {
+  try {
+    const options = {
+      dataCollectionId,
+      includeReferencedItems: references,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .hasSome("product", productId)
+      .find();
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchProductDetails = async (
+  dataCollectionId,
+  references,
+  slug
+) => {
+  try {
+    const options = {
+      dataCollectionId,
+      includeReferencedItems: references,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("product", slug)
+      .find();
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchProductSnapshots = async (
+  dataCollectionId,
+  references,
+  slug
+) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("productId", "0825d779-f01f-4a87-9777-8a5fbf895c06")
+      .find();
+
+    console.log(items, "items>>>");
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export default fetchData;
