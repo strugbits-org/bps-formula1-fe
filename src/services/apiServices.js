@@ -1,4 +1,4 @@
-import fetchData, { fetchSearchData, fetchCategoriesReferenceData, fetchCategoriesReferenceDataa, fetchReferenceData, selectedCategoryData, selectedCollectionData } from "./fetchFunction";
+import fetchData, { fetchSearchData, fetchCategoriesReferenceData, fetchCategoriesReferenceDataa, fetchReferenceData, selectedCategoryData, selectedCollectionData, fetchCollectionColors } from "./fetchFunction";
 
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
@@ -29,6 +29,8 @@ export const getCategoriesData = (collectionsIds) =>
 
 export const getSelectedCategoryData = (slug) => selectedCategoryData("BPSCatalogStructure", ["parentCollection", 'level2Collections'], slug);
 
+export const getCollectionColors = (category) => fetchCollectionColors("colorFilterCache", category);
+
 
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
@@ -44,6 +46,9 @@ export const getCollectionsPostPageData = () =>
 
 
 // PRODUCTS PAGE APIS
+export const getFilteredProducts = (collection, category, pageSize, colors) =>
+listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
+
 export const getFilterProducts = (slug) =>
   fetchCategoriesReferenceDataa("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
 // TERMS AND CONDITIONS APIS

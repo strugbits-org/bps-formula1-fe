@@ -2,30 +2,35 @@ import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import RenderImage from "@/utils/RenderImage";
 import React, { useState } from "react";
-import { generateImageURL } from "@/utils/GenerateImageURL";
-import { hexToColorName } from "@/utils/ColorConverter";
-
-const chairCategory = [
-  "Accent chairs",
-  "Arm chairs",
-  "Conference chairs",
-  "Dining chairs",
-  "Lounge chairs",
-  "Office chairs",
-  "Seat chairs",
-  "Swivel chairs",
-];
 
 const Products = ({
   filteredProducts,
   collectionsData,
-  selectedCategoryData,
+  selectedCategory,
+  collection,
+  colors,
+  totalCount,
+  pageSize,
+  handleProductsFiter,
+  handleLoadMore
 }) => {
-  const [selectedProductData, setSelectedProductData] = useState();
 
-  console.log(filteredProducts, "filteredProducts>>>");
+  const [selectedProductData, setSelectedProductData] = useState(null);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  const handleFilter = (id) => {
+    if (selectedCategories.includes(id)) {
+      const _selectedCategories = selectedCategories.filter((el) => el !== id);
+      setSelectedCategories(_selectedCategories);
+      handleProductsFiter(collection._id, _selectedCategories, colors?.colors);
+    } else {
+      const _selectedCategories = [...selectedCategories, id];
+      setSelectedCategories(_selectedCategories);
+      handleProductsFiter(collection._id, _selectedCategories, colors?.colors);
+    }
+  };
+
   return (
     <>
       <section className="products-intro">
@@ -44,12 +49,14 @@ const Products = ({
                 className="list-tags"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {selectedCategoryData?.level2Collections?.map((data, index) => {
-                  const { name } = data;
+                {selectedCategory?.level2Collections?.map((data, index) => {
+                  const { name, _id } = data;
                   if (name) {
                     return (
                       <li key={index} className="list-item">
-                        <button className="btn-tag ">
+                        <button className="btn-tag "
+                          onClick={() => { handleFilter(_id) }}
+                        >
                           {/* active- className for active button */}
                           <span>{name}</span>
                         </button>
@@ -60,7 +67,7 @@ const Products = ({
               </ul>
             </div>
 
-            <FilterButton />
+            <FilterButton collections={collectionsData} colors={colors} />
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
@@ -85,7 +92,6 @@ const Products = ({
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData } = data;
-                  console.log(product, "product>>");
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
@@ -118,7 +124,9 @@ const Products = ({
                             }}
                           />
                         </div>
-                        <AnimateLink to="/products/1" className="link">
+                        <AnimateLink
+                          to={`product/${product.slug}`}
+                          className="link">
                           <div className="container-top">
                             <h2 className="product-title">{product.name}</h2>
                             <div className="container-info">
@@ -219,16 +227,19 @@ const Products = ({
                   );
                 })}
               </ul>
-              <div className="flex-center mt-30">
-                <button
-                  className="btn-medium btn-red btn-hover-white"
-                  data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                >
-                  <div className="split-chars">
-                    <span>Load more</span>
-                  </div>
-                </button>
-              </div>
+              {totalCount > pageSize && filteredProducts.length !== totalCount && (
+                <div className="flex-center mt-30">
+                  <button
+                    onClick={() => handleLoadMore(selectedCategories, colors.colors)}
+                    className="btn-medium btn-red btn-hover-white"
+                    data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                  >
+                    <div className="split-chars">
+                      <span>Load more</span>
+                    </div>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -252,7 +263,7 @@ const Products = ({
         </div>
       </section>
       <OtherCollections data={collectionsData} />
-      <AddToCartModal productData={selectedProductData} />
+      <AddToCartModal setProductData={setSelectedProductData} productData={selectedProductData} />
     </>
   );
 };
