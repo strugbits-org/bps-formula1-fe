@@ -2,6 +2,8 @@ import OtherCollections from "../Common/OtherCollections";
 import MatchedProducts from "../Common/MatchedProducts";
 import AnimateLink from "../Common/AnimateLink";
 import Link from "next/link";
+import { productData } from "@/utils/ProductData";
+import RenderImage from "@/utils/RenderImage";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -11,63 +13,13 @@ const breadCrumbData = [
   { name: "Product list", href: "#" },
 ];
 
-const productImages = [
-  {
-    source: "/images/products/img-01.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-02.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-03.png",
-    bool: false,
-  },
-  {
-    source: "/images/3d.svg",
-    imgSource: "/images/products/chair/0_",
-    bool: true,
-  },
-  {
-    source: "/images/products/img-01.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-02.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-03.png",
-    bool: false,
-  },
-  {
-    source: "/images/3d.svg",
-    imgSource: "/images/products/chair/0_",
-    bool: true,
-  },
-  {
-    source: "/images/products/img-01.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-02.png",
-    bool: false,
-  },
-  {
-    source: "/images/products/img-03.png",
-    bool: false,
-  },
-  {
-    source: "/images/3d.svg",
-    imgSource: "/images/products/chair/0_",
-    bool: true,
-  },
-];
-
-const ProductPost = () => {
-  const status = "succeeded";
-
+const ProductPost = ({
+  productPostPageData,
+  selectedProductDetails,
+  matchedProductsData,
+  collectionsData,
+  productSnapshots,
+}) => {
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -89,37 +41,30 @@ const ProductPost = () => {
                     </div>
                     <div className="swiper-container">
                       <div className="swiper-wrapper">
-                        {productImages.map((data, index) => {
-                          const { source, bool } = data;
-                          return (
-                            <>
-                              {bool ? (
-                                <div className="swiper-slide slide-360">
-                                  <i className="icon-360"></i>
-                                  <div className="container-img">
-                                    <canvas
-                                      className="infinite-image-scroller"
-                                      data-frames="49"
-                                      data-path={data.imgSource}
-                                      data-extension="jpg"
-                                    ></canvas>
-                                  </div>
+                        {selectedProductDetails.variantData.map(
+                          (variantData, index) => {
+                            const { variant } = variantData;
+                            const segments = variant.imageSrc.split("/");
+
+                            const filename = segments[segments.length - 1];
+
+                            return (
+                              <div key={index} className="swiper-slide">
+                                <div className="container-img">
+                                  <img
+                                    style={{
+                                      padding: "100px",
+                                    }}
+                                    src={variant.imageSrc}
+                                    data-preload
+                                    className="media"
+                                    alt={`product-${index}`}
+                                  />
                                 </div>
-                              ) : (
-                                <div key={index} className="swiper-slide">
-                                  <div className="container-img">
-                                    <img
-                                      src={source}
-                                      data-preload
-                                      className="media"
-                                      alt={`product-${index}`}
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                            </>
-                          );
-                        })}
+                              </div>
+                            );
+                          }
+                        )}{" "}
                       </div>
                     </div>
                     <div className="swiper-button-prev">
@@ -134,913 +79,27 @@ const ProductPost = () => {
                     <div className="slider-product-thumb">
                       <div className="swiper-container">
                         <div className="swiper-wrapper">
-                          {productImages.map((data, index) => {
-                            const { source, bool } = data;
-                            return (
-                              <div key={index} className="swiper-slide">
-                                <div
-                                  className={`wrapper-img ${bool && "img-3"}`}
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src={source}
-                                      data-preload
-                                      className="media"
-                                      alt={`product-test-${index}`}
-                                    />
+                          {selectedProductDetails.variantData.map(
+                            (variantData, index) => {
+                              return (
+                                <div key={index} className="swiper-slide">
+                                  <div className={`wrapper-img `}>
+                                    <div className="container-img">
+                                      <img
+                                        style={{
+                                          padding: "20px",
+                                        }}
+                                        src={variantData.variant.imageSrc}
+                                        data-preload
+                                        className="media"
+                                        alt={`product-test-${index}`}
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li className="wrapper-slider-product" data-get-color="blue">
-                  <div className="slider-product">
-                    <div className="best-seller-tag">
-                      <span>Best Seller</span>
-                    </div>
-                    <div className="swiper-container">
-                      <div className="swiper-wrapper">
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltadf"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="asd"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="cvb"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltasdf"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="cxxcvb"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="bkgh"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltgthyj"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="bnmbnk"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="ioi"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="swiper-button-prev">
-                      <i className="icon-arrow-left"></i>
-                    </div>
-                    <div className="swiper-button-next">
-                      <i className="icon-arrow-right"></i>
-                    </div>
-                    <div className="swiper-pagination no-desktop no-tablet"></div>
-                  </div>
-                  <div className="wrapper-slider-thumb no-mobile">
-                    <div className="slider-product-thumb">
-                      <div className="swiper-container">
-                        <div className="swiper-wrapper">
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="yui"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="iuoui"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="gfjh"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="fxdgfd"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="gbguyg"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="test-product"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li className="wrapper-slider-product" data-get-color="red">
-                  <div className="slider-product">
-                    <div className="best-seller-tag">
-                      <span>Best Seller</span>
-                    </div>
-                    <div className="swiper-container">
-                      <div className="swiper-wrapper">
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltedtr"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="product-asd"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="product-vcv"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltvbmn"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="product-bnm"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="product-mko"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="imageAltil"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="product-no"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="product-no"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="swiper-button-prev">
-                      <i className="icon-arrow-left"></i>
-                    </div>
-                    <div className="swiper-button-next">
-                      <i className="icon-arrow-right"></i>
-                    </div>
-                    <div className="swiper-pagination no-desktop no-tablet"></div>
-                  </div>
-                  <div className="wrapper-slider-thumb no-mobile">
-                    <div className="slider-product-thumb">
-                      <div className="swiper-container">
-                        <div className="swiper-wrapper">
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="product-no"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li className="wrapper-slider-product" data-get-color="pink">
-                  <div className="slider-product">
-                    <div className="best-seller-tag">
-                      <span>Best Seller</span>
-                    </div>
-                    <div className="swiper-container">
-                      <div className="swiper-wrapper">
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="product-no"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-01.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-02.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide">
-                          <div className="container-img">
-                            <img
-                              src="/images/products/img-03.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </div>
-                        <div className="swiper-slide slide-360">
-                          <i className="icon-360"></i>
-                          <div className="container-img">
-                            <canvas
-                              className="infinite-image-scroller"
-                              data-frames="49"
-                              data-path="images/products/chair/0_"
-                              data-extension="jpg"
-                            ></canvas>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="swiper-button-prev">
-                      <i className="icon-arrow-left"></i>
-                    </div>
-                    <div className="swiper-button-next">
-                      <i className="icon-arrow-right"></i>
-                    </div>
-                    <div className="swiper-pagination no-desktop no-tablet"></div>
-                  </div>
-                  <div className="wrapper-slider-thumb no-mobile">
-                    <div className="slider-product-thumb">
-                      <div className="swiper-container">
-                        <div className="swiper-wrapper">
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-01.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-02.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="swiper-slide">
-                            <div className="wrapper-img img-3d">
-                              <div className="container-img">
-                                <img
-                                  src="/images/3d.svg"
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
-                                />
-                              </div>
-                              <span className="hide">360</span>
-                            </div>
-                          </div>
+                              );
+                            }
+                          )}
                         </div>
                       </div>
                     </div>
@@ -1070,13 +129,16 @@ const ProductPost = () => {
                         className="fs--40 fs-phone-30 product-name split-words"
                         data-aos="d:loop"
                       >
-                        Pilot Chairred
+                        {selectedProductDetails.product.name}
                       </h1>
                       <div
                         className="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
-                        $ 99.99
+                        {
+                          selectedProductDetails.product
+                            .formattedDiscountedPrice
+                        }
                       </div>
                     </div>
                     <button
@@ -1096,7 +158,22 @@ const ProductPost = () => {
                     </li>
                     <li className="size">
                       <span className="specs-title">Size</span>
-                      <span className="specs-text">19”L X 15.5”W X 27.5”H</span>
+                      {selectedProductDetails.product.additionalInfoSections.map(
+                        (data, index) => {
+                          const { title, description } = data;
+                          if (title == "Size") {
+                            return (
+                              <span
+                                key={index}
+                                className="specs-text"
+                                dangerouslySetInnerHTML={{
+                                  __html: description,
+                                }}
+                              ></span>
+                            );
+                          }
+                        }
+                      )}
                     </li>
                     <li className="color">
                       <span className="specs-title">Color</span>
@@ -1108,13 +185,57 @@ const ProductPost = () => {
                     </li>
                     <li className="seat-height">
                       <span className="specs-title">Seat Height</span>
-                      <span className="specs-text">17” H</span>
+                      {selectedProductDetails.product.additionalInfoSections.map(
+                        (data, index) => {
+                          const { title, description } = data;
+                          if (title == "Seat Height") {
+                            return (
+                              <span
+                                key={index}
+                                className="specs-text"
+                                dangerouslySetInnerHTML={{
+                                  __html: description,
+                                }}
+                              ></span>
+                            );
+                          }
+                        }
+                      )}
                     </li>
                   </ul>
                   <ul
                     className="list-colors"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
+                    {/* {selectedProductDetails.variantData.map(
+                      (variantData, index) => {
+                        return (
+                          <li key={index} className="list-colors-item">
+                            <div
+                              className="container-input "
+                              data-set-color={variantData.color[0]}
+                            >
+                              <label>
+                                <input
+                                  type="radio"
+                                  name="colors"
+                                  value={variantData.color[0]}
+                                  checked
+                                />
+                                <div className="container-img">
+                                  <img
+                                    src={variantData.variant.imageSrc}
+                                    data-preload
+                                    className="media"
+                                    alt="pro-product"
+                                  />
+                                </div>
+                              </label>
+                            </div>
+                          </li>
+                        );
+                      }
+                    )} */}
                     <li className="list-colors-item">
                       <div
                         className="container-input active"
@@ -1210,7 +331,10 @@ const ProductPost = () => {
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
-                        <span>Add to cart</span>
+                        <span>
+                          {productPostPageData &&
+                            productPostPageData.addToCartButtonLabel}
+                        </span>
                       </div>
                     </Link>
                   </div>
@@ -1219,7 +343,10 @@ const ProductPost = () => {
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
                     <div className="container-input product-notes">
-                      <label>Product notes</label>
+                      <label>
+                        {productPostPageData &&
+                          productPostPageData.productNotesLabel}
+                      </label>
                       <input
                         name="product_notes"
                         type="text"
@@ -1239,44 +366,32 @@ const ProductPost = () => {
                 data-aos=""
               >
                 <h3 className="title-info-text split-words" data-aos="">
-                  <span>Description</span>
+                  <span>
+                    {productPostPageData &&
+                      productPostPageData.descriptionLabel}
+                  </span>
                 </h3>
                 <div className="wrapper-text" data-aos="fadeIn .8s ease-in-out">
-                  <div className="text">
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Ut ultrices ipsum purus, at aliquam mauris interdum nec.
-                      Maecenas in pellentesque sapien, ut sodales augue. Sed
-                      magna lacus, scelerisque quis dui eu, tempus auctor nunc.
-                      In pulvinar sapien id mi mattis pulvinar. Vivamus lobortis
-                      nibh in blandit pulvinar. Morbi sagittis justo vitae risus
-                      tristique condimentum. Pellentesque elementum convallis
-                      dui, sed aliquet odio rhoncus sed. Cras bibendum orci a
-                      turpis vulputate dictum. Suspendisse egestas enim lacus,
-                      eget volutpat tellus vestibulum at.
-                    </p>
-                    <p>
-                      Maecenas in pellentesque sapien, ut sodales augue. Sed
-                      magna lacus, scelerisque quis dui eu, tempus auctor nunc.
-                      In pulvinar sapien id mi mattis pulvinar. Vivamus lobortis
-                      nibh in blandit pulvinar. Morbi sagittis justo vitae risus
-                      tristique condimentum. Pellentesque elementum convallis
-                      dui, sed aliquet odio rhoncus sed. Cras bibendum orci a
-                      turpis vulputate dictum. Suspendisse egestas enim lacus,
-                      eget volutpat tellus vestibulum at.
-                    </p>
-                  </div>
+                  <div
+                    className="text"
+                    dangerouslySetInnerHTML={{
+                      __html: productData.product.description,
+                    }}
+                  ></div>
                 </div>
                 <button
                   className="btn-read-more"
                   data-aos="fadeIn .8s ease-in-out"
                 >
-                  <span>Read More</span>
+                  <span>
+                    {productPostPageData &&
+                      productPostPageData.readMoreButtonLabel}
+                  </span>
                 </button>
               </div>
               <div className="container-info-text" data-aos="">
                 <h3 className="title-info-text split-words" data-aos="">
-                  Downloads
+                  {productPostPageData && productPostPageData.downloadsLabel}
                 </h3>
                 <div
                   className="container-btn"
@@ -1296,7 +411,8 @@ const ProductPost = () => {
               </div>
               <div className="container-info-text" data-aos="">
                 <h3 className="title-info-text split-words" data-aos="">
-                  Product found in
+                  {productPostPageData &&
+                    productPostPageData.productFoundInLabel}
                 </h3>
                 <div
                   className="container-btn"
@@ -1338,7 +454,9 @@ const ProductPost = () => {
                 <div className="module-column" data-aos="d:loop">
                   <div className="container-img">
                     <img
-                      src="/images/lib/06_desktop.jpg"
+                      src={RenderImage(
+                        productSnapshots[1]?.usecaseImages[0].src
+                      )}
                       data-preload
                       className="media"
                       alt="pro-product"
@@ -1347,34 +465,37 @@ const ProductPost = () => {
                 </div>
               </div>
               <div className="module-snapshots-gallery-50 module-snapshots-gallery">
-                <div className="module-column" data-aos="d:loop">
-                  <div className="container-img">
-                    <img
-                      src="/images/lib/06_desktop.jpg"
-                      data-preload
-                      className="media"
-                      alt="product-njk"
-                    />
-                  </div>
-                </div>
-                <div className="module-column" data-aos="d:loop">
-                  <div className="container-img">
-                    <img
-                      src="/images/lib/06_desktop.jpg"
-                      data-preload
-                      className="media"
-                      alt="product-njk"
-                    />
-                  </div>
-                </div>
+                {productSnapshots &&
+                  productSnapshots[1]?.usecaseImages?.map((data, index) => {
+                    const { src } = data;
+                    console.log(data, "datacv>>");
+                    return (
+                      <div
+                        key={index}
+                        className="module-column"
+                        data-aos="d:loop"
+                      >
+                        <div className="container-img">
+                          <img
+                            src={RenderImage(src)}
+                            data-preload
+                            className="media"
+                            alt="product-njk"
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* <MatchedProducts /> */}
-      {/* <OtherCollections /> */}
+      {matchedProductsData.length > 0 && (
+        <MatchedProducts matchedProductsData={matchedProductsData} />
+      )}
+      <OtherCollections data={collectionsData} />
     </>
   );
 };

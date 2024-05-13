@@ -12,7 +12,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug)?.collectionSlug || "All";
+  const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug)?.collectionName || "All";
   const [selectedCollection, setSelectedCollection] = useState(_selectedCollection);
   const [searchTerm, setSearchTerm] = useState(router.query.for || "");
   const [selectedCategory, setSelectedCategory] = useState("Categories");

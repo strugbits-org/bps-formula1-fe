@@ -1,7 +1,7 @@
 import { collectionFilter } from "../../utils/Collections";
-import { productColors } from "../../utils/Colors";
 
-const FilterButton = () => {
+const FilterButton = ({ collections, colors }) => {
+  // console.log("collections", collections);
   return (
     <div
       className="pos-relative filterButtonIndex"
@@ -17,7 +17,7 @@ const FilterButton = () => {
               <div className="container-list">
                 <h3 className="filter-title">Collections</h3>
                 <div className="list-filter">
-                  {collectionFilter.slice(1).map((data, index) => {
+                {collectionFilter.map((data, index) => {
                     const { name } = data;
                     return (
                       <div
@@ -39,30 +39,32 @@ const FilterButton = () => {
                   })}
                 </div>
               </div>
-              <div className="container-list">
-                <h3 className="filter-title">Colors</h3>
-                <div className="list-filter">
-                  {productColors.map((data, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="container-checkbox list-filter-item"
-                      >
-                        <label className="checkbox-box">
-                          <input
-                            type="checkbox"
-                            required
-                            name="black"
-                            value="Black"
-                          />
-                          <span className="checkmark"></span>
-                          <span className="filter-tag">{data}</span>
-                        </label>
-                      </div>
-                    );
-                  })}
+              {colors?.colors && (
+                <div className="container-list">
+                  <h3 className="filter-title">Colors</h3>
+                  <div className="list-filter">
+                    {colors.colors.map((color, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="container-checkbox list-filter-item"
+                        >
+                          <label className="checkbox-box">
+                            <input
+                              type="checkbox"
+                              required
+                              name="black"
+                              value="Black"
+                            />
+                            <span className="checkmark"></span>
+                            <span className="filter-tag">{color}</span>
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
             </form>
           </div>
         </div>

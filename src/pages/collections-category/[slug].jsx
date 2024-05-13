@@ -15,6 +15,7 @@ export default function Page({ collectionsPostPageData, collectionsData,filtered
     <CollectionCategory
     selectedCollectionData={selectedCollectionData[0]}
       filteredCategories={filteredCategories}
+      collection={router.query.slug}
     />
   );
 }

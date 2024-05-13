@@ -27135,6 +27135,7 @@ var require_app2 = __commonJS({
     document.querySelector(".updateWatched").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
       updateWatched();
+      productLinkColor();
     });
 
     // document.addEventListener("pjax:complete", whenContainerReady);

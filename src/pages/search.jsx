@@ -4,9 +4,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions"
 
 export default function Page({ result }) {
     markPageLoaded();
-    return (
-        <Search data={result} />
-    )
+    return <Search searchedProducts={result} />;
 }
 
 export const getServerSideProps = async (context) => {
