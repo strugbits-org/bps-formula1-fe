@@ -3,7 +3,8 @@ import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
 
 const MatchedProducts = ({ matchedProductsData }) => {
-  const [productData, setProductData] = useState(null);
+  const [selectedProductData, setSelectedProductData] = useState(null);
+
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -152,7 +153,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                 )}
                               </div>
                               <btn-modal-open
-                                onClick={() => setProductData(product)}
+                                onClick={() => setSelectedProductData(product)}
                                 group="modal-product"
                                 class="modal-add-to-cart"
                               >
@@ -179,8 +180,8 @@ const MatchedProducts = ({ matchedProductsData }) => {
       </section>
 
       <AddToCartModal
-        productData={productData}
-        setProductData={setProductData}
+        productData={selectedProductData}
+        setProductData={setSelectedProductData}
       />
     </>
   );

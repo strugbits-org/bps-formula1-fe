@@ -20,7 +20,6 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
 }) => {
-  console.log(selectedProductDetails, "selectedProductDetails>>");
   return (
     <>
       <section className="product-post-intro" data-product-content>
