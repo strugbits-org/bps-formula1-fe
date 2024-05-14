@@ -19,7 +19,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   useEffect(() => {
     if (router) {
-      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName || "All";
+      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName || "Collections";
       setSelectedCollection(_selectedCollection);
       const _selectedCategory = categoriesData.find(x => x.parentCollection._id === router.query.category)?.parentCollection?.name || "Categories";
       setSelectedCategory(_selectedCategory);
@@ -41,7 +41,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     router.push(`/collections/` + collectionSlug);
   };
   const handleCategorySelection = (name, id) => {
-    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || selectedCollection.toLowerCase();
+    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || (selectedCollection === "Collections" ? "all" : selectedCollection);
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
@@ -216,7 +216,6 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     handleCategorySelection("All", "all");
                     setCategoryDropdownOpen(false);
                     pageLoadStart();
-
                     router.push("/products");
                   }}
                 >

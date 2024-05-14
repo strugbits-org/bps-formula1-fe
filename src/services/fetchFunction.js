@@ -82,8 +82,6 @@ export const selectedCategoryData = async (dataCollectionId, references, slug) =
   }
 };
 
-
-
 export const fetchCategoriesReferenceData = async (dataCollectionId, references, selectedCollectionId) => {
   try {
     const options = {
@@ -99,7 +97,7 @@ export const fetchCategoriesReferenceData = async (dataCollectionId, references,
 };
 
 
-export const listProducts = async (collection, categories = [], pageSize = 8, colors = [], skip = 0) => {
+export const listProducts = async (collections = [], categories = [], pageSize = 9, colors = [], skip = 0) => {
   try {
     const options = {
       dataCollectionId: "locationFilteredVariant",
@@ -108,14 +106,17 @@ export const listProducts = async (collection, categories = [], pageSize = 8, co
     };
     let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
 
-    if (collection && categories.length !== 0) {
-      query = query.eq("f1Collection", collection).hasSome("subCategory", categories).hasSome("colors", colors);
-    } else if (collection) {
-      query = query.eq("f1Collection", collection);
-    } else if (categories.length !== 0) {
-      query = query.hasSome("subCategory", categories).hasSome("colors", colors);
+    if (collections.length !== 0) {
+      query = query.hasSome("f1Collection", collections);
     }
 
+    if (colors.length !== 0) {
+      query = query.hasSome("colors", colors);
+    }
+
+    if (categories.length !== 0) {
+      query = query.hasSome("subCategory", categories);
+    }
 
     const response = await query.limit(pageSize).skip(skip).find();
     return response;

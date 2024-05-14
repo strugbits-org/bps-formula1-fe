@@ -2,7 +2,10 @@ import OtherCollections from "../Common/OtherCollections";
 import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getCategoriesData } from "@/services/apiServices";
+import { useRouter } from "next/router";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 
 const Products = ({
   filteredProducts,
@@ -17,23 +20,27 @@ const Products = ({
 }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedColors, setSelectedColors] = useState(colors?.colors);
+  const [mainCategories, setMainCategories] = useState([]);
+
+  const router = useRouter();
 
   const handleFilter = (id) => {
     if (selectedCategories.includes(id)) {
       const _selectedCategories = selectedCategories.filter((el) => el !== id);
       setSelectedCategories(_selectedCategories);
       handleProductsFilter(
-        selectedCollection?._id,
+        selectedCollection.map((x) => x._id),
         _selectedCategories,
-        colors?.colors
+        selectedColors,
       );
     } else {
       const _selectedCategories = [...selectedCategories, id];
       setSelectedCategories(_selectedCategories);
       handleProductsFilter(
-        selectedCollection?._id,
+        selectedCollection.map((x) => x._id),
         _selectedCategories,
-        colors?.colors
+        selectedColors
       );
     }
   };
@@ -42,6 +49,27 @@ const Products = ({
   const handleImageHover = (variantData) => {
     setSelectedVariant(variantData.variant);
   };
+
+  const changeCategory = (id) => {
+    pageLoadStart();
+    router.query.category = id;
+    router.push(router)
+  }
+
+  useEffect(() => {
+    const getMainCategories = async () => {
+      if (selectedCategory === undefined || selectedCategory === null) {
+        const categories = await getCategoriesData(collectionsData.map((x) => x._id));
+        setMainCategories(categories);
+      }
+    }
+    getMainCategories();
+  }, [router]);
+
+  const handleFilterChange = (collections, colors) => {
+    setSelectedColors(colors);
+    handleProductsFilter(collections, selectedCategories, colors, false, true);
+  }
 
   return (
     <>
@@ -61,28 +89,44 @@ const Products = ({
                 className="list-tags"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {selectedCategory?.level2Collections?.map((data, index) => {
-                  const { name, _id } = data;
-                  if (name) {
-                    return (
-                      <li key={index} className="list-item">
-                        <button
-                          className="btn-tag "
-                          onClick={() => {
-                            handleFilter(_id);
-                          }}
-                        >
-                          {/* active- className for active button */}
-                          <span>{name}</span>
-                        </button>
-                      </li>
-                    );
-                  }
-                })}
+                {
+                  selectedCategory?.level2Collections !== undefined ? (
+                    selectedCategory?.level2Collections?.map((data, index) => {
+                      const { name, _id } = data;
+                      if (name) {
+                        return (
+                          <li key={index} className="list-item">
+                            <button
+                              className="btn-tag "
+                              onClick={() => {
+                                handleFilter(_id);
+                              }}
+                            >
+                              <span>{name}</span>
+                            </button>
+                          </li>
+                        );
+                      }
+                    })
+                  ) : (
+                    mainCategories.map((data, index) => {
+                      return (
+                        <li key={index} className="list-item">
+                          <button
+                            className="btn-tag"
+                            onClick={() => changeCategory(data.parentCollection._id)}
+                          >
+                            <span>{data.parentCollection.name}</span>
+                          </button>
+                        </li>
+                      )
+                    })
+                  )
+                }
               </ul>
             </div>
 
-            <FilterButton collections={collectionsData} colors={colors} />
+            <FilterButton collections={collectionsData} colors={colors?.colors} handleFilterChange={handleFilterChange} />
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
@@ -100,7 +144,7 @@ const Products = ({
                     data-delay="400"
                     data-aos="d:loop"
                   >
-                    {selectedCollection?.collectionName}
+                    {selectedCollection?.collectionName || "All"}
                   </span>
                 </h2>
               </div>
@@ -265,7 +309,7 @@ const Products = ({
                   <div className="flex-center mt-30">
                     <button
                       onClick={() =>
-                        handleLoadMore(selectedCategories, colors?.colors)
+                        handleLoadMore(selectedCollection.map((x) => x._id), selectedCategories, selectedColors)
                       }
                       className="btn-medium btn-red btn-hover-white"
                       data-aos="fadeIn .8s ease-in-out .2s, d:loop"

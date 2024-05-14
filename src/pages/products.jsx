@@ -20,12 +20,12 @@ export default function Page({
   const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
-  const pageSize = 4;
+  const pageSize = 9;
 
   const selectedCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id) || [];
 
-  const handleLoadMore = async (categories, colors) => {
-    const response = await listProducts(selectedCollection?._id || null, categories, pageSize, colors || [], productsCollection.length);
+  const handleLoadMore = async (collections, categories, colors) => {
+    const response = await listProducts(collections, categories, pageSize, colors, productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
     setProductsResponse(response);
     updatedWatched();
@@ -35,10 +35,11 @@ export default function Page({
     collection,
     category,
     colors,
-    firstLoad = false
+    firstLoad = false,
+    disableLoader = false,
   ) => {
     try {
-      if (!firstLoad) pageLoadStart();
+      if (!firstLoad && !disableLoader) pageLoadStart();
       const response = await listProducts(
         collection,
         category,
@@ -49,7 +50,7 @@ export default function Page({
       setProductsResponse(response);
       if (firstLoad) {
         markPageLoaded(false);
-      } else {
+      } else if(!disableLoader) {
         pageLoadEnd();
       }
       updatedWatched();
@@ -60,10 +61,11 @@ export default function Page({
 
   useEffect(() => {
     handleProductsFilter(
-      selectedCollection?._id || null,
+      selectedCollection.map((x) => x._id),
       selectedCategories,
       colors?.colors || [],
-      true
+      true,
+      false,
     );
   }, [router]);
 
@@ -85,7 +87,6 @@ export default function Page({
 
 export const getServerSideProps = async (context) => {
   const collection = context.query.collection;
-  console.log("collection", collection);
   const category = context.query.category;
   if (collection && collection !== "all" && category) {
     const selectedCollection = await getSelectedCollectionData(collection);
@@ -100,11 +101,11 @@ export const getServerSideProps = async (context) => {
         collectionsData,
         selectedCategory: selectedCategory[0],
         colors,
-        selectedCollection: selectedCollection[0],
+        selectedCollection: selectedCollection,
         category,
       },
     };
-  } else if (collection === "all" && category) {
+  } else if (category) {
     const [collectionsData, selectedCategory, colors] = await Promise.all([
       getCollectionsData(),
       getSelectedCategoryData(category),
@@ -115,13 +116,23 @@ export const getServerSideProps = async (context) => {
         collectionsData,
         selectedCategory: selectedCategory[0],
         colors,
-        selectedCollection: null,
+        selectedCollection: [],
         category,
       },
     };
   } else {
+    const category = "00000000-000000-000000-000000000001";
+    const [collectionsData, colors] = await Promise.all([
+      getCollectionsData(),
+      getCollectionColors(category),
+    ]);
     return {
-      props: {},
+      props: {
+        collectionsData,
+        selectedCategory: null,
+        colors,
+        selectedCollection: [],
+      },
     };
   }
 };
