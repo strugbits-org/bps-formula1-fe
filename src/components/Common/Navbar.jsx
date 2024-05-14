@@ -41,7 +41,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     router.push(`/collections/` + collectionSlug);
   };
   const handleCategorySelection = (name, id) => {
-    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || selectedCollection === "Collections" ? "all" : selectedCollection;
+    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || (selectedCollection === "Collections" ? "all" : selectedCollection);
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();

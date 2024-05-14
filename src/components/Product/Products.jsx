@@ -20,6 +20,7 @@ const Products = ({
 }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedColors, setSelectedColors] = useState(colors?.colors);
   const [mainCategories, setMainCategories] = useState([]);
 
   const router = useRouter();
@@ -29,17 +30,17 @@ const Products = ({
       const _selectedCategories = selectedCategories.filter((el) => el !== id);
       setSelectedCategories(_selectedCategories);
       handleProductsFilter(
-        selectedCollection?._id,
+        selectedCollection.map((x) => x._id),
         _selectedCategories,
-        colors?.colors
+        selectedColors,
       );
     } else {
       const _selectedCategories = [...selectedCategories, id];
       setSelectedCategories(_selectedCategories);
       handleProductsFilter(
-        selectedCollection?._id,
+        selectedCollection.map((x) => x._id),
         _selectedCategories,
-        colors?.colors
+        selectedColors
       );
     }
   };
@@ -57,13 +58,18 @@ const Products = ({
 
   useEffect(() => {
     const getMainCategories = async () => {
-      if (selectedCategory === undefined) {
+      if (selectedCategory === undefined || selectedCategory === null) {
         const categories = await getCategoriesData(collectionsData.map((x) => x._id));
         setMainCategories(categories);
       }
     }
     getMainCategories();
   }, [router]);
+
+  const handleFilterChange = (collections, colors) => {
+    setSelectedColors(colors);
+    handleProductsFilter(collections, selectedCategories, colors, false, true);
+  }
 
   return (
     <>
@@ -120,7 +126,7 @@ const Products = ({
               </ul>
             </div>
 
-            <FilterButton collections={collectionsData} colors={colors} />
+            <FilterButton collections={collectionsData} colors={colors?.colors} handleFilterChange={handleFilterChange} />
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
@@ -303,7 +309,7 @@ const Products = ({
                   <div className="flex-center mt-30">
                     <button
                       onClick={() =>
-                        handleLoadMore(selectedCategories, colors?.colors)
+                        handleLoadMore(selectedCollection.map((x) => x._id), selectedCategories, selectedColors)
                       }
                       className="btn-medium btn-red btn-hover-white"
                       data-aos="fadeIn .8s ease-in-out .2s, d:loop"

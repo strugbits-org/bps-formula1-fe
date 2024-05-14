@@ -57,6 +57,7 @@ const Search = ({ searchedProducts }) => {
                               .map((variant) => {
                                 return (
                                   <div
+                                  key={index}
                                     className="container-img product-img"
                                     data-get-product-link-color={
                                       variant.color[0]
