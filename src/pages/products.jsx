@@ -7,23 +7,25 @@ import {
 } from "@/services/apiServices";
 import { listProducts } from "@/services/fetchFunction";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Page({
   collectionsData,
   selectedCategory,
   colors,
-  collection,
+  selectedCollection,
   category,
 }) {
+  const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
-  const pageSize = 6;
+  const pageSize = 4;
 
-  const selectedCategories = selectedCategory.level2Collections.filter((x) => x._id).map((x) => x._id);
+  const selectedCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id) || [];
 
   const handleLoadMore = async (categories, colors) => {
-    const response = await listProducts(collection._id, categories, pageSize, colors, productsCollection.length);
+    const response = await listProducts(selectedCollection?._id || null, categories, pageSize, colors || [], productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
     setProductsResponse(response);
     updatedWatched();
@@ -47,14 +49,14 @@ export default function Page({
   }
 
   useEffect(() => {
-    handleProductsFiter(collection._id, selectedCategories, colors?.colors, true);
-  }, [])
+    handleProductsFiter(selectedCollection?._id || null, selectedCategories, colors?.colors || [], true);
+  }, [router])
 
   return (
     <Products
       filteredProducts={productsCollection}
       collectionsData={collectionsData}
-      collection={collection}
+      selectedCollection={selectedCollection}
       selectedCategory={selectedCategory}
       category={category}
       colors={colors}
@@ -67,22 +69,44 @@ export default function Page({
 }
 
 export const getServerSideProps = async (context) => {
-  const collection = await getSelectedCollectionData(context.query.collection);
+  const collection = context.query.collection;
+  console.log("collection", collection);
   const category = context.query.category;
+  if (collection && collection !== "all" && category) {
+    const selectedCollection = await getSelectedCollectionData(collection);
 
-
-  const [collectionsData, selectedCategory, colors] = await Promise.all([
-    getCollectionsData(),
-    getSelectedCategoryData(category),
-    getCollectionColors(category)
-  ]);
-  return {
-    props: {
-      collectionsData,
-      selectedCategory: selectedCategory[0],
-      colors,
-      collection: collection[0],
-      category,
-    },
-  };
+    const [collectionsData, selectedCategory, colors] = await Promise.all([
+      getCollectionsData(),
+      getSelectedCategoryData(category),
+      getCollectionColors(category)
+    ]);
+    return {
+      props: {
+        collectionsData,
+        selectedCategory: selectedCategory[0],
+        colors,
+        selectedCollection: selectedCollection[0],
+        category,
+      },
+    };
+  } else if (collection === "all" && category) {
+    const [collectionsData, selectedCategory, colors] = await Promise.all([
+      getCollectionsData(),
+      getSelectedCategoryData(category),
+      getCollectionColors(category)
+    ]);
+    return {
+      props: {
+        collectionsData,
+        selectedCategory: selectedCategory[0],
+        colors,
+        selectedCollection: null,
+        category,
+      },
+    };
+  } else {
+    return {
+      props: {},
+    };
+  }
 };

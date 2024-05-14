@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
@@ -36,14 +36,20 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     pageLoadStart();
     router.push(`/collections/` + collectionSlug);
   };
-  const handleCategorySelection = (parentCollection) => {
-    setSelectedCategory(parentCollection.name);
+  const handleCategorySelection = (name,id) => {
+    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || selectedCollection.toLowerCase();
+    setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    router.push(`/products?category=${parentCollection._id}`);
-                  // to={`/products?category=${parentCollection._id}`}
-
-
+    if (id === "all") {
+      router.push(`/products`);
+    } else {
+      router.push(`/products?collection=${_selectedCollection}&category=${id}`);
+      
+          // if (router.pathname === "/products") {
+          //   pageLoadEnd();
+          // }
+    }
   };
 
   const handleInputChange = (e) => {
@@ -203,7 +209,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <ul className="list-dropdown">
                 <li
                   onClick={() => {
-                    handleCategorySelection("All");
+                    handleCategorySelection("All", "all");
                     setCategoryDropdownOpen(false);
                     pageLoadStart();
 
@@ -219,7 +225,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                   return (
                     <li
                       key={index}
-                      onClick={() => handleCategorySelection(data.parentCollection)}
+                      onClick={() => handleCategorySelection(data.parentCollection.name, data.parentCollection._id)}
                     >
                       <span className="link-dropdown cursor-pointer">
                         <span>{name}</span>

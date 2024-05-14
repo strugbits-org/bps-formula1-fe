@@ -8,7 +8,7 @@ const Products = ({
   filteredProducts,
   collectionsData,
   selectedCategory,
-  collection,
+  selectedCollection,
   colors,
   totalCount,
   pageSize,
@@ -23,14 +23,13 @@ const Products = ({
     if (selectedCategories.includes(id)) {
       const _selectedCategories = selectedCategories.filter((el) => el !== id);
       setSelectedCategories(_selectedCategories);
-      handleProductsFiter(collection._id, _selectedCategories, colors?.colors);
+      handleProductsFiter(selectedCollection?._id, _selectedCategories, colors?.colors);
     } else {
       const _selectedCategories = [...selectedCategories, id];
       setSelectedCategories(_selectedCategories);
-      handleProductsFiter(collection._id, _selectedCategories, colors?.colors);
+      handleProductsFiter(selectedCollection?._id, _selectedCategories, colors?.colors);
     }
   };
-
   return (
     <>
       <section className="products-intro">
@@ -41,7 +40,7 @@ const Products = ({
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
                 data-aos="d:loop"
               >
-                Chairs
+                {selectedCategory?.parentCollection?.name}
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
@@ -85,7 +84,7 @@ const Products = ({
                     data-delay="400"
                     data-aos="d:loop"
                   >
-                    Classic Vegas
+                    {selectedCollection?.collectionName}
                   </span>
                 </h2>
               </div>
@@ -230,7 +229,7 @@ const Products = ({
               {totalCount > pageSize && filteredProducts.length !== totalCount && (
                 <div className="flex-center mt-30">
                   <button
-                    onClick={() => handleLoadMore(selectedCategories, colors.colors)}
+                    onClick={() => handleLoadMore(selectedCategories, colors?.colors)}
                     className="btn-medium btn-red btn-hover-white"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >

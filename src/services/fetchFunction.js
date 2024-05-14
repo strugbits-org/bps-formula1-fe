@@ -99,15 +99,26 @@ export const fetchCategoriesReferenceData = async (dataCollectionId, references,
 };
 
 
-export const listProducts = async (collection, categories = [], pageSize = 8, colors = [], skip = null) => {
+export const listProducts = async (collection, categories = [], pageSize = 8, colors = [], skip = 0) => {
   try {
+    console.log(collection, categories, pageSize, colors, skip);
     const options = {
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: ["category", "product", 'subCategory'],
       "returnTotalCount": true,
     };
+    let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
 
-    const response = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).eq("f1Collection", collection).hasSome("subCategory", categories).hasSome("colors", colors).limit(pageSize).skip(2).find();
+    if (collection && categories.length !== 0) {
+      query = query.eq("f1Collection", collection).hasSome("subCategory", categories).hasSome("colors", colors);
+    } else if (collection) {
+      query = query.eq("f1Collection", collection);
+    } else if (categories.length !== 0) {
+      query = query.hasSome("subCategory", categories).hasSome("colors", colors);
+    }
+
+
+    const response = await query.limit(pageSize).skip(skip).find();
     return response;
   } catch (error) {
     console.log("error", error);
