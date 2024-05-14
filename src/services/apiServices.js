@@ -99,7 +99,11 @@ export const getPairItWithProductsId = (slug) =>
   fetchPairItWithProductsIds("BPSPairItWith", slug);
 
 export const getPairItWithProducts = (productId) =>
-  fetchPairItWithProducts("locationFilteredVariant", ["product"], productId);
+  fetchPairItWithProducts(
+    "locationFilteredVariant",
+    ["category", "product", "subCategory"],
+    productId
+  );
 
 export const getProductSnapShots = (imageVariationId) =>
   fetchProductSnapshots("BPSProductImages", imageVariationId);

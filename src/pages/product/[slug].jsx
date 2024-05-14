@@ -19,8 +19,6 @@ export default function Page({
   data,
 }) {
   markPageLoaded();
-  console.log(data, "data>>");
-
   return (
     <ProductPost
       productPostPageData={productPostPageData[0]}

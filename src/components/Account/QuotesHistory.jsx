@@ -1,13 +1,7 @@
-import usePageInitialization from "@/hooks/usePageInitialization";
 import AnimateLink from "../Common/AnimateLink";
 import CartModal from "../Common/CartModal";
 
 const QuotesHistory = ({ quoteHistoryPageData }) => {
-  // usePageInitialization(
-  //   "pg-my-account-quotes-history",
-  //   ".initScript",
-  //   ".quotesHistory"
-  // );
   return (
     <>
       <section className="my-account-intro section-quotes-history">
@@ -44,9 +38,9 @@ const QuotesHistory = ({ quoteHistoryPageData }) => {
                         <div className="container-btn">
                           <btn-modal-open
                             group="modal-quotes-history"
-                            className="btn-small btn-white-red btn-hover-red-white"
+                            class="btn-small btn-white-red btn-hover-red-white"
                           >
-                            <div className="split-chars">
+                            <div class="split-chars">
                               <span>View</span>
                             </div>
                             <i className="icon-arrow-diagonal"></i>

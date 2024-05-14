@@ -4,6 +4,7 @@ import AnimateLink from "../Common/AnimateLink";
 import Link from "next/link";
 import { productData } from "@/utils/ProductData";
 import RenderImage from "@/utils/RenderImage";
+import { useState } from "react";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -20,6 +21,31 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
 }) => {
+  const [selectedVariant, setSelectedVariant] = useState(
+    selectedProductDetails.variantData[0].variant
+  );
+  const handleImageChange = (variantData) => {
+    setSelectedVariant(variantData.variant);
+  };
+
+  const handlePrevButtonClick = () => {
+    const currentIndex = selectedProductDetails.variantData.findIndex(
+      (data) => data.variant.sku === selectedVariant.sku
+    );
+    const prevIndex =
+      (currentIndex - 1 + selectedProductDetails.variantData.length) %
+      selectedProductDetails.variantData.length;
+    setSelectedVariant(selectedProductDetails.variantData[prevIndex].variant);
+  };
+
+  const handleNextButtonClick = () => {
+    const currentIndex = selectedProductDetails.variantData.findIndex(
+      (data) => data.variant.sku === selectedVariant.sku
+    );
+    const nextIndex =
+      (currentIndex + 1) % selectedProductDetails.variantData.length;
+    setSelectedVariant(selectedProductDetails.variantData[nextIndex].variant);
+  };
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -44,13 +70,13 @@ const ProductPost = ({
                         {selectedProductDetails.variantData.map(
                           (variantData, index) => {
                             const { variant } = variantData;
-                            const segments = variant.imageSrc.split("/");
-
-                            const filename = segments[segments.length - 1];
 
                             return (
                               <div key={index} className="swiper-slide">
-                                <div className="container-img">
+                                <div
+                                  className="container-img"
+                                  onClick={() => handleImageChange(variantData)}
+                                >
                                   <img
                                     style={{
                                       padding: "100px",
@@ -67,10 +93,16 @@ const ProductPost = ({
                         )}{" "}
                       </div>
                     </div>
-                    <div className="swiper-button-prev">
+                    <div
+                      className="swiper-button-prev"
+                      onClick={handlePrevButtonClick}
+                    >
                       <i className="icon-arrow-left"></i>
                     </div>
-                    <div className="swiper-button-next">
+                    <div
+                      className="swiper-button-next"
+                      onClick={handleNextButtonClick}
+                    >
                       <i className="icon-arrow-right"></i>
                     </div>
                   </div>
@@ -84,7 +116,12 @@ const ProductPost = ({
                               return (
                                 <div key={index} className="swiper-slide">
                                   <div className={`wrapper-img `}>
-                                    <div className="container-img">
+                                    <div
+                                      className="container-img"
+                                      onClick={() =>
+                                        handleImageChange(variantData)
+                                      }
+                                    >
                                       <img
                                         style={{
                                           padding: "20px",
@@ -154,7 +191,7 @@ const ProductPost = ({
                   >
                     <li className="sku">
                       <span className="specs-title">SKU</span>
-                      <span className="specs-text">MODCH09</span>
+                      <span className="specs-text">{selectedVariant.sku}</span>
                     </li>
                     <li className="size">
                       <span className="specs-title">Size</span>
@@ -177,7 +214,9 @@ const ProductPost = ({
                     </li>
                     <li className="color">
                       <span className="specs-title">Color</span>
-                      <span className="specs-text">Yellow - Birch</span>
+                      <span className="specs-text">
+                        {selectedVariant.color}
+                      </span>
                     </li>
                     <li className="weight">
                       <span className="specs-title">Weight</span>
@@ -185,22 +224,8 @@ const ProductPost = ({
                     </li>
                     <li className="seat-height">
                       <span className="specs-title">Seat Height</span>
-                      {selectedProductDetails.product.additionalInfoSections.map(
-                        (data, index) => {
-                          const { title, description } = data;
-                          if (title == "Seat Height") {
-                            return (
-                              <span
-                                key={index}
-                                className="specs-text"
-                                dangerouslySetInnerHTML={{
-                                  __html: description,
-                                }}
-                              ></span>
-                            );
-                          }
-                        }
-                      )}
+
+                      <span className="specs-text">{selectedVariant.siz}</span>
                     </li>
                   </ul>
                   <ul
@@ -468,7 +493,6 @@ const ProductPost = ({
                 {productSnapshots &&
                   productSnapshots[1]?.usecaseImages?.map((data, index) => {
                     const { src } = data;
-                    console.log(data, "datacv>>");
                     return (
                       <div
                         key={index}
