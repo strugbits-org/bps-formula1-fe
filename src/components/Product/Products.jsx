@@ -12,10 +12,9 @@ const Products = ({
   colors,
   totalCount,
   pageSize,
-  handleProductsFiter,
-  handleLoadMore
+  handleProductsFilter,
+  handleLoadMore,
 }) => {
-
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
@@ -23,13 +22,27 @@ const Products = ({
     if (selectedCategories.includes(id)) {
       const _selectedCategories = selectedCategories.filter((el) => el !== id);
       setSelectedCategories(_selectedCategories);
-      handleProductsFiter(selectedCollection?._id, _selectedCategories, colors?.colors);
+      handleProductsFilter(
+        selectedCollection?._id,
+        _selectedCategories,
+        colors?.colors
+      );
     } else {
       const _selectedCategories = [...selectedCategories, id];
       setSelectedCategories(_selectedCategories);
-      handleProductsFiter(selectedCollection?._id, _selectedCategories, colors?.colors);
+      handleProductsFilter(
+        selectedCollection?._id,
+        _selectedCategories,
+        colors?.colors
+      );
     }
   };
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  const handleImageHover = (variantData) => {
+    setSelectedVariant(variantData.variant);
+  };
+
   return (
     <>
       <section className="products-intro">
@@ -53,8 +66,11 @@ const Products = ({
                   if (name) {
                     return (
                       <li key={index} className="list-item">
-                        <button className="btn-tag "
-                          onClick={() => { handleFilter(_id) }}
+                        <button
+                          className="btn-tag "
+                          onClick={() => {
+                            handleFilter(_id);
+                          }}
                         >
                           {/* active- className for active button */}
                           <span>{name}</span>
@@ -91,6 +107,18 @@ const Products = ({
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData } = data;
+                  let defaultVariantSku;
+                  if (selectedVariant === null) {
+                    setSelectedVariant(variantData);
+                  }
+                  if (selectedVariant) {
+                    const defaultVariant = variantData.find(
+                      (variant) => variant.sku === selectedVariant.sku // Replace 'MODCH39' with the SKU you want to use as default
+                    );
+                    defaultVariantSku = defaultVariant
+                      ? defaultVariant.sku
+                      : variantData[0].sku;
+                  }
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
@@ -109,7 +137,7 @@ const Products = ({
                         </div>
                         <div className="container-copy">
                           <a href="/#" className="btn-copy copy-link">
-                            <span>MODCH39</span>
+                            <span>{defaultVariantSku}</span>
                             <i className="icon-copy"></i>
                           </a>
                           <input
@@ -125,7 +153,8 @@ const Products = ({
                         </div>
                         <AnimateLink
                           to={`product/${product.slug}`}
-                          className="link">
+                          className="link"
+                        >
                           <div className="container-top">
                             <h2 className="product-title">{product.name}</h2>
                             <div className="container-info">
@@ -192,6 +221,9 @@ const Products = ({
                                       data-set-product-link-color={
                                         variantData.color[0]
                                       }
+                                      onMouseEnter={() =>
+                                        handleImageHover(variantData)
+                                      }
                                     >
                                       <div className="container-img">
                                         <img
@@ -226,19 +258,22 @@ const Products = ({
                   );
                 })}
               </ul>
-              {totalCount > pageSize && filteredProducts.length !== totalCount && (
-                <div className="flex-center mt-30">
-                  <button
-                    onClick={() => handleLoadMore(selectedCategories, colors?.colors)}
-                    className="btn-medium btn-red btn-hover-white"
-                    data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                  >
-                    <div className="split-chars">
-                      <span>Load more</span>
-                    </div>
-                  </button>
-                </div>
-              )}
+              {totalCount > pageSize &&
+                filteredProducts.length !== totalCount && (
+                  <div className="flex-center mt-30">
+                    <button
+                      onClick={() =>
+                        handleLoadMore(selectedCategories, colors?.colors)
+                      }
+                      className="btn-medium btn-red btn-hover-white"
+                      data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                    >
+                      <div className="split-chars">
+                        <span>Load more</span>
+                      </div>
+                    </button>
+                  </div>
+                )}
             </div>
           </div>
         </div>
@@ -262,7 +297,10 @@ const Products = ({
         </div>
       </section>
       <OtherCollections data={collectionsData} />
-      <AddToCartModal setProductData={setSelectedProductData} productData={selectedProductData} />
+      <AddToCartModal
+        setProductData={setSelectedProductData}
+        productData={selectedProductData}
+      />
     </>
   );
 };

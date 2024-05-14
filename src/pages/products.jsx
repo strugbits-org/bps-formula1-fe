@@ -31,26 +31,41 @@ export default function Page({
     updatedWatched();
   }
 
-  const handleProductsFiter = async (collection, category, colors, firstLoad = false) => {
+  const handleProductsFilter = async (
+    collection,
+    category,
+    colors,
+    firstLoad = false
+  ) => {
     try {
       if (!firstLoad) pageLoadStart();
-      const response = await listProducts(collection, category, pageSize, colors);
-      setProductsCollection(response._items.map(item => item.data));
+      const response = await listProducts(
+        collection,
+        category,
+        pageSize,
+        colors
+      );
+      setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
       if (firstLoad) {
         markPageLoaded(false);
       } else {
-        pageLoadEnd()
-      };
+        pageLoadEnd();
+      }
       updatedWatched();
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
-    handleProductsFiter(selectedCollection?._id || null, selectedCategories, colors?.colors || [], true);
-  }, [router])
+    handleProductsFilter(
+      selectedCollection?._id || null,
+      selectedCategories,
+      colors?.colors || [],
+      true
+    );
+  }, [router]);
 
   return (
     <Products
@@ -61,7 +76,7 @@ export default function Page({
       category={category}
       colors={colors}
       totalCount={productsResponse?._totalCount}
-      handleProductsFiter={handleProductsFiter}
+      handleProductsFilter={handleProductsFilter}
       handleLoadMore={handleLoadMore}
       pageSize={pageSize}
     />
