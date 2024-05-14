@@ -92,7 +92,7 @@ export const fetchCategoriesReferenceData = async (dataCollectionId, references,
     };
     const { items } = await WixClient.items.queryDataItems(options).hasSome("f1Collections", selectedCollectionId).find();
 
-    return items.map((item) => item.data);
+    return items.filter((x) => x.data.parentCollection.slug !== "all-products").map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -101,7 +101,6 @@ export const fetchCategoriesReferenceData = async (dataCollectionId, references,
 
 export const listProducts = async (collection, categories = [], pageSize = 8, colors = [], skip = 0) => {
   try {
-    console.log(collection, categories, pageSize, colors, skip);
     const options = {
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: ["category", "product", 'subCategory'],
