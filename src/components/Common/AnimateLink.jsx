@@ -1,6 +1,6 @@
 "use client";
 import {
-  pageLoadFinished,
+  pageLoadEnd,
   pageLoadStart,
 } from "../../utils/AnimationFunctions";
 import { useRouter } from "next/router";
@@ -21,7 +21,7 @@ const AnimateLink = ({ to, children, className, target, attributes }) => {
 
     if (pathname === to) {
       pageLoadStart();
-      setTimeout(() => pageLoadFinished(), 900);
+      setTimeout(() => pageLoadEnd(), 900);
       return;
     }
 

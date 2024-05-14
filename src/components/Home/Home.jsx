@@ -10,7 +10,6 @@ import SocialLinks from "@/components/Common/SocialLinks";
 import SuccessModal from "../Common/SuccessModal";
 import { useState } from "react";
 import ErrorModal from "../Common/ErrorModal";
-// import { pageLoadFinished } from "@/utils/AnimationFunctions";
 
 const HomePage = ({
   homePageData,

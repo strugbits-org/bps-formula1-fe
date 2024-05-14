@@ -82,8 +82,6 @@ export const selectedCategoryData = async (dataCollectionId, references, slug) =
   }
 };
 
-
-
 export const fetchCategoriesReferenceData = async (dataCollectionId, references, selectedCollectionId) => {
   try {
     const options = {
@@ -99,7 +97,7 @@ export const fetchCategoriesReferenceData = async (dataCollectionId, references,
 };
 
 
-export const listProducts = async (collection, categories = [], pageSize = 8, colors = [], skip = 0) => {
+export const listProducts = async (collection, categories = [], pageSize = 9, colors = [], skip = 0) => {
   try {
     const options = {
       dataCollectionId: "locationFilteredVariant",

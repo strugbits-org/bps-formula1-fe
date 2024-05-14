@@ -20,7 +20,7 @@ export default function Page({
   const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
-  const pageSize = 4;
+  const pageSize = 9;
 
   const selectedCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id) || [];
 
@@ -85,7 +85,6 @@ export default function Page({
 
 export const getServerSideProps = async (context) => {
   const collection = context.query.collection;
-  console.log("collection", collection);
   const category = context.query.category;
   if (collection && collection !== "all" && category) {
     const selectedCollection = await getSelectedCollectionData(collection);
@@ -104,7 +103,7 @@ export const getServerSideProps = async (context) => {
         category,
       },
     };
-  } else if (collection === "all" && category) {
+  } else if (category) {
     const [collectionsData, selectedCategory, colors] = await Promise.all([
       getCollectionsData(),
       getSelectedCategoryData(category),
@@ -120,8 +119,13 @@ export const getServerSideProps = async (context) => {
       },
     };
   } else {
+    const [collectionsData] = await Promise.all([
+      getCollectionsData(),
+    ]);
     return {
-      props: {},
+      props: {
+        collectionsData,
+      },
     };
   }
 };
