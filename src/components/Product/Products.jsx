@@ -246,7 +246,9 @@ const Products = ({
                           )}
                         </div>
                         <btn-modal-open
-                          onClick={() => setSelectedProductData(product)}
+                          onClick={() =>
+                            setSelectedProductData(filteredProducts[index])
+                          }
                           group="modal-product"
                           class="modal-add-to-cart"
                         >

@@ -215,10 +215,9 @@ export const fetchProductDetails = async (
   }
 };
 
-export const fetchProductSnapshots = async (
+export const fetchProductVariants = async (
   dataCollectionId,
-  references,
-  slug
+  selectedProductId
 ) => {
   try {
     const options = {
@@ -227,10 +226,25 @@ export const fetchProductSnapshots = async (
 
     const { items } = await WixClient.items
       .queryDataItems(options)
-      .eq("productId", "0825d779-f01f-4a87-9777-8a5fbf895c06")
+      .eq("productId", selectedProductId)
       .find();
 
-    console.log(items, "items>>>");
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const fetchProductSnapshots = async (dataCollectionId, slug) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("productId", slug)
+      .find();
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);

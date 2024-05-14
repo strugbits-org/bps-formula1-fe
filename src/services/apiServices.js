@@ -3,12 +3,14 @@ import fetchData, {
   fetchCategoriesReferenceData,
   fetchCategoriesReferenceDataa,
   selectedCategoryData,
-  selectedCollectionData, fetchCollectionColors,
+  selectedCollectionData,
+  fetchCollectionColors,
   fetchProductDetails,
   fetchSelectedProductId,
   fetchPairItWithProducts,
   fetchPairItWithProductsIds,
   fetchProductSnapshots,
+  fetchProductVariants,
 } from "./fetchFunction";
 
 // HOME PAGE APIS
@@ -54,7 +56,8 @@ export const getSelectedCategoryData = (slug) =>
     slug
   );
 
-export const getCollectionColors = (category) => fetchCollectionColors("colorFilterCache", category);
+export const getCollectionColors = (category) =>
+  fetchCollectionColors("colorFilterCache", category);
 
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
@@ -74,7 +77,11 @@ export const getCollectionsPostPageData = () =>
 
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
-listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
+  listProducts(
+    "locationFilteredVariant",
+    ["category", "product", "subCategory"],
+    slug
+  );
 
 export const getFilterProducts = (slug) =>
   fetchCategoriesReferenceDataa(
@@ -104,6 +111,8 @@ export const getPairItWithProducts = (productId) =>
     ["category", "product", "subCategory"],
     productId
   );
+export const getProductVariants = (selectedProductId) =>
+  fetchProductVariants("Stores/Variants", selectedProductId);
 
 export const getProductSnapShots = (imageVariationId) =>
   fetchProductSnapshots("BPSProductImages", imageVariationId);
