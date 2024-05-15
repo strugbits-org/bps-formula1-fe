@@ -22,13 +22,16 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         password: formData.password,
       };
 
-      const response = await fetch(`api/formula1/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        `http://localhost:8003/formula1/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
       if (!response.ok) {
         throw new Error(`API request failed with status ${response.status}`);
       }
