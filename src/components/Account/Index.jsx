@@ -23,13 +23,12 @@ const links = [
 ];
 
 const Account = () => {
-  // usePageInitialization(".initScript", ".home");
   const router = useRouter();
   const handleLogOut = () => {
     try {
       const loggedIn = document.cookie
         .split(";")
-        .some((item) => item.trim().startsWith("authToken=true"));
+        .some((item) => item.trim().startsWith("authToken"));
       if (loggedIn) {
         document.cookie =
           "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
