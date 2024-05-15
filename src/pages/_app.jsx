@@ -34,7 +34,7 @@ export default function App({
   if (typeof document !== "undefined") {
     const loggedIn = document.cookie
       .split(";")
-      .some((item) => item.trim().startsWith("loggedIn=true"));
+      .some((item) => item.trim().startsWith("authToken=true"));
     if (loggedIn) {
       document.body.setAttribute("data-login-state", "logged");
     }

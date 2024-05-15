@@ -29,7 +29,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       );
       if (response) {
         document.cookie =
-          "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
+          "authToken=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
         pageLoadStart();
         router.push("/collections");
         setTimeout(() => {
