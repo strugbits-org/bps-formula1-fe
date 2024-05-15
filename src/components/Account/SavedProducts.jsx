@@ -1,12 +1,8 @@
 import AddToCartModal from "../Product/AddToCartModal";
-import usePageInitialization from "../../hooks/usePageInitialization";
+import { useState } from "react";
 
 const SavedProducts = ({ savedProductPageData }) => {
-  // usePageInitialization(
-  //   "pg-my-account-saved-products",
-  //   ".initScript",
-  //   ".savedProducts"
-  // );
+  const [selectedProductData, setSelectedProductData] = useState(null);
 
   return (
     <>
@@ -137,10 +133,10 @@ const SavedProducts = ({ savedProductPageData }) => {
                             </div>
                             <btn-modal-open
                               group="modal-product"
-                              className="modal-add-to-cart"
+                              class="modal-add-to-cart"
                             >
                               <span>Add to cart</span>
-                              <i className="icon-cart"></i>
+                              <i class="icon-cart"></i>
                             </btn-modal-open>
                           </div>
                         </li>
@@ -161,7 +157,10 @@ const SavedProducts = ({ savedProductPageData }) => {
         </div>
       </section>
 
-      <AddToCartModal />
+      <AddToCartModal
+        productData={null}
+        setProductData={setSelectedProductData}
+      />
     </>
   );
 };

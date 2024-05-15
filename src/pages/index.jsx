@@ -1,5 +1,4 @@
 import HomePage from "@/components/Home/Home";
-// import { pageLoadFinished } from "@/utils/AnimationFunctions";
 import {
   getCreateAccountDropdown,
   getCreateAccountForm,
@@ -48,7 +47,6 @@ export const getServerSideProps = async () => {
     getCreateAccountForm(),
     getCreateAccountDropdown(),
   ]);
-  // pageLoadFinished();
 
   return {
     props: {

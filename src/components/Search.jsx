@@ -4,9 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import AnimateLink from "./Common/AnimateLink";
 
-const Search = ({ searchedProducts }) => {
+const Search = ({ collections, colors, searchedProducts, handleFilterChange }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
-
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -20,8 +19,7 @@ const Search = ({ searchedProducts }) => {
                 >
                   Search result
                 </h1>
-
-                <FilterButton />
+                <FilterButton collections={collections} colors={colors} handleFilterChange={handleFilterChange} />
               </div>
               <ul
                 className="list-search grid-lg-20 grid-md-50 grid-50"
@@ -54,9 +52,10 @@ const Search = ({ searchedProducts }) => {
                           <div className="wrapper-product-img">
                             {variantData
                               .filter((x, index) => index < 2)
-                              .map((variant) => {
+                              .map((variant, index) => {
                                 return (
                                   <div
+                                    key={index}
                                     className="container-img product-img"
                                     data-get-product-link-color={
                                       variant.color[0]

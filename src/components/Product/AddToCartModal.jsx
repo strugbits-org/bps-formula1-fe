@@ -1,10 +1,41 @@
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { useEffect, useState } from "react";
 
 const AddToCartModal = ({ productData, setProductData }) => {
   const handleClose = () => {
     setTimeout(() => {
       setProductData(null);
+      setSelectedVariant(null);
     }, 1000);
+  };
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  useEffect(() => {
+    if (productData) {
+      setSelectedVariant(productData.variantData[0].variant);
+    }
+  }, [productData]);
+
+  const handleImageChange = (variantData) => {
+    setSelectedVariant(variantData.variant);
+  };
+
+  const handlePrevButtonClick = () => {
+    const currentIndex = productData.variantData.findIndex(
+      (data) => data.variant.sku === selectedVariant.sku
+    );
+    const prevIndex =
+      (currentIndex - 1 + productData.variantData.length) %
+      productData.variantData.length;
+    setSelectedVariant(productData.variantData[prevIndex].variant);
+  };
+
+  const handleNextButtonClick = () => {
+    const currentIndex = productData.variantData.findIndex(
+      (data) => data.variant.sku === selectedVariant.sku
+    );
+    const nextIndex = (currentIndex + 1) % productData.variantData.length;
+    setSelectedVariant(productData.variantData[nextIndex].variant);
   };
   return (
     <div id="reloading-area">
@@ -28,7 +59,6 @@ const AddToCartModal = ({ productData, setProductData }) => {
                           <li
                             class="wrapper-slider-product"
                             data-default-active
-                            data-get-color="yellow"
                           >
                             <div class="slider-product">
                               <div class="best-seller-tag">
@@ -37,74 +67,22 @@ const AddToCartModal = ({ productData, setProductData }) => {
                               <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                   {productData &&
-                                    productData.mediaItems.map(
-                                      (data, index) => {
+                                    productData.variantData.map(
+                                      (variantData, index) => {
+                                        const { variant } = variantData;
                                         return (
                                           <div key={index} class="swiper-slide">
-                                            <div class="container-img">
+                                            <div
+                                              class="container-img"
+                                              onClick={() =>
+                                                handleImageChange(variantData)
+                                              }
+                                            >
                                               <img
                                                 style={{
                                                   padding: "100px",
                                                 }}
-                                                src={generateImageURL({
-                                                  wix_url: data.src,
-                                                  w: "1000",
-                                                  h: "1000",
-                                                  fit: "fit",
-                                                  q: "95",
-                                                })}
-                                                data-preload
-                                                class="media"
-                                                alt="product"
-                                              />
-                                            </div>
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  {productData &&
-                                    productData.mediaItems.map(
-                                      (data, index) => {
-                                        return (
-                                          <div key={index} class="swiper-slide">
-                                            <div class="container-img">
-                                              <img
-                                                style={{
-                                                  padding: "100px",
-                                                }}
-                                                src={generateImageURL({
-                                                  wix_url: data.src,
-                                                  w: "1000",
-                                                  h: "1000",
-                                                  fit: "fit",
-                                                  q: "95",
-                                                })}
-                                                data-preload
-                                                class="media"
-                                                alt="product"
-                                              />
-                                            </div>
-                                          </div>
-                                        );
-                                      }
-                                    )}
-                                  {productData &&
-                                    productData.mediaItems.map(
-                                      (data, index) => {
-                                        return (
-                                          <div key={index} class="swiper-slide">
-                                            <div class="container-img">
-                                              <img
-                                                style={{
-                                                  padding: "100px",
-                                                }}
-                                                src={generateImageURL({
-                                                  wix_url: data.src,
-                                                  w: "1000",
-                                                  h: "1000",
-                                                  fit: "fit",
-                                                  q: "95",
-                                                })}
+                                                src={variant.imageSrc}
                                                 data-preload
                                                 class="media"
                                                 alt="product"
@@ -116,10 +94,16 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                     )}
                                 </div>
                               </div>
-                              <div class="swiper-button-prev">
+                              <div
+                                class="swiper-button-prev"
+                                onClick={handlePrevButtonClick}
+                              >
                                 <i class="icon-arrow-left"></i>
                               </div>
-                              <div class="swiper-button-next">
+                              <div
+                                class="swiper-button-next"
+                                onClick={handleNextButtonClick}
+                              >
                                 <i class="icon-arrow-right"></i>
                               </div>
                             </div>
@@ -128,88 +112,28 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                 <div class="swiper-container">
                                   <div class="swiper-wrapper">
                                     {productData &&
-                                      productData.mediaItems.map(
-                                        (data, index) => {
+                                      productData.variantData.map(
+                                        (variantData, index) => {
+                                          const { variant } = variantData;
                                           return (
                                             <div
                                               key={index}
                                               class="swiper-slide"
                                             >
                                               <div class="wrapper-img">
-                                                <div class="container-img">
+                                                <div
+                                                  class="container-img"
+                                                  onClick={() =>
+                                                    handleImageChange(
+                                                      variantData
+                                                    )
+                                                  }
+                                                >
                                                   <img
                                                     style={{
                                                       padding: "20px",
                                                     }}
-                                                    src={generateImageURL({
-                                                      wix_url: data.src,
-                                                      w: "1000",
-                                                      h: "1000",
-                                                      fit: "fit",
-                                                      q: "95",
-                                                    })}
-                                                    data-preload
-                                                    class="media"
-                                                    alt="product"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          );
-                                        }
-                                      )}
-                                    {productData &&
-                                      productData.mediaItems.map(
-                                        (data, index) => {
-                                          return (
-                                            <div
-                                              key={index}
-                                              class="swiper-slide"
-                                            >
-                                              <div class="wrapper-img">
-                                                <div class="container-img">
-                                                  <img
-                                                    style={{
-                                                      padding: "20px",
-                                                    }}
-                                                    src={generateImageURL({
-                                                      wix_url: data.src,
-                                                      w: "1000",
-                                                      h: "1000",
-                                                      fit: "fit",
-                                                      q: "95",
-                                                    })}
-                                                    data-preload
-                                                    class="media"
-                                                    alt="product"
-                                                  />
-                                                </div>
-                                              </div>
-                                            </div>
-                                          );
-                                        }
-                                      )}
-                                    {productData &&
-                                      productData.mediaItems.map(
-                                        (data, index) => {
-                                          return (
-                                            <div
-                                              key={index}
-                                              class="swiper-slide"
-                                            >
-                                              <div class="wrapper-img">
-                                                <div class="container-img">
-                                                  <img
-                                                    style={{
-                                                      padding: "20px",
-                                                    }}
-                                                    src={generateImageURL({
-                                                      wix_url: data.src,
-                                                      w: "1000",
-                                                      h: "1000",
-                                                      fit: "fit",
-                                                      q: "95",
-                                                    })}
+                                                    src={variant.imageSrc}
                                                     data-preload
                                                     class="media"
                                                     alt="product"
@@ -236,13 +160,14 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                   class="fs--40 fs-phone-30 product-name split-words"
                                   data-aos="d:loop"
                                 >
-                                  {productData && productData.name}
+                                  {productData && productData.product.name}
                                 </h1>
                                 <div
                                   class="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                                 >
-                                  {productData && productData.formattedPrice}
+                                  {productData &&
+                                    productData.product.formattedPrice}
                                 </div>
                               </div>
                               <button
@@ -258,30 +183,19 @@ const AddToCartModal = ({ productData, setProductData }) => {
                             >
                               <li class="sku">
                                 <span class="specs-title">SKU</span>
-                                <span class="specs-text">MODCH09</span>
+                                <span class="specs-text">
+                                  {selectedVariant && selectedVariant.sku}
+                                </span>
                               </li>
                               <li class="size">
                                 <span class="specs-title">Size</span>
-                                {productData &&
-                                  productData.additionalInfoSections.map(
-                                    (data, index) => {
-                                      const { title, description } = data;
-                                      if (title == "Size") {
-                                        return (
-                                          <span
-                                            key={index}
-                                            dangerouslySetInnerHTML={{
-                                              __html: description,
-                                            }}
-                                          ></span>
-                                        );
-                                      }
-                                    }
-                                  )}
+                                {selectedVariant && selectedVariant.size}
                               </li>
                               <li class="color">
                                 <span class="specs-title">Color</span>
-                                <span class="specs-text">Yellow - Birch</span>
+                                <span class="specs-text">
+                                  {selectedVariant && selectedVariant.color}
+                                </span>
                               </li>
                               <li class="weight">
                                 <span class="specs-title">Weight</span>
@@ -290,7 +204,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                               <li class="seat-height">
                                 <span class="specs-title">Seat Height</span>
                                 {productData &&
-                                  productData.additionalInfoSections.map(
+                                  productData.product.additionalInfoSections.map(
                                     (data, index) => {
                                       const { title, description } = data;
                                       if (title == "Seat Height") {
@@ -312,128 +226,41 @@ const AddToCartModal = ({ productData, setProductData }) => {
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
                               {productData &&
-                                productData.mediaItems.map((data, index) => {
-                                  return (
-                                    <li key={index} class="list-colors-item">
-                                      <div
-                                        class="container-input active"
-                                        data-set-color="yellow"
-                                      >
-                                        <label>
-                                          <input
-                                            type="radio"
-                                            name="colors"
-                                            value="yellow"
-                                            checked
-                                          />
-                                          <div class="container-img">
-                                            <img
-                                              src={generateImageURL({
-                                                wix_url: data.src,
-                                                w: "1000",
-                                                h: "1000",
-                                                fit: "fit",
-                                                q: "95",
-                                              })}
-                                              data-preload
-                                              class="media"
-                                              alt="product"
+                                productData.product.mediaItems.map(
+                                  (data, index) => {
+                                    return (
+                                      <li key={index} class="list-colors-item">
+                                        <div
+                                          class="container-input active"
+                                          data-set-color="yellow"
+                                        >
+                                          <label>
+                                            <input
+                                              type="radio"
+                                              name="colors"
+                                              value="yellow"
+                                              checked
                                             />
-                                          </div>
-                                        </label>
-                                      </div>
-                                    </li>
-                                  );
-                                })}
-                              {/* <li class="list-colors-item">
-                                <div
-                                  class="container-input active"
-                                  data-set-color="yellow"
-                                >
-                                  <label>
-                                    <input
-                                      type="radio"
-                                      name="colors"
-                                      value="yellow"
-                                      checked
-                                    />
-                                    <div class="container-img">
-                                      <img
-                                        src="/images/products/thumb.png"
-                                        data-preload
-                                        class="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                              </li>
-                              <li class="list-colors-item">
-                                <div
-                                  class="container-input"
-                                  data-set-color="blue"
-                                >
-                                  <label>
-                                    <input
-                                      type="radio"
-                                      name="colors"
-                                      value="blue"
-                                    />
-                                    <div class="container-img">
-                                      <img
-                                        src="/images/products/thumb.png"
-                                        data-preload
-                                        class="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                              </li>
-                              <li class="list-colors-item">
-                                <div
-                                  class="container-input"
-                                  data-set-color="red"
-                                >
-                                  <label>
-                                    <input
-                                      type="radio"
-                                      name="colors"
-                                      value="red"
-                                    />
-                                    <div class="container-img">
-                                      <img
-                                        src="/images/products/thumb.png"
-                                        data-preload
-                                        class="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                              </li>
-                              <li class="list-colors-item">
-                                <div
-                                  class="container-input"
-                                  data-set-color="pink"
-                                >
-                                  <label>
-                                    <input
-                                      type="radio"
-                                      name="colors"
-                                      value="pink"
-                                    />
-                                    <div class="container-img">
-                                      <img
-                                        src="/images/products/thumb.png"
-                                        data-preload
-                                        class="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  </label>
-                                </div>
-                              </li> */}
+                                            <div class="container-img">
+                                              <img
+                                                src={generateImageURL({
+                                                  wix_url: data.src,
+                                                  w: "1000",
+                                                  h: "1000",
+                                                  fit: "fit",
+                                                  q: "95",
+                                                })}
+                                                data-preload
+                                                class="media"
+                                                alt="product"
+                                              />
+                                            </div>
+                                          </label>
+                                        </div>
+                                      </li>
+                                    );
+                                  }
+                                )}
                             </ul>
                             <div
                               class="container-add-to-cart mt-md-40 mt-phone-20"

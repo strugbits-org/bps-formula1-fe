@@ -153,7 +153,11 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                 )}
                               </div>
                               <btn-modal-open
-                                onClick={() => setSelectedProductData(product)}
+                                onClick={() =>
+                                  setSelectedProductData(
+                                    matchedProductsData[index]
+                                  )
+                                }
                                 group="modal-product"
                                 class="modal-add-to-cart"
                               >
