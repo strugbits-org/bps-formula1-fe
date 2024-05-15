@@ -26,8 +26,6 @@ const Products = ({
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
-
-
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
@@ -130,23 +128,25 @@ const Products = ({
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
             <div className="col-lg-10 offset-lg-1 column-1">
-              <div className="container-title">
-                <h2 className="fs-lg-24 white-1 text-center text-uppercase">
-                  <span
-                    className="fs-mobile-13 fw-400 mr-15"
-                    data-aos="fadeIn .8s ease-in-out .6s, d:loop"
-                  >
-                    Collection
-                  </span>
-                  <span
-                    className="fs-tablet-20 fs-phone-16 font-2 mt-5 split-chars"
-                    data-delay="400"
-                    data-aos="d:loop"
-                  >
-                    {selectedCollection?.collectionName || "All"}
-                  </span>
-                </h2>
-              </div>
+              {selectedCollection.length === 1 && (
+                <div className="container-title">
+                  <h2 className="fs-lg-24 white-1 text-center text-uppercase">
+                    <span
+                      className="fs-mobile-13 fw-400 mr-15"
+                      data-aos="fadeIn .8s ease-in-out .6s, d:loop"
+                    >
+                      Collection
+                    </span>
+                    <span
+                      className="fs-tablet-20 fs-phone-16 font-2 mt-5 split-chars"
+                      data-delay="400"
+                      data-aos="d:loop"
+                    >
+                      {selectedCollection[0]?.collectionName}
+                    </span>
+                  </h2>
+                </div>
+              )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData } = data;

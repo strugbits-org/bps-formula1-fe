@@ -9,6 +9,7 @@ import fetchData, {
   fetchPairItWithProducts,
   fetchPairItWithProductsIds,
   fetchProductSnapshots,
+  listProducts,
 } from "./fetchFunction";
 
 // HOME PAGE APIS
@@ -18,12 +19,11 @@ export const getHomeBottomRightSocialLinks = () =>
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
 
-export const getSearchProducts = (query) =>
-  fetchSearchData(
-    "locationFilteredVariant",
-    ["category", "product", "subCategory"],
-    query
-  );
+export const fetchProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+
+export const getSearchProducts = (collections, colors, searchTerm) => fetchSearchData(collections, colors, searchTerm);
+
+
 
 // REGISTRATION PAGE APIS
 export const getSignInPage = () => fetchData("SignInPageF1");
@@ -74,7 +74,7 @@ export const getCollectionsPostPageData = () =>
 
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
-listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
+  listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
 
 export const getFilterProducts = (slug) =>
   fetchCategoriesReferenceDataa(

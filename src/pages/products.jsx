@@ -1,11 +1,11 @@
 import Products from "@/components/Product/Products";
 import {
+  fetchProducts,
   getCollectionColors,
   getCollectionsData,
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
-import { listProducts } from "@/services/fetchFunction";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
 import { useRouter } from "next/router";
@@ -35,7 +35,7 @@ export default function Page({
     if (selectedCollections.length === 0) {
       collections = collectionsData.map((x) => x._id);
     }
-    const response = await listProducts(collections, subCategories, pageSize, selectedColors, productsCollection.length);
+    const response = await fetchProducts(collections, subCategories, pageSize, selectedColors, productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
     setProductsResponse(response);
     updatedWatched();
@@ -47,7 +47,8 @@ export default function Page({
   ) => {
     try {
       let subCategories = parseArrayFromParams(router.query.subCategories);
-      if ((selectedCategory !== undefined || selectedCategory !== null) && subCategories.length === 0) {
+
+      if (selectedCategory !== undefined && selectedCategory !== null && subCategories.length === 0) {
         subCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id);
       }
 
@@ -57,7 +58,7 @@ export default function Page({
       }
 
       if (!firstLoad && !disableLoader) pageLoadStart();
-      const response = await listProducts(collections, subCategories, pageSize, selectedColors);
+      const response = await fetchProducts(collections, subCategories, pageSize, selectedColors);
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
       if (firstLoad) {
@@ -75,7 +76,6 @@ export default function Page({
 
   useEffect(() => {
     handleProductsFilter(true, false);
-    console.log("use effect");
   }, [router, selectedColors]);
 
   return (
@@ -87,7 +87,7 @@ export default function Page({
       category={category}
       colors={selectedColors}
       totalCount={productsResponse?._totalCount}
-      handleProductsFilter={handleProductsFilter}
+      handleLoadMore={handleLoadMore}
       pageSize={pageSize}
       setSelectedColors={setSelectedColors}
       setSelectedCollections={setSelectedCollections}
