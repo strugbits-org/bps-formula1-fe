@@ -118,6 +118,8 @@ export const listProducts = async (collections = [], categories = [], pageSize =
       query = query.hasSome("subCategory", categories);
     }
 
+    console.log("filterTree", query.filterTree);
+
     const response = await query.limit(pageSize).skip(skip).find();
     return response;
   } catch (error) {

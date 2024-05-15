@@ -54,7 +54,7 @@ const Search = ({ searchedProducts }) => {
                           <div className="wrapper-product-img">
                             {variantData
                               .filter((x, index) => index < 2)
-                              .map((variant) => {
+                              .map((variant,index) => {
                                 return (
                                   <div
                                   key={index}

@@ -7,6 +7,7 @@ import {
 } from "@/services/apiServices";
 import { listProducts } from "@/services/fetchFunction";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
+import { parseArrayFromParams } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -20,37 +21,48 @@ export default function Page({
   const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
+  const [selectedColors, setSelectedColors] = useState(colors?.colors);
+  const [selectedCollections, setSelectedCollections] = useState(selectedCollection.map((x) => x._id));
   const pageSize = 9;
 
-  const selectedCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id) || [];
 
-  const handleLoadMore = async (collections, categories, colors) => {
-    const response = await listProducts(collections, categories, pageSize, colors, productsCollection.length);
+  const handleLoadMore = async () => {
+    let subCategories = parseArrayFromParams(router.query.subCategories);
+    if ((selectedCategory !== undefined || selectedCategory !== null) && subCategories.length === 0) {
+      subCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id);
+    }
+    let collections = selectedCollections;
+    if (selectedCollections.length === 0) {
+      collections = collectionsData.map((x) => x._id);
+    }
+    const response = await listProducts(collections, subCategories, pageSize, selectedColors, productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
     setProductsResponse(response);
     updatedWatched();
   }
 
   const handleProductsFilter = async (
-    collection,
-    category,
-    colors,
     firstLoad = false,
     disableLoader = false,
   ) => {
     try {
+      let subCategories = parseArrayFromParams(router.query.subCategories);
+      if ((selectedCategory !== undefined || selectedCategory !== null) && subCategories.length === 0) {
+        subCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id);
+      }
+
+      let collections = selectedCollections;
+      if (selectedCollections.length === 0) {
+        collections = collectionsData.map((x) => x._id);
+      }
+
       if (!firstLoad && !disableLoader) pageLoadStart();
-      const response = await listProducts(
-        collection,
-        category,
-        pageSize,
-        colors
-      );
+      const response = await listProducts(collections, subCategories, pageSize, selectedColors);
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
       if (firstLoad) {
         markPageLoaded(false);
-      } else if(!disableLoader) {
+      } else if (!disableLoader) {
         pageLoadEnd();
       }
       updatedWatched();
@@ -59,15 +71,12 @@ export default function Page({
     }
   };
 
+
+
   useEffect(() => {
-    handleProductsFilter(
-      selectedCollection.map((x) => x._id),
-      selectedCategories,
-      colors?.colors || [],
-      true,
-      false,
-    );
-  }, [router]);
+    handleProductsFilter(true, false);
+    console.log("use effect");
+  }, [router, selectedColors]);
 
   return (
     <Products
@@ -76,11 +85,12 @@ export default function Page({
       selectedCollection={selectedCollection}
       selectedCategory={selectedCategory}
       category={category}
-      colors={colors}
+      colors={selectedColors}
       totalCount={productsResponse?._totalCount}
       handleProductsFilter={handleProductsFilter}
-      handleLoadMore={handleLoadMore}
       pageSize={pageSize}
+      setSelectedColors={setSelectedColors}
+      setSelectedCollections={setSelectedCollections}
     />
   );
 }
@@ -118,6 +128,21 @@ export const getServerSideProps = async (context) => {
         colors,
         selectedCollection: [],
         category,
+      },
+    };
+  } else if (collection) {
+    const category = "00000000-000000-000000-000000000001";
+    const selectedCollection = await getSelectedCollectionData(collection);
+    const [collectionsData, colors] = await Promise.all([
+      getCollectionsData(),
+      getCollectionColors(category),
+    ]);
+    return {
+      props: {
+        collectionsData,
+        selectedCategory: null,
+        colors: colors,
+        selectedCollection: selectedCollection,
       },
     };
   } else {
