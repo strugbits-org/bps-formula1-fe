@@ -33,23 +33,30 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         }
       );
       if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+        const data = await response.json();
+
+        setMessage(data.message);
+        setErrorMessageVisible(true);
+        return;
       }
 
-      const data = await response.json();
-      const userToken = data.data.jwtToken;
-      document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-      pageLoadStart();
-      router.push("/collections");
-      setTimeout(() => {
-        document.body.dataset.loginState = "logged";
-      }, 800);
-      return response;
+      if (response.ok) {
+        const data = await response.json();
+        const userToken = data.data.jwtToken;
+        document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+        pageLoadStart();
+        router.push("/collections");
+        setTimeout(() => {
+          document.body.dataset.loginState = "logged";
+        }, 800);
+        return response;
+      }
+
     } catch (error) {
       // let err = JSON.parse(error.message);
       console.log("error", error);
       // setMessage(err.message);
-      setMessage("Invalid email or password!");
+      setMessage("Invalid Credentials!");
       setErrorMessageVisible(true);
     }
   };
