@@ -11,19 +11,6 @@ const fetchData = async (dataCollectionId) => {
     throw new Error(error.message);
   }
 };
-export const fetchSearchData = async (dataCollectionId, references, query) => {
-  try {
-    const options = {
-      dataCollectionId,
-      includeReferencedItems: references,
-    };
-    const { items } = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).contains("search", query).find();
-    return items.map((item) => item.data);
-  } catch (error) {
-    throw new Error(error.message);
-  }
-};
-
 
 export const selectedCollectionData = async (dataCollectionId, slug) => {
   try {
@@ -125,6 +112,33 @@ export const listProducts = async (collections = [], categories = [], pageSize =
     throw new Error(error.message);
   }
 };
+
+export const fetchSearchData = async (collections, colors, searchTerm) => {
+  try {
+
+    const options = {
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: ["category", "product", 'subCategory'],
+      "returnTotalCount": true,
+    };
+
+    let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
+
+    if (collections.length !== 0) {
+      query = query.hasSome("f1Collection", collections);
+    }
+
+    if (colors.length !== 0) {
+      query = query.hasSome("colors", colors);
+    }
+
+    const response = await query.contains("search", searchTerm).find();
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 export const fetchCategoriesReferenceDataa = async (dataCollectionId, references, slug) => {
   try {
     const options = {

@@ -16,6 +16,7 @@ const ProductSnapshots = ({ data }) => {
               <div className="module-column" data-aos="d:loop">
                 <div className="container-img">
                   <img
+                    style={{ maxHeight: "80rem" }}
                     src={RenderImage(data[0].src)}
                     data-preload
                     className="media"

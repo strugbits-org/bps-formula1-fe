@@ -4,8 +4,9 @@ import AnimateLink from "../Common/AnimateLink";
 import Link from "next/link";
 import { productData } from "@/utils/ProductData";
 import RenderImage from "@/utils/RenderImage";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ProductSnapshots from "../Common/productSnapshots";
+import { useRouter } from "next/router";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -25,9 +26,33 @@ const ProductPost = ({
   const [selectedVariant, setSelectedVariant] = useState(
     selectedProductDetails.variantData[0].variant
   );
-  const handleImageChange = (variantData) => {
-    setSelectedVariant(variantData.variant);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+
+  const handleImageChange = (index) => {
+    setSelectedVariantIndex(index);
+    setSelectedVariant(selectedProductDetails.variantData[index].variant);
   };
+  const router = useRouter();
+  const productFoundRedirection = (subCategoryId) => {
+    const queryParams = new URLSearchParams(router.query);
+
+    const categoryId = selectedProductDetails.category._id;
+    queryParams.set("collection", "all");
+    queryParams.set("category", categoryId);
+    queryParams.set("subCategories", JSON.stringify([subCategoryId]));
+    queryParams.delete("slug");
+    router.push({ pathname: "/products", query: queryParams.toString() });
+  };
+  const handleColorSelect = (index) => {
+    setSelectedVariantIndex(index);
+    setSelectedVariant(selectedProductDetails.variantData[index].variant);
+  };
+
+  const [productColor, setProductColor] = useState(
+    selectedProductDetails.variantData[0].variant.color
+  );
+
+  console.log(productColor, "productColor>>");
 
   function findUseCaseImages(array, variantId) {
     for (let item of array) {
@@ -37,31 +62,42 @@ const ProductPost = ({
     }
     return null;
   }
+
   console.log(selectedProductDetails, "selectedProductDetails>>");
-  // Call the function with stateObject's variantId
+
   const productSnapShots = findUseCaseImages(
     productSnapshots,
     selectedVariant.variantId
   );
 
   const handlePrevButtonClick = () => {
-    const currentIndex = selectedProductDetails.variantData.findIndex(
-      (data) => data.variant.sku === selectedVariant.sku
-    );
     const prevIndex =
-      (currentIndex - 1 + selectedProductDetails.variantData.length) %
+      (selectedVariantIndex - 1 + selectedProductDetails.variantData.length) %
       selectedProductDetails.variantData.length;
-    setSelectedVariant(selectedProductDetails.variantData[prevIndex].variant);
+    handleImageChange(prevIndex);
   };
 
   const handleNextButtonClick = () => {
-    const currentIndex = selectedProductDetails.variantData.findIndex(
-      (data) => data.variant.sku === selectedVariant.sku
-    );
     const nextIndex =
-      (currentIndex + 1) % selectedProductDetails.variantData.length;
-    setSelectedVariant(selectedProductDetails.variantData[nextIndex].variant);
+      (selectedVariantIndex + 1) % selectedProductDetails.variantData.length;
+    handleImageChange(nextIndex);
   };
+
+  const descriptionRef = useRef(null);
+
+  useEffect(() => {
+    const descriptionElement = descriptionRef.current;
+    if (descriptionElement) {
+      descriptionElement.innerHTML = descriptionElement.innerHTML.replace(
+        /<span style="color:#000000;">/g,
+        '<span style="color:#ffffff;">'
+      );
+    }
+  }, [productData.product.description]);
+  const seatHeightData =
+    selectedProductDetails.product.additionalInfoSections.find(
+      (data) => data.title.toLowerCase() === "seat height".toLowerCase()
+    );
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -75,7 +111,10 @@ const ProductPost = ({
                 <li
                   className="wrapper-slider-product"
                   data-default-active
-                  data-get-color="yellow"
+                  data-get-color={
+                    selectedProductDetails.variantData[selectedVariantIndex]
+                      .variant.color
+                  }
                 >
                   <div className="slider-product">
                     <div className="best-seller-tag">
@@ -85,19 +124,22 @@ const ProductPost = ({
                       <div className="swiper-wrapper">
                         {selectedProductDetails.variantData.map(
                           (variantData, index) => {
-                            const { variant } = variantData;
-
                             return (
-                              <div key={index} className="swiper-slide">
+                              <div
+                                key={index}
+                                className={`swiper-slide ${
+                                  index === selectedVariantIndex
+                                    ? "swiper-slide-active"
+                                    : ""
+                                }`}
+                              >
                                 <div
                                   className="container-img"
-                                  onClick={() => handleImageChange(variantData)}
+                                  onClick={() => handleImageChange(index)}
                                 >
                                   <img
-                                    style={{
-                                      padding: "100px",
-                                    }}
-                                    src={variant.imageSrc}
+                                    style={{ padding: "100px" }}
+                                    src={variantData.variant.imageSrc}
                                     data-preload
                                     className="media"
                                     alt={`product-${index}`}
@@ -106,32 +148,19 @@ const ProductPost = ({
                               </div>
                             );
                           }
-                        )}{" "}
-                        {/* <div className="swiper-container">
-                          <div className="swiper-wrapper">
-                            <div className="swiper-slide slide-360">
-                              <i className="icon-360"></i>
-                              <div className="container-img">
-                                <canvas
-                                  className="infinite-image-scroller"
-                                  data-frames="49"
-                                  data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
-                                  data-extension="jpg"
-                                ></canvas>
-                              </div>
-                            </div>
-                            <div className="swiper-slide">
-                              <div className="container-img">
-                                <img
-                                  src="/images/products/img-03.png"
-                                  data-preload
-                                  className="media"
-                                  alt="images/products/img-03.png"
-                                />
-                              </div>
-                            </div>
+                        )}
+                        <div className="swiper-slide slide-360">
+                          <i className="icon-360"></i>
+                          <div className="container-img">
+                            <canvas
+                              style={{ padding: "100px" }}
+                              className="infinite-image-scroller"
+                              data-frames="49"
+                              data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
+                              data-extension="jpg"
+                            ></canvas>
                           </div>
-                        </div> */}
+                        </div>
                       </div>
                     </div>
                     <div
@@ -153,31 +182,42 @@ const ProductPost = ({
                       <div className="swiper-container">
                         <div className="swiper-wrapper">
                           {selectedProductDetails.variantData.map(
-                            (variantData, index) => {
-                              return (
-                                <div key={index} className="swiper-slide">
-                                  <div className={`wrapper-img `}>
-                                    <div
-                                      className="container-img"
-                                      onClick={() =>
-                                        handleImageChange(variantData)
-                                      }
-                                    >
-                                      <img
-                                        style={{
-                                          padding: "20px",
-                                        }}
-                                        src={variantData.variant.imageSrc}
-                                        data-preload
-                                        className="media"
-                                        alt={`product-test-${index}`}
-                                      />
-                                    </div>
+                            (variantData, index) => (
+                              <div
+                                key={index}
+                                className={`swiper-slide ${
+                                  index === selectedVariantIndex ? "active" : ""
+                                }`}
+                              >
+                                <div className="wrapper-img">
+                                  <div
+                                    className="container-img"
+                                    onClick={() => handleImageChange(index)}
+                                  >
+                                    <img
+                                      style={{ padding: "20px" }}
+                                      src={variantData.variant.imageSrc}
+                                      data-preload
+                                      className="media"
+                                      alt={`product-thumb-${index}`}
+                                    />
                                   </div>
                                 </div>
-                              );
-                            }
+                              </div>
+                            )
                           )}
+                          <div class="swiper-slide">
+                            <div class="wrapper-img img-3d">
+                              <div class="container-img">
+                                <img
+                                  src="/images/3d.svg"
+                                  data-preload
+                                  class="media"
+                                />
+                              </div>
+                              <span class="hide">360</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -239,7 +279,7 @@ const ProductPost = ({
                       {selectedProductDetails.product.additionalInfoSections.map(
                         (data, index) => {
                           const { title, description } = data;
-                          if (title == "Size") {
+                          if (title === "Size") {
                             return (
                               <span
                                 key={index}
@@ -250,6 +290,7 @@ const ProductPost = ({
                               ></span>
                             );
                           }
+                          return null;
                         }
                       )}
                     </li>
@@ -263,113 +304,54 @@ const ProductPost = ({
                       <span className="specs-title">Weight</span>
                       <span className="specs-text">11.5lbs</span>
                     </li>
-                    <li className="seat-height">
-                      <span className="specs-title">Seat Height</span>
 
-                      <span className="specs-text">{selectedVariant.siz}</span>
-                    </li>
+                    {seatHeightData && (
+                      <li className="seat-height">
+                        <span className="specs-title">Seat Height</span>
+                        <span
+                          className="specs-text"
+                          dangerouslySetInnerHTML={{
+                            __html: seatHeightData.description,
+                          }}
+                        ></span>
+                      </li>
+                    )}
                   </ul>
+
+                  {/* Variants */}
                   <ul
                     className="list-colors"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    {/* {selectedProductDetails.variantData.map(
-                      (variantData, index) => {
-                        return (
-                          <li key={index} className="list-colors-item">
-                            <div
-                              className="container-input "
-                              data-set-color={variantData.color[0]}
-                            >
-                              <label>
-                                <input
-                                  type="radio"
-                                  name="colors"
-                                  value={variantData.color[0]}
-                                  checked
+                    {selectedProductDetails.variantData.map(
+                      (variantData, index) => (
+                        <li key={index} className="list-colors-item">
+                          <div
+                            className="container-input"
+                            data-set-color={variantData.variant.color}
+                            onClick={() => handleImageChange(index)}
+                          >
+                            <label>
+                              <input
+                                type="radio"
+                                name="colors"
+                                value={variantData.variant.color}
+                                checked={index === selectedVariantIndex}
+                                readOnly
+                              />
+                              <div className="container-img">
+                                <img
+                                  src={variantData.variant.imageSrc}
+                                  data-preload
+                                  className="media"
+                                  alt="pro-product"
                                 />
-                                <div className="container-img">
-                                  <img
-                                    src={variantData.variant.imageSrc}
-                                    data-preload
-                                    className="media"
-                                    alt="pro-product"
-                                  />
-                                </div>
-                              </label>
-                            </div>
-                          </li>
-                        );
-                      }
-                    )} */}
-                    <li className="list-colors-item">
-                      <div
-                        className="container-input active"
-                        data-set-color="yellow"
-                      >
-                        <label>
-                          <input
-                            type="radio"
-                            name="colors"
-                            value="yellow"
-                            checked
-                          />
-                          <div className="container-img">
-                            <img
-                              src="/images/products/thumb.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
+                              </div>
+                            </label>
                           </div>
-                        </label>
-                      </div>
-                    </li>
-                    <li className="list-colors-item">
-                      <div className="container-input" data-set-color="blue">
-                        <label>
-                          <input type="radio" name="colors" value="blue" />
-                          <div className="container-img">
-                            <img
-                              src="/images/products/thumb.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </label>
-                      </div>
-                    </li>
-                    <li className="list-colors-item">
-                      <div className="container-input" data-set-color="red">
-                        <label>
-                          <input type="radio" name="colors" value="red" />
-                          <div className="container-img">
-                            <img
-                              src="/images/products/thumb.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </label>
-                      </div>
-                    </li>
-                    <li className="list-colors-item">
-                      <div className="container-input" data-set-color="pink">
-                        <label>
-                          <input type="radio" name="colors" value="pink" />
-                          <div className="container-img">
-                            <img
-                              src="/images/products/thumb.png"
-                              data-preload
-                              className="media"
-                              alt="pro-product"
-                            />
-                          </div>
-                        </label>
-                      </div>
-                    </li>
+                        </li>
+                      )
+                    )}
                   </ul>
                   <div
                     className="container-add-to-cart mt-md-40 mt-phone-20"
@@ -409,8 +391,8 @@ const ProductPost = ({
                     selectedProductDetails.product.customTextFields.length >
                       0 && (
                       <div
-                        className="container-product-notes container-info-text mt-lg-55 mt-tablet-35 mt-phone-55"
-                        data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                        style={{ paddingBottom: "2px" }}
+                        className="container-product-notes container-info-text "
                       >
                         <h3 className="title-info-text split-words" data-aos="">
                           <span>
@@ -426,8 +408,11 @@ const ProductPost = ({
                       (data, index) => {
                         const { title, mandatory } = data;
                         return (
-                          <React.Fragment>
-                            <div className="container-product-notes ">
+                          <React.Fragment key={index}>
+                            <div
+                              style={{ paddingTop: "20px" }}
+                              className="container-product-notes "
+                            >
                               <div className="container-input product-notes">
                                 <input
                                   name="product_notes"
@@ -462,8 +447,8 @@ const ProductPost = ({
                 </h3>
                 <div className="wrapper-text" data-aos="fadeIn .8s ease-in-out">
                   <div
+                    ref={descriptionRef}
                     className="text"
-                    style={{ color: "white !important" }}
                     dangerouslySetInnerHTML={{
                       __html: productData.product.description,
                     }}
@@ -482,7 +467,7 @@ const ProductPost = ({
 
               {/* Downloads */}
               {selectedProductDetails &&
-                selectedProductDetails.productDocs.length > 0 && (
+                selectedProductDetails.productDocs?.length > 0 && (
                   <div className="container-info-text" data-aos="">
                     <h3 className="title-info-text split-words" data-aos="">
                       {productPostPageData &&
@@ -521,10 +506,13 @@ const ProductPost = ({
                       data-aos="fadeIn .8s ease-in-out"
                     >
                       {selectedProductDetails.subCategory.map((data, index) => {
-                        const { name } = data;
+                        const { name, _id } = data;
+                        console.log(data);
+
                         return (
                           <button
                             key={index}
+                            onClick={() => productFoundRedirection(_id)}
                             className="btn-small-tag btn-gray btn-hover-red"
                           >
                             <div className="split-chars">

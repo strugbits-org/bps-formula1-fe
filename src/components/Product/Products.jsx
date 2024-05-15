@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { getCategoriesData } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { parseArrayFromParams } from "@/utils/utils";
 
 const Products = ({
   filteredProducts,
@@ -15,35 +16,29 @@ const Products = ({
   colors,
   totalCount,
   pageSize,
-  handleProductsFilter,
   handleLoadMore,
+  setSelectedColors,
+  setSelectedCollections
 }) => {
-  const [selectedProductData, setSelectedProductData] = useState(null);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedColors, setSelectedColors] = useState(colors?.colors);
-  const [mainCategories, setMainCategories] = useState([]);
-
   const router = useRouter();
 
+  const [selectedProductData, setSelectedProductData] = useState(null);
+  const [mainCategories, setMainCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const handleFilter = (id) => {
-    if (selectedCategories.includes(id)) {
-      const _selectedCategories = selectedCategories.filter((el) => el !== id);
-      setSelectedCategories(_selectedCategories);
-      handleProductsFilter(
-        selectedCollection.map((x) => x._id),
-        _selectedCategories,
-        selectedColors,
-      );
+    pageLoadStart();
+    const queryParams = new URLSearchParams(router.query);
+    const categories = parseArrayFromParams(router.query.subCategories);
+    if (categories.includes(id)) {
+      queryParams.set('subCategories', JSON.stringify(categories.filter((el) => el !== id)));
+      router.push({ pathname: router.pathname, query: queryParams.toString() });
     } else {
-      const _selectedCategories = [...selectedCategories, id];
-      setSelectedCategories(_selectedCategories);
-      handleProductsFilter(
-        selectedCollection.map((x) => x._id),
-        _selectedCategories,
-        selectedColors
-      );
+      queryParams.set('subCategories', JSON.stringify([...categories, id]));
+      router.push({ pathname: router.pathname, query: queryParams.toString() });
     }
   };
+
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   const handleImageHover = (variantData) => {
@@ -64,11 +59,13 @@ const Products = ({
       }
     }
     getMainCategories();
+    const _selectedCategories = parseArrayFromParams(router.query.subCategories);
+    setSelectedCategories(_selectedCategories);
   }, [router]);
 
   const handleFilterChange = (collections, colors) => {
     setSelectedColors(colors);
-    handleProductsFilter(collections, selectedCategories, colors, false, true);
+    setSelectedCollections(collections)
   }
 
   return (
@@ -97,7 +94,7 @@ const Products = ({
                         return (
                           <li key={index} className="list-item">
                             <button
-                              className="btn-tag "
+                              className={`btn-tag js-running ${selectedCategories.includes(_id) ? "active" : ""}`}
                               onClick={() => {
                                 handleFilter(_id);
                               }}
@@ -126,28 +123,30 @@ const Products = ({
               </ul>
             </div>
 
-            <FilterButton collections={collectionsData} colors={colors?.colors} handleFilterChange={handleFilterChange} />
+            <FilterButton collections={collectionsData} colors={colors} handleFilterChange={handleFilterChange} />
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
             <div className="col-lg-10 offset-lg-1 column-1">
-              <div className="container-title">
-                <h2 className="fs-lg-24 white-1 text-center text-uppercase">
-                  <span
-                    className="fs-mobile-13 fw-400 mr-15"
-                    data-aos="fadeIn .8s ease-in-out .6s, d:loop"
-                  >
-                    Collection
-                  </span>
-                  <span
-                    className="fs-tablet-20 fs-phone-16 font-2 mt-5 split-chars"
-                    data-delay="400"
-                    data-aos="d:loop"
-                  >
-                    {selectedCollection?.collectionName || "All"}
-                  </span>
-                </h2>
-              </div>
+              {selectedCollection.length === 1 && (
+                <div className="container-title">
+                  <h2 className="fs-lg-24 white-1 text-center text-uppercase">
+                    <span
+                      className="fs-mobile-13 fw-400 mr-15"
+                      data-aos="fadeIn .8s ease-in-out .6s, d:loop"
+                    >
+                      Collection
+                    </span>
+                    <span
+                      className="fs-tablet-20 fs-phone-16 font-2 mt-5 split-chars"
+                      data-delay="400"
+                      data-aos="d:loop"
+                    >
+                      {selectedCollection[0]?.collectionName}
+                    </span>
+                  </h2>
+                </div>
+              )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData } = data;
@@ -308,9 +307,7 @@ const Products = ({
                 filteredProducts.length !== totalCount && (
                   <div className="flex-center mt-30">
                     <button
-                      onClick={() =>
-                        handleLoadMore(selectedCollection.map((x) => x._id), selectedCategories, selectedColors)
-                      }
+                      onClick={handleLoadMore}
                       className="btn-medium btn-red btn-hover-white"
                       data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                     >

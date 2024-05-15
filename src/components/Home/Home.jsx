@@ -63,7 +63,7 @@ const HomePage = ({
   }
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      {/* <form onSubmit={handleSubmit}>
         <input type="email" name="email" placeholder="Email" required />
         <input
           type="password"
@@ -72,7 +72,7 @@ const HomePage = ({
           required
         />
         <button type="submit">Login</button>
-      </form>
+      </form> */}
       <section
         className="home-intro home-sign-in section-intro"
         data-aos="d:loop"
