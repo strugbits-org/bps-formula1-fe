@@ -95,7 +95,7 @@ export const getSelectedProductId = (slug) =>
 export const getSelectedProductDetails = (slug) =>
   fetchProductDetails(
     "locationFilteredVariant",
-    ["category", "product", "subCategory"],
+    ["category", "product", "subCategory", "f1Collection"],
     slug
   );
 export const getPairItWithProductsId = (slug) =>

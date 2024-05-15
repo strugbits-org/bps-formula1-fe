@@ -37,7 +37,8 @@ const ProductPost = ({
     const queryParams = new URLSearchParams(router.query);
 
     const categoryId = selectedProductDetails.category._id;
-    queryParams.set("collection", "all");
+    const collectionSlug = selectedProductDetails.f1Collection.collectionSlug;
+    queryParams.set("collection", collectionSlug);
     queryParams.set("category", categoryId);
     queryParams.set("subCategories", JSON.stringify([subCategoryId]));
     queryParams.delete("slug");
@@ -48,12 +49,6 @@ const ProductPost = ({
     setSelectedVariant(selectedProductDetails.variantData[index].variant);
   };
 
-  const [productColor, setProductColor] = useState(
-    selectedProductDetails.variantData[0].variant.color
-  );
-
-  console.log(productColor, "productColor>>");
-
   function findUseCaseImages(array, variantId) {
     for (let item of array) {
       if (item.colorVariation === variantId) {
@@ -62,8 +57,6 @@ const ProductPost = ({
     }
     return null;
   }
-
-  console.log(selectedProductDetails, "selectedProductDetails>>");
 
   const productSnapShots = findUseCaseImages(
     productSnapshots,
@@ -507,8 +500,6 @@ const ProductPost = ({
                     >
                       {selectedProductDetails.subCategory.map((data, index) => {
                         const { name, _id } = data;
-                        console.log(data);
-
                         return (
                           <button
                             key={index}
