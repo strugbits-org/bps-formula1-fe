@@ -1,11 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
-import Disclaimer from "./Discalimer";
-import createWixClient from "@/config/WixConfig";
-// import ReCAPTCHA from "react-google-recaptcha-enterprise";
-// import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-
-const WixClient = createWixClient();
+import { useState } from "react";
+import Disclaimer from "./Disclaimer";
 
 const CreateAccount = ({
   data,
@@ -17,12 +11,6 @@ const CreateAccount = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [captcha, setCaptcha] = useState("");
-  // const { createAccountStatus, createAccountError, user } = useAppSelector(
-  //   (state) => state.data
-  // );
-  // const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  // const [errorMessageVisible, setErrorMessageVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -37,10 +25,8 @@ const CreateAccount = ({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(value, name, "inputs");
     setFormData({ ...formData, [name]: value });
   };
-  // const dispatch = useAppDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,19 +34,29 @@ const CreateAccount = ({
     setSuccessMessageVisible(false);
 
     try {
-      // console.log(formData);
       const userData = {
-        loginEmail: formData.email,
+        email: formData.email,
         password: formData.password,
-        recaptchaToken: captcha,
+        firstName: formData.first_name,
+        lastName: formData.last_name,
+        company: formData.company,
+        phone: formData.phone,
+        hospitalityLoc: formData.hospitality_space,
       };
+      const response = await fetch(`api/formula1/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
-      const response = await WixClient.authentication.register(
-        userData.loginEmail,
-        userData.password,
-        { recaptchaToken: captcha }
-      );
-      if (response) {
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+      }
+      const data = await response.json();
+
+      if (data) {
         setMessage("The Account is under approval");
         setSuccessMessageVisible(true);
         setErrorMessageVisible(false);
@@ -75,15 +71,16 @@ const CreateAccount = ({
           hospitality_space: "",
         });
       }
-      // console.log(response);
       return response;
     } catch (error) {
-      let err = JSON.parse(error.message);
-      if (err?.details?.applicationError?.code === "-19995") {
-        setMessage("Email already exists!");
-      } else {
-        setMessage(err.message);
-      }
+      console.log(error, "error>>");
+      // let err = JSON.parse(error.message);
+      // if (err?.details?.applicationError?.code === "-19995") {
+      //   setMessage("Email already exists!");
+      // } else {
+      //   setMessage(err.message);
+      // }
+      setMessage("Email already exists!");
 
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
@@ -91,10 +88,10 @@ const CreateAccount = ({
   };
   const togglePassword = () => {
     setShowPassword(!showPassword);
-  }
+  };
   const toggleConfirmPassword = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  }
+  };
 
   // useEffect(() => {
   //   // if (createAccountStatus === "succeeded") {
@@ -185,7 +182,10 @@ const CreateAccount = ({
               onChange={handleChange}
               required
             />
-            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
+            <div
+              onClick={togglePassword}
+              className={`toggle-password ${showPassword ? "show" : ""}`}
+            >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
@@ -204,7 +204,10 @@ const CreateAccount = ({
               onChange={handleChange}
               required
             />
-            <div onClick={toggleConfirmPassword} className={`toggle-password ${showConfirmPassword ? "show" : ""}`}>
+            <div
+              onClick={toggleConfirmPassword}
+              className={`toggle-password ${showConfirmPassword ? "show" : ""}`}
+            >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
@@ -217,24 +220,31 @@ const CreateAccount = ({
               </label>
               <div className="select">
                 <i className="icon-arrow-down no-desktop"></i>
-                <div className="wrapper-select">
+                <div
+                  className="wrapper-select"
+                  onClick={(e) =>
+                    setFormData({
+                      ...formData,
+                      hospitality_space: e.target.innerText.toLowerCase(),
+                    })
+                  }
+                >
                   <select
                     className="main-select"
+                    id="account_hospitality_space"
                     name="hospitality_space"
-                    onChange={handleChange}
-                    value={formData.hospitality_space}
                   >
-                    {!formData.hospitality_space && <option >
-                      Choice
-                    </option>}
-                    {dropdown?.sort((a, b) => a.order - b.order).map((data, index) => {
-                      const { title } = data;
-                      return (
-                        <option key={index} value={data}>
-                          {title}
-                        </option>
-                      );
-                    })}
+                    {!formData.hospitality_space && <option>Choice</option>}
+                    {dropdown
+                      ?.sort((a, b) => a.order - b.order)
+                      .map((data, index) => {
+                        const { title, value } = data;
+                        return (
+                          <option key={index} value={value}>
+                            {title}
+                          </option>
+                        );
+                      })}
                   </select>
                 </div>
               </div>

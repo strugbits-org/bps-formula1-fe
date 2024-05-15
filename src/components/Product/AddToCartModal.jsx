@@ -1,5 +1,4 @@
-import { generateImageURL } from "@/utils/GenerateImageURL";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const AddToCartModal = ({ productData, setProductData }) => {
   const handleClose = () => {
@@ -9,6 +8,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
     }, 1000);
   };
   const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
 
   useEffect(() => {
     if (productData) {
@@ -16,8 +16,9 @@ const AddToCartModal = ({ productData, setProductData }) => {
     }
   }, [productData]);
 
-  const handleImageChange = (variantData) => {
-    setSelectedVariant(variantData.variant);
+  const handleImageChange = (index) => {
+    setSelectedVariantIndex(index);
+    setSelectedVariant(productData.variantData[index].variant);
   };
 
   const handlePrevButtonClick = () => {
@@ -37,6 +38,11 @@ const AddToCartModal = ({ productData, setProductData }) => {
     const nextIndex = (currentIndex + 1) % productData.variantData.length;
     setSelectedVariant(productData.variantData[nextIndex].variant);
   };
+  const seatHeightData =
+    productData &&
+    productData.product.additionalInfoSections.find(
+      (data) => data.title.toLowerCase() === "seat height".toLowerCase()
+    );
   return (
     <div id="reloading-area">
       <modal-group name="modal-product" class="modal-product">
@@ -75,7 +81,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                             <div
                                               class="container-img"
                                               onClick={() =>
-                                                handleImageChange(variantData)
+                                                handleImageChange(index)
                                               }
                                             >
                                               <img
@@ -124,9 +130,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                                 <div
                                                   class="container-img"
                                                   onClick={() =>
-                                                    handleImageChange(
-                                                      variantData
-                                                    )
+                                                    handleImageChange(index)
                                                   }
                                                 >
                                                   <img
@@ -201,55 +205,54 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                 <span class="specs-title">Weight</span>
                                 <span class="specs-text">11.5lbs</span>
                               </li>
-                              <li class="seat-height">
-                                <span class="specs-title">Seat Height</span>
-                                {productData &&
-                                  productData.product.additionalInfoSections.map(
-                                    (data, index) => {
-                                      const { title, description } = data;
-                                      if (title == "Seat Height") {
-                                        return (
-                                          <span
-                                            key={index}
-                                            dangerouslySetInnerHTML={{
-                                              __html: description,
-                                            }}
-                                          ></span>
-                                        );
-                                      }
-                                    }
-                                  )}
-                              </li>
+
+                              {seatHeightData && (
+                                <li className="seat-height">
+                                  <span className="specs-title">
+                                    Seat Height
+                                  </span>
+                                  <span
+                                    className="specs-text"
+                                    dangerouslySetInnerHTML={{
+                                      __html: seatHeightData.description,
+                                    }}
+                                  ></span>
+                                </li>
+                              )}
                             </ul>
                             <ul
                               class="list-colors"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
                               {productData &&
-                                productData.product.mediaItems.map(
-                                  (data, index) => {
+                                productData.variantData.map(
+                                  (variantData, index) => {
+                                    const { variant } = variantData;
                                     return (
                                       <li key={index} class="list-colors-item">
                                         <div
                                           class="container-input active"
-                                          data-set-color="yellow"
+                                          data-set-color={
+                                            variantData.variant.color
+                                          }
+                                          onClick={() =>
+                                            handleImageChange(index)
+                                          }
                                         >
                                           <label>
                                             <input
                                               type="radio"
                                               name="colors"
-                                              value="yellow"
-                                              checked
+                                              value={variantData.variant.color}
+                                              checked={
+                                                index === selectedVariantIndex
+                                              }
                                             />
                                             <div class="container-img">
                                               <img
-                                                src={generateImageURL({
-                                                  wix_url: data.src,
-                                                  w: "1000",
-                                                  h: "1000",
-                                                  fit: "fit",
-                                                  q: "95",
-                                                })}
+                                                src={
+                                                  variantData.variant.imageSrc
+                                                }
                                                 data-preload
                                                 class="media"
                                                 alt="product"
@@ -292,24 +295,57 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                 </div>
                               </button>
                             </div>
-                            <div
+                            {productData &&
+                              productData.product.customTextFields.length >
+                                0 && (
+                                <div
+                                  style={{ paddingTop: "20px" }}
+                                  className="container-product-notes container-info-text "
+                                >
+                                  <h3 className="title-info-text split-words">
+                                    <label>Product notes</label>
+                                  </h3>
+                                </div>
+                              )}
+
+                            {productData &&
+                              productData.product.customTextFields.map(
+                                (data, index) => {
+                                  const { title, mandatory } = data;
+                                  return (
+                                    <React.Fragment key={index}>
+                                      <div
+                                        style={{ paddingTop: "10px" }}
+                                        className="container-product-notes "
+                                      >
+                                        <div className="container-input product-notes">
+                                          <input
+                                            name="product_notes"
+                                            type="text"
+                                            placeholder={title}
+                                            required={mandatory}
+                                          />
+                                        </div>
+                                        <div className="container-submit">
+                                          <button type="submit">
+                                            <i className="icon-arrow-right"></i>
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </React.Fragment>
+                                  );
+                                }
+                              )}
+                            {/* <div
                               class="container-product-notes mt-lg-55 mt-tablet-35 mt-phone-55"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
-                              <div class="container-input product-notes">
-                                <label>Product notes</label>
-                                <input
-                                  name="product_notes"
-                                  type="text"
-                                  placeholder="Enter you text"
-                                />
-                              </div>
                               <div class="container-submit">
                                 <button type="submit">
                                   <i class="icon-arrow-right"></i>
                                 </button>
                               </div>
-                            </div>
+                            </div> */}
                           </form>
                         </div>
                         <btn-modal-close onClick={handleClose}>

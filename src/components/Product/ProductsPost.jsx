@@ -7,6 +7,7 @@ import RenderImage from "@/utils/RenderImage";
 import React, { useEffect, useRef, useState } from "react";
 import ProductSnapshots from "../Common/productSnapshots";
 import { useRouter } from "next/router";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -43,6 +44,7 @@ const ProductPost = ({
     queryParams.set("subCategories", JSON.stringify([subCategoryId]));
     queryParams.delete("slug");
     router.push({ pathname: "/products", query: queryParams.toString() });
+    pageLoadStart();
   };
   const handleColorSelect = (index) => {
     setSelectedVariantIndex(index);
