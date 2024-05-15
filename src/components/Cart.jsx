@@ -1,12 +1,97 @@
 import RequestForQuote from "./Common/RequestForQuote";
 import AnimateLink from "./Common/AnimateLink";
+import { wixAddToCart, wixCreateCart, wixDeleteCart, wixGetCart } from "@/services/fetchFunction";
+import { useEffect, useState } from "react";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const Cart = () => {
+
+  const cartId = "53d7f28d-89c0-4231-bfe1-9d357824a8c3";
+
+  const [cart, setCart] = useState(null);
+
+  const addToCart = async () => {
+    const id = cartId;
+    const options = {
+      lineItems: [
+        {
+          catalogReference: {
+            appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
+            catalogItemId: "c4b9d758-bbc3-67a7-4d03-0dec21340e23",
+            options: {
+              "variantId": "495e4e11-70b2-464b-b662-17b4621976b7",
+              "customTextFields": {
+                label: "Hope you enjoy the coffee! :)",
+                label2: "Hello"
+              }
+            }
+          },
+          quantity: 2
+        }
+      ]
+    };
+    const response = await wixAddToCart(id, options);
+    console.log("addToCart response", response);
+  }
+
+  const getCart = async () => {
+    const id = cartId;
+    const response = await wixGetCart(id);
+    setCart(response);
+    markPageLoaded();
+    console.log("getCart response", response);
+  }
+  const createCart = async () => {
+    const options = {
+      lineItems: [
+        {
+          catalogReference: {
+            appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
+            catalogItemId: "c4b9d758-bbc3-67a7-4d03-0dec21340e23",
+            options: {
+              "variantId": "495e4e11-70b2-464b-b662-17b4621976b7",
+              "customTextFields": [
+                {
+                  label: "Hope you enjoy the coffee! :)"
+                },
+                {
+                  label2: "Hope you enjoy the coffee! 2 :)"
+                },
+              ]
+            }
+          },
+          quantity: 2
+        }
+      ]
+    };
+    const response = await wixCreateCart(options);
+    console.log("createCart response", response);
+  }
+
+  const deleteCart = async () => {
+    const id = cartId;
+    const response = await wixDeleteCart(id);
+    console.log("deleteCart response", response);
+  }
+
+  const findColor = (descriptionLines) => {
+    return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x)=>x.colorInfo.original)
+  }
+
+  useEffect(() => {
+    getCart();
+  }, [])
+
 
   return (
     <>
       <section className="cart-intro pb-lg-80 pb-tablet-70 pb-phone-135">
         <div className="container-fluid pos-relative z-5">
+          {/* <button onClick={addToCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Add to Cart</button>
+          <button onClick={createCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Create Cart</button>
+          <button onClick={getCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Get Cart</button>
+          <button onClick={deleteCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Delete Cart</button> */}
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
               <div className="container-title">
@@ -21,7 +106,7 @@ const Cart = () => {
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
                   <div className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
-                    Total $ 9999.99*
+                    Total {cart?.subtotal.formattedConvertedAmount}
                   </div>
                   <p className="fs--10 white-1 mt-5">
                     *Estimated value for the cart. Shipping and customization
@@ -35,14 +120,17 @@ const Cart = () => {
                     className="list-cart list-cart-product mt-35"
                     data-aos="d:loop"
                   >
-                    {[1, 2, 3, 4].map((index) => {
+                    {cart?.lineItems.map((item, index) => {
+                      const { productName, image, fullPrice, physicalProperties, descriptionLines } = item;
+                      const colors = findColor(descriptionLines).join("-");
+                      console.log("colors", colors);
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
                           <div className="cart-product">
                             <div className="container-img">
                               <img
-                                src="images/products/img-01.png"
+                                src={generateImageURL(image)}
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -52,7 +140,7 @@ const Cart = () => {
                               <div className="container-top">
                                 <div className="container-product-name">
                                   <h2 className="product-name">
-                                    Arm Chair - Tapas
+                                    {productName.original}
                                   </h2>
                                   <AnimateLink
                                     to={"/products"}
@@ -63,7 +151,7 @@ const Cart = () => {
                                   </AnimateLink>
                                 </div>
                                 <div className="container-price">
-                                  <div className="price">$99.00</div>
+                                  <div className="price">{fullPrice.formattedAmount}</div>
                                   <button type="button" className="btn-cancel">
                                     <i className="icon-close"></i>
                                   </button>
@@ -73,7 +161,7 @@ const Cart = () => {
                                 <ul className="list-specs">
                                   <li className="sku">
                                     <span className="specs-title">SKU</span>
-                                    <span className="specs-text">MODCH09</span>
+                                    <span className="specs-text">{physicalProperties.sku}</span>
                                   </li>
                                   <li className="collection">
                                     <span className="specs-title">
@@ -84,7 +172,7 @@ const Cart = () => {
                                   <li className="color">
                                     <span className="specs-title">Color</span>
                                     <span className="specs-text">
-                                      Yellow - Birch
+                                      {colors}
                                     </span>
                                   </li>
                                   <li className="additional-note">

@@ -41,6 +41,43 @@ export const fetchReferenceData = async (dataCollectionId, references) => {
 
 
 
+export const wixCreateCart = async (options) => {
+  try {
+    const response = await WixClient.cart.createCart(options);
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const wixAddToCart = async (id,options) => {
+  try {
+    const response = await WixClient.cart.addToCart(id, options);
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const wixGetCart = async (id) => {
+  try {
+    const response = await WixClient.cart.getCart(id);
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const wixDeleteCart = async (id) => {
+  try {
+    const response = await WixClient.cart.deleteCart(id);
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 export const fetchCollectionColors = async (dataCollectionId, category) => {
   try {
     const options = {

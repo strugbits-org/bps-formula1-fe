@@ -93,6 +93,9 @@ export const changeProgress = (percent) => {
 
 export const closeFiltersModal = () => {
   if (typeof window !== "undefined") {
-    document.querySelector(".container-filter-products").classList.remove("active");
+    const filterModal = document.querySelector(".container-filter-products");
+    if (filterModal) {
+      filterModal?.classList.remove("active");
+    }
   }
 }
