@@ -303,6 +303,14 @@ const Products = ({
                   );
                 })}
               </ul>
+              {filteredProducts.length === 0 && (
+                  <h6
+                    className="fs--40 text-center split-words white-1"
+                    data-aos="d:loop"
+                  >
+                    No Products found
+                  </h6>
+                )}
               {totalCount > pageSize &&
                 filteredProducts.length !== totalCount && (
                   <div className="flex-center mt-30">
