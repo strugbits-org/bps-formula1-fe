@@ -23,21 +23,20 @@ const links = [
 ];
 
 const Account = () => {
-  // usePageInitialization(".initScript", ".home");
   const router = useRouter();
   const handleLogOut = () => {
     try {
       const loggedIn = document.cookie
         .split(";")
-        .some((item) => item.trim().startsWith("loggedIn=true"));
+        .some((item) => item.trim().startsWith("authToken"));
       if (loggedIn) {
         document.cookie =
-          "loggedIn=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          pageLoadStart();
-          router.push("/");
-          setTimeout(() => {
-            document.body.setAttribute("data-login-state", "");
-          }, 1000);
+          "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        pageLoadStart();
+        router.push("/");
+        setTimeout(() => {
+          document.body.setAttribute("data-login-state", "");
+        }, 1000);
       }
     } catch (error) {
       console.log("Error:", error);

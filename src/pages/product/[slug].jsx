@@ -6,6 +6,7 @@ import {
   getPairItWithProductsId,
   getProductPostPageData,
   getProductSnapShots,
+  getProductVariants,
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/apiServices";
@@ -16,28 +17,37 @@ export default function Page({
   selectedProductDetails,
   matchedProductsData,
   collectionsData,
-  data,
+  productSnapshots,
 }) {
   markPageLoaded();
+
   return (
     <ProductPost
       productPostPageData={productPostPageData[0]}
       selectedProductDetails={selectedProductDetails[0]}
       matchedProductsData={matchedProductsData}
       collectionsData={collectionsData}
-      productSnapshots={data}
+      productSnapshots={productSnapshots}
     />
   );
 }
 
 export const getServerSideProps = async (context) => {
   const slug = context.query.slug;
+
   const res = await getSelectedProductId(slug);
-  let pairedProductIds;
   const selectedProductId = res[0]._id;
+
+  let pairedProductIds;
+  let productVariantsData;
+  let dataMap;
+
   if (selectedProductId) {
     const pairIWithRes = await getPairItWithProductsId(selectedProductId);
     pairedProductIds = pairIWithRes.map((item) => item.pairedProductId);
+
+    productVariantsData = await getProductVariants(selectedProductId);
+    dataMap = new Map(productVariantsData.map((item) => [item.sku, item]));
   }
 
   const [
@@ -45,22 +55,34 @@ export const getServerSideProps = async (context) => {
     selectedProductDetails,
     matchedProductsData,
     collectionsData,
-    data,
+    productSnapshots,
   ] = await Promise.all([
     getProductPostPageData(),
     getSelectedProductDetails(selectedProductId),
     getPairItWithProducts(pairedProductIds),
     getCollectionsData(),
-    getProductSnapShots("626075_98c3cd3b54fe49aa9222a55e23dc0556~mv2.jpg"),
+    getProductSnapShots(selectedProductId),
   ]);
 
+  let filteredVariantData;
+  if (productVariantsData && selectedProductDetails) {
+    filteredVariantData = selectedProductDetails[0].variantData =
+      selectedProductDetails[0].variantData.filter((variant) => {
+        if (dataMap.has(variant.sku)) {
+          const dataItem = dataMap.get(variant.sku);
+          variant.variant.variantId = dataItem._id;
+          return true;
+        }
+        return false;
+      });
+  }
   return {
     props: {
       productPostPageData,
       selectedProductDetails,
       matchedProductsData,
       collectionsData,
-      data,
+      productSnapshots,
     },
   };
 };

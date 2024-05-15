@@ -1,10 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
-import Disclaimer from "./Discalimer";
+import { useState } from "react";
+import Disclaimer from "./Disclaimer";
 import createWixClient from "@/config/WixConfig";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
-const WixClient = createWixClient();
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const router = useRouter();
@@ -19,27 +18,33 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     setErrorMessageVisible(false);
     try {
       const userData = {
-        loginEmail: formData.email,
+        email: formData.email,
         password: formData.password,
       };
 
-      const response = await WixClient.authentication.login(
-        userData.loginEmail,
-        userData.password
-      );
-      if (response) {
-        document.cookie =
-          "loggedIn=true; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;";
-        pageLoadStart();
-        router.push("/collections");
-        setTimeout(() => {
-          document.body.dataset.loginState = "logged";
-        }, 800);
+      const response = await fetch(`api/formula1/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
       }
+
+      const data = await response.json();
+      const userToken = data.data.jwtToken;
+      document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+      pageLoadStart();
+      router.push("/collections");
+      setTimeout(() => {
+        document.body.dataset.loginState = "logged";
+      }, 800);
       return response;
     } catch (error) {
-      let err = JSON.parse(error.message);
-      console.log("err", err);
+      // let err = JSON.parse(error.message);
+      console.log("error", error);
       // setMessage(err.message);
       setMessage("Invalid email or password!");
       setErrorMessageVisible(true);
@@ -59,7 +64,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   // }, [ loginError]);
   const togglePassword = () => {
     setShowPassword(!showPassword);
-  }
+  };
 
   return (
     <div className="container-sign-in">
@@ -90,7 +95,10 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               onChange={handleChange}
               required
             />
-            <div onClick={togglePassword} className={`toggle-password ${showPassword ? "show" : ""}`}>
+            <div
+              onClick={togglePassword}
+              className={`toggle-password ${showPassword ? "show" : ""}`}
+            >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
             </div>
