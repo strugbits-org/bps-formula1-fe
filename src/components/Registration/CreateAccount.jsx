@@ -55,7 +55,10 @@ const CreateAccount = ({
       );
 
       if (!response.ok) {
-        throw new Error(`API request failed with status ${response.status}`);
+        const data = await response.json();
+        setMessage(data.message);
+        setErrorMessageVisible(true);
+        return;
       }
       const data = await response.json();
 
@@ -83,7 +86,7 @@ const CreateAccount = ({
       // } else {
       //   setMessage(err.message);
       // }
-      setMessage("Email already exists!");
+      setMessage("Something Went Wrong");
 
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
