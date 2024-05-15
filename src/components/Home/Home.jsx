@@ -42,37 +42,10 @@ const HomePage = ({
   //   dispatch(createAccountDropdown());
   // }, [dispatch]);
   // usePageInitialization("pg-home", ".initScript", ".home");
-  async function handleSubmit(event) {
-    event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email");
-    const password = formData.get("password");
-
-    const response = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
-
-    if (response.ok) {
-      console.log("Logged");
-    } else {
-      // Handle errors
-    }
-  }
   return (
-    <>
-      {/* <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" required />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Login</button>
-      </form> */}
+   
+     
       <section
         className="home-intro home-sign-in section-intro"
         data-aos="d:loop"
@@ -196,7 +169,6 @@ const HomePage = ({
           </div>
         </div>
       </section>
-    </>
   );
 };
 
