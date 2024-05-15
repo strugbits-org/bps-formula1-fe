@@ -67,6 +67,7 @@ export const firstLoadAnimation = async () => {
 
 export const pageLoadStart = () => {
   if (typeof window !== "undefined") {
+    closeFiltersModal();
     document.body.classList.add("page-leave-active");
   }
 };
@@ -89,3 +90,9 @@ export const changeProgress = (percent) => {
     if (elProg) elProg.dataset.loadProgress = percent;
   }
 };
+
+export const closeFiltersModal = () => {
+  if (typeof window !== "undefined") {
+    document.querySelector(".container-filter-products").classList.remove("active");
+  }
+}
