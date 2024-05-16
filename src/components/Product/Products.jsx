@@ -26,7 +26,7 @@ const Products = ({
   const router = useRouter();
   const { memberId } = useUserData();
   const authToken = getUserAuth();
-
+  
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -133,6 +133,9 @@ const Products = ({
     }
   };
 
+  function compareSubCategory(arr1, obj) {
+    return arr1.some((item) => obj[item._id]);
+  }
   return (
     <>
       <section className="products-intro">
@@ -218,7 +221,7 @@ const Products = ({
               )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData, category, members } = data;
+                  const { product, variantData, members, subCategory } = data;
 
                   let productIsSaved = false;
                   if (members && members.length > 0) {
@@ -236,6 +239,7 @@ const Products = ({
                       ? defaultVariant.sku
                       : variantData[0].sku;
                   }
+
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
@@ -245,7 +249,7 @@ const Products = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          {BestSeller[category.name] && (
+                          {compareSubCategory(subCategory, BestSeller) && (
                             <div className="best-seller">
                               <span>Best Seller</span>
                             </div>

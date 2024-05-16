@@ -121,7 +121,7 @@ const ProductPost = ({
                   }
                 >
                   <div className="slider-product">
-                    {BestSeller[selectedProductDetails.category.name] && (
+                    {BestSeller[selectedProductDetails.category._id] && (
                       <div class="best-seller-tag">
                         <span>Best Seller</span>
                       </div>
