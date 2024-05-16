@@ -16289,3 +16289,7 @@ html.with-fancybox body.hide-scrollbar {
 .filterButtonIndex{
   z-index: 15;
 }
+
+.productSavedColor{
+  background-color:  var(--red-1) !important;
+}

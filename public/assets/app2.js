@@ -27008,6 +27008,8 @@ var require_app2 = __commonJS({
     const pageName = "my-account-saved-products";
     function main() {
       productLinkColor();
+      filterProducts();
+
     }
     const pgMyAccountSavedProducts = new Page({
       pageName,

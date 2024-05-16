@@ -9,6 +9,7 @@ import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
 import { BestSeller } from "@/utils/BestSeller";
 import useUserData from "@/hooks/useUserData";
+import { getUserAuth } from "@/utils/GetUser";
 
 const Products = ({
   filteredProducts,
@@ -23,11 +24,13 @@ const Products = ({
   setSelectedCollections,
 }) => {
   const router = useRouter();
-  const { firstName, memberId, email } = useUserData();
+  const { memberId } = useUserData();
+  const authToken = getUserAuth();
 
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [productSaved, setProductSaved] = useState({});
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
@@ -43,7 +46,6 @@ const Products = ({
       router.push({ pathname: router.pathname, query: queryParams.toString() });
     }
   };
-
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   const handleImageHover = (variantData) => {
@@ -77,24 +79,60 @@ const Products = ({
     setSelectedCollections(collections);
   };
 
-  const [members, setMembers] = useState([
-    "20e8f5aa-3c25-4227-8604-1c0da8d8df96",
-    "4a01f1e6-5786-4610-8666-0303bf4e6023",
-    "ae9d8a54-5af3-49ae-8909-03406384c111",
-  ]);
-
   // Function to handle bookmark click
-  const handleSaveProduct = (id) => {
-    setMembers((prevMembers) => {
-      if (prevMembers.includes(id)) {
-        return prevMembers.filter((memberId) => memberId !== id);
-      } else {
-        return [...prevMembers, id];
+  const handleSaveProduct = async (productId, index) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8003/formula1/wix/saveProduct/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
       }
-    });
+      const data = await response.json();
+      setProductSaved((prevSaved) => ({
+        ...prevSaved,
+        [productId]: true,
+      }));
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
   };
 
-  console.log(members, "members>>");
+  const handleUnSaveProduct = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      setProductSaved((prevSaved) => ({
+        ...prevSaved,
+        [productId]: false,
+      }));
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
+  };
+
   return (
     <>
       <section className="products-intro">
@@ -181,7 +219,11 @@ const Products = ({
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData, category, members } = data;
-                  console.log(memberId, members, "data>>");
+
+                  let productIsSaved = false;
+                  if (members && members.length > 0) {
+                    productIsSaved = members.includes(memberId);
+                  }
                   let defaultVariantSku;
                   if (selectedVariant === null) {
                     setSelectedVariant(variantData);
@@ -208,12 +250,26 @@ const Products = ({
                               <span>Best Seller</span>
                             </div>
                           )}
-                          <button
-                            className="btn-bookmark"
-                            onClick={() => handleSaveProduct(memberId)}
-                          >
-                            <i className="icon-bookmark"></i>
-                          </button>
+
+                          {productIsSaved || productSaved[product._id] ? (
+                            <button
+                              className="btn-bookmark productSavedColor"
+                              onClick={() =>
+                                handleUnSaveProduct(product._id, index)
+                              }
+                            >
+                              <i className="icon-bookmark"></i>
+                            </button>
+                          ) : (
+                            <button
+                              className="btn-bookmark"
+                              onClick={() =>
+                                handleSaveProduct(product._id, index)
+                              }
+                            >
+                              <i className="icon-bookmark"></i>
+                            </button>
+                          )}
                         </div>
                         <div className="container-copy">
                           <button className="btn-copy copy-link">
