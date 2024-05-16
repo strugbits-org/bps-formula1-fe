@@ -38,6 +38,7 @@ const Cart = () => {
   const getCart = async () => {
     const id = cartId;
     const response = await wixGetCart(id);
+    
     setCart(response);
     markPageLoaded();
     console.log("getCart response", response);
@@ -76,7 +77,7 @@ const Cart = () => {
   }
 
   const findColor = (descriptionLines) => {
-    return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x)=>x.colorInfo.original)
+    return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x) => x.colorInfo.original)
   }
 
   useEffect(() => {
@@ -123,17 +124,17 @@ const Cart = () => {
                     {cart?.lineItems.map((item, index) => {
                       const { productName, image, fullPrice, physicalProperties, descriptionLines } = item;
                       const colors = findColor(descriptionLines).join("-");
-                      console.log("colors", colors);
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
                           <div className="cart-product">
                             <div className="container-img">
                               <img
-                                src={generateImageURL(image)}
+                                src={generateImageURL({ wix_url: image, h: "150", w: "150" })}
                                 data-preload
                                 className="media"
                                 alt="product"
+                                style={{padding:"8px"}}
                               />
                             </div>
                             <div className="wrapper-product-info">

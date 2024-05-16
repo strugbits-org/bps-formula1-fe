@@ -341,9 +341,6 @@ var require_app2 = __commonJS({
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
-          // if (document.body.dataset.pg != "pg-home") {
-          //   singlePjaxInstance.loadUrl(btnSignIn.dataset.href);
-          // }
           if (document.body.dataset.homeState == "sign-in") {
             if (wrapperForm.classList.contains("create-account")) {
               location.hash = "sign-in";
@@ -366,6 +363,22 @@ var require_app2 = __commonJS({
           } else {
             location.hash = "sign-in";
             document.body.dataset.homeState = "sign-in";
+
+            if (wrapperForm.classList.contains("create-account")) {
+              location.hash = "sign-in";
+              wrapperForm.classList.remove("create-account");
+              wrapperForm.classList.add("back-to-sign-in");
+              setTimeout(() => {
+                containerSignIn.classList.remove("d-none");
+                containerCreateAccount.classList.add("d-none");
+                if (!screen.isDesktop) {
+                  recalcWrapperHeight();
+                }
+              }, 600);
+              setTimeout(() => {
+                wrapperForm.classList.remove("back-to-sign-in");
+              }, 1200);
+            }
           }
         });
       }
@@ -18115,10 +18128,59 @@ var require_app2 = __commonJS({
       // Forms();
     });
     // Products Post page Cuctom JS
+    const addToCartSlider = () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+
+      new Swiper("#slider-match-with .swiper-container", {
+        modules: [Navigation, Pagination],
+        slidesPerView: 1,
+        spaceBetween: 0,
+        slidesPerGroup: 1,
+        loop: false,
+        effect: "slide",
+        pagination: {
+          el: "#slider-match-with .swiper-pagination",
+          clickable: true,
+          dynamicBullets: true,
+        },
+        navigation: {
+          nextEl: "#slider-match-with .swiper-button-next",
+          prevEl: "#slider-match-with .swiper-button-prev",
+        },
+        loopFillGroupWithBlank: false,
+        centerInsufficientSlides: true,
+        grabCursor: false,
+        observer: true,
+        watchOverflow: true,
+        speed: 600,
+        preventClicksPropagation: false,
+        // Responsive breakpoints
+        breakpoints: {
+          767: {
+            slidesPerView: 1,
+            slidesPerGroup: 1,
+          },
+          1025: {
+            slidesPerView: "auto",
+            slidesPerGroup: 1,
+          },
+        },
+      });
+      filterProducts();
+      productContent();
+    };
+
+    document.querySelector(".addToCart").addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "instant" });
+      productLinkColor();
+      formCart();
+
+      addToCartSlider();
+    });
 
     // Products Page
     const pageName$7 = "products";
-    function main$7() { }
+    function main$7() {}
     const pgProducts = new Page({
       pageName: pageName$7,
       main: main$7,
@@ -18204,13 +18266,13 @@ var require_app2 = __commonJS({
         if (!bulletEl) return;
         bulletEl =
           bulletEl[
-          `${position === "prev" ? "previous" : "next"}ElementSibling`
+            `${position === "prev" ? "previous" : "next"}ElementSibling`
           ];
         if (bulletEl) {
           bulletEl.classList.add(`${bulletActiveClass}-${position}`);
           bulletEl =
             bulletEl[
-            `${position === "prev" ? "previous" : "next"}ElementSibling`
+              `${position === "prev" ? "previous" : "next"}ElementSibling`
             ];
           if (bulletEl) {
             bulletEl.classList.add(
@@ -18290,8 +18352,9 @@ var require_app2 = __commonJS({
               true
             );
             el.forEach((subEl) => {
-              subEl.style[swiper.isHorizontal() ? "width" : "height"] = `${bulletSize * (params.dynamicMainBullets + 4)
-                }px`;
+              subEl.style[swiper.isHorizontal() ? "width" : "height"] = `${
+                bulletSize * (params.dynamicMainBullets + 4)
+              }px`;
             });
             if (params.dynamicMainBullets > 1 && previousIndex !== void 0) {
               dynamicBulletIndex += current - (previousIndex || 0);
@@ -18473,8 +18536,9 @@ var require_app2 = __commonJS({
                 params.bulletClass
               );
             } else {
-              paginationHTML += `<${params.bulletElement} ${swiper.isElement ? 'part="bullet"' : ""
-                } class="${params.bulletClass}"></${params.bulletElement}>`;
+              paginationHTML += `<${params.bulletElement} ${
+                swiper.isElement ? 'part="bullet"' : ""
+              } class="${params.bulletClass}"></${params.bulletElement}>`;
             }
           }
         }
@@ -18966,9 +19030,9 @@ var require_app2 = __commonJS({
       main: main$4,
     });
     const t = (t2, e2 = 1e4) => (
-      (t2 = parseFloat(t2 + "") || 0),
-      Math.round((t2 + Number.EPSILON) * e2) / e2
-    ),
+        (t2 = parseFloat(t2 + "") || 0),
+        Math.round((t2 + Number.EPSILON) * e2) / e2
+      ),
       e = function (t2) {
         if (!(t2 && t2 instanceof Element && t2.offsetParent)) return false;
         const e2 = t2.scrollHeight > t2.clientHeight,
@@ -18986,7 +19050,7 @@ var require_app2 = __commonJS({
       n = function (t2) {
         var e2 = new DOMParser().parseFromString(t2, "text/html").body;
         if (e2.childElementCount > 1) {
-          for (var i2 = document.createElement("div"); e2.firstChild;)
+          for (var i2 = document.createElement("div"); e2.firstChild; )
             i2.appendChild(e2.firstChild);
           return i2;
         }
@@ -19055,7 +19119,7 @@ var require_app2 = __commonJS({
     class l {
       constructor(
         t2,
-        { start: e2 = () => true, move: i2 = () => { }, end: n2 = () => { } }
+        { start: e2 = () => true, move: i2 = () => {}, end: n2 = () => {} }
       ) {
         Object.defineProperty(this, "element", {
           enumerable: true,
@@ -19118,8 +19182,8 @@ var require_app2 = __commonJS({
         this.currentPointers.some((t3) => t3.id === e2.id) ||
           (this.triggerPointerStart(e2, t2) &&
             (window.addEventListener("mousemove", this.onMove),
-              window.addEventListener("mouseup", this.onPointerEnd),
-              window.addEventListener("blur", this.onWindowBlur)));
+            window.addEventListener("mouseup", this.onPointerEnd),
+            window.addEventListener("blur", this.onWindowBlur)));
       }
       onTouchStart(t2) {
         for (const e2 of Array.from(t2.changedTouches || []))
@@ -19142,9 +19206,9 @@ var require_app2 = __commonJS({
       onPointerEnd(t2) {
         (t2.buttons > 0 && 0 !== t2.button) ||
           (this.triggerPointerEnd(t2, new a(t2)),
-            window.removeEventListener("mousemove", this.onMove),
-            window.removeEventListener("mouseup", this.onPointerEnd),
-            window.removeEventListener("blur", this.onWindowBlur));
+          window.removeEventListener("mousemove", this.onMove),
+          window.removeEventListener("mouseup", this.onPointerEnd),
+          window.removeEventListener("blur", this.onWindowBlur));
       }
       onTouchEnd(t2) {
         for (const e2 of Array.from(t2.changedTouches || []))
@@ -19160,14 +19224,14 @@ var require_app2 = __commonJS({
         const i2 = this.currentPointers.findIndex((t3) => t3.id === e2.id);
         i2 < 0 ||
           (this.currentPointers.splice(i2, 1),
-            this.startPointers.splice(i2, 1),
-            this.endCallback(t2, e2, this.currentPointers.slice()));
+          this.startPointers.splice(i2, 1),
+          this.endCallback(t2, e2, this.currentPointers.slice()));
       }
       onWindowBlur() {
         this.clear();
       }
       clear() {
-        for (; this.currentPointers.length;) {
+        for (; this.currentPointers.length; ) {
           const t2 = this.currentPointers[this.currentPointers.length - 1];
           this.currentPointers.splice(this.currentPointers.length - 1, 1),
             this.startPointers.splice(this.currentPointers.length - 1, 1),
@@ -19197,24 +19261,24 @@ var require_app2 = __commonJS({
     function c(t2, e2) {
       return e2
         ? Math.sqrt(
-          Math.pow(e2.clientX - t2.clientX, 2) +
-          Math.pow(e2.clientY - t2.clientY, 2)
-        )
+            Math.pow(e2.clientX - t2.clientX, 2) +
+              Math.pow(e2.clientY - t2.clientY, 2)
+          )
         : 0;
     }
     function h(t2, e2) {
       return e2
         ? {
-          clientX: (t2.clientX + e2.clientX) / 2,
-          clientY: (t2.clientY + e2.clientY) / 2,
-        }
+            clientX: (t2.clientX + e2.clientX) / 2,
+            clientY: (t2.clientY + e2.clientY) / 2,
+          }
         : t2;
     }
     const d = (t2) =>
-      "object" == typeof t2 &&
-      null !== t2 &&
-      t2.constructor === Object &&
-      "[object Object]" === Object.prototype.toString.call(t2),
+        "object" == typeof t2 &&
+        null !== t2 &&
+        t2.constructor === Object &&
+        "[object Object]" === Object.prototype.toString.call(t2),
       u = (t2, ...e2) => {
         const i2 = e2.length;
         for (let n2 = 0; n2 < i2; n2++) {
@@ -19225,8 +19289,8 @@ var require_app2 = __commonJS({
               d(i4)
                 ? Object.assign(t2[e3], u(n3, i4))
                 : Array.isArray(i4)
-                  ? Object.assign(t2, { [e3]: [...i4] })
-                  : Object.assign(t2, { [e3]: i4 });
+                ? Object.assign(t2, { [e3]: [...i4] })
+                : Object.assign(t2, { [e3]: i4 });
           });
         }
         return t2;
@@ -19279,8 +19343,8 @@ var require_app2 = __commonJS({
           "true" === s2 && (s2 = true),
           "false" === s2 && (s2 = false),
           s2 &&
-          "function" == typeof s2 &&
-          (s2 = s2.call(this, this, t2, ...n2));
+            "function" == typeof s2 &&
+            (s2 = s2.call(this, this, t2, ...n2));
         let a2 = p(e2, this.options);
         return (
           a2 && "function" == typeof a2
@@ -19299,8 +19363,8 @@ var require_app2 = __commonJS({
           return (
             i2
               ? (n2 = this.option(
-                `${e3[0] + e3.toLowerCase().substring(1)}.l10n.${i2}`
-              ))
+                  `${e3[0] + e3.toLowerCase().substring(1)}.l10n.${i2}`
+                ))
               : e3 && (n2 = this.option(`l10n.${e3}`)),
             n2 || (n2 = t3),
             n2
@@ -19482,7 +19546,7 @@ var require_app2 = __commonJS({
       get isMobile() {
         return (
           null === C &&
-          (C = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)),
+            (C = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)),
           C
         );
       }
@@ -19550,186 +19614,186 @@ var require_app2 = __commonJS({
         var s2;
         if (
           (super(e2),
-            Object.defineProperty(this, "pointerTracker", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "resizeObserver", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "updateTimer", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "clickTimer", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "rAF", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "isTicking", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            Object.defineProperty(this, "friction", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "ignoreBounds", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            Object.defineProperty(this, "isBouncingX", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            Object.defineProperty(this, "isBouncingY", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            Object.defineProperty(this, "clicks", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "trackingPoints", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: [],
-            }),
-            Object.defineProperty(this, "pwt", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "cwd", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "pmme", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: void 0,
-            }),
-            Object.defineProperty(this, "state", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: g.Init,
-            }),
-            Object.defineProperty(this, "isDragging", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            Object.defineProperty(this, "container", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: void 0,
-            }),
-            Object.defineProperty(this, "content", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: void 0,
-            }),
-            Object.defineProperty(this, "spinner", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "containerRect", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: { width: 0, height: 0, innerWidth: 0, innerHeight: 0 },
-            }),
-            Object.defineProperty(this, "contentRect", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: {
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-                fullWidth: 0,
-                fullHeight: 0,
-                fitWidth: 0,
-                fitHeight: 0,
-                width: 0,
-                height: 0,
-              },
-            }),
-            Object.defineProperty(this, "dragStart", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: { x: 0, y: 0, top: 0, left: 0, time: 0 },
-            }),
-            Object.defineProperty(this, "dragOffset", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: { x: 0, y: 0, time: 0 },
-            }),
-            Object.defineProperty(this, "current", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: Object.assign({}, P),
-            }),
-            Object.defineProperty(this, "target", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: Object.assign({}, P),
-            }),
-            Object.defineProperty(this, "velocity", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0 },
-            }),
-            Object.defineProperty(this, "lockedAxis", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: false,
-            }),
-            !t2)
+          Object.defineProperty(this, "pointerTracker", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "resizeObserver", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "updateTimer", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "clickTimer", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "rAF", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "isTicking", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          Object.defineProperty(this, "friction", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "ignoreBounds", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          Object.defineProperty(this, "isBouncingX", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          Object.defineProperty(this, "isBouncingY", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          Object.defineProperty(this, "clicks", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "trackingPoints", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: [],
+          }),
+          Object.defineProperty(this, "pwt", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "cwd", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "pmme", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0,
+          }),
+          Object.defineProperty(this, "state", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: g.Init,
+          }),
+          Object.defineProperty(this, "isDragging", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          Object.defineProperty(this, "container", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0,
+          }),
+          Object.defineProperty(this, "content", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0,
+          }),
+          Object.defineProperty(this, "spinner", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "containerRect", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: { width: 0, height: 0, innerWidth: 0, innerHeight: 0 },
+          }),
+          Object.defineProperty(this, "contentRect", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: {
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0,
+              fullWidth: 0,
+              fullHeight: 0,
+              fitWidth: 0,
+              fitHeight: 0,
+              width: 0,
+              height: 0,
+            },
+          }),
+          Object.defineProperty(this, "dragStart", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: { x: 0, y: 0, top: 0, left: 0, time: 0 },
+          }),
+          Object.defineProperty(this, "dragOffset", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: { x: 0, y: 0, time: 0 },
+          }),
+          Object.defineProperty(this, "current", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: Object.assign({}, P),
+          }),
+          Object.defineProperty(this, "target", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: Object.assign({}, P),
+          }),
+          Object.defineProperty(this, "velocity", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: { a: 0, b: 0, c: 0, d: 0, e: 0, f: 0 },
+          }),
+          Object.defineProperty(this, "lockedAxis", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: false,
+          }),
+          !t2)
         )
           throw new Error("Container Element Not Found");
         (this.container = t2),
@@ -19739,8 +19803,8 @@ var require_app2 = __commonJS({
         const o2 = this.content;
         if (
           (o2.addEventListener("load", this.onLoad),
-            o2.addEventListener("error", this.onError),
-            this.isContentLoading)
+          o2.addEventListener("error", this.onError),
+          this.isContentLoading)
         ) {
           if (this.option("spinner")) {
             t2.classList.add(this.cn("isLoading"));
@@ -19748,9 +19812,9 @@ var require_app2 = __commonJS({
             !t2.contains(o2) || o2.parentElement instanceof HTMLPictureElement
               ? (this.spinner = t2.appendChild(e3))
               : (this.spinner =
-                (null === (s2 = o2.parentElement) || void 0 === s2
-                  ? void 0
-                  : s2.insertBefore(e3, o2)) || null);
+                  (null === (s2 = o2.parentElement) || void 0 === s2
+                    ? void 0
+                    : s2.insertBefore(e3, o2)) || null);
           }
           this.emit("beforeLoad");
         } else
@@ -19765,9 +19829,9 @@ var require_app2 = __commonJS({
         if (
           (i2 ||
             ((i2 = t2.querySelector("img,picture") || t2.firstElementChild),
-              i2 && E(i2, e2)),
-            i2 instanceof HTMLPictureElement && (i2 = i2.querySelector("img")),
-            !i2)
+            i2 && E(i2, e2)),
+          i2 instanceof HTMLPictureElement && (i2 = i2.querySelector("img")),
+          !i2)
         )
           throw new Error("No content found");
         this.content = i2;
@@ -19775,28 +19839,28 @@ var require_app2 = __commonJS({
       onLoad() {
         this.spinner && (this.spinner.remove(), (this.spinner = null)),
           this.option("spinner") &&
-          this.container.classList.remove(this.cn("isLoading")),
+            this.container.classList.remove(this.cn("isLoading")),
           this.emit("afterLoad"),
           this.state === g.Init ? this.enable() : this.updateMetrics();
       }
       onError() {
         this.state !== g.Destroy &&
           (this.spinner && (this.spinner.remove(), (this.spinner = null)),
-            this.stop(),
-            this.detachEvents(),
-            (this.state = g.Error),
-            this.emit("error"));
+          this.stop(),
+          this.detachEvents(),
+          (this.state = g.Error),
+          this.emit("error"));
       }
       attachObserver() {
         var t2;
         const e2 = () =>
           Math.abs(
             this.containerRect.width -
-            this.container.getBoundingClientRect().width
+              this.container.getBoundingClientRect().width
           ) > 0.1 ||
           Math.abs(
             this.containerRect.height -
-            this.container.getBoundingClientRect().height
+              this.container.getBoundingClientRect().height
           ) > 0.1;
         this.resizeObserver ||
           void 0 === window.ResizeObserver ||
@@ -19805,15 +19869,15 @@ var require_app2 = __commonJS({
               (e2()
                 ? (this.onResize(),
                   this.isMobile &&
-                  (this.updateTimer = setTimeout(() => {
-                    e2() && this.onResize(), (this.updateTimer = null);
-                  }, 500)))
+                    (this.updateTimer = setTimeout(() => {
+                      e2() && this.onResize(), (this.updateTimer = null);
+                    }, 500)))
                 : this.updateTimer &&
-                (clearTimeout(this.updateTimer), (this.updateTimer = null)));
+                  (clearTimeout(this.updateTimer), (this.updateTimer = null)));
           })),
           null === (t2 = this.resizeObserver) ||
-          void 0 === t2 ||
-          t2.observe(this.container);
+            void 0 === t2 ||
+            t2.observe(this.container);
       }
       detachObserver() {
         var t2;
@@ -19846,9 +19910,9 @@ var require_app2 = __commonJS({
           document.removeEventListener("mousemove", this.onMouseMove),
           document.removeEventListener("keydown", this.onKeydown, true),
           this.clickTimer &&
-          (clearTimeout(this.clickTimer), (this.clickTimer = null)),
+            (clearTimeout(this.clickTimer), (this.clickTimer = null)),
           this.updateTimer &&
-          (clearTimeout(this.updateTimer), (this.updateTimer = null));
+            (clearTimeout(this.updateTimer), (this.updateTimer = null));
       }
       animate() {
         const t2 = this.friction;
@@ -19858,11 +19922,11 @@ var require_app2 = __commonJS({
           t2
             ? ((this.velocity[i2] *= 1 - t2),
               e2 &&
-              !this.isScaling &&
-              (this.velocity[i2] = Math.max(
-                Math.min(this.velocity[i2], e2),
-                -1 * e2
-              )),
+                !this.isScaling &&
+                (this.velocity[i2] = Math.max(
+                  Math.min(this.velocity[i2], e2),
+                  -1 * e2
+                )),
               (this.current[i2] += this.velocity[i2]))
             : (this.current[i2] = this.target[i2]);
         this.setTransform(),
@@ -19922,9 +19986,9 @@ var require_app2 = __commonJS({
           l2 = a2;
         if (this.option("zoom") || 0 !== this.angle) {
           const i3 =
-            !(e2 instanceof HTMLImageElement) &&
-            ("none" === window.getComputedStyle(e2).maxWidth ||
-              "none" === window.getComputedStyle(e2).maxHeight),
+              !(e2 instanceof HTMLImageElement) &&
+              ("none" === window.getComputedStyle(e2).maxWidth ||
+                "none" === window.getComputedStyle(e2).maxHeight),
             c2 = i3 ? o2 : n2,
             h2 = i3 ? a2 : s2,
             d2 = this.getMatrix(t2),
@@ -19988,8 +20052,8 @@ var require_app2 = __commonJS({
         var e2;
         this.isDragging &&
           (null === (e2 = this.pointerTracker) || void 0 === e2 || e2.clear(),
-            (this.trackingPoints = []),
-            this.startDecelAnim());
+          (this.trackingPoints = []),
+          this.startDecelAnim());
         const i2 = t2.target;
         if (!i2 || t2.defaultPrevented) return;
         if (i2 && i2.hasAttribute("disabled"))
@@ -20032,28 +20096,28 @@ var require_app2 = __commonJS({
           return;
         this.dragStart.time = 0;
         const l2 = (e3) => {
-          this.option("zoom") &&
-            e3 &&
-            "string" == typeof e3 &&
-            /(iterateZoom)|(toggle(Zoom|Full|Cover|Max)|(zoomTo(Fit|Cover|Max)))/.test(
-              e3
-            ) &&
-            "function" == typeof this[e3] &&
-            (t2.preventDefault(), this[e3]({ event: t2 }));
-        },
+            this.option("zoom") &&
+              e3 &&
+              "string" == typeof e3 &&
+              /(iterateZoom)|(toggle(Zoom|Full|Cover|Max)|(zoomTo(Fit|Cover|Max)))/.test(
+                e3
+              ) &&
+              "function" == typeof this[e3] &&
+              (t2.preventDefault(), this[e3]({ event: t2 }));
+          },
           c2 = this.option("click", t2),
           h2 = this.option("dblClick", t2);
         h2
           ? (this.clicks++,
             1 == this.clicks &&
-            (this.clickTimer = setTimeout(() => {
-              1 === this.clicks
-                ? (this.emit("click", t2),
-                  !t2.defaultPrevented && c2 && l2(c2))
-                : (this.emit("dblClick", t2), t2.defaultPrevented || l2(h2)),
-                (this.clicks = 0),
-                (this.clickTimer = null);
-            }, 350)))
+              (this.clickTimer = setTimeout(() => {
+                1 === this.clicks
+                  ? (this.emit("click", t2),
+                    !t2.defaultPrevented && c2 && l2(c2))
+                  : (this.emit("dblClick", t2), t2.defaultPrevented || l2(h2)),
+                  (this.clicks = 0),
+                  (this.clickTimer = null);
+              }, 350)))
           : (this.emit("click", t2), !t2.defaultPrevented && c2 && l2(c2));
       }
       addTrackingPoint(t2) {
@@ -20076,7 +20140,7 @@ var require_app2 = __commonJS({
             left: s2.left,
             time: Date.now(),
           }),
-            this.clickTimer)
+          this.clickTimer)
         )
           return false;
         if ("mousemove" === this.panMode && this.targetScale > 1)
@@ -20105,7 +20169,7 @@ var require_app2 = __commonJS({
           (this.target.f = this.current.f),
           this.stop(),
           this.isDragging ||
-          ((this.isDragging = true),
+            ((this.isDragging = true),
             this.addTrackingPoint(e2),
             this.emit("touchStart", t2)),
           true
@@ -20160,7 +20224,7 @@ var require_app2 = __commonJS({
           } else this.lockedAxis = b2;
         if (
           (i(e2.target, this.content) && ((b2 = "x"), (this.dragOffset.y = 0)),
-            b2 &&
+          b2 &&
             "xy" !== b2 &&
             this.lockedAxis !== b2 &&
             t(this.targetScale) === t(this.minScale))
@@ -20171,17 +20235,17 @@ var require_app2 = __commonJS({
         const v2 = this.checkBounds(m2, g2);
         this.option("rubberband")
           ? ("x" !== this.isInfinite &&
-            ((v2.xDiff > 0 && m2 < 0) || (v2.xDiff < 0 && m2 > 0)) &&
-            (m2 *= Math.max(
-              0,
-              0.5 - Math.abs((0.75 / this.contentRect.fitWidth) * v2.xDiff)
-            )),
+              ((v2.xDiff > 0 && m2 < 0) || (v2.xDiff < 0 && m2 > 0)) &&
+              (m2 *= Math.max(
+                0,
+                0.5 - Math.abs((0.75 / this.contentRect.fitWidth) * v2.xDiff)
+              )),
             "y" !== this.isInfinite &&
-            ((v2.yDiff > 0 && g2 < 0) || (v2.yDiff < 0 && g2 > 0)) &&
-            (g2 *= Math.max(
-              0,
-              0.5 - Math.abs((0.75 / this.contentRect.fitHeight) * v2.yDiff)
-            )))
+              ((v2.yDiff > 0 && g2 < 0) || (v2.yDiff < 0 && g2 > 0)) &&
+              (g2 *= Math.max(
+                0,
+                0.5 - Math.abs((0.75 / this.contentRect.fitHeight) * v2.yDiff)
+              )))
           : (v2.xDiff && (m2 = 0), v2.yDiff && (g2 = 0));
         const y2 = this.targetScale,
           w2 = this.minScale,
@@ -20209,19 +20273,19 @@ var require_app2 = __commonJS({
           );
         this.container.classList.remove(this.cn("isDragging")),
           this.isDragging &&
-          (this.addTrackingPoint(e2),
+            (this.addTrackingPoint(e2),
             this.panOnlyZoomed &&
-            this.contentRect.width - this.contentRect.fitWidth < 1 &&
-            this.contentRect.height - this.contentRect.fitHeight < 1 &&
-            (this.trackingPoints = []),
+              this.contentRect.width - this.contentRect.fitWidth < 1 &&
+              this.contentRect.height - this.contentRect.fitHeight < 1 &&
+              (this.trackingPoints = []),
             i(t2.target, this.content) &&
-            "y" === this.lockedAxis &&
-            (this.trackingPoints = []),
+              "y" === this.lockedAxis &&
+              (this.trackingPoints = []),
             this.emit("touchEnd", t2),
             (this.isDragging = false),
             (this.lockedAxis = false),
             this.state !== g.Destroy &&
-            (t2.defaultPrevented || this.startDecelAnim()));
+              (t2.defaultPrevented || this.startDecelAnim()));
       }
       startDecelAnim() {
         var e2;
@@ -20244,8 +20308,8 @@ var require_app2 = __commonJS({
         o2 &&
           s2 &&
           ((a2 = o2.clientX - s2.clientX),
-            (r2 = o2.clientY - s2.clientY),
-            (l2 = o2.time - s2.time));
+          (r2 = o2.clientY - s2.clientY),
+          (l2 = o2.time - s2.time));
         const c2 =
           (null === (e2 = window.visualViewport) || void 0 === e2
             ? void 0
@@ -20263,7 +20327,7 @@ var require_app2 = __commonJS({
           const t2 = this.option("maxVelocity");
           t2 &&
             ((u2 = Math.max(Math.min(u2, t2), -1 * t2)),
-              (p2 = Math.max(Math.min(p2, t2), -1 * t2)));
+            (p2 = Math.max(Math.min(p2, t2), -1 * t2)));
         }
         u2 && (h2 = u2 / (1 / (1 - f2) - 1)),
           p2 && (d2 = p2 / (1 / (1 - f2) - 1)),
@@ -20271,12 +20335,12 @@ var require_app2 = __commonJS({
             ("xy" === this.option("lockAxis") &&
               "y" === this.lockedAxis &&
               t(m2) === this.minScale)) &&
-          (h2 = u2 = 0),
+            (h2 = u2 = 0),
           ("x" === this.option("lockAxis") ||
             ("xy" === this.option("lockAxis") &&
               "x" === this.lockedAxis &&
               t(m2) === this.minScale)) &&
-          (d2 = p2 = 0);
+            (d2 = p2 = 0);
         const g2 = this.dragOffset.x,
           v2 = this.dragOffset.y,
           y2 = this.option("dragMinThreshold") || 0;
@@ -20286,7 +20350,7 @@ var require_app2 = __commonJS({
           (m2 < this.minScale - 1e-5 ||
             m2 > this.maxScale + 1e-5 ||
             (i2 && !h2 && !d2)) &&
-          (f2 = 0.35),
+            (f2 = 0.35),
           this.applyChange({ panX: h2, panY: d2, friction: f2 }),
           this.emit("decel", u2, p2, g2, v2);
       }
@@ -20303,14 +20367,14 @@ var require_app2 = __commonJS({
         "pan" === n2
           ? (t2.preventDefault(),
             (this.panOnlyZoomed && !this.canZoomOut()) ||
-            this.applyChange({
-              panX: 2 * -t2.deltaX,
-              panY: 2 * -t2.deltaY,
-              bounce: false,
-            }))
+              this.applyChange({
+                panX: 2 * -t2.deltaX,
+                panY: 2 * -t2.deltaY,
+                bounce: false,
+              }))
           : "zoom" === n2 &&
-          false !== this.option("zoom") &&
-          this.zoomWithWheel(t2);
+            false !== this.option("zoom") &&
+            this.zoomWithWheel(t2);
       }
       onMouseMove(t2) {
         this.panWithMouse(t2);
@@ -20329,7 +20393,7 @@ var require_app2 = __commonJS({
           const s3 = "e" == n3 || "f" === n3 ? 1e3 : 1e5;
           (o2[n3] = t(e2[n3], s3)),
             Math.abs(i2[n3] - e2[n3]) <
-            ("e" == n3 || "f" === n3 ? 0.51 : 1e-3) && (e2[n3] = i2[n3]);
+              ("e" == n3 || "f" === n3 ? 0.51 : 1e-3) && (e2[n3] = i2[n3]);
         }
         let { a: a2, b: r2, c: l2, d: c2, e: h2, f: d2 } = o2,
           u2 = `matrix(${a2}, ${r2}, ${l2}, ${c2}, ${h2}, ${d2})`,
@@ -20339,7 +20403,7 @@ var require_app2 = __commonJS({
               : n2;
         if (
           (this.option("transformParent") && (p2 = p2.parentElement || p2),
-            p2.style.transform === u2)
+          p2.style.transform === u2)
         )
           return;
         p2.style.transform = u2;
@@ -20352,11 +20416,11 @@ var require_app2 = __commonJS({
         if (!this || this.state === g.Destroy) return;
         if (this.isContentLoading) return;
         const n2 = Math.max(
-          1,
-          (null === (i2 = window.visualViewport) || void 0 === i2
-            ? void 0
-            : i2.scale) || 1
-        ),
+            1,
+            (null === (i2 = window.visualViewport) || void 0 === i2
+              ? void 0
+              : i2.scale) || 1
+          ),
           { container: s2, content: o2 } = this,
           a2 = o2 instanceof HTMLImageElement,
           r2 = s2.getBoundingClientRect(),
@@ -20384,26 +20448,26 @@ var require_app2 = __commonJS({
                   t2 instanceof HTMLImageElement
                     ? t2.naturalWidth
                     : t2 instanceof SVGElement
-                      ? t2.width.baseVal.value
-                      : Math.max(t2.offsetWidth, t2.scrollWidth)),
+                    ? t2.width.baseVal.value
+                    : Math.max(t2.offsetWidth, t2.scrollWidth)),
                 e3 || 0
               );
             })(o2)),
           "auto" === m2 &&
-          (m2 =
-            parseFloat(o2.dataset.height || "") ||
-            ((t2) => {
-              let e3 = 0;
-              return (
-                (e3 =
-                  t2 instanceof HTMLImageElement
-                    ? t2.naturalHeight
-                    : t2 instanceof SVGElement
+            (m2 =
+              parseFloat(o2.dataset.height || "") ||
+              ((t2) => {
+                let e3 = 0;
+                return (
+                  (e3 =
+                    t2 instanceof HTMLImageElement
+                      ? t2.naturalHeight
+                      : t2 instanceof SVGElement
                       ? t2.height.baseVal.value
                       : Math.max(t2.offsetHeight, t2.scrollHeight)),
-                e3 || 0
-              );
-            })(o2));
+                  e3 || 0
+                );
+              })(o2));
         let b2 =
           o2.parentElement instanceof HTMLPictureElement
             ? o2.parentElement
@@ -20459,13 +20523,13 @@ var require_app2 = __commonJS({
           this.setTransform(),
           true !== e2 && this.emit("refresh"),
           this.ignoreBounds ||
-          (t(this.targetScale) < t(this.minScale)
-            ? this.zoomTo(this.minScale, { friction: 0 })
-            : this.targetScale > this.maxScale
+            (t(this.targetScale) < t(this.minScale)
+              ? this.zoomTo(this.minScale, { friction: 0 })
+              : this.targetScale > this.maxScale
               ? this.zoomTo(this.maxScale, { friction: 0 })
               : this.state === g.Init ||
-              this.checkBounds().inBounds ||
-              this.requestTick()),
+                this.checkBounds().inBounds ||
+                this.requestTick()),
           this.updateControls();
       }
       getBounds() {
@@ -20487,8 +20551,8 @@ var require_app2 = __commonJS({
             { innerWidth: d2, innerHeight: u2 } = e3;
           if (
             (this.containerRect.width === c2 && (d2 = e3.width),
-              this.containerRect.width === h2 && (u2 = e3.height),
-              i2 > d2)
+            this.containerRect.width === h2 && (u2 = e3.height),
+            i2 > d2)
           ) {
             (a2 = 0.5 * (i2 - d2)), (s2 = -1 * a2);
             let t2 = 0.5 * (l3.right - l3.left);
@@ -20498,8 +20562,8 @@ var require_app2 = __commonJS({
             (this.contentRect.fitWidth > d2 &&
               i2 < d2 &&
               ((s2 -= 0.5 * (this.contentRect.fitWidth - d2)),
-                (a2 -= 0.5 * (this.contentRect.fitWidth - d2))),
-              n2 > u2)
+              (a2 -= 0.5 * (this.contentRect.fitWidth - d2))),
+            n2 > u2)
           ) {
             (r2 = 0.5 * (n2 - u2)), (o2 = -1 * r2);
             let t2 = 0.5 * (l3.bottom - l3.top);
@@ -20508,7 +20572,7 @@ var require_app2 = __commonJS({
           this.contentRect.fitHeight > u2 &&
             n2 < u2 &&
             ((s2 -= 0.5 * (this.contentRect.fitHeight - u2)),
-              (a2 -= 0.5 * (this.contentRect.fitHeight - u2)));
+            (a2 -= 0.5 * (this.contentRect.fitHeight - u2)));
         }
         return { x: { min: s2, max: a2 }, y: { min: o2, max: r2 } };
       }
@@ -20525,18 +20589,18 @@ var require_app2 = __commonJS({
             minScale: h2,
           } = e2;
         let d2 =
-          {
-            toggleMax: r2 - h2 < 0.5 * (c2 - h2) ? c2 : h2,
-            toggleCover: r2 - h2 < 0.5 * (l2 - h2) ? l2 : h2,
-            toggleZoom: r2 - h2 < 0.5 * (a2 - h2) ? a2 : h2,
-          }[e2.option("click") || ""] || h2,
+            {
+              toggleMax: r2 - h2 < 0.5 * (c2 - h2) ? c2 : h2,
+              toggleCover: r2 - h2 < 0.5 * (l2 - h2) ? l2 : h2,
+              toggleZoom: r2 - h2 < 0.5 * (a2 - h2) ? a2 : h2,
+            }[e2.option("click") || ""] || h2,
           u2 = e2.canZoomIn(),
           p2 = e2.canZoomOut(),
           f2 = p2 && "drag" === n2;
         t(r2) < t(h2) && !this.panOnlyZoomed && (f2 = true),
           (t(s2.width, 1) > t(s2.fitWidth, 1) ||
             t(s2.height, 1) > t(s2.fitHeight, 1)) &&
-          (f2 = true),
+            (f2 = true),
           t(s2.width * r2, 1) < t(s2.fitWidth, 1) && (f2 = false),
           "mousemove" === n2 && (f2 = false);
         let m2 = u2 && t(d2) > t(r2),
@@ -20631,8 +20695,8 @@ var require_app2 = __commonJS({
           c2 && (v2 = v2.scale(1, -1));
         for (const e3 of b$1)
           "e" !== e3 &&
-            "f" !== e3 &&
-            (v2[e3] > this.minScale + 1e-5 || v2[e3] < this.minScale - 1e-5)
+          "f" !== e3 &&
+          (v2[e3] > this.minScale + 1e-5 || v2[e3] < this.minScale - 1e-5)
             ? (this.target[e3] = v2[e3])
             : (this.target[e3] = t(v2[e3], 1e3));
         (this.targetScale < this.scale ||
@@ -20664,9 +20728,9 @@ var require_app2 = __commonJS({
       requestTick() {
         this.isTicking ||
           (this.emit("startAnimation"),
-            this.updateControls(),
-            E(this.container, "is-animating"),
-            this.isScaling && E(this.container, "is-scaling")),
+          this.updateControls(),
+          E(this.container, "is-animating"),
+          this.isScaling && E(this.container, "is-scaling")),
           (this.isTicking = true),
           this.rAF || (this.rAF = requestAnimationFrame(() => this.animate()));
       }
@@ -20711,10 +20775,10 @@ var require_app2 = __commonJS({
         t(l2) < t(r2) && t(o2) <= t(r2)
           ? ((this.cwd += Math.abs(s2)), (l2 = r2))
           : t(l2) > t(a2) && t(o2) >= t(a2)
-            ? ((this.cwd += Math.abs(s2)), (l2 = a2))
-            : ((this.cwd = 0), (l2 = Math.max(Math.min(l2, a2), r2))),
+          ? ((this.cwd += Math.abs(s2)), (l2 = a2))
+          : ((this.cwd = 0), (l2 = Math.max(Math.min(l2, a2), r2))),
           this.cwd > this.option("wheelLimit") ||
-          (e2.preventDefault(),
+            (e2.preventDefault(),
             t(l2) !== t(o2) && this.zoomTo(l2, { event: e2 }));
       }
       canZoomIn() {
@@ -20801,16 +20865,16 @@ var require_app2 = __commonJS({
         "number" == typeof t2
           ? (a2 = t2 / o2)
           : ("next" === t2 &&
-            (r2 - c2 < 0.2 && (c2 = r2),
+              (r2 - c2 < 0.2 && (c2 = r2),
               (t2 = o2 < r2 - 1e-5 ? "full" : o2 < l2 - 1e-5 ? "max" : "fit")),
             (a2 =
               "full" === t2
                 ? r2 / o2 || 1
                 : "cover" === t2
-                  ? c2 / o2 || 1
-                  : "max" === t2
-                    ? l2 / o2 || 1
-                    : 1 / o2 || 1)),
+                ? c2 / o2 || 1
+                : "max" === t2
+                ? l2 / o2 || 1
+                : 1 / o2 || 1)),
           (e2 = "auto" === e2 ? (a2 > 1 ? 0.15 : 0.25) : e2),
           this.applyChange({
             scale: a2,
@@ -20882,7 +20946,7 @@ var require_app2 = __commonJS({
             (this.target.d = this.minScale),
             this.clampTargetBounds(),
             this.isResting ||
-            ((this.friction = void 0 === t2 ? this.option("friction") : t2),
+              ((this.friction = void 0 === t2 ? this.option("friction") : t2),
               (this.state = g.Panning),
               this.requestTick());
         }
@@ -20897,7 +20961,7 @@ var require_app2 = __commonJS({
         for (const e3 of Object.values(i2)) t2.classList.remove(e3 + "");
         e2 &&
           (e2.removeEventListener("load", this.onLoad),
-            e2.removeEventListener("error", this.onError)),
+          e2.removeEventListener("error", this.onError)),
           this.detachPlugins();
       }
     }
@@ -20914,16 +20978,16 @@ var require_app2 = __commonJS({
         value: {},
       });
     const O = function (t2, e2) {
-      let i2 = true;
-      return (...n2) => {
-        i2 &&
-          ((i2 = false),
+        let i2 = true;
+        return (...n2) => {
+          i2 &&
+            ((i2 = false),
             t2(...n2),
             setTimeout(() => {
               i2 = true;
             }, e2));
-      };
-    },
+        };
+      },
       A = (t2, e2) => {
         let i2 = [];
         return (
@@ -20978,34 +21042,34 @@ var require_app2 = __commonJS({
         (t2[(t2.Destroy = 2)] = "Destroy");
     })(L || (L = {}));
     const R = (t2) => {
-      if (
-        ("string" == typeof t2 && (t2 = { html: t2 }),
+        if (
+          ("string" == typeof t2 && (t2 = { html: t2 }),
           !(t2 instanceof String || t2 instanceof HTMLElement))
-      ) {
-        const e2 = t2.thumb;
-        void 0 !== e2 &&
-          ("string" == typeof e2 && (t2.thumbSrc = e2),
+        ) {
+          const e2 = t2.thumb;
+          void 0 !== e2 &&
+            ("string" == typeof e2 && (t2.thumbSrc = e2),
             e2 instanceof HTMLImageElement &&
-            ((t2.thumbEl = e2),
+              ((t2.thumbEl = e2),
               (t2.thumbElSrc = e2.src),
               (t2.thumbSrc = e2.src)),
             delete t2.thumb);
-      }
-      return Object.assign(
-        {
-          html: "",
-          el: null,
-          isDom: false,
-          class: "",
-          index: -1,
-          dim: 0,
-          gap: 0,
-          pos: 0,
-          transition: false,
-        },
-        t2
-      );
-    },
+        }
+        return Object.assign(
+          {
+            html: "",
+            el: null,
+            isDom: false,
+            class: "",
+            index: -1,
+            dim: 0,
+            gap: 0,
+            pos: 0,
+            transition: false,
+          },
+          t2
+        );
+      },
       k = (t2 = {}) =>
         Object.assign({ index: -1, slides: [], dim: 0, pos: -1 }, t2);
     class I extends f {
@@ -21018,8 +21082,8 @@ var require_app2 = __commonJS({
             value: t2,
           });
       }
-      attach() { }
-      detach() { }
+      attach() {}
+      detach() {}
     }
     const D = {
       classes: {
@@ -21062,7 +21126,7 @@ var require_app2 = __commonJS({
         let t2 = this.list;
         return (
           t2 ||
-          ((t2 = document.createElement("ul")),
+            ((t2 = document.createElement("ul")),
             E(t2, this.cn("list")),
             t2.setAttribute("role", "tablist"),
             this.instance.container.appendChild(t2),
@@ -21094,8 +21158,8 @@ var require_app2 = __commonJS({
           i3 && (c2 = e3),
             o(e3, this.cn("isCurrent"), i3),
             null === (t2 = e3.children[0]) ||
-            void 0 === t2 ||
-            t2.setAttribute("aria-selected", i3 ? "true" : "false");
+              void 0 === t2 ||
+              t2.setAttribute("aria-selected", i3 ? "true" : "false");
           for (const t3 of ["isBeforePrev", "isPrev", "isNext", "isAfterNext"])
             S(e3, this.cn(t3));
           h2++;
@@ -21122,8 +21186,8 @@ var require_app2 = __commonJS({
         return (
           i2.appendChild(s2),
           null === (e2 = i2.children[0]) ||
-          void 0 === e2 ||
-          e2.setAttribute("role", "tab"),
+            void 0 === e2 ||
+            e2.setAttribute("role", "tab"),
           i2
         );
       }
@@ -21179,10 +21243,10 @@ var require_app2 = __commonJS({
         n2 &&
           s2 &&
           (n2.removeAttribute("disabled"),
-            s2.removeAttribute("disabled"),
-            t2.isInfinite ||
+          s2.removeAttribute("disabled"),
+          t2.isInfinite ||
             (i2 <= 0 && n2.setAttribute("disabled", ""),
-              i2 >= e2 - 1 && s2.setAttribute("disabled", "")));
+            i2 >= e2 - 1 && s2.setAttribute("disabled", "")));
       }
       createButton(t2) {
         const e2 = this.instance,
@@ -21192,15 +21256,16 @@ var require_app2 = __commonJS({
           E(
             i2,
             this.cn("button") +
-            " " +
-            this.cn("next" === t2 ? "isNext" : "isPrev")
+              " " +
+              this.cn("next" === t2 ? "isNext" : "isPrev")
           );
         const n2 = e2.isRTL ? ("next" === t2 ? "prev" : "next") : t2;
         var s2;
         return (
           (i2.innerHTML = e2.localize(this.option(`${n2}Tpl`))),
           (i2.dataset[
-            `carousel${((s2 = t2),
+            `carousel${
+              ((s2 = t2),
               s2
                 ? s2.match("^[a-z]")
                   ? s2.charAt(0).toUpperCase() + s2.substring(1)
@@ -21215,8 +21280,8 @@ var require_app2 = __commonJS({
         let t2 = this.container;
         t2 ||
           ((this.container = t2 = document.createElement("div")),
-            E(t2, this.cn("container")),
-            this.instance.container.appendChild(t2)),
+          E(t2, this.cn("container")),
+          this.instance.container.appendChild(t2)),
           this.next || (this.next = t2.appendChild(this.createButton("next"))),
           this.prev || (this.prev = t2.appendChild(this.createButton("prev")));
       }
@@ -21285,10 +21350,10 @@ var require_app2 = __commonJS({
         this.nav &&
           this.target &&
           ((this.nav.options.initialSlide = this.target.options.initialPage),
-            this.nav.on("ready", this.onNavReady),
-            this.nav.state === L.Ready && this.onNavReady(this.nav),
-            this.target.on("ready", this.onTargetReady),
-            this.target.state === L.Ready && this.onTargetReady(this.target));
+          this.nav.on("ready", this.onNavReady),
+          this.nav.state === L.Ready && this.onNavReady(this.nav),
+          this.target.on("ready", this.onTargetReady),
+          this.target.state === L.Ready && this.onTargetReady(this.target));
       }
       onNavReady(t2) {
         t2.on("createSlide", this.onNavCreateSlide),
@@ -21345,12 +21410,12 @@ var require_app2 = __commonJS({
         e2 &&
           e2.state === L.Ready &&
           ((this.selectedIndex = t2),
-            [...e2.slides].map((e3) => {
-              e3.el &&
-                e3.el.classList[e3.index === t2 ? "add" : "remove"](
-                  "is-nav-selected"
-                );
-            }));
+          [...e2.slides].map((e3) => {
+            e3.el &&
+              e3.el.classList[e3.index === t2 ? "add" : "remove"](
+                "is-nav-selected"
+              );
+          }));
       }
       attach() {
         const t2 = this;
@@ -21364,12 +21429,12 @@ var require_app2 = __commonJS({
           i2 = t2.target;
         e2 &&
           (e2.off("ready", t2.onNavReady),
-            e2.off("createSlide", t2.onNavCreateSlide),
-            e2.off("Panzoom.click", t2.onNavClick),
-            e2.off("Panzoom.touchEnd", t2.onNavTouch)),
+          e2.off("createSlide", t2.onNavCreateSlide),
+          e2.off("Panzoom.click", t2.onNavClick),
+          e2.off("Panzoom.touchEnd", t2.onNavTouch)),
           (t2.nav = null),
           i2 &&
-          (i2.off("ready", t2.onTargetReady),
+            (i2.off("ready", t2.onTargetReady),
             i2.off("refresh", t2.onTargetChange),
             i2.off("change", t2.onTargetChange)),
           (t2.target = null);
@@ -21394,8 +21459,8 @@ var require_app2 = __commonJS({
         const { contentDim: e2, viewportDim: i2, pages: n2, slides: s2 } = this;
         return (
           n2.length >= 2 &&
-          e2 + s2[0].dim >= i2 &&
-          (t2 = this.option("infinite")),
+            e2 + s2[0].dim >= i2 &&
+            (t2 = this.option("infinite")),
           t2
         );
       }
@@ -21408,104 +21473,104 @@ var require_app2 = __commonJS({
       constructor(t2, e2 = {}, i2 = {}) {
         if (
           (super(),
-            Object.defineProperty(this, "userOptions", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: {},
-            }),
-            Object.defineProperty(this, "userPlugins", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: {},
-            }),
-            Object.defineProperty(this, "bp", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: "",
-            }),
-            Object.defineProperty(this, "lp", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "state", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: L.Init,
-            }),
-            Object.defineProperty(this, "page", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "prevPage", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "container", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: void 0,
-            }),
-            Object.defineProperty(this, "viewport", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "track", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "slides", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: [],
-            }),
-            Object.defineProperty(this, "pages", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: [],
-            }),
-            Object.defineProperty(this, "panzoom", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: null,
-            }),
-            Object.defineProperty(this, "inTransition", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: /* @__PURE__ */ new Set(),
-            }),
-            Object.defineProperty(this, "contentDim", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            Object.defineProperty(this, "viewportDim", {
-              enumerable: true,
-              configurable: true,
-              writable: true,
-              value: 0,
-            }),
-            "string" == typeof t2 && (t2 = document.querySelector(t2)),
-            !t2 || !x(t2))
+          Object.defineProperty(this, "userOptions", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: {},
+          }),
+          Object.defineProperty(this, "userPlugins", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: {},
+          }),
+          Object.defineProperty(this, "bp", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: "",
+          }),
+          Object.defineProperty(this, "lp", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "state", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: L.Init,
+          }),
+          Object.defineProperty(this, "page", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "prevPage", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "container", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0,
+          }),
+          Object.defineProperty(this, "viewport", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "track", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "slides", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: [],
+          }),
+          Object.defineProperty(this, "pages", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: [],
+          }),
+          Object.defineProperty(this, "panzoom", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: null,
+          }),
+          Object.defineProperty(this, "inTransition", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: /* @__PURE__ */ new Set(),
+          }),
+          Object.defineProperty(this, "contentDim", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          Object.defineProperty(this, "viewportDim", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: 0,
+          }),
+          "string" == typeof t2 && (t2 = document.querySelector(t2)),
+          !t2 || !x(t2))
         )
           throw new Error("No Element found");
         (this.container = t2),
@@ -21526,13 +21591,13 @@ var require_app2 = __commonJS({
             window.matchMedia(n2).matches && d(s2) && ((e2 += n2), u(t2, s2));
         (e2 === this.bp && this.state !== L.Init) ||
           ((this.bp = e2),
-            this.state === L.Ready &&
+          this.state === L.Ready &&
             (t2.initialSlide = this.pages[this.page].slides[0].index),
-            this.state !== L.Init && this.destroy(),
-            super.setOptions(t2),
-            false === this.option("enabled")
-              ? this.attachEvents()
-              : setTimeout(() => {
+          this.state !== L.Init && this.destroy(),
+          super.setOptions(t2),
+          false === this.option("enabled")
+            ? this.attachEvents()
+            : setTimeout(() => {
                 this.init();
               }, 0));
       }
@@ -21562,14 +21627,14 @@ var require_app2 = __commonJS({
         let i2 = this.option("viewport") || t2.querySelector(`.${e2.viewport}`);
         i2 ||
           ((i2 = document.createElement("div")),
-            E(i2, e2.viewport),
-            i2.append(...A(t2, `.${e2.slide}`)),
-            t2.prepend(i2));
+          E(i2, e2.viewport),
+          i2.append(...A(t2, `.${e2.slide}`)),
+          t2.prepend(i2));
         let n2 = this.option("track") || t2.querySelector(`.${e2.track}`);
         n2 ||
           ((n2 = document.createElement("div")),
-            E(n2, e2.track),
-            n2.append(...Array.from(i2.childNodes))),
+          E(n2, e2.track),
+          n2.append(...Array.from(i2.childNodes))),
           n2.setAttribute("aria-live", "polite"),
           i2.contains(n2) || i2.prepend(n2),
           (this.viewport = i2),
@@ -21639,7 +21704,7 @@ var require_app2 = __commonJS({
               bounds: () => this.getBounds(),
               maxVelocity: (t3) =>
                 Math.abs(t3.target[this.axis] - t3.current[this.axis]) <
-                  2 * this.viewportDim
+                2 * this.viewportDim
                   ? 100
                   : 0,
             },
@@ -21661,7 +21726,7 @@ var require_app2 = __commonJS({
             passive: false,
             capture: false,
           }),
-            t2.addEventListener("slideTo", this.onSlideTo)),
+          t2.addEventListener("slideTo", this.onSlideTo)),
           window.addEventListener("resize", this.onResize);
       }
       createPages() {
@@ -21695,20 +21760,20 @@ var require_app2 = __commonJS({
             a2 && t2.pos + 0.5 * t2.dim < 0.5 * n2
               ? (t2.pos = 0)
               : a2 && t2.pos + 0.5 * t2.dim >= i2 - 0.5 * n2
-                ? (t2.pos = i2 - n2)
-                : s2 && (t2.pos += -0.5 * (n2 - t2.dim));
+              ? (t2.pos = i2 - n2)
+              : s2 && (t2.pos += -0.5 * (n2 - t2.dim));
           }),
-            e2.forEach((e3, s3) => {
-              o2 &&
-                !this.isInfinite &&
-                i2 > n2 &&
-                ((e3.pos = Math.max(e3.pos, 0)),
-                  (e3.pos = Math.min(e3.pos, i2 - n2))),
-                (e3.pos = t(e3.pos, 1e3)),
-                (e3.dim = t(e3.dim, 1e3)),
-                e3.pos < 0.1 && e3.pos > -0.1 && (e3.pos = 0);
-            }),
-            this.isInfinite)
+          e2.forEach((e3, s3) => {
+            o2 &&
+              !this.isInfinite &&
+              i2 > n2 &&
+              ((e3.pos = Math.max(e3.pos, 0)),
+              (e3.pos = Math.min(e3.pos, i2 - n2))),
+              (e3.pos = t(e3.pos, 1e3)),
+              (e3.dim = t(e3.dim, 1e3)),
+              e3.pos < 0.1 && e3.pos > -0.1 && (e3.pos = 0);
+          }),
+          this.isInfinite)
         )
           return e2;
         const r2 = [];
@@ -21747,7 +21812,7 @@ var require_app2 = __commonJS({
               (a2.style.visibility = "hidden"),
               E(a2, this.cn("slide") + " " + e2.class),
               (this.track || document.body).prepend(a2)),
-            s2)
+          s2)
         )
           (a2.style[n2] = `${s2}px`),
             (a2.style["width" === n2 ? "height" : "width"] = "");
@@ -21763,11 +21828,11 @@ var require_app2 = __commonJS({
         const r2 = getComputedStyle(a2);
         return (
           "content-box" === r2.boxSizing &&
-          (this.isHorizontal
-            ? ((s2 += parseFloat(r2.paddingLeft) || 0),
-              (s2 += parseFloat(r2.paddingRight) || 0))
-            : ((s2 += parseFloat(r2.paddingTop) || 0),
-              (s2 += parseFloat(r2.paddingBottom) || 0))),
+            (this.isHorizontal
+              ? ((s2 += parseFloat(r2.paddingLeft) || 0),
+                (s2 += parseFloat(r2.paddingRight) || 0))
+              : ((s2 += parseFloat(r2.paddingTop) || 0),
+                (s2 += parseFloat(r2.paddingBottom) || 0))),
           (o2 =
             parseFloat(
               r2[this.isHorizontal ? "marginRight" : "marginBottom"]
@@ -21816,8 +21881,8 @@ var require_app2 = __commonJS({
         for (const i3 of h2)
           i3.el
             ? ("top" === e2
-              ? ((i3.el.style.right = ""), (i3.el.style.left = ""))
-              : (i3.el.style.top = ""),
+                ? ((i3.el.style.right = ""), (i3.el.style.left = ""))
+                : (i3.el.style.top = ""),
               i3.index !== u2
                 ? (i3.el.style[e2] = 0 === p2 ? "" : `${t(p2, 1e3)}px`)
                 : (i3.el.style[e2] = ""),
@@ -21836,7 +21901,7 @@ var require_app2 = __commonJS({
                 t(i3.pos + i3.dim + i3.gap) < t(m2) &&
                 t(m2) > t(r2 - a2) &&
                 (i3.el.style[e2] = `${t(p2 + f2, 1e3)}px`),
-                t(i3.pos + i3.gap) >= t(r2 - a2) &&
+              t(i3.pos + i3.gap) >= t(r2 - a2) &&
                 t(i3.pos) > t(m2 + a2) &&
                 t(m2) < t(a2) &&
                 (i3.el.style[e2] = `-${t(f2, 1e3)}px`));
@@ -21849,8 +21914,8 @@ var require_app2 = __commonJS({
           for (const n3 of h2)
             n3.el
               ? this.inTransition.has(n3.index) &&
-              g2.slides.indexOf(n3) < 0 &&
-              (n3.el.style[e2] = `${t(i3 + (g2.pos - b2.pos), 1e3)}px`)
+                g2.slides.indexOf(n3) < 0 &&
+                (n3.el.style[e2] = `${t(i3 + (g2.pos - b2.pos), 1e3)}px`)
               : (i3 += n3.dim + n3.gap);
         }
       }
@@ -21872,9 +21937,9 @@ var require_app2 = __commonJS({
         if (s2.length) {
           a2 =
             i2[
-            s2.reduce((t3, e3) =>
-              Math.abs(e3 - o2) < Math.abs(t3 - o2) ? e3 : t3
-            )
+              s2.reduce((t3, e3) =>
+                Math.abs(e3 - o2) < Math.abs(t3 - o2) ? e3 : t3
+              )
             ];
         }
         const r2 =
@@ -21930,12 +21995,12 @@ var require_app2 = __commonJS({
           f2 = this.isRTL ? "prev" : "next";
         return (
           d2 &&
-          (this.inTransition.add(c2.index),
+            (this.inTransition.add(c2.index),
             (c2.transition = i2),
             d2.addEventListener("animationend", this.onAnimationEnd),
             d2.classList.add(`f-${i2}Out`, `to-${a2 > 0 ? f2 : p2}`)),
           u2 &&
-          ((h2.transition = i2),
+            ((h2.transition = i2),
             u2.addEventListener("animationend", this.onAnimationEnd),
             u2.classList.add(`f-${i2}In`, `from-${a2 > 0 ? p2 : f2}`)),
           s2.panTo({
@@ -21967,13 +22032,13 @@ var require_app2 = __commonJS({
           for (const i2 of this.slides)
             i2.el &&
               ((i2.el.dataset.index = `${i2.index}`),
-                this.pages[this.page].slides.includes(i2)
-                  ? (i2.el.classList.contains(e2) ||
+              this.pages[this.page].slides.includes(i2)
+                ? (i2.el.classList.contains(e2) ||
                     (E(i2.el, e2), this.emit("selectSlide", i2)),
-                    i2.el.removeAttribute(t2))
-                  : (i2.el.classList.contains(e2) &&
+                  i2.el.removeAttribute(t2))
+                : (i2.el.classList.contains(e2) &&
                     (S(i2.el, e2), this.emit("unselectSlide", i2)),
-                    i2.el.setAttribute(t2, "true")));
+                  i2.el.setAttribute(t2, "true")));
       }
       flipInfiniteTrack() {
         const t2 = this.panzoom;
@@ -22007,22 +22072,23 @@ var require_app2 = __commonJS({
             t3 instanceof HTMLImageElement
               ? s2.add(t3)
               : x(t3) &&
-              ((t3.style.backgroundImage = `url('${t3.dataset.lazySrc || ""
+                ((t3.style.backgroundImage = `url('${
+                  t3.dataset.lazySrc || ""
                 }')`),
                 delete t3.dataset.lazySrc);
           });
         const r2 = (t3, i3, n2) => {
           n2 && (n2.remove(), (n2 = null)),
             i3.complete &&
-            (i3.classList.add(o2),
+              (i3.classList.add(o2),
               setTimeout(() => {
                 i3.classList.remove(o2);
               }, 350),
               (i3.style.display = "")),
             this.option("adaptiveHeight") &&
-            t3.el &&
-            this.pages[this.page].slides.indexOf(t3) > -1 &&
-            (e2.updateMetrics(), e2.setViewportHeight()),
+              t3.el &&
+              this.pages[this.page].slides.indexOf(t3) > -1 &&
+              (e2.updateMetrics(), e2.setViewportHeight()),
             this.emit("load", t3);
         };
         for (const e3 of s2) {
@@ -22059,10 +22125,10 @@ var require_app2 = __commonJS({
           this.inTransition.delete(n2),
           this.inTransition.size || this.clearTransitions(),
           n2 === this.page &&
-          (null === (e2 = this.panzoom) || void 0 === e2
-            ? void 0
-            : e2.isResting) &&
-          this.emit("settle");
+            (null === (e2 = this.panzoom) || void 0 === e2
+              ? void 0
+              : e2.isResting) &&
+            this.emit("settle");
       }
       onDecel(t2, e2 = 0, i2 = 0, n2 = 0, s2 = 0) {
         const { isRTL: o2, isHorizontal: a2, axis: r2, pages: l2 } = this,
@@ -22081,20 +22147,20 @@ var require_app2 = __commonJS({
         u2
           ? this.onChange(b2)
           : (Math.abs(d2) > 5
-            ? (l2[p2].dim <
-              document.documentElement[
-              "client" + (this.isHorizontal ? "Width" : "Height")
-              ] -
-              1 && (p2 = v2),
-              (p2 =
-                o2 && a2
-                  ? d2 < 0
-                    ? p2 - 1
-                    : p2 + 1
-                  : d2 < 0
+              ? (l2[p2].dim <
+                  document.documentElement[
+                    "client" + (this.isHorizontal ? "Width" : "Height")
+                  ] -
+                    1 && (p2 = v2),
+                (p2 =
+                  o2 && a2
+                    ? d2 < 0
+                      ? p2 - 1
+                      : p2 + 1
+                    : d2 < 0
                     ? p2 + 1
                     : p2 - 1))
-            : (p2 = 0 === n2 && 0 === s2 ? p2 : v2),
+              : (p2 = 0 === n2 && 0 === s2 ? p2 : v2),
             this.slideTo(p2, {
               transition: false,
               friction: t2.option("decelFriction"),
@@ -22108,8 +22174,8 @@ var require_app2 = __commonJS({
           (void 0 !== i2.carouselPage
             ? ((s2 = "slideTo"), (n2 = i2.carouselPage))
             : void 0 !== i2.carouselNext
-              ? (s2 = "slideNext")
-              : void 0 !== i2.carouselPrev && (s2 = "slidePrev")),
+            ? (s2 = "slideNext")
+            : void 0 !== i2.carouselPrev && (s2 = "slidePrev")),
           s2
             ? (t2.preventDefault(),
               t2.stopPropagation(),
@@ -22126,14 +22192,14 @@ var require_app2 = __commonJS({
           (this.page = t2),
           this.option("adaptiveHeight") && this.setViewportHeight(),
           t2 !== i2 &&
-          (this.markSelectedSlides(), this.emit("change", t2, i2, e2));
+            (this.markSelectedSlides(), this.emit("change", t2, i2, e2));
       }
       onRefresh() {
         let t2 = this.contentDim,
           e2 = this.viewportDim;
         this.updateMetrics(),
           (this.contentDim === t2 && this.viewportDim === e2) ||
-          this.slideTo(this.page, { friction: 0, transition: false });
+            this.slideTo(this.page, { friction: 0, transition: false });
       }
       onResize() {
         this.option("breakpoints") && this.processOptions();
@@ -22162,12 +22228,12 @@ var require_app2 = __commonJS({
       ) {
         if (this.state === L.Destroy) return;
         const {
-          axis: n2,
-          isHorizontal: s2,
-          isRTL: o2,
-          pages: a2,
-          panzoom: r2,
-        } = this,
+            axis: n2,
+            isHorizontal: s2,
+            isRTL: o2,
+            pages: a2,
+            panzoom: r2,
+          } = this,
           l2 = a2.length,
           c2 = o2 && s2 ? 1 : -1;
         if (!r2 || !l2) return;
@@ -22187,7 +22253,7 @@ var require_app2 = __commonJS({
         }
         (d2 *= c2),
           Math.abs(r2.target[n2] - d2) < 0.1 ||
-          (r2.panTo({ x: s2 ? d2 : 0, y: s2 ? 0 : d2, friction: e2 }),
+            (r2.panTo({ x: s2 ? d2 : 0, y: s2 ? 0 : d2, friction: e2 }),
             this.onChange(h2));
       }
       slideToClosest(t2) {
@@ -22296,7 +22362,7 @@ var require_app2 = __commonJS({
         (c2 = t(c2, 1e3)),
           (this.contentDim = c2),
           e2 &&
-          ((e2.contentRect[o2] = c2),
+            ((e2.contentRect[o2] = c2),
             (e2.contentRect["e" === this.axis ? "fullWidth" : "fullHeight"] =
               c2)),
           (this.pages = this.createPages()),
@@ -22304,9 +22370,9 @@ var require_app2 = __commonJS({
           this.state === L.Init && this.setInitialPage(),
           (this.page = Math.max(0, Math.min(this.page, this.pages.length - 1))),
           e2 &&
-          l2 === this.pages.length &&
-          Math.abs(c2 - h2) > 0.5 &&
-          ((e2.target[this.axis] = -1 * this.pages[this.page].pos),
+            l2 === this.pages.length &&
+            Math.abs(c2 - h2) > 0.5 &&
+            ((e2.target[this.axis] = -1 * this.pages[this.page].pos),
             (e2.current[this.axis] = -1 * this.pages[this.page].pos),
             e2.stop()),
           this.manageSlideVisiblity(),
@@ -22336,9 +22402,9 @@ var require_app2 = __commonJS({
         n2 &&
           this.track &&
           ((this.track.style.height = "auto"),
-            e2[t2].slides.forEach((t3) => {
-              t3.el && (s2 = Math.max(s2, t3.el.offsetHeight));
-            })),
+          e2[t2].slides.forEach((t3) => {
+            t3.el && (s2 = Math.max(s2, t3.el.offsetHeight));
+          })),
           (i2.style.height = s2 ? `${s2}px` : "");
       }
       getPageForSlide(t2) {
@@ -22352,10 +22418,10 @@ var require_app2 = __commonJS({
         let { contentDim: n2, viewportDim: s2, pages: o2, page: a2 } = this;
         n2 =
           n2 +
-          (null === (e2 = this.slides[this.slides.length - 1]) ||
+            (null === (e2 = this.slides[this.slides.length - 1]) ||
             void 0 === e2
-            ? void 0
-            : e2.gap) || 0;
+              ? void 0
+              : e2.gap) || 0;
         let r2 = 0;
         (r2 = this.panzoom
           ? -1 * this.panzoom.current[this.axis]
@@ -22384,7 +22450,7 @@ var require_app2 = __commonJS({
         const c2 = this.option("center");
         c2 && (t2 += 0.5 * e2),
           this.isInfinite ||
-          (t2 = Math.max(this.slides[0].pos, Math.min(t2, o2.pos)));
+            (t2 = Math.max(this.slides[0].pos, Math.min(t2, o2.pos)));
         const h2 = i2 + o2.gap;
         (l2 = Math.floor(t2 / h2) || 0), (t2 -= l2 * h2);
         let d2 = o2,
@@ -22403,12 +22469,12 @@ var require_app2 = __commonJS({
         if ([L.Destroy].includes(this.state)) return;
         this.state = L.Destroy;
         const {
-          container: t2,
-          viewport: e2,
-          track: i2,
-          slides: n2,
-          panzoom: s2,
-        } = this,
+            container: t2,
+            viewport: e2,
+            track: i2,
+            slides: n2,
+            panzoom: s2,
+          } = this,
           o2 = this.option("classes");
         t2.removeEventListener("click", this.onClick, {
           passive: false,
@@ -22418,15 +22484,15 @@ var require_app2 = __commonJS({
           window.removeEventListener("resize", this.onResize),
           s2 && (s2.destroy(), (this.panzoom = null)),
           n2 &&
-          n2.forEach((t3) => {
-            this.removeSlideEl(t3);
-          }),
+            n2.forEach((t3) => {
+              this.removeSlideEl(t3);
+            }),
           this.detachPlugins(),
           e2 &&
-          e2.offsetParent &&
-          i2 &&
-          i2.offsetParent &&
-          e2.replaceWith(...i2.childNodes);
+            e2.offsetParent &&
+            i2 &&
+            i2.offsetParent &&
+            e2.replaceWith(...i2.childNodes);
         for (const [e3, i3] of Object.entries(o2))
           "container" !== e3 && i3 && t2.classList.remove(i3);
         (this.track = null),
@@ -22457,20 +22523,20 @@ var require_app2 = __commonJS({
         value: B,
       });
     const N = function (t2) {
-      const e2 = window.pageYOffset,
-        i2 = window.pageYOffset + window.innerHeight;
-      if (!x(t2)) return 0;
-      const n2 = t2.getBoundingClientRect(),
-        s2 = n2.y + window.pageYOffset,
-        o2 = n2.y + n2.height + window.pageYOffset;
-      if (e2 > o2 || i2 < s2) return 0;
-      if (e2 < s2 && i2 > o2) return 100;
-      if (s2 < e2 && o2 > i2) return 100;
-      let a2 = n2.height;
-      s2 < e2 && (a2 -= window.pageYOffset - s2), o2 > i2 && (a2 -= o2 - i2);
-      const r2 = (a2 / window.innerHeight) * 100;
-      return Math.round(r2);
-    },
+        const e2 = window.pageYOffset,
+          i2 = window.pageYOffset + window.innerHeight;
+        if (!x(t2)) return 0;
+        const n2 = t2.getBoundingClientRect(),
+          s2 = n2.y + window.pageYOffset,
+          o2 = n2.y + n2.height + window.pageYOffset;
+        if (e2 > o2 || i2 < s2) return 0;
+        if (e2 < s2 && i2 > o2) return 100;
+        if (s2 < e2 && o2 > i2) return 100;
+        let a2 = n2.height;
+        s2 < e2 && (a2 -= window.pageYOffset - s2), o2 > i2 && (a2 -= o2 - i2);
+        const r2 = (a2 / window.innerHeight) * 100;
+        return Math.round(r2);
+      },
       W = !(
         "undefined" == typeof window ||
         !window.document ||
@@ -22478,20 +22544,20 @@ var require_app2 = __commonJS({
       );
     let $;
     const X = [
-      "a[href]",
-      "area[href]",
-      'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',
-      "select:not([disabled]):not([aria-hidden])",
-      "textarea:not([disabled]):not([aria-hidden])",
-      "button:not([disabled]):not([aria-hidden]):not(.fancybox-focus-guard)",
-      "iframe",
-      "object",
-      "embed",
-      "video",
-      "audio",
-      "[contenteditable]",
-      '[tabindex]:not([tabindex^="-"]):not([disabled]):not([aria-hidden])',
-    ].join(","),
+        "a[href]",
+        "area[href]",
+        'input:not([disabled]):not([type="hidden"]):not([aria-hidden])',
+        "select:not([disabled]):not([aria-hidden])",
+        "textarea:not([disabled]):not([aria-hidden])",
+        "button:not([disabled]):not([aria-hidden]):not(.fancybox-focus-guard)",
+        "iframe",
+        "object",
+        "embed",
+        "video",
+        "audio",
+        "[contenteditable]",
+        '[tabindex]:not([tabindex^="-"]):not([disabled]):not([aria-hidden])',
+      ].join(","),
       Y = (t2) => {
         if (t2 && W) {
           void 0 === $ &&
@@ -22508,7 +22574,7 @@ var require_app2 = __commonJS({
               t2.focus(),
                 document.body.scrollTo({ top: e2, left: i2, behavior: "auto" });
             }
-          } catch (t3) { }
+          } catch (t3) {}
         }
       },
       q = {
@@ -22651,17 +22717,17 @@ var require_app2 = __commonJS({
             (!a2 && e2.slides.length > 1 ? "-" + (i2.index + 1) : "")),
           n2 && (this.origHash = s2 !== l2 ? s2 : ""),
           l2 &&
-          s2 !== l2 &&
-          (this.timer = setTimeout(() => {
-            try {
-              t2.state === V.Ready &&
-                window.history[n2 ? "pushState" : "replaceState"](
-                  {},
-                  document.title,
-                  window.location.pathname + window.location.search + l2
-                );
-            } catch (t3) { }
-          }, 300));
+            s2 !== l2 &&
+            (this.timer = setTimeout(() => {
+              try {
+                t2.state === V.Ready &&
+                  window.history[n2 ? "pushState" : "replaceState"](
+                    {},
+                    document.title,
+                    window.location.pathname + window.location.search + l2
+                  );
+              } catch (t3) {}
+            }, 300));
       }
       onClose() {
         if ((this.timer && clearTimeout(this.timer), true !== U.hasSilentClose))
@@ -22670,10 +22736,10 @@ var require_app2 = __commonJS({
               {},
               document.title,
               window.location.pathname +
-              window.location.search +
-              (this.origHash || "")
+                window.location.search +
+                (this.origHash || "")
             );
-          } catch (t2) { }
+          } catch (t2) {}
       }
       attach() {
         const t2 = this.instance;
@@ -22698,7 +22764,7 @@ var require_app2 = __commonJS({
       static startFromUrl() {
         if (
           ((U.hasSilentClose = false),
-            xt.getInstance() || false === xt.defaults.Hash)
+          xt.getInstance() || false === xt.defaults.Hash)
         )
           return;
         const { hash: t2, slug: e2, index: i2 } = U.parseURL();
@@ -22709,13 +22775,13 @@ var require_app2 = __commonJS({
             n2.dispatchEvent(
               new CustomEvent("click", { bubbles: true, cancelable: true })
             ),
-            xt.getInstance())
+          xt.getInstance())
         )
           return;
         const s2 = document.querySelectorAll(`[data-fancybox="${e2}"]`);
         s2.length &&
           ((n2 = s2[i2 - 1]),
-            n2 &&
+          n2 &&
             n2.dispatchEvent(
               new CustomEvent("click", { bubbles: true, cancelable: true })
             ));
@@ -22743,9 +22809,9 @@ var require_app2 = __commonJS({
         value: false,
       }),
       W &&
-      (/complete|interactive|loaded/.test(document.readyState)
-        ? K()
-        : document.addEventListener("DOMContentLoaded", K));
+        (/complete|interactive|loaded/.test(document.readyState)
+          ? K()
+          : document.addEventListener("DOMContentLoaded", K));
     class J extends I {
       onCreateSlide(t2, e2, i2) {
         const n2 = this.instance.optionFor(i2, "src") || "";
@@ -22860,44 +22926,44 @@ var require_app2 = __commonJS({
                 !r2.opacity &&
                   o3 > 1200 &&
                   ((c2 = document.createElement("img")),
-                    E(c2, "fancybox-ghost"),
-                    (c2.src = a2),
-                    s2.appendChild(c2));
+                  E(c2, "fancybox-ghost"),
+                  (c2.src = a2),
+                  s2.appendChild(c2));
                 const h2 = () => {
                   c2 &&
                     (E(c2, "f-fadeFastOut"),
-                      setTimeout(() => {
-                        c2 && (c2.remove(), (c2 = null));
-                      }, 200));
+                    setTimeout(() => {
+                      c2 && (c2.remove(), (c2 = null));
+                    }, 200));
                 };
                 ((l2 = a2),
-                  new Promise((t3, e4) => {
-                    const i3 = new Image();
-                    (i3.onload = t3), (i3.onerror = e4), (i3.src = l2);
-                  })).then(
-                    () => {
-                      (t2.state = Z.Opening),
-                        this.instance.emit("reveal", t2),
-                        this.zoomIn(t2).then(
-                          () => {
-                            h2(), this.instance.done(t2);
-                          },
-                          () => {
-                            i2.hideLoading(t2);
-                          }
-                        ),
-                        c2 &&
+                new Promise((t3, e4) => {
+                  const i3 = new Image();
+                  (i3.onload = t3), (i3.onerror = e4), (i3.src = l2);
+                })).then(
+                  () => {
+                    (t2.state = Z.Opening),
+                      this.instance.emit("reveal", t2),
+                      this.zoomIn(t2).then(
+                        () => {
+                          h2(), this.instance.done(t2);
+                        },
+                        () => {
+                          i2.hideLoading(t2);
+                        }
+                      ),
+                      c2 &&
                         setTimeout(
                           () => {
                             h2();
                           },
                           o3 > 2500 ? 800 : 200
                         );
-                    },
-                    () => {
-                      i2.hideLoading(t2), i2.revealContent(t2);
-                    }
-                  );
+                  },
+                  () => {
+                    i2.hideLoading(t2), i2.revealContent(t2);
+                  }
+                );
               } else {
                 const n3 = this.optionFor(t2, "initialSize"),
                   s3 = this.optionFor(t2, "zoom"),
@@ -22911,11 +22977,11 @@ var require_app2 = __commonJS({
                   ("full" === n3
                     ? e3.zoomToFull(o3)
                     : "cover" === n3
-                      ? e3.zoomToCover(o3)
-                      : "max" === n3
-                        ? e3.zoomToMax(o3)
-                        : (r3 = false),
-                    e3.stop("current")),
+                    ? e3.zoomToCover(o3)
+                    : "max" === n3
+                    ? e3.zoomToMax(o3)
+                    : (r3 = false),
+                  e3.stop("current")),
                   r3 && a3 && (a3 = e3.isDragging ? "f-fadeIn" : ""),
                   i2.revealContent(t2, a3);
               }
@@ -22935,16 +23001,17 @@ var require_app2 = __commonJS({
           let c2 = this.optionFor(t2, "content");
           "string" == typeof c2 && (c2 = n(c2)),
             (c2 && x(c2)) ||
-            ((c2 = document.createElement("img")),
+              ((c2 = document.createElement("img")),
               c2 instanceof HTMLImageElement &&
-              ((c2.src = e2 || ""),
+                ((c2.src = e2 || ""),
                 (c2.alt =
                   (null === (o2 = t2.caption) || void 0 === o2
                     ? void 0
                     : o2.replace(/<[^>]+>/gi, "").substring(0, 1e3)) ||
-                  `Image ${t2.index + 1} of ${null === (a2 = r2.carousel) || void 0 === a2
-                    ? void 0
-                    : a2.pages.length
+                  `Image ${t2.index + 1} of ${
+                    null === (a2 = r2.carousel) || void 0 === a2
+                      ? void 0
+                      : a2.pages.length
                   }`),
                 (c2.draggable = false),
                 t2.srcset && c2.setAttribute("srcset", t2.srcset)),
@@ -23020,13 +23087,13 @@ var require_app2 = __commonJS({
                   (a2.style.opacity =
                     Math.max(Math.min(1, 1 - (1 - o2.scale) / (1 - d2)), 0) +
                     ""),
-                  o2.scale >= 1 && o2.scale > o2.targetScale - 0.1 && e2(o2));
+                o2.scale >= 1 && o2.scale > o2.targetScale - 0.1 && e2(o2));
             },
             f2 = (t3) => {
               S(s2, "is-zooming-in"),
                 t3.scale < 0.99 ||
-                t3.scale > 1.01 ||
-                ((a2.style.opacity = ""),
+                  t3.scale > 1.01 ||
+                  ((a2.style.opacity = ""),
                   t3.off("endAnimation", f2),
                   t3.off("touchStart", f2),
                   t3.off("afterTransform", p2),
@@ -23047,21 +23114,21 @@ var require_app2 = __commonJS({
             }),
             o2.stop("current");
           const m2 = {
-            event:
-              "mousemove" === o2.panMode
-                ? n2.prevMouseMoveEvent || n2.options.event
-                : void 0,
-          },
+              event:
+                "mousemove" === o2.panMode
+                  ? n2.prevMouseMoveEvent || n2.options.event
+                  : void 0,
+            },
             g2 = this.optionFor(t2, "initialSize");
           E(s2, "is-zooming-in"),
             n2.hideLoading(t2),
             "full" === g2
               ? o2.zoomToFull(m2)
               : "cover" === g2
-                ? o2.zoomToCover(m2)
-                : "max" === g2
-                  ? o2.zoomToMax(m2)
-                  : o2.reset(0.172);
+              ? o2.zoomToCover(m2)
+              : "max" === g2
+              ? o2.zoomToMax(m2)
+              : o2.reset(0.172);
         });
       }
       getZoomInfo(t2) {
@@ -23085,11 +23152,11 @@ var require_app2 = __commonJS({
         )
           return false;
         let {
-          top: a2,
-          left: r2,
-          width: l2,
-          height: c2,
-        } = s2.getBoundingClientRect(),
+            top: a2,
+            left: r2,
+            width: l2,
+            height: c2,
+          } = s2.getBoundingClientRect(),
           { top: h2, left: d2, fitWidth: u2, fitHeight: p2 } = o2.contentRect;
         if (!(l2 && c2 && u2 && p2)) return false;
         const f2 = o2.container.getBoundingClientRect();
@@ -23133,19 +23200,19 @@ var require_app2 = __commonJS({
       },
     });
     const Q = (t2, e2 = {}) => {
-      const i2 = new URL(t2),
-        n2 = new URLSearchParams(i2.search),
-        s2 = new URLSearchParams();
-      for (const [t3, i3] of [...n2, ...Object.entries(e2)]) {
-        let e3 = i3.toString();
-        "t" === t3
-          ? s2.set("start", parseInt(e3).toString())
-          : s2.set(t3, e3);
-      }
-      let o2 = s2.toString(),
-        a2 = t2.match(/#t=((.*)?\d+s)/);
-      return a2 && (o2 += `#t=${a2[1]}`), o2;
-    },
+        const i2 = new URL(t2),
+          n2 = new URLSearchParams(i2.search),
+          s2 = new URLSearchParams();
+        for (const [t3, i3] of [...n2, ...Object.entries(e2)]) {
+          let e3 = i3.toString();
+          "t" === t3
+            ? s2.set("start", parseInt(e3).toString())
+            : s2.set(t3, e3);
+        }
+        let o2 = s2.toString(),
+          a2 = t2.match(/#t=((.*)?\d+s)/);
+        return a2 && (o2 += `#t=${a2[1]}`), o2;
+      },
       tt = {
         ajax: null,
         autoSize: true,
@@ -23185,8 +23252,8 @@ var require_app2 = __commonJS({
         const n2 = i2.iframeEl;
         n2 &&
           ((n2.onload = n2.onerror = null),
-            (n2.src = "//about:blank"),
-            (i2.iframeEl = null));
+          (n2.src = "//about:blank"),
+          (i2.iframeEl = null));
         const s2 = i2.contentEl,
           o2 = i2.placeholderEl;
         if ("inline" === i2.type && s2 && o2)
@@ -23197,7 +23264,7 @@ var require_app2 = __commonJS({
             (i2.contentEl = void 0),
             (i2.placeholderEl = void 0);
         else
-          for (; i2.el && i2.el.firstChild;)
+          for (; i2.el && i2.el.firstChild; )
             i2.el.removeChild(i2.el.firstChild);
       }
       onSelectSlide(t2, e2, i2) {
@@ -23214,18 +23281,18 @@ var require_app2 = __commonJS({
                   : n2.querySelector("video")) ||
               void 0 === s2 ||
               s2.pause();
-          } catch (t3) { }
+          } catch (t3) {}
           return;
         }
         let o2;
         "vimeo" === i2.type
           ? (o2 = { method: "pause", value: "true" })
           : "youtube" === i2.type &&
-          (o2 = { event: "command", func: "pauseVideo" }),
+            (o2 = { event: "command", func: "pauseVideo" }),
           o2 &&
-          i2.iframeEl &&
-          i2.iframeEl.contentWindow &&
-          i2.iframeEl.contentWindow.postMessage(JSON.stringify(o2), "*"),
+            i2.iframeEl &&
+            i2.iframeEl.contentWindow &&
+            i2.iframeEl.contentWindow.postMessage(JSON.stringify(o2), "*"),
           i2.poller && clearTimeout(i2.poller);
       }
       onDone(t2, e2) {
@@ -23254,7 +23321,7 @@ var require_app2 = __commonJS({
             const t3 = document.getElementById(e2.id);
             t3 && (t3.dataset.ready = "true");
           }
-        } catch (t3) { }
+        } catch (t3) {}
       }
       loadAjaxContent(t2) {
         const e2 = this.instance.optionFor(t2, "src") || "";
@@ -23266,9 +23333,9 @@ var require_app2 = __commonJS({
             n2.readyState === XMLHttpRequest.DONE &&
               i2.state === V.Ready &&
               (i2.hideLoading(t2),
-                200 === n2.status
-                  ? i2.setContent(t2, n2.responseText)
-                  : i2.setError(
+              200 === n2.status
+                ? i2.setContent(t2, n2.responseText)
+                : i2.setError(
                     t2,
                     404 === n2.status
                       ? "{{AJAX_NOT_FOUND}}"
@@ -23374,7 +23441,7 @@ var require_app2 = __commonJS({
                 (a2.height = `${i3.scrollHeight}px`),
                 (o2 = e3.scrollHeight + r2);
             }
-          } catch (t3) { }
+          } catch (t3) {}
         if (s2 || o2) {
           const t3 = { flex: "0 1 auto", width: "", height: "" };
           s2 && (t3.width = `${s2}px`),
@@ -23395,12 +23462,12 @@ var require_app2 = __commonJS({
               const e3 = t3.play();
               void 0 !== e3 &&
                 e3
-                  .then(() => { })
+                  .then(() => {})
                   .catch((e4) => {
                     (t3.muted = true), t3.play();
                   });
             }
-          } catch (t3) { }
+          } catch (t3) {}
         if ("youtube" !== t2.type && "vimeo" !== t2.type) return;
         const i2 = () => {
           if (t2.iframeEl && t2.iframeEl.contentWindow) {
@@ -23412,10 +23479,10 @@ var require_app2 = __commonJS({
                     ? { event: "command", func: "playVideo" }
                     : { method: "play", value: "true" }),
                 e3 &&
-                t2.iframeEl.contentWindow.postMessage(
-                  JSON.stringify(e3),
-                  "*"
-                ),
+                  t2.iframeEl.contentWindow.postMessage(
+                    JSON.stringify(e3),
+                    "*"
+                  ),
                 void (t2.poller = void 0)
               );
             "youtube" === t2.type &&
@@ -23423,7 +23490,7 @@ var require_app2 = __commonJS({
                 event: "listening",
                 id: t2.iframeEl.getAttribute("id"),
               }),
-                t2.iframeEl.contentWindow.postMessage(JSON.stringify(e3), "*"));
+              t2.iframeEl.contentWindow.postMessage(JSON.stringify(e3), "*"));
           }
           t2.poller = setTimeout(i2, 250);
         };
@@ -23482,8 +23549,9 @@ var require_app2 = __commonJS({
             o2 = encodeURIComponent(n2[1]),
             a2 = n2[4] || "";
           (t2.videoId = o2),
-            (t2.src = `https://player.vimeo.com/video/${o2}?${a2 ? `h=${a2}${s2 ? "&" : ""}` : ""
-              }${s2}`),
+            (t2.src = `https://player.vimeo.com/video/${o2}?${
+              a2 ? `h=${a2}${s2 ? "&" : ""}` : ""
+            }${s2}`),
             (i2 = "vimeo");
         }
         if (!i2 && t2.triggerEl) {
@@ -23495,35 +23563,36 @@ var require_app2 = __commonJS({
             ("#" === e2.charAt(0)
               ? (i2 = "inline")
               : (n2 = e2.match(/\.(mp4|mov|ogv|webm)((\?|#).*)?$/i))
-                ? ((i2 = "html5video"),
-                  (t2.videoFormat =
-                    t2.videoFormat ||
-                    "video/" + ("ogv" === n2[1] ? "ogg" : n2[1])))
-                : e2.match(
+              ? ((i2 = "html5video"),
+                (t2.videoFormat =
+                  t2.videoFormat ||
+                  "video/" + ("ogv" === n2[1] ? "ogg" : n2[1])))
+              : e2.match(
                   /(^data:image\/[a-z0-9+\/=]*,)|(\.(jp(e|g|eg)|gif|png|bmp|webp|svg|ico)((\?|#).*)?$)/i
                 )
-                  ? (i2 = "image")
-                  : e2.match(/\.(pdf)((\?|#).*)?$/i)
-                    ? (i2 = "pdf")
-                    : (n2 = e2.match(
-                      /(?:maps\.)?google\.([a-z]{2,3}(?:\.[a-z]{2})?)\/(?:(?:(?:maps\/(?:place\/(?:.*)\/)?\@(.*),(\d+.?\d+?)z))|(?:\?ll=))(.*)?/i
-                    ))
-                      ? ((t2.src = `https://maps.google.${n2[1]}/?ll=${(n2[2]
-                        ? n2[2] +
-                        "&z=" +
-                        Math.floor(parseFloat(n2[3])) +
-                        (n2[4] ? n2[4].replace(/^\//, "&") : "")
-                        : n2[4] + ""
-                      ).replace(/\?/, "&")}&output=${n2[4] && n2[4].indexOf("layer=c") > 0 ? "svembed" : "embed"
-                        }`),
-                        (i2 = "map"))
-                      : (n2 = e2.match(
-                        /(?:maps\.)?google\.([a-z]{2,3}(?:\.[a-z]{2})?)\/(?:maps\/search\/)(.*)/i
-                      )) &&
-                      ((t2.src = `https://maps.google.${n2[1]}/maps?q=${n2[2]
-                        .replace("query=", "q=")
-                        .replace("api=1", "")}&output=embed`),
-                        (i2 = "map")))),
+              ? (i2 = "image")
+              : e2.match(/\.(pdf)((\?|#).*)?$/i)
+              ? (i2 = "pdf")
+              : (n2 = e2.match(
+                  /(?:maps\.)?google\.([a-z]{2,3}(?:\.[a-z]{2})?)\/(?:(?:(?:maps\/(?:place\/(?:.*)\/)?\@(.*),(\d+.?\d+?)z))|(?:\?ll=))(.*)?/i
+                ))
+              ? ((t2.src = `https://maps.google.${n2[1]}/?ll=${(n2[2]
+                  ? n2[2] +
+                    "&z=" +
+                    Math.floor(parseFloat(n2[3])) +
+                    (n2[4] ? n2[4].replace(/^\//, "&") : "")
+                  : n2[4] + ""
+                ).replace(/\?/, "&")}&output=${
+                  n2[4] && n2[4].indexOf("layer=c") > 0 ? "svembed" : "embed"
+                }`),
+                (i2 = "map"))
+              : (n2 = e2.match(
+                  /(?:maps\.)?google\.([a-z]{2,3}(?:\.[a-z]{2})?)\/(?:maps\/search\/)(.*)/i
+                )) &&
+                ((t2.src = `https://maps.google.${n2[1]}/maps?q=${n2[2]
+                  .replace("query=", "q=")
+                  .replace("api=1", "")}&output=embed`),
+                (i2 = "map")))),
           (i2 = i2 || this.instance.option("defaultType")),
           (t2.type = i2),
           "image" === i2 && (t2.thumbSrc = t2.thumbSrc || t2.src);
@@ -23725,7 +23794,7 @@ var require_app2 = __commonJS({
         let n2 = t2.createProgressBar();
         n2 &&
           ((n2.style.transitionDuration = `${i2}ms`),
-            (n2.style.transform = "scaleX(1)")),
+          (n2.style.transform = "scaleX(1)")),
           (t2.timer = setTimeout(() => {
             (t2.timer = null), t2.inHover || t2.onTimerEnd();
           }, i2)),
@@ -23880,8 +23949,8 @@ var require_app2 = __commonJS({
               },
             }
           )),
-            e2.attachPlugins({ Autoplay: nt }),
-            (this.ref = e2.plugins.Autoplay));
+          e2.attachPlugins({ Autoplay: nt }),
+          (this.ref = e2.plugins.Autoplay));
       }
       onReady(t2) {
         const e2 = t2.carousel,
@@ -23908,9 +23977,9 @@ var require_app2 = __commonJS({
         n2 &&
           e2 === this.option("key") &&
           "BUTTON" !==
-          (null === (i2 = document.activeElement) || void 0 === i2
-            ? void 0
-            : i2.nodeName) &&
+            (null === (i2 = document.activeElement) || void 0 === i2
+              ? void 0
+              : i2.nodeName) &&
           n2.toggle();
       }
       attach() {
@@ -23943,8 +24012,8 @@ var require_app2 = __commonJS({
             (null === (e2 = t2.instance.container) || void 0 === e2
               ? void 0
               : e2.querySelector(
-                ".fancybox__toolbar [data-fancybox-toggle-slideshow]"
-              )) || t2.instance.container
+                  ".fancybox__toolbar [data-fancybox-toggle-slideshow]"
+                )) || t2.instance.container
           );
         },
         timeout: 3e3,
@@ -24057,7 +24126,7 @@ var require_app2 = __commonJS({
           [
             "%s",
             t2.thumbSrc ||
-            "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+              "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
           ],
         ]);
       }
@@ -24069,7 +24138,7 @@ var require_app2 = __commonJS({
             let n2 = "";
             i2.type &&
               ((n2 = `for-${i2.type}`),
-                i2.type &&
+              i2.type &&
                 ["video", "youtube", "vimeo", "html5video"].includes(i2.type) &&
                 (n2 += " for-video")),
               t2.push({ html: this.formatThumb(i2, e2), customClass: n2 });
@@ -24080,12 +24149,12 @@ var require_app2 = __commonJS({
         const i2 = e2.el;
         i2 &&
           ((e2.thumbSrc = i2.dataset.thumbSrc || e2.thumbSrc || ""),
-            (e2.thumbClipWidth =
-              parseFloat(i2.dataset.thumbClipWidth || "") ||
-              e2.thumbClipWidth ||
-              0),
-            (e2.thumbHeight =
-              parseFloat(i2.dataset.thumbHeight || "") || e2.thumbHeight || 0));
+          (e2.thumbClipWidth =
+            parseFloat(i2.dataset.thumbClipWidth || "") ||
+            e2.thumbClipWidth ||
+            0),
+          (e2.thumbHeight =
+            parseFloat(i2.dataset.thumbHeight || "") || e2.thumbHeight || 0));
       }
       onInitSlides() {
         this.state === at.Init && this.build();
@@ -24115,20 +24184,20 @@ var require_app2 = __commonJS({
         let o2 = n2(t2.target);
         o2 < 0 &&
           ((o2 = s2(t2.clientX + this.thumbGap, t2.clientY)),
-            o2 === i2 && (o2 = i2 - 1)),
+          o2 === i2 && (o2 = i2 - 1)),
           o2 < 0 &&
-          ((o2 = s2(t2.clientX - this.thumbGap, t2.clientY)),
+            ((o2 = s2(t2.clientX - this.thumbGap, t2.clientY)),
             o2 === i2 && (o2 = i2 + 1)),
           o2 < 0 &&
-          (o2 = ((e3) => {
-            let n3 = s2(t2.clientX - e3, t2.clientY),
-              a2 = s2(t2.clientX + e3, t2.clientY);
-            return (
-              o2 < 0 && n3 === i2 && (o2 = i2 + 1),
-              o2 < 0 && a2 === i2 && (o2 = i2 - 1),
-              o2
-            );
-          })(this.thumbExtraGap)),
+            (o2 = ((e3) => {
+              let n3 = s2(t2.clientX - e3, t2.clientY),
+                a2 = s2(t2.clientX + e3, t2.clientY);
+              return (
+                o2 < 0 && n3 === i2 && (o2 = i2 + 1),
+                o2 < 0 && a2 === i2 && (o2 = i2 - 1),
+                o2
+              );
+            })(this.thumbExtraGap)),
           o2 === i2
             ? this.centerModern()
             : o2 > -1 && o2 < e2.pages.length && e2.slideTo(o2);
@@ -24164,7 +24233,7 @@ var require_app2 = __commonJS({
         }
         i2 &&
           (i2.style.setProperty("--left", h2 + ""),
-            i2.style.setProperty("--width", l2 + h2 + s2 + a2 * c2 + "")),
+          i2.style.setProperty("--width", l2 + h2 + s2 + a2 * c2 + "")),
           this.shouldCenter && this.centerModern();
       }
       buildClassic() {
@@ -24237,16 +24306,16 @@ var require_app2 = __commonJS({
               o3 = i2.slides[i2.page];
             return (
               n2 &&
-              s3 &&
-              o3 &&
-              ((e3 = -1 * this.getModernThumbPos(0)),
+                s3 &&
+                o3 &&
+                ((e3 = -1 * this.getModernThumbPos(0)),
                 0 !== i2.page && (e3 += 0.5 * (n2.thumbWidth || 0)),
                 (t3 = -1 * this.getModernThumbPos(i2.slides.length - 1)),
                 i2.page !== i2.slides.length - 1 &&
-                (t3 +=
-                  (s3.thumbWidth || 0) -
-                  (o3.thumbWidth || 0) -
-                  0.5 * (s3.thumbWidth || 0))),
+                  (t3 +=
+                    (s3.thumbWidth || 0) -
+                    (o3.thumbWidth || 0) -
+                    0.5 * (s3.thumbWidth || 0))),
               { x: { min: t3, max: e3 }, y: { min: 0, max: 0 } }
             );
           },
@@ -24272,22 +24341,22 @@ var require_app2 = __commonJS({
             parseFloat(
               getComputedStyle(t2).getPropertyValue("--f-thumb-gap")
             ) || 0),
-            (this.thumbExtraGap =
-              parseFloat(
-                getComputedStyle(t2).getPropertyValue("--f-thumb-extra-gap")
-              ) || 0),
-            (this.thumbWidth =
-              parseFloat(
-                getComputedStyle(t2).getPropertyValue("--f-thumb-width")
-              ) || 40),
-            (this.thumbClipWidth =
-              parseFloat(
-                getComputedStyle(t2).getPropertyValue("--f-thumb-clip-width")
-              ) || 40),
-            (this.thumbHeight =
-              parseFloat(
-                getComputedStyle(t2).getPropertyValue("--f-thumb-height")
-              ) || 40));
+          (this.thumbExtraGap =
+            parseFloat(
+              getComputedStyle(t2).getPropertyValue("--f-thumb-extra-gap")
+            ) || 0),
+          (this.thumbWidth =
+            parseFloat(
+              getComputedStyle(t2).getPropertyValue("--f-thumb-width")
+            ) || 40),
+          (this.thumbClipWidth =
+            parseFloat(
+              getComputedStyle(t2).getPropertyValue("--f-thumb-clip-width")
+            ) || 40),
+          (this.thumbHeight =
+            parseFloat(
+              getComputedStyle(t2).getPropertyValue("--f-thumb-height")
+            ) || 40));
       }
       refreshModern() {
         var t2;
@@ -24297,8 +24366,8 @@ var require_app2 = __commonJS({
             this.resizeModernSlide(t3);
           this.onTransformM(),
             null === (t2 = this.panzoom) ||
-            void 0 === t2 ||
-            t2.updateMetrics(true),
+              void 0 === t2 ||
+              t2.updateMetrics(true),
             this.centerModern(0);
         }
       }
@@ -24317,8 +24386,8 @@ var require_app2 = __commonJS({
         let l2 = 100;
         void 0 === e2 &&
           ((e2 = 0.2),
-            i2.inTransition.size > 0 && (e2 = 0.12),
-            Math.abs(-1 * s2.current.e - r2) > s2.containerRect.width &&
+          i2.inTransition.size > 0 && (e2 = 0.12),
+          Math.abs(-1 * s2.current.e - r2) > s2.containerRect.width &&
             ((e2 = 0.5), (l2 = 0))),
           (s2.options.maxVelocity = l2),
           s2.applyChange({
@@ -24364,8 +24433,8 @@ var require_app2 = __commonJS({
         const e2 =
           t2.thumbClipWidth && t2.thumbHeight
             ? Math.round(
-              this.thumbHeight * (t2.thumbClipWidth / t2.thumbHeight)
-            )
+                this.thumbHeight * (t2.thumbClipWidth / t2.thumbHeight)
+              )
             : this.thumbWidth;
         t2.thumbWidth = e2;
       }
@@ -24506,12 +24575,12 @@ var require_app2 = __commonJS({
               i3 &&
                 this.hidden &&
                 (e2.refresh(),
-                  (i3.style.transition = "none"),
-                  e2.hide(),
-                  i3.offsetHeight,
-                  queueMicrotask(() => {
-                    (i3.style.transition = ""), e2.show();
-                  }));
+                (i3.style.transition = "none"),
+                e2.hide(),
+                i3.offsetHeight,
+                queueMicrotask(() => {
+                  (i3.style.transition = ""), e2.show();
+                }));
             },
           },
         });
@@ -24530,7 +24599,7 @@ var require_app2 = __commonJS({
           n2.attachPlugins({ Thumbs: rt }),
           (e2.ref = n2.plugins.Thumbs),
           e2.option("showOnStart") ||
-          ((e2.ref.state = at.Hidden), (e2.hidden = true));
+            ((e2.ref.state = at.Hidden), (e2.hidden = true));
       }
       onResize() {
         var t2;
@@ -24557,19 +24626,19 @@ var require_app2 = __commonJS({
           e2 = t2 && t2.state !== at.Disabled && t2.container;
         e2 &&
           (this.refresh(),
-            e2.offsetHeight,
-            e2.removeAttribute("aria-hidden"),
-            e2.classList.remove("is-hidden"),
-            (this.hidden = false));
+          e2.offsetHeight,
+          e2.removeAttribute("aria-hidden"),
+          e2.classList.remove("is-hidden"),
+          (this.hidden = false));
       }
       hide() {
         const t2 = this.ref,
           e2 = t2 && t2.container;
         e2 &&
           (this.refresh(),
-            e2.offsetHeight,
-            e2.classList.add("is-hidden"),
-            e2.setAttribute("aria-hidden", "true")),
+          e2.offsetHeight,
+          e2.classList.add("is-hidden"),
+          e2.setAttribute("aria-hidden", "true")),
           (this.hidden = true);
       }
       refresh() {
@@ -24597,8 +24666,8 @@ var require_app2 = __commonJS({
           i2.off("resize", e2.onResize),
           i2.off("keydown", e2.onKeydown),
           null === (t2 = i2.carousel) ||
-          void 0 === t2 ||
-          t2.detachPlugins(["Thumbs"]),
+            void 0 === t2 ||
+            t2.detachPlugins(["Thumbs"]),
           (e2.ref = null);
       }
     }
@@ -24685,41 +24754,41 @@ var require_app2 = __commonJS({
         (t2[(t2.Disabled = 2)] = "Disabled");
     })(dt || (dt = {}));
     const ut = {
-      absolute: "auto",
-      display: {
-        left: ["infobar"],
-        middle: [],
-        right: ["iterateZoom", "slideshow", "fullscreen", "thumbs", "close"],
+        absolute: "auto",
+        display: {
+          left: ["infobar"],
+          middle: [],
+          right: ["iterateZoom", "slideshow", "fullscreen", "thumbs", "close"],
+        },
+        enabled: "auto",
+        items: {
+          infobar: {
+            tpl: '<div class="fancybox__infobar" tabindex="-1"><span data-fancybox-current-index></span>/<span data-fancybox-count></span></div>',
+          },
+          download: {
+            tpl: '<a class="f-button" title="{{DOWNLOAD}}" data-fancybox-download href="javasript:;"><svg><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg></a>',
+          },
+          prev: {
+            tpl: '<button class="f-button" title="{{PREV}}" data-fancybox-prev><svg><path d="m15 6-6 6 6 6"/></svg></button>',
+          },
+          next: {
+            tpl: '<button class="f-button" title="{{NEXT}}" data-fancybox-next><svg><path d="m9 6 6 6-6 6"/></svg></button>',
+          },
+          slideshow: {
+            tpl: '<button class="f-button" title="{{TOGGLE_SLIDESHOW}}" data-fancybox-toggle-slideshow><svg><g><path d="M8 4v16l13 -8z"></path></g><g><path d="M8 4v15M17 4v15"/></g></svg></button>',
+          },
+          fullscreen: {
+            tpl: '<button class="f-button" title="{{TOGGLE_FULLSCREEN}}" data-fancybox-toggle-fullscreen><svg><g><path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2M16 4h2a2 2 0 0 1 2 2v2M16 20h2a2 2 0 0 0 2-2v-2"/></g><g><path d="M15 19v-2a2 2 0 0 1 2-2h2M15 5v2a2 2 0 0 0 2 2h2M5 15h2a2 2 0 0 1 2 2v2M5 9h2a2 2 0 0 0 2-2V5"/></g></svg></button>',
+          },
+          thumbs: {
+            tpl: '<button class="f-button" title="{{TOGGLE_THUMBS}}" data-fancybox-toggle-thumbs><svg><circle cx="5.5" cy="5.5" r="1"/><circle cx="12" cy="5.5" r="1"/><circle cx="18.5" cy="5.5" r="1"/><circle cx="5.5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18.5" cy="12" r="1"/><circle cx="5.5" cy="18.5" r="1"/><circle cx="12" cy="18.5" r="1"/><circle cx="18.5" cy="18.5" r="1"/></svg></button>',
+          },
+          close: {
+            tpl: '<button class="f-button" title="{{CLOSE}}" data-fancybox-close><svg><path d="m19.5 4.5-15 15M4.5 4.5l15 15"/></svg></button>',
+          },
+        },
+        parentEl: null,
       },
-      enabled: "auto",
-      items: {
-        infobar: {
-          tpl: '<div class="fancybox__infobar" tabindex="-1"><span data-fancybox-current-index></span>/<span data-fancybox-count></span></div>',
-        },
-        download: {
-          tpl: '<a class="f-button" title="{{DOWNLOAD}}" data-fancybox-download href="javasript:;"><svg><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M7 11l5 5 5-5M12 4v12"/></svg></a>',
-        },
-        prev: {
-          tpl: '<button class="f-button" title="{{PREV}}" data-fancybox-prev><svg><path d="m15 6-6 6 6 6"/></svg></button>',
-        },
-        next: {
-          tpl: '<button class="f-button" title="{{NEXT}}" data-fancybox-next><svg><path d="m9 6 6 6-6 6"/></svg></button>',
-        },
-        slideshow: {
-          tpl: '<button class="f-button" title="{{TOGGLE_SLIDESHOW}}" data-fancybox-toggle-slideshow><svg><g><path d="M8 4v16l13 -8z"></path></g><g><path d="M8 4v15M17 4v15"/></g></svg></button>',
-        },
-        fullscreen: {
-          tpl: '<button class="f-button" title="{{TOGGLE_FULLSCREEN}}" data-fancybox-toggle-fullscreen><svg><g><path d="M4 8V6a2 2 0 0 1 2-2h2M4 16v2a2 2 0 0 0 2 2h2M16 4h2a2 2 0 0 1 2 2v2M16 20h2a2 2 0 0 0 2-2v-2"/></g><g><path d="M15 19v-2a2 2 0 0 1 2-2h2M15 5v2a2 2 0 0 0 2 2h2M5 15h2a2 2 0 0 1 2 2v2M5 9h2a2 2 0 0 0 2-2V5"/></g></svg></button>',
-        },
-        thumbs: {
-          tpl: '<button class="f-button" title="{{TOGGLE_THUMBS}}" data-fancybox-toggle-thumbs><svg><circle cx="5.5" cy="5.5" r="1"/><circle cx="12" cy="5.5" r="1"/><circle cx="18.5" cy="5.5" r="1"/><circle cx="5.5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="18.5" cy="12" r="1"/><circle cx="5.5" cy="18.5" r="1"/><circle cx="12" cy="18.5" r="1"/><circle cx="18.5" cy="18.5" r="1"/></svg></button>',
-        },
-        close: {
-          tpl: '<button class="f-button" title="{{CLOSE}}" data-fancybox-close><svg><path d="m19.5 4.5-15 15M4.5 4.5l15 15"/></svg></button>',
-        },
-      },
-      parentEl: null,
-    },
       pt = {
         tabindex: "-1",
         width: "24",
@@ -24823,7 +24892,7 @@ var require_app2 = __commonJS({
           let t3 = {};
           try {
             t3 = JSON.parse(c2);
-          } catch (t4) { }
+          } catch (t4) {}
           o2 && o2.applyChange(t3);
         } else l2 && o2 && o2[l2] && o2[l2]();
       }
@@ -24929,12 +24998,12 @@ var require_app2 = __commonJS({
           const e3 = (this.option("items") || [])[t2];
           e3 &&
             ((s2 = n(this.instance.localize(e3.tpl))),
-              "function" == typeof e3.click &&
+            "function" == typeof e3.click &&
               s2.addEventListener("click", (t3) => {
                 t3.preventDefault(),
                   t3.stopPropagation(),
                   "function" == typeof e3.click &&
-                  e3.click.call(this, this, t3);
+                    e3.click.call(this, this, t3);
               }));
         }
         const l2 = null == s2 ? void 0 : s2.querySelector("svg");
@@ -24975,13 +25044,13 @@ var require_app2 = __commonJS({
       value: ut,
     });
     const mt = {
-      Hash: U,
-      Html: it,
-      Images: J,
-      Slideshow: st,
-      Thumbs: ct,
-      Toolbar: ft,
-    },
+        Hash: U,
+        Html: it,
+        Images: J,
+        Slideshow: st,
+        Thumbs: ct,
+        Toolbar: ft,
+      },
       gt = function () {
         var t2 = window.getSelection();
         return t2 && "Range" === t2.type;
@@ -25106,23 +25175,23 @@ var require_app2 = __commonJS({
                   (i3 = "exitFullscreen"),
                   (n2 = "fullscreenElement"))
                 : document.webkitFullscreenEnabled &&
-                ((e3 = "webkitRequestFullscreen"),
+                  ((e3 = "webkitRequestFullscreen"),
                   (i3 = "webkitExitFullscreen"),
                   (n2 = "webkitFullscreenElement")),
               e3 &&
-              (t3 = {
-                request: function (t4) {
-                  return "webkitRequestFullscreen" === e3
-                    ? t4[e3](Element.ALLOW_KEYBOARD_INPUT)
-                    : t4[e3]();
-                },
-                exit: function () {
-                  return document[n2] && document[i3]();
-                },
-                isFullscreen: function () {
-                  return document[n2];
-                },
-              }),
+                (t3 = {
+                  request: function (t4) {
+                    return "webkitRequestFullscreen" === e3
+                      ? t4[e3](Element.ALLOW_KEYBOARD_INPUT)
+                      : t4[e3]();
+                  },
+                  exit: function () {
+                    return document[n2] && document[i3]();
+                  },
+                  isFullscreen: function () {
+                    return document[n2];
+                  },
+                }),
               t3
             );
           })()),
@@ -25142,41 +25211,41 @@ var require_app2 = __commonJS({
           ),
           this.emit("init"),
           true === this.option("hideScrollbar") &&
-          (() => {
-            if (!W) return;
-            const t3 = document.body;
-            if (t3.classList.contains("hide-scrollbar")) return;
-            let e3 =
-              window.innerWidth -
-              document.documentElement.getBoundingClientRect().width;
-            e3 < 0 && (e3 = 0);
-            const i2 = t3.currentStyle || window.getComputedStyle(t3),
-              n2 = parseFloat(i2.marginRight);
-            document.documentElement.style.setProperty(
-              "--fancybox-scrollbar-compensate",
-              `${e3}px`
-            ),
-              n2 && t3.style.setProperty("--fancybox-body-margin", `${n2}px`),
-              t3.classList.add("hide-scrollbar");
-          })(),
+            (() => {
+              if (!W) return;
+              const t3 = document.body;
+              if (t3.classList.contains("hide-scrollbar")) return;
+              let e3 =
+                window.innerWidth -
+                document.documentElement.getBoundingClientRect().width;
+              e3 < 0 && (e3 = 0);
+              const i2 = t3.currentStyle || window.getComputedStyle(t3),
+                n2 = parseFloat(i2.marginRight);
+              document.documentElement.style.setProperty(
+                "--fancybox-scrollbar-compensate",
+                `${e3}px`
+              ),
+                n2 && t3.style.setProperty("--fancybox-body-margin", `${n2}px`),
+                t3.classList.add("hide-scrollbar");
+            })(),
           this.initLayout(),
           this.scale();
         const t2 = () => {
-          this.initCarousel(this.userSlides),
-            (this.state = V.Ready),
-            this.attachEvents(),
-            this.emit("ready"),
-            setTimeout(() => {
-              this.container &&
-                this.container.setAttribute("aria-hidden", "false");
-            }, 16);
-        },
+            this.initCarousel(this.userSlides),
+              (this.state = V.Ready),
+              this.attachEvents(),
+              this.emit("ready"),
+              setTimeout(() => {
+                this.container &&
+                  this.container.setAttribute("aria-hidden", "false");
+              }, 16);
+          },
           e2 = this.fsAPI;
         this.option("Fullscreen.autoStart") && e2 && !e2.isFullscreen()
           ? e2
-            .request(this.container)
-            .then(() => t2())
-            .catch(() => t2())
+              .request(this.container)
+              .then(() => t2())
+              .catch(() => t2())
           : t2();
       }
       initLayout() {
@@ -25185,30 +25254,30 @@ var require_app2 = __commonJS({
           s2 = n(this.localize(this.option("tpl.main") || ""));
         s2 &&
           (s2.setAttribute("id", `fancybox-${this.id}`),
-            s2.setAttribute("aria-label", this.localize("{{MODAL}}")),
-            s2.classList.toggle("is-compact", this.isCompact),
-            E(s2, this.option("mainClass") || ""),
-            (this.container = s2),
-            (this.footer = s2.querySelector(".fancybox__footer")),
-            i2.appendChild(s2),
-            E(document.documentElement, "with-fancybox"),
-            (bt && vt) ||
+          s2.setAttribute("aria-label", this.localize("{{MODAL}}")),
+          s2.classList.toggle("is-compact", this.isCompact),
+          E(s2, this.option("mainClass") || ""),
+          (this.container = s2),
+          (this.footer = s2.querySelector(".fancybox__footer")),
+          i2.appendChild(s2),
+          E(document.documentElement, "with-fancybox"),
+          (bt && vt) ||
             ((bt = document.createElement("span")),
-              E(bt, "fancybox-focus-guard"),
-              bt.setAttribute("tabindex", "0"),
-              bt.setAttribute("aria-hidden", "true"),
-              bt.setAttribute("aria-label", "Focus guard"),
-              (vt = bt.cloneNode()),
-              null === (t2 = s2.parentElement) ||
+            E(bt, "fancybox-focus-guard"),
+            bt.setAttribute("tabindex", "0"),
+            bt.setAttribute("aria-hidden", "true"),
+            bt.setAttribute("aria-label", "Focus guard"),
+            (vt = bt.cloneNode()),
+            null === (t2 = s2.parentElement) ||
               void 0 === t2 ||
               t2.insertBefore(bt, s2),
-              null === (e2 = s2.parentElement) || void 0 === e2 || e2.append(vt)),
-            this.option("animated") &&
+            null === (e2 = s2.parentElement) || void 0 === e2 || e2.append(vt)),
+          this.option("animated") &&
             (E(s2, "is-animated"),
-              setTimeout(() => {
-                this.isClosing() || S(s2, "is-animated");
-              }, 350)),
-            this.emit("initLayout"));
+            setTimeout(() => {
+              this.isClosing() || S(s2, "is-animated");
+            }, 350)),
+          this.emit("initLayout"));
       }
       initCarousel(t2) {
         const i2 = this.container;
@@ -25258,8 +25327,8 @@ var require_app2 = __commonJS({
             const n3 = i3.el;
             n3 &&
               (S(n3, "has-error"),
-                S(n3, "has-unknown"),
-                S(n3, `has-${i3.type || "unknown"}`)),
+              S(n3, "has-unknown"),
+              S(n3, `has-${i3.type || "unknown"}`)),
               i3.closeBtnEl && i3.closeBtnEl.remove(),
               (i3.closeBtnEl = void 0),
               i3.captionEl && i3.captionEl.remove(),
@@ -25279,23 +25348,23 @@ var require_app2 = __commonJS({
               this.option("autoFocus") && this.checkFocus();
           }),
           this.option("dragToClose") &&
-          (s2.on("Panzoom.afterTransform", (t3, i3) => {
-            const n3 = this.getSlide();
-            if (n3 && e(n3.el)) return;
-            const s3 = this.container;
-            if (s3) {
-              const t4 = Math.abs(i3.current.f),
-                e2 =
-                  t4 < 1
-                    ? ""
-                    : Math.max(
-                      0.5,
-                      Math.min(1, 1 - (t4 / i3.contentRect.fitHeight) * 1.5)
-                    );
-              s3.style.setProperty("--fancybox-ts", e2 ? "0s" : ""),
-                s3.style.setProperty("--fancybox-opacity", e2 + "");
-            }
-          }),
+            (s2.on("Panzoom.afterTransform", (t3, i3) => {
+              const n3 = this.getSlide();
+              if (n3 && e(n3.el)) return;
+              const s3 = this.container;
+              if (s3) {
+                const t4 = Math.abs(i3.current.f),
+                  e2 =
+                    t4 < 1
+                      ? ""
+                      : Math.max(
+                          0.5,
+                          Math.min(1, 1 - (t4 / i3.contentRect.fitHeight) * 1.5)
+                        );
+                s3.style.setProperty("--fancybox-ts", e2 ? "0s" : ""),
+                  s3.style.setProperty("--fancybox-opacity", e2 + "");
+              }
+            }),
             s2.on("Panzoom.touchEnd", (t3, i3, n3) => {
               var s3;
               const o2 = this.getSlide();
@@ -25304,21 +25373,21 @@ var require_app2 = __commonJS({
                 i3.isMobile &&
                 document.activeElement &&
                 -1 !==
-                ["TEXTAREA", "INPUT"].indexOf(
-                  null === (s3 = document.activeElement) || void 0 === s3
-                    ? void 0
-                    : s3.nodeName
-                )
+                  ["TEXTAREA", "INPUT"].indexOf(
+                    null === (s3 = document.activeElement) || void 0 === s3
+                      ? void 0
+                      : s3.nodeName
+                  )
               )
                 return;
               const a2 = Math.abs(i3.dragOffset.y);
               "y" === i3.lockedAxis &&
                 (a2 >= 200 || (a2 >= 50 && i3.dragOffset.time < 300)) &&
                 (n3 && n3.cancelable && n3.preventDefault(),
-                  this.close(
-                    n3,
-                    "f-throwOut" + (i3.current.f < 0 ? "Up" : "Down")
-                  ));
+                this.close(
+                  n3,
+                  "f-throwOut" + (i3.current.f < 0 ? "Up" : "Down")
+                ));
             })),
           s2.on("change", (t3) => {
             var e2;
@@ -25409,12 +25478,12 @@ var require_app2 = __commonJS({
           ),
           document.addEventListener("mousemove", t2.onMousemove),
           t2.option("trapFocus") &&
-          document.addEventListener("focus", t2.onFocus, true),
+            document.addEventListener("focus", t2.onFocus, true),
           window.addEventListener("resize", t2.onResize);
         const i2 = window.visualViewport;
         i2 &&
           (i2.addEventListener("scroll", t2.onResize),
-            i2.addEventListener("resize", t2.onResize));
+          i2.addEventListener("resize", t2.onResize));
       }
       detachEvents() {
         const t2 = this,
@@ -25437,7 +25506,7 @@ var require_app2 = __commonJS({
         const i2 = window.visualViewport;
         i2 &&
           (i2.removeEventListener("resize", t2.onResize),
-            i2.removeEventListener("scroll", t2.onResize)),
+          i2.removeEventListener("scroll", t2.onResize)),
           document.removeEventListener(
             "visibilitychange",
             t2.onVisibilityChange,
@@ -25488,15 +25557,15 @@ var require_app2 = __commonJS({
         if (
           s2 &&
           "image" ===
-          (null === (i2 = this.getSlide()) || void 0 === i2
-            ? void 0
-            : i2.type)
+            (null === (i2 = this.getSlide()) || void 0 === i2
+              ? void 0
+              : i2.type)
         )
           return void (this.clickTimer
             ? (clearTimeout(this.clickTimer), (this.clickTimer = null))
             : (this.clickTimer = setTimeout(() => {
-              this.toggleIdle(), (this.clickTimer = null);
-            }, 350)));
+                this.toggleIdle(), (this.clickTimer = null);
+              }, 350)));
         if ((this.emit("click", t2), t2.defaultPrevented)) return;
         let r2 = false;
         if (a2.closest(".fancybox__content")) {
@@ -25513,8 +25582,8 @@ var require_app2 = __commonJS({
         "close" === r2
           ? (t2.preventDefault(), this.close(t2))
           : "next" === r2
-            ? (t2.preventDefault(), this.next())
-            : "prev" === r2 && (t2.preventDefault(), this.prev());
+          ? (t2.preventDefault(), this.next())
+          : "prev" === r2 && (t2.preventDefault(), this.prev());
       }
       onWheel(t2) {
         var e2;
@@ -25535,10 +25604,10 @@ var require_app2 = __commonJS({
           : ((this.pwt = a2),
             this.emit("wheel", t2),
             t2.defaultPrevented ||
-            ("close" === i2
-              ? (t2.preventDefault(), this.close(t2))
-              : "slide" === i2 &&
-              (t2.preventDefault(), this[o2 > 0 ? "prev" : "next"]())));
+              ("close" === i2
+                ? (t2.preventDefault(), this.close(t2))
+                : "slide" === i2 &&
+                  (t2.preventDefault(), this[o2 > 0 ? "prev" : "next"]())));
       }
       onKeydown(t2) {
         if (!this.isTopmost()) return;
@@ -25559,9 +25628,9 @@ var require_app2 = __commonJS({
           if (
             n2.isContentEditable ||
             -1 !==
-            ["TEXTAREA", "OPTION", "INPUT", "SELECT", "VIDEO"].indexOf(
-              n2.nodeName
-            )
+              ["TEXTAREA", "OPTION", "INPUT", "SELECT", "VIDEO"].indexOf(
+                n2.nodeName
+              )
           )
             return;
         }
@@ -25616,22 +25685,22 @@ var require_app2 = __commonJS({
           r2 = !a2;
         if (
           (this.caption && this.stop(this.caption),
-            r2 && this.caption && (this.caption.remove(), (this.caption = null)),
-            a2 && !this.caption)
+          r2 && this.caption && (this.caption.remove(), (this.caption = null)),
+          a2 && !this.caption)
         )
           for (const t3 of (null === (e2 = this.carousel) || void 0 === e2
             ? void 0
             : e2.slides) || [])
             t3.captionEl &&
               (t3.captionEl.remove(),
-                (t3.captionEl = void 0),
-                S(t3.el, s2),
-                null === (i2 = t3.el) ||
+              (t3.captionEl = void 0),
+              S(t3.el, s2),
+              null === (i2 = t3.el) ||
                 void 0 === i2 ||
                 i2.removeAttribute("aria-labelledby"));
         if (
           (t2 || (t2 = this.getSlide()),
-            !t2 || (a2 && !this.isCurrentSlide(t2)))
+          !t2 || (a2 && !this.isCurrentSlide(t2)))
         )
           return;
         const l2 = t2.el;
@@ -25709,24 +25778,24 @@ var require_app2 = __commonJS({
           t3 === s2 || ((i3 || n3) && !e3)
             ? (l2.push(t3),
               void 0 !== t3.dataset.origTabindex &&
-              (t3.tabIndex = parseFloat(t3.dataset.origTabindex)),
+                (t3.tabIndex = parseFloat(t3.dataset.origTabindex)),
               t3.removeAttribute("data-orig-tabindex"),
               (!t3.hasAttribute("autoFocus") && c2) || (c2 = t3))
             : ((t3.dataset.origTabindex =
-              void 0 === t3.dataset.origTabindex
-                ? t3.getAttribute("tabindex") || void 0
-                : t3.dataset.origTabindex),
+                void 0 === t3.dataset.origTabindex
+                  ? t3.getAttribute("tabindex") || void 0
+                  : t3.dataset.origTabindex),
               (t3.tabIndex = -1));
         }
         let h2 = null;
         t2
           ? (!n2 || l2.indexOf(n2) < 0) &&
-          ((h2 = c2 || s2),
+            ((h2 = c2 || s2),
             l2.length &&
-            (i2 === vt
-              ? (h2 = l2[0])
-              : (this.lastFocus !== s2 && i2 !== bt) ||
-              (h2 = l2[l2.length - 1])))
+              (i2 === vt
+                ? (h2 = l2[0])
+                : (this.lastFocus !== s2 && i2 !== bt) ||
+                  (h2 = l2[l2.length - 1])))
           : (h2 = o2 && "image" === o2.type ? s2 : c2 || s2),
           h2 && Y(h2),
           (this.lastFocus = document.activeElement),
@@ -25758,9 +25827,9 @@ var require_app2 = __commonJS({
           s2.target === t2 &&
             t2.dataset.animationName &&
             (t2.removeEventListener("animationend", n2),
-              delete t2.dataset.animationName,
-              i2 && i2(),
-              S(t2, e2));
+            delete t2.dataset.animationName,
+            i2 && i2(),
+            S(t2, e2));
         };
         (t2.dataset.animationName = e2),
           t2.addEventListener("animationend", n2),
@@ -25786,11 +25855,11 @@ var require_app2 = __commonJS({
             ? (o2 = e2)
             : ((o2 = n(e2 + "")),
               x(o2) ||
-              ((o2 = document.createElement("div")),
+                ((o2 = document.createElement("div")),
                 (o2.innerHTML = e2 + ""))),
-            ["img", "picture", "iframe", "video", "audio"].includes(
-              o2.nodeName.toLowerCase()
-            ))
+          ["img", "picture", "iframe", "video", "audio"].includes(
+            o2.nodeName.toLowerCase()
+          ))
         ) {
           const t3 = document.createElement("div");
           t3.appendChild(o2), (o2 = t3);
@@ -25801,8 +25870,8 @@ var require_app2 = __commonJS({
               t2.id && o2.setAttribute("id", t2.id),
               ("none" !== o2.style.display &&
                 "none" !== getComputedStyle(o2).getPropertyValue("display")) ||
-              (o2.style.display =
-                t2.display || this.option("defaultDisplay") || "flex"),
+                (o2.style.display =
+                  t2.display || this.option("defaultDisplay") || "flex"),
               s2.classList.add(
                 `has-${t2.error ? "error" : t2.type || "unknown"}`
               ),
@@ -25819,30 +25888,30 @@ var require_app2 = __commonJS({
         i2 &&
           n2 &&
           (this.emit("reveal", t2),
-            this.hideLoading(t2),
-            (t2.state = Z.Opening),
-            (e2 = this.isOpeningSlide(t2)
-              ? void 0 === e2
-                ? this.optionFor(t2, "showClass")
-                : e2
-              : "f-fadeIn")
-              ? this.animate(n2, e2, () => {
+          this.hideLoading(t2),
+          (t2.state = Z.Opening),
+          (e2 = this.isOpeningSlide(t2)
+            ? void 0 === e2
+              ? this.optionFor(t2, "showClass")
+              : e2
+            : "f-fadeIn")
+            ? this.animate(n2, e2, () => {
                 this.done(t2);
               })
-              : this.done(t2));
+            : this.done(t2));
       }
       done(t2) {
         this.isClosing() ||
           ((t2.state = Z.Ready),
-            this.emit("done", t2),
-            E(t2.el, "is-done"),
-            this.isCurrentSlide(t2) &&
+          this.emit("done", t2),
+          E(t2.el, "is-done"),
+          this.isCurrentSlide(t2) &&
             this.option("autoFocus") &&
             queueMicrotask(() => {
               this.option("autoFocus") &&
                 (this.option("autoFocus") ? this.focus() : this.checkFocus());
             }),
-            this.isOpeningSlide(t2) &&
+          this.isOpeningSlide(t2) &&
             !this.isCompact &&
             this.option("idle") &&
             this.setIdle());
@@ -25855,13 +25924,13 @@ var require_app2 = __commonJS({
         var e2, i2;
         return (
           null ===
-          (null === (e2 = this.carousel) || void 0 === e2
-            ? void 0
-            : e2.prevPage) &&
+            (null === (e2 = this.carousel) || void 0 === e2
+              ? void 0
+              : e2.prevPage) &&
           t2.index ===
-          (null === (i2 = this.getSlide()) || void 0 === i2
-            ? void 0
-            : i2.index)
+            (null === (i2 = this.getSlide()) || void 0 === i2
+              ? void 0
+              : i2.index)
         );
       }
       showLoading(t2) {
@@ -25871,18 +25940,18 @@ var require_app2 = __commonJS({
         E(e2, "is-loading"),
           this.emit("loading", t2),
           t2.spinnerEl ||
-          setTimeout(() => {
-            if (
-              !this.isClosing() &&
-              !t2.spinnerEl &&
-              t2.state === Z.Loading
-            ) {
-              let i2 = n(w);
-              (t2.spinnerEl = i2),
-                e2.prepend(i2),
-                this.animate(i2, "f-fadeIn");
-            }
-          }, 250);
+            setTimeout(() => {
+              if (
+                !this.isClosing() &&
+                !t2.spinnerEl &&
+                t2.state === Z.Loading
+              ) {
+                let i2 = n(w);
+                (t2.spinnerEl = i2),
+                  e2.prepend(i2),
+                  this.animate(i2, "f-fadeIn");
+              }
+            }, 250);
       }
       hideLoading(t2) {
         const e2 = t2.el;
@@ -25892,11 +25961,11 @@ var require_app2 = __commonJS({
           ? null == i2 || i2.remove()
           : (S(e2, "is-loading"),
             i2 &&
-            this.animate(i2, "f-fadeOut", () => {
-              i2.remove();
-            }),
+              this.animate(i2, "f-fadeOut", () => {
+                i2.remove();
+              }),
             t2.state === Z.Loading &&
-            (this.emit("loaded", t2), (t2.state = Z.Ready)));
+              (this.emit("loaded", t2), (t2.state = Z.Ready)));
       }
       setError(t2, e2) {
         if (this.isClosing()) return;
@@ -25921,7 +25990,7 @@ var require_app2 = __commonJS({
           (null ===
             (t2 =
               null == e2 ? void 0 : e2.pages[null == e2 ? void 0 : e2.page]) ||
-            void 0 === t2
+          void 0 === t2
             ? void 0
             : t2.slides[0]) || void 0
         );
@@ -25962,8 +26031,8 @@ var require_app2 = __commonJS({
       endIdle() {
         this.clearIdle(),
           this.idle &&
-          !this.isClosing() &&
-          ((this.idle = false),
+            !this.isClosing() &&
+            ((this.idle = false),
             S(this.container, "is-idle"),
             this.emit("endIdle"));
       }
@@ -25995,18 +26064,18 @@ var require_app2 = __commonJS({
               : null;
         if (
           (r2 && (N(r2) ? Y(r2) : r2.focus()),
-            s2 &&
+          s2 &&
             (E(s2, "is-closing"),
-              s2.setAttribute("aria-hidden", "true"),
-              this.option("animated") && E(s2, "is-animated"),
-              (s2.style.pointerEvents = "none")),
-            o2)
+            s2.setAttribute("aria-hidden", "true"),
+            this.option("animated") && E(s2, "is-animated"),
+            (s2.style.pointerEvents = "none")),
+          o2)
         ) {
           o2.clearTransitions(),
             null === (i2 = o2.panzoom) || void 0 === i2 || i2.destroy(),
             null === (n2 = o2.plugins.Navigation) ||
-            void 0 === n2 ||
-            n2.detach();
+              void 0 === n2 ||
+              n2.detach();
           for (const t3 of o2.slides) {
             (t3.state = Z.Closing), this.hideLoading(t3);
             const e3 = t3.contentEl;
@@ -26021,15 +26090,15 @@ var require_app2 = __commonJS({
             ? (void 0 === e2 && a2 && (e2 = this.optionFor(a2, "hideClass")),
               e2 && a2
                 ? (this.animate(a2.contentEl, e2, () => {
-                  o2 && o2.emit("removeSlide", a2);
-                }),
+                    o2 && o2.emit("removeSlide", a2);
+                  }),
                   setTimeout(() => {
                     this.destroy();
                   }, 500))
                 : this.destroy())
             : setTimeout(() => {
-              this.destroy();
-            }, 500);
+                this.destroy();
+              }, 500);
       }
       destroy() {
         var t2;
@@ -26066,13 +26135,13 @@ var require_app2 = __commonJS({
           (void 0 === t2
             ? (n2 = document.body)
             : "string" == typeof t2
-              ? ((n2 = document.body),
-                (s2 = t2),
-                "object" == typeof e2 && (o2 = e2 || {}))
-              : ((n2 = t2),
-                "string" == typeof e2 && (s2 = e2),
-                "object" == typeof i2 && (o2 = i2 || {})),
-            !n2 || !x(n2))
+            ? ((n2 = document.body),
+              (s2 = t2),
+              "object" == typeof e2 && (o2 = e2 || {}))
+            : ((n2 = t2),
+              "string" == typeof e2 && (s2 = e2),
+              "object" == typeof i2 && (o2 = i2 || {})),
+          !n2 || !x(n2))
         )
           return;
         s2 = s2 || "[data-fancybox]";
@@ -26088,18 +26157,18 @@ var require_app2 = __commonJS({
           ("string" == typeof t2
             ? ((i2 = document.body), (n2 = t2))
             : ((i2 = t2), "string" == typeof e2 && (n2 = e2)),
-            !i2)
+          !i2)
         )
           return;
         const s2 = xt.openers.get(i2);
         s2 && n2 && s2.delete(n2),
           (n2 && s2) ||
-          (xt.openers.delete(i2),
+            (xt.openers.delete(i2),
             i2.removeEventListener("click", xt.fromEvent));
       }
       static destroy() {
         let t2;
-        for (; (t2 = xt.getInstance());) t2.destroy();
+        for (; (t2 = xt.getInstance()); ) t2.destroy();
         for (const t3 of xt.openers.keys())
           t3.removeEventListener("click", xt.fromEvent);
         xt.openers = /* @__PURE__ */ new Map();
@@ -26131,7 +26200,7 @@ var require_app2 = __commonJS({
                 })
               )
           ),
-            !n2 || !s2 || !o2)
+          !n2 || !s2 || !o2)
         )
           return;
         (a2 = a2 || {}), t2.preventDefault(), (e2 = o2);
@@ -26143,12 +26212,12 @@ var require_app2 = __commonJS({
           d2 = h2 && e2 ? e2.getAttribute(`${h2}`) : "";
         if (
           ((!e2 || d2 || c2) && (r2 = [].slice.call(n2.querySelectorAll(s2))),
-            e2 &&
+          e2 &&
             !c2 &&
             (r2 = d2
               ? r2.filter((t3) => t3.getAttribute(`${h2}`) === d2)
               : [e2]),
-            !r2.length)
+          !r2.length)
         )
           return;
         const p2 = xt.getInstance();
@@ -26165,9 +26234,9 @@ var require_app2 = __commonJS({
           ("string" == typeof t2
             ? ((i2 = document.body), (n2 = t2))
             : t2 instanceof HTMLElement &&
-            "string" == typeof e2 &&
-            ((i2 = t2), (n2 = e2)),
-            !i2 || !n2)
+              "string" == typeof e2 &&
+              ((i2 = t2), (n2 = e2)),
+          !i2 || !n2)
         )
           return false;
         const s2 = xt.openers.get(i2);
@@ -26196,15 +26265,15 @@ var require_app2 = __commonJS({
                 ? a2
                 : a2.querySelector("img:not([aria-hidden])")),
             o2 ||
-            (o2 =
-              n2 instanceof HTMLImageElement
-                ? n2
-                : n2.querySelector("img:not([aria-hidden])")),
+              (o2 =
+                n2 instanceof HTMLImageElement
+                  ? n2
+                  : n2.querySelector("img:not([aria-hidden])")),
             o2 &&
-            ((r2 = o2.currentSrc || o2.src || void 0),
+              ((r2 = o2.currentSrc || o2.src || void 0),
               !r2 &&
-              o2.dataset &&
-              (r2 = o2.dataset.lazySrc || o2.dataset.src || void 0));
+                o2.dataset &&
+                (r2 = o2.dataset.lazySrc || o2.dataset.src || void 0));
           const l2 = {
             src: s2,
             triggerEl: n2,
@@ -26402,8 +26471,8 @@ var require_app2 = __commonJS({
         optionsSelector: "[data-option-dropdown]",
         closeOnSelectOption: true,
         defaultActiveIndex: 0,
-        onOpen: function () { },
-        onClose: function () { },
+        onOpen: function () {},
+        onClose: function () {},
       });
     }
     const pgGallery = new Page({
@@ -26467,18 +26536,18 @@ var require_app2 = __commonJS({
         function $2(e2, parent2) {
           return !e2 || e2.length == 0
             ? // null or empty string returns empty array
-            []
+              []
             : e2.nodeName
-              ? // a single element is wrapped in an array
+            ? // a single element is wrapped in an array
               [e2]
-              : // selector and NodeList are converted to Element[]
+            : // selector and NodeList are converted to Element[]
               [].slice.call(
                 e2[0].nodeName ? e2 : (parent2 || root).querySelectorAll(e2)
               );
         }
         function Array2D(len) {
           var a2 = [];
-          for (; len--;) {
+          for (; len--; ) {
             a2[len] = [];
           }
           return a2;
@@ -26956,17 +27025,16 @@ var require_app2 = __commonJS({
       multiple: false,
       deactivateOnClickOutside: true,
       leaveDelay: 800,
-      onClose: () => { },
-      onComplete: () => { },
-      onActivate: (item) => { },
-      onDeactivate: (item) => { },
+      onClose: () => {},
+      onComplete: () => {},
+      onActivate: (item) => {},
+      onDeactivate: (item) => {},
     });
     document.addEventListener("pjax:send", function () {
       submenu.deactivateItems();
     });
     var firstLoad = true;
     function whenContainerReady() {
-
       if (firstLoad) {
         firstLoad = false;
       }
@@ -26984,12 +27052,12 @@ var require_app2 = __commonJS({
       const main$products = () => {
         filterProducts();
         main$productsPost();
-      }
+      };
       const main$product = () => {
         main$5();
         main$productsPost();
         formCart();
-      }
+      };
       const main$productsPost = () => {
         window.scrollTo({ top: 0, behavior: "instant" });
 
@@ -27030,50 +27098,53 @@ var require_app2 = __commonJS({
         });
         filterProducts();
         productContent();
-      }
+      };
       const main$gallery = () => {
         main$3();
         collections();
         galleryLightbox();
         main$productsPost();
-      }
+      };
       const main$collectionspost = () => {
-        main$2()
+        main$2();
         galleryLightbox();
-      }
-      const page = window.location.pathname.trim() === "/" ? "home" : location.pathname.substring(1);
+      };
+      const page =
+        window.location.pathname.trim() === "/"
+          ? "home"
+          : location.pathname.substring(1);
       const page_name = page.split("/")[0].trim();
       document.body.dataset.pg = `pg-${page_name}`;
 
       switch (page_name) {
-        case 'home':
+        case "home":
           main$8();
           break;
-        case 'gallery':
+        case "gallery":
           main$gallery();
           break;
-        case 'collections':
+        case "collections":
           main$collectionspost();
           break;
-        case 'products':
+        case "products":
           main$products();
           break;
-        case 'product':
+        case "product":
           main$product();
           break;
-        case 'my-account':
+        case "my-account":
           main$03();
-        case 'my-account-saved-products':
+        case "my-account-saved-products":
           main();
-        case 'my-account-quotes-history':
+        case "my-account-quotes-history":
           main$1();
-        case 'my-account-change-password':
+        case "my-account-change-password":
           main$01();
           break;
-        case 'search':
+        case "search":
           main$4();
           break;
-        case 'cart':
+        case "cart":
           main$6();
           break;
         default:
