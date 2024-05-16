@@ -230,7 +230,7 @@ const Products = ({
                                       data-get-product-link-color={
                                         variantData.color[0]
                                       }
-                                      data-default-product-link-active
+                                      data-default-product-link-active={index === 0}
                                     >
                                       <img
                                         style={{
@@ -267,6 +267,7 @@ const Products = ({
                                       onMouseEnter={() =>
                                         handleImageHover(variantData)
                                       }
+                                    data-default-product-link-active={index === 0}
                                     >
                                       <div className="container-img">
                                         <img
@@ -304,13 +305,13 @@ const Products = ({
                 })}
               </ul>
               {filteredProducts.length === 0 && (
-                  <h6
-                    className="fs--40 text-center split-words white-1"
-                    data-aos="d:loop"
-                  >
-                    No Products Found
-                  </h6>
-                )}
+                <h6
+                  className="fs--40 text-center split-words white-1"
+                  data-aos="d:loop"
+                >
+                  No Products Found
+                </h6>
+              )}
               {totalCount > pageSize &&
                 filteredProducts.length !== totalCount && (
                   <div className="flex-center mt-30">

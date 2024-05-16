@@ -24,7 +24,7 @@ const FilterButton = ({ collections, colors, handleFilterChange }) => {
   useEffect(() => {
     if (collections) setCollectionsArray(collections.map((x) => { return { ...x, checked: false } }));
     if (colors) setColorsArray(colors.map((x) => { return { name: x, checked: false } }));
-  }, []);
+  }, [colors]);
   if (collections === undefined) return;
   return (
     <div
@@ -62,7 +62,7 @@ const FilterButton = ({ collections, colors, handleFilterChange }) => {
                   })}
                 </div>
               </div>
-              {colors && (
+              {colors.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Colors</h3>
                   <div className="list-filter">

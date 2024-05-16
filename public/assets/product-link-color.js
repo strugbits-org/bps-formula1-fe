@@ -252,7 +252,7 @@ function productLinkColor() {
       parentContainer: element,
       dataGetSelector: "[data-get-product-link-color]",
       dataSetSelector: "[data-set-product-link-color]",
-      defaultActive: "[data-default-product-link-active]",
+      defaultActive: "[data-default-product-link-active=true]",
       listener: "hover",
       //'hover' ou 'click'
       toggle: false,

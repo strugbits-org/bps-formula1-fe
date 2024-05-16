@@ -69,8 +69,8 @@ const Search = ({
                                     data-get-product-link-color={
                                       variant.color[0]
                                     }
-                                    data-default-product-link-active
-                                  >
+                                    data-default-product-link-active={index === 0}
+                                    >
                                     <img
                                       src={variant.variant.imageSrc}
                                       style={{
@@ -102,8 +102,8 @@ const Search = ({
                                     data-set-product-link-color={
                                       variant.color[0]
                                     }
-                                    data-default-product-link-active
-                                  >
+                                    data-default-product-link-active={index === 0}
+                                    >
                                     <div className="container-img">
                                       <img
                                         src={variant.variant.imageSrc}

@@ -2,26 +2,26 @@ import Products from "@/components/Product/Products";
 import {
   fetchProducts,
   getCollectionColors,
+  getCollectionColorsArray,
   getCollectionsData,
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
-import { parseArrayFromParams } from "@/utils/utils";
+import { extractUniqueColors, parseArrayFromParams } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Page({
   collectionsData,
   selectedCategory,
-  colors,
   selectedCollection,
   category,
 }) {
   const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
-  const [selectedColors, setSelectedColors] = useState(colors?.colors);
+  const [selectedColors, setSelectedColors] = useState([]);
   const [selectedCollections, setSelectedCollections] = useState(selectedCollection.map((x) => x._id));
   const pageSize = 9;
 
@@ -72,7 +72,25 @@ export default function Page({
     }
   };
 
+  const getFilterColors = async () => {
+    let subCategories = parseArrayFromParams(router.query.subCategories);
+    if (subCategories.length !== 0) {
+      const response = await getCollectionColorsArray(subCategories);
+      const colors = extractUniqueColors(response);
+      setSelectedColors(colors);
+    } else if (router.query.category) {
+      const colors = await getCollectionColors(router.query.category);
+      setSelectedColors(colors.colors);
+    } else {
+      const allProducts = "00000000-000000-000000-000000000001";
+      const colors = await getCollectionColors(allProducts);
+      setSelectedColors(colors.colors);
+    }
+  }
 
+  useEffect(() => {
+    getFilterColors();
+  }, [router]);
 
   useEffect(() => {
     handleProductsFilter(true, false);
@@ -101,7 +119,7 @@ export const getServerSideProps = async (context) => {
   if (collection && collection !== "all" && category) {
     const selectedCollection = await getSelectedCollectionData(collection);
 
-    const [collectionsData, selectedCategory, colors] = await Promise.all([
+    const [collectionsData, selectedCategory] = await Promise.all([
       getCollectionsData(),
       getSelectedCategoryData(category),
       getCollectionColors(category)
@@ -110,52 +128,43 @@ export const getServerSideProps = async (context) => {
       props: {
         collectionsData,
         selectedCategory: selectedCategory[0],
-        colors,
         selectedCollection: selectedCollection,
         category,
       },
     };
   } else if (category) {
-    const [collectionsData, selectedCategory, colors] = await Promise.all([
+    const [collectionsData, selectedCategory] = await Promise.all([
       getCollectionsData(),
       getSelectedCategoryData(category),
-      getCollectionColors(category)
     ]);
     return {
       props: {
         collectionsData,
         selectedCategory: selectedCategory[0],
-        colors,
         selectedCollection: [],
         category,
       },
     };
   } else if (collection) {
-    const category = "00000000-000000-000000-000000000001";
     const selectedCollection = await getSelectedCollectionData(collection);
-    const [collectionsData, colors] = await Promise.all([
+    const [collectionsData] = await Promise.all([
       getCollectionsData(),
-      getCollectionColors(category),
     ]);
     return {
       props: {
         collectionsData,
         selectedCategory: null,
-        colors: colors,
         selectedCollection: selectedCollection,
       },
     };
   } else {
-    const category = "00000000-000000-000000-000000000001";
-    const [collectionsData, colors] = await Promise.all([
+    const [collectionsData] = await Promise.all([
       getCollectionsData(),
-      getCollectionColors(category),
     ]);
     return {
       props: {
         collectionsData,
         selectedCategory: null,
-        colors,
         selectedCollection: [],
       },
     };

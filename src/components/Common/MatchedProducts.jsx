@@ -97,8 +97,8 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                           data-get-product-link-color={
                                             variantData.color[0]
                                           }
-                                          data-default-product-link-active
-                                        >
+                                          data-default-product-link-active={index === 0}
+                                          >
                                           <img
                                             src={variantData.variant.imageSrc}
                                             style={{
@@ -130,8 +130,8 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                           data-set-product-link-color={
                                             variantData.color[0]
                                           }
-                                          data-default-product-link-active
-                                        >
+                                          data-default-product-link-active={index === 0}
+                                          >
                                           <div className="container-img">
                                             <img
                                               src={variantData.variant.imageSrc}

@@ -77,6 +77,18 @@ export const wixDeleteCart = async (id) => {
   }
 };
 
+export const fetchCollectionColorsArray = async (dataCollectionId, categories) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+    const { items } = await WixClient.items.queryDataItems(options).hasSome("category", categories).find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 export const fetchCollectionColors = async (dataCollectionId, category) => {
   try {
