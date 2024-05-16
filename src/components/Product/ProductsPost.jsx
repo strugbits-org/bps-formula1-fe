@@ -29,6 +29,8 @@ const ProductPost = ({
     selectedProductDetails.variantData[0].variant
   );
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [modalURL, setModalURL] = useState("");
+
   const handleImageChange = (index) => {
     setSelectedVariantIndex(index);
     setSelectedVariant(selectedProductDetails.variantData[index].variant);
@@ -82,13 +84,20 @@ const ProductPost = ({
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
+    if (productData) {
+      let url = productData.zipUrl;
+      if (url) {
+        let newUrl = url.replace(/0\.jpg$/, "");
+        setModalURL(newUrl);
+      }
+    }
     if (descriptionElement) {
       descriptionElement.innerHTML = descriptionElement.innerHTML.replace(
         /<span style="color:#000000;">/g,
         '<span style="color:#ffffff;">'
       );
     }
-  }, [productData.product.description]);
+  }, [productData]);
   const seatHeightData =
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
@@ -146,21 +155,33 @@ const ProductPost = ({
                             );
                           }
                         )}
-                        {selectedProductDetails &&
-                          selectedProductDetails.zipUrl && (
-                            <div className="swiper-slide slide-360">
-                              <i className="icon-360"></i>
-                              <div className="container-img">
-                                <canvas
-                                  style={{ padding: "100px" }}
-                                  className="infinite-image-scroller"
-                                  data-frames="49"
-                                  data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
-                                  data-extension="jpg"
-                                ></canvas>
-                              </div>
+                        {modalURL ? (
+                          <div className="swiper-slide slide-360">
+                            <i className="icon-360"></i>
+                            <div className="container-img">
+                              <canvas
+                                style={{ padding: "100px" }}
+                                className="infinite-image-scroller"
+                                data-frames="49"
+                                data-path={modalURL}
+                                data-extension="jpg"
+                              ></canvas>
                             </div>
-                          )}
+                          </div>
+                        ) : (
+                          <div className="swiper-slide slide-360">
+                            <i className="icon-360"></i>
+                            <div className="container-img">
+                              <canvas
+                                style={{ padding: "100px" }}
+                                className="infinite-image-scroller"
+                                data-frames="49"
+                                data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
+                                data-extension="jpg"
+                              ></canvas>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div
