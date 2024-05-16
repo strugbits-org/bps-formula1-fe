@@ -5,7 +5,7 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <title>Blueprint Studios | F1 Las Vegas Grand Prix</title>
-        <link rel='shortcut icon' href='/favicon.png' />
+        <link rel="shortcut icon" href="/favicon.png" />
         <link rel="modulepreload" href="/assets/loader.js" />
         <link rel="modulepreload" href="/assets/app2.js" />
         <link rel="modulepreload" href="/assets/product-link-color.js" />
@@ -54,6 +54,7 @@ export default function Document() {
         <span className="quotesHistory d-none"></span>
         <span className="changePassword d-none"></span>
         <span className="galleryImages d-none"></span>
+        <span className="addToCart d-none"></span>
         <Main />
         <NextScript />
       </body>
