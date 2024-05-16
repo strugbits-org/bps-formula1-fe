@@ -240,7 +240,7 @@ return (
               })}
             </ul>
             <div className="container-product-description">
-              <form action="cart.html" className="form-cart" data-pjax>
+              <form action="cart" className="form-cart" data-pjax>
                 <input type="hidden" name="sku[]" value="MODCH09" />
                 <div className="wrapper-product-name">
                   <div className="container-product-name">
