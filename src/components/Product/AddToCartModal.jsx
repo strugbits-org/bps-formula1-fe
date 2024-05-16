@@ -202,7 +202,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                         </ul>
 
                         <div class="container-product-description">
-                          <form action="cart.html" class="form-cart" data-pjax>
+                          <form action="cart" class="form-cart" data-pjax>
                             <input type="hidden" name="sku[]" value="MODCH09" />
                             <div class="wrapper-product-name">
                               <div class="container-product-name">
