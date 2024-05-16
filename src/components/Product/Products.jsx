@@ -7,6 +7,9 @@ import { getCategoriesData } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
+import { BestSeller } from "@/utils/BestSeller";
+import useUserData from "@/hooks/useUserData";
+import { getUserAuth } from "@/utils/GetUser";
 
 const Products = ({
   filteredProducts,
@@ -18,27 +21,31 @@ const Products = ({
   pageSize,
   handleLoadMore,
   setSelectedColors,
-  setSelectedCollections
+  setSelectedCollections,
 }) => {
   const router = useRouter();
+  const { memberId } = useUserData();
+  const authToken = getUserAuth();
 
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
+  const [productSaved, setProductSaved] = useState({});
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
     const categories = parseArrayFromParams(router.query.subCategories);
     if (categories.includes(id)) {
-      queryParams.set('subCategories', JSON.stringify(categories.filter((el) => el !== id)));
+      queryParams.set(
+        "subCategories",
+        JSON.stringify(categories.filter((el) => el !== id))
+      );
       router.push({ pathname: router.pathname, query: queryParams.toString() });
     } else {
-      queryParams.set('subCategories', JSON.stringify([...categories, id]));
+      queryParams.set("subCategories", JSON.stringify([...categories, id]));
       router.push({ pathname: router.pathname, query: queryParams.toString() });
     }
   };
-
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   const handleImageHover = (variantData) => {
@@ -48,25 +55,83 @@ const Products = ({
   const changeCategory = (id) => {
     pageLoadStart();
     router.query.category = id;
-    router.push(router)
-  }
+    router.push(router);
+  };
 
   useEffect(() => {
     const getMainCategories = async () => {
       if (selectedCategory === undefined || selectedCategory === null) {
-        const categories = await getCategoriesData(collectionsData.map((x) => x._id));
+        const categories = await getCategoriesData(
+          collectionsData.map((x) => x._id)
+        );
         setMainCategories(categories);
       }
-    }
+    };
     getMainCategories();
-    const _selectedCategories = parseArrayFromParams(router.query.subCategories);
+    const _selectedCategories = parseArrayFromParams(
+      router.query.subCategories
+    );
     setSelectedCategories(_selectedCategories);
   }, [router]);
 
   const handleFilterChange = (collections, colors) => {
     setSelectedColors(colors);
-    setSelectedCollections(collections)
-  }
+    setSelectedCollections(collections);
+  };
+
+  // Function to handle bookmark click
+  const handleSaveProduct = async (productId, index) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8003/formula1/wix/saveProduct/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setProductSaved((prevSaved) => ({
+        ...prevSaved,
+        [productId]: true,
+      }));
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
+  };
+
+  const handleUnSaveProduct = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      setProductSaved((prevSaved) => ({
+        ...prevSaved,
+        [productId]: false,
+      }));
+
+      const data = await response.json();
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
+  };
 
   return (
     <>
@@ -86,15 +151,16 @@ const Products = ({
                 className="list-tags"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {
-                  selectedCategory?.level2Collections !== undefined ? (
-                    selectedCategory?.level2Collections?.map((data, index) => {
+                {selectedCategory?.level2Collections !== undefined
+                  ? selectedCategory?.level2Collections?.map((data, index) => {
                       const { name, _id } = data;
                       if (name) {
                         return (
                           <li key={index} className="list-item">
                             <button
-                              className={`btn-tag js-running ${selectedCategories.includes(_id) ? "active" : ""}`}
+                              className={`btn-tag js-running ${
+                                selectedCategories.includes(_id) ? "active" : ""
+                              }`}
                               onClick={() => {
                                 handleFilter(_id);
                               }}
@@ -105,25 +171,28 @@ const Products = ({
                         );
                       }
                     })
-                  ) : (
-                    mainCategories.map((data, index) => {
+                  : mainCategories.map((data, index) => {
                       return (
                         <li key={index} className="list-item">
                           <button
                             className="btn-tag"
-                            onClick={() => changeCategory(data.parentCollection._id)}
+                            onClick={() =>
+                              changeCategory(data.parentCollection._id)
+                            }
                           >
                             <span>{data.parentCollection.name}</span>
                           </button>
                         </li>
-                      )
-                    })
-                  )
-                }
+                      );
+                    })}
               </ul>
             </div>
 
-            <FilterButton collections={collectionsData} colors={colors} handleFilterChange={handleFilterChange} />
+            <FilterButton
+              collections={collectionsData}
+              colors={colors}
+              handleFilterChange={handleFilterChange}
+            />
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
@@ -149,7 +218,12 @@ const Products = ({
               )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData } = data;
+                  const { product, variantData, category, members } = data;
+
+                  let productIsSaved = false;
+                  if (members && members.length > 0) {
+                    productIsSaved = members.includes(memberId);
+                  }
                   let defaultVariantSku;
                   if (selectedVariant === null) {
                     setSelectedVariant(variantData);
@@ -171,12 +245,31 @@ const Products = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          <div className="best-seller">
-                            <span>Best Seller</span>
-                          </div>
-                          <button className="btn-bookmark">
-                            <i className="icon-bookmark"></i>
-                          </button>
+                          {BestSeller[category.name] && (
+                            <div className="best-seller">
+                              <span>Best Seller</span>
+                            </div>
+                          )}
+
+                          {productIsSaved || productSaved[product._id] ? (
+                            <button
+                              className="btn-bookmark productSavedColor"
+                              onClick={() =>
+                                handleUnSaveProduct(product._id, index)
+                              }
+                            >
+                              <i className="icon-bookmark"></i>
+                            </button>
+                          ) : (
+                            <button
+                              className="btn-bookmark"
+                              onClick={() =>
+                                handleSaveProduct(product._id, index)
+                              }
+                            >
+                              <i className="icon-bookmark"></i>
+                            </button>
+                          )}
                         </div>
                         <div className="container-copy">
                           <button className="btn-copy copy-link">
@@ -230,7 +323,9 @@ const Products = ({
                                       data-get-product-link-color={
                                         variantData.color[0]
                                       }
-                                      data-default-product-link-active
+                                      data-default-product-link-active={
+                                        index === 0
+                                      }
                                     >
                                       <img
                                         style={{
@@ -266,6 +361,9 @@ const Products = ({
                                       }
                                       onMouseEnter={() =>
                                         handleImageHover(variantData)
+                                      }
+                                      data-default-product-link-active={
+                                        index === 0
                                       }
                                     >
                                       <div className="container-img">
@@ -304,13 +402,13 @@ const Products = ({
                 })}
               </ul>
               {filteredProducts.length === 0 && (
-                  <h6
-                    className="fs--40 text-center split-words white-1"
-                    data-aos="d:loop"
-                  >
-                    No Products Found
-                  </h6>
-                )}
+                <h6
+                  className="fs--40 text-center split-words white-1"
+                  data-aos="d:loop"
+                >
+                  No Products Found
+                </h6>
+              )}
               {totalCount > pageSize &&
                 filteredProducts.length !== totalCount && (
                   <div className="flex-center mt-30">

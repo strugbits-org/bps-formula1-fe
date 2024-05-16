@@ -113,7 +113,7 @@ function Forms() {
     document.querySelectorAll(".container-select").forEach((element) => {
       let select2 = element.querySelector(".main-select");
       let other = element.querySelector(".container-select-specify-other");
-      if (select2.value == "Other") {
+      if (select2.value == "other") {
         if (other) {
           if (screen.isDesktop) {
             setTimeout(() => {

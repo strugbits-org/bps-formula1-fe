@@ -42,15 +42,26 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data, "user data>>");
+
         const userToken = data.data.jwtToken;
+        const userData = JSON.stringify(data.data.member);
         document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+        document.cookie = `userData=${encodeURIComponent(
+          userData
+        )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+
         pageLoadStart();
         router.push("/collections");
+
         setTimeout(() => {
           document.body.dataset.loginState = "logged";
         }, 800);
+
         return response;
       }
+    
+    
 
     } catch (error) {
       // let err = JSON.parse(error.message);

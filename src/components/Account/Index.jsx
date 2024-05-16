@@ -1,7 +1,7 @@
-"use client";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "../Common/AnimateLink";
 import { useRouter } from "next/router";
+import useUserData from "@/hooks/useUserData";
 
 const links = [
   { name: "My Account", icon: "icon-account", href: "/my-account" },
@@ -24,6 +24,8 @@ const links = [
 
 const Account = () => {
   const router = useRouter();
+  const { firstName, memberId, email } = useUserData();
+
   const handleLogOut = () => {
     try {
       const loggedIn = document.cookie
@@ -47,7 +49,7 @@ const Account = () => {
       <div className="container-my-account">
         <h2 className="fs--24 fs-tablet-20 red-1 text-uppercase">
           Hello, <br className="no-phone" />
-          Gabriel
+          {firstName}
         </h2>
         <ul className="list-menu-my-account mt-lg-90 mt-tablet-40 mt-phone-60">
           {links.map((data, index) => {

@@ -12,6 +12,7 @@ import fetchData, {
   fetchProductSnapshots,
   fetchProductVariants,
   listProducts,
+  fetchCollectionColorsArray,
 } from "./fetchFunction";
 
 // HOME PAGE APIS
@@ -60,6 +61,9 @@ export const getSelectedCategoryData = (slug) =>
 
 export const getCollectionColors = (category) =>
   fetchCollectionColors("colorFilterCache", category);
+
+export const getCollectionColorsArray = (categories) =>
+  fetchCollectionColorsArray("colorFilterCache", categories);
 
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 

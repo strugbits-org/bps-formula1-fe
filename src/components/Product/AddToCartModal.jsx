@@ -1,3 +1,4 @@
+import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
 
 const AddToCartModal = ({ productData, setProductData }) => {
@@ -15,8 +16,10 @@ const AddToCartModal = ({ productData, setProductData }) => {
     document.querySelector(".addToCart").click();
     if (productData) {
       let url = productData.zipUrl;
-      let newUrl = url.replace(/0\.jpg$/, "");
-      setModalURL(newUrl);
+      if (url) {
+        let newUrl = url.replace(/0\.jpg$/, "");
+        setModalURL(newUrl);
+      }
 
       setSelectedVariant(productData.variantData[0].variant);
     }
@@ -74,9 +77,12 @@ const AddToCartModal = ({ productData, setProductData }) => {
                             data-default-active
                           >
                             <div class="slider-product">
-                              <div class="best-seller-tag">
-                                <span>Best Seller</span>
-                              </div>
+                              {productData &&
+                                BestSeller[productData.category.name] && (
+                                  <div class="best-seller-tag">
+                                    <span>Best Seller</span>
+                                  </div>
+                                )}
                               <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                   {productData &&

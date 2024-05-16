@@ -77,6 +77,18 @@ export const wixDeleteCart = async (id) => {
   }
 };
 
+export const fetchCollectionColorsArray = async (dataCollectionId, categories) => {
+  try {
+    const options = {
+      dataCollectionId,
+    };
+    const { items } = await WixClient.items.queryDataItems(options).hasSome("category", categories).find();
+
+    return items.map((item) => item.data);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 export const fetchCollectionColors = async (dataCollectionId, category) => {
   try {
@@ -125,8 +137,8 @@ export const listProducts = async (collections = [], categories = [], pageSize =
   try {
     const options = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", 'subCategory'],
-      "returnTotalCount": true,
+      includeReferencedItems: ["category", "product", "subCategory", "members"],
+      returnTotalCount: true,
     };
     let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
 

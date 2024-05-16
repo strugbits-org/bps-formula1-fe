@@ -1,9 +1,42 @@
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import AddToCartModal from "../Product/AddToCartModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getUserAuth } from "@/utils/GetUser";
 
 const SavedProducts = ({ savedProductPageData }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
+  const [data, setData] = useState(null);
+  const authToken = getUserAuth();
 
+  const handleUnSaveProduct = async (productId) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8003/formula1/wix/getSavedProducts/${productId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: authToken,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      markPageLoaded();
+
+      setData(data.data._items);
+    } catch (error) {
+      console.error("Error saving product:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleUnSaveProduct();
+  }, []);
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -23,8 +56,9 @@ const SavedProducts = ({ savedProductPageData }) => {
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(
-                    (data, index) => {
+                  {data &&
+                    data.map((productData, index) => {
+                      const { product, variantData } = productData.data;
                       return (
                         <li key={index} className="grid-item">
                           <div
@@ -41,91 +75,71 @@ const SavedProducts = ({ savedProductPageData }) => {
                             <a href="products.html" className="link">
                               <div className="container-top">
                                 <h2 className="product-title">
-                                  Pilot Chairred
+                                  {product.name}
                                 </h2>
                               </div>
                               <div className="wrapper-product-img">
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="red"
-                                  data-default-product-link-active
-                                >
-                                  <img
-                                    src="images/products/img-01.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="yellow"
-                                >
-                                  <img
-                                    src="images/products/img-01-blue.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
-                                <div
-                                  className="container-img product-img"
-                                  data-get-product-link-color="blue"
-                                >
-                                  <img
-                                    src="images/products/img-01-brown.png"
-                                    data-preload
-                                    className="media"
-                                    alt="product"
-                                  />
-                                </div>
+                                {variantData
+                                  .filter((x, index) => index < 2)
+                                  .map((variant, index) => {
+                                    return (
+                                      <div
+                                        key={index}
+                                        className="container-img product-img"
+                                        data-get-product-link-color={
+                                          variant.color[0]
+                                        }
+                                        data-default-product-link-active={
+                                          index === 0
+                                        }
+                                      >
+                                        <img
+                                          src={variant.variant.imageSrc}
+                                          style={{
+                                            padding: "70px",
+                                          }}
+                                          data-preload
+                                          className="media"
+                                          alt="search-1"
+                                        />
+                                      </div>
+                                    );
+                                  })}
                               </div>
                               <div className="container-bottom">
-                                <div className="price">$ 99.99</div>
+                                <div className="price">
+                                  {" "}
+                                  {product.formattedPrice}
+                                </div>
                               </div>
                             </a>
                             <div className="container-color-options">
                               <ul className="list-color-options">
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="red"
-                                  data-default-product-link-active
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="images/products/img-01.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="yellow"
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="images/products/img-01-blue.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
-                                <li
-                                  className="list-item"
-                                  data-set-product-link-color="blue"
-                                >
-                                  <div className="container-img">
-                                    <img
-                                      src="images/products/img-01-brown.png"
-                                      data-preload
-                                      className="media"
-                                      alt="product"
-                                    />
-                                  </div>
-                                </li>
+                                {variantData
+                                  .filter((x, index) => index < 2)
+                                  .map((variant, index) => {
+                                    return (
+                                      <li
+                                        key={index}
+                                        className="list-item"
+                                        data-set-product-link-color={
+                                          variant.color[0]
+                                        }
+                                        data-default-product-link-active={
+                                          index === 0
+                                        }
+                                      >
+                                        <div className="container-img">
+                                          <img
+                                            src={variant.variant.imageSrc}
+                                            data-preload
+                                            className="media"
+                                            alt="search-4"
+                                          />
+                                        </div>
+                                      </li>
+                                    );
+                                  })}
                               </ul>
                               <div className="colors-number">
                                 <span>+3</span>
@@ -134,6 +148,9 @@ const SavedProducts = ({ savedProductPageData }) => {
                             <btn-modal-open
                               group="modal-product"
                               class="modal-add-to-cart"
+                              onClick={() =>
+                                setSelectedProductData(data[index].data)
+                              }
                             >
                               <span>Add to cart</span>
                               <i class="icon-cart"></i>
@@ -141,8 +158,7 @@ const SavedProducts = ({ savedProductPageData }) => {
                           </div>
                         </li>
                       );
-                    }
-                  )}
+                    })}
                 </ul>
                 <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
                   <button className="btn-medium btn-red btn-hover-white">
@@ -158,7 +174,7 @@ const SavedProducts = ({ savedProductPageData }) => {
       </section>
 
       <AddToCartModal
-        productData={null}
+        productData={selectedProductData}
         setProductData={setSelectedProductData}
       />
     </>

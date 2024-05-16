@@ -9,3 +9,11 @@ export const parseArrayFromParams = (queryParams) => {
     }
     return [];
 };
+export const extractUniqueColors = (data) => {
+    let allColors = [];
+    data.forEach(item => {
+        allColors = allColors.concat(item.colors);
+    });
+    const uniqueColors = [...new Set(allColors)];
+    return uniqueColors;
+}
