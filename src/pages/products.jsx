@@ -21,6 +21,7 @@ export default function Page({
   const router = useRouter();
   const [productsResponse, setProductsResponse] = useState(null);
   const [productsCollection, setProductsCollection] = useState([]);
+  const [colors, setColors] = useState([]);
   const [selectedColors, setSelectedColors] = useState([]);
   const [selectedCollections, setSelectedCollections] = useState(selectedCollection.map((x) => x._id));
   const pageSize = 9;
@@ -49,7 +50,11 @@ export default function Page({
       let subCategories = parseArrayFromParams(router.query.subCategories);
 
       if (selectedCategory !== undefined && selectedCategory !== null && subCategories.length === 0) {
-        subCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id);
+        if (selectedCategory?.level2Collections.length !== 0) {
+          subCategories = selectedCategory?.level2Collections.filter((x) => x._id).map((x) => x._id);
+        } else {
+          subCategories = [selectedCategory.parentCollection._id]
+        }
       }
 
       let collections = selectedCollections;
@@ -77,21 +82,20 @@ export default function Page({
     if (subCategories.length !== 0) {
       const response = await getCollectionColorsArray(subCategories);
       const colors = extractUniqueColors(response);
-      setSelectedColors(colors);
+      setColors(colors);
     } else if (router.query.category) {
       const colors = await getCollectionColors(router.query.category);
-      setSelectedColors(colors.colors);
+      setColors(colors.colors);
     } else {
       const allProducts = "00000000-000000-000000-000000000001";
       const colors = await getCollectionColors(allProducts);
-      setSelectedColors(colors.colors);
+      setColors(colors.colors);
     }
   }
 
   useEffect(() => {
     getFilterColors();
   }, [router]);
-
   useEffect(() => {
     handleProductsFilter(true, false);
   }, [router, selectedColors]);
@@ -103,7 +107,7 @@ export default function Page({
       selectedCollection={selectedCollection}
       selectedCategory={selectedCategory}
       category={category}
-      colors={selectedColors}
+      colors={colors}
       totalCount={productsResponse?._totalCount}
       handleLoadMore={handleLoadMore}
       pageSize={pageSize}
