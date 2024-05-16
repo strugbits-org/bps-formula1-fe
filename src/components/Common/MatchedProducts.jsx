@@ -1,10 +1,10 @@
 import { useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
+import { BestSeller } from "@/utils/BestSeller";
 
 const MatchedProducts = ({ matchedProductsData }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
-
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -22,7 +22,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                   <div className="swiper-wrapper">
                     {matchedProductsData &&
                       matchedProductsData.map((data, index) => {
-                        const { variantData, product } = data;
+                        const { variantData, product, category } = data;
                         return (
                           <div
                             key={index}
@@ -36,9 +36,11 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               data-product-colors
                             >
                               <div className="container-tags">
-                                <div className="best-seller">
-                                  <span>Best Seller</span>
-                                </div>
+                                {BestSeller[category.name] && (
+                                  <div className="best-seller">
+                                    <span>Best Seller</span>
+                                  </div>
+                                )}
                                 <button className="btn-bookmark">
                                   <i className="icon-bookmark"></i>
                                 </button>
@@ -97,8 +99,10 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                           data-get-product-link-color={
                                             variantData.color[0]
                                           }
-                                          data-default-product-link-active={index === 0}
-                                          >
+                                          data-default-product-link-active={
+                                            index === 0
+                                          }
+                                        >
                                           <img
                                             src={variantData.variant.imageSrc}
                                             style={{
@@ -130,8 +134,10 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                           data-set-product-link-color={
                                             variantData.color[0]
                                           }
-                                          data-default-product-link-active={index === 0}
-                                          >
+                                          data-default-product-link-active={
+                                            index === 0
+                                          }
+                                        >
                                           <div className="container-img">
                                             <img
                                               src={variantData.variant.imageSrc}
