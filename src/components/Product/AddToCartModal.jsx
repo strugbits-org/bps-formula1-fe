@@ -9,9 +9,15 @@ const AddToCartModal = ({ productData, setProductData }) => {
   };
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [modalURL, setModalURL] = useState("");
 
   useEffect(() => {
+    document.querySelector(".addToCart").click();
     if (productData) {
+      let url = productData.zipUrl;
+      let newUrl = url.replace(/0\.jpg$/, "");
+      setModalURL(newUrl);
+
       setSelectedVariant(productData.variantData[0].variant);
     }
   }, [productData]);
@@ -43,6 +49,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
     productData.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
+
   return (
     <div id="reloading-area">
       <modal-group name="modal-product" class="modal-product">
@@ -98,6 +105,33 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                         );
                                       }
                                     )}
+                                  {modalURL ? (
+                                    <div className="swiper-slide slide-360 ">
+                                      <i className="icon-360"></i>
+                                      <div className="container-img">
+                                        <canvas
+                                          className="infinite-image-scroller"
+                                          data-frames="49"
+                                          data-path={modalURL}
+                                          data-extension="jpg"
+                                        ></canvas>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <div className="swiper-slide slide-360 ">
+                                      <i className="icon-360"></i>
+                                      <div className="container-img">
+                                        <canvas
+                                          className="infinite-image-scroller"
+                                          data-frames="49"
+                                          data-path={
+                                            "https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
+                                          }
+                                          data-extension="jpg"
+                                        ></canvas>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                               <div
@@ -148,6 +182,18 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                           );
                                         }
                                       )}
+                                    <div class="swiper-slide">
+                                      <div class="wrapper-img img-3d">
+                                        <div class="container-img">
+                                          <img
+                                            src="/images/3d.svg"
+                                            data-preload
+                                            class="media"
+                                          />
+                                        </div>
+                                        <span class="hide">360</span>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </div>

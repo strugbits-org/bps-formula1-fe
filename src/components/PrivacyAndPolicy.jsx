@@ -1,3 +1,4 @@
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 
 const PrivacyAndPolicy = ({ data }) => {
@@ -11,24 +12,31 @@ const PrivacyAndPolicy = ({ data }) => {
               className="fs--30 text-center text-uppercase white-1 split-chars"
               data-aos="d:loop"
             >
-              {data?.content?.nodes && data?.content?.nodes[0].nodes[0].textData.text}
+              {data?.content?.nodes &&
+                data?.content?.nodes[0].nodes[0].textData.text}
             </h1>
             <div
               className="editor mt-lg-50 mt-mobile-30"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              <h2>{data?.content?.nodes && data?.content?.nodes[1].nodes[0].textData.text}</h2>
+              <h2>
+                {data?.content?.nodes &&
+                  data?.content?.nodes[1].nodes[0].textData.text}
+              </h2>
               <p>
-                {data?.content?.nodes && data?.content?.nodes[2].nodes[0].textData.text}{" "}
+                {data?.content?.nodes &&
+                  data?.content?.nodes[2].nodes[0].textData.text}{" "}
                 <a
                   href={
                     data?.content?.nodes &&
-                    data?.content?.nodes[2].nodes[1].textData?.decorations[0].linkData.link.url
+                    data?.content?.nodes[2].nodes[1].textData?.decorations[0]
+                      .linkData.link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {data?.content?.nodes && data?.content?.nodes[2].nodes[1].textData.text}
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[2].nodes[1].textData.text}
                 </a>
               </p>
 
@@ -43,30 +51,39 @@ const PrivacyAndPolicy = ({ data }) => {
                   })}
               </ol>
               <p>
-                <i>{data?.content?.nodes && data?.content?.nodes[4].nodes[0].textData.text}</i>
-                <a
-                  href={
-                    data?.content?.nodes &&
-                    data?.content?.nodes[4].nodes[2].textData?.decorations[0].linkData.link.url
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {data?.content?.nodes && data?.content?.nodes[4].nodes[2].textData.text}
-                </a>
                 <i>
-                  {data?.content?.nodes && data?.content?.nodes[4].nodes[4].textData.text}
-                  {data?.content?.nodes && data?.content?.nodes[4].nodes[5].textData.text}
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[0].textData.text}
                 </i>
                 <a
                   href={
                     data?.content?.nodes &&
-                    data?.content?.nodes[4].nodes[6].textData?.decorations[0].linkData.link.url
+                    data?.content?.nodes[4].nodes[2].textData?.decorations[0]
+                      .linkData.link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {data?.content?.nodes && data?.content?.nodes[4].nodes[6].textData.text}
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[2].textData.text}
+                </a>
+                <i>
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[4].textData.text}
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[5].textData.text}
+                </i>
+                <a
+                  href={
+                    data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[6].textData?.decorations[0]
+                      .linkData.link.url
+                  }
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[4].nodes[6].textData.text}
                 </a>
               </p>
               <ul>
@@ -80,40 +97,68 @@ const PrivacyAndPolicy = ({ data }) => {
                   })}
               </ul>
               <blockquote cite="http://loripsum.net">
-                {data?.content?.nodes && data?.content?.nodes[7].nodes[0].textData.text}
+                {data?.content?.nodes &&
+                  data?.content?.nodes[7].nodes[0].textData.text}
               </blockquote>
               <dl>
                 <dt>
-                  <dfn>{data?.content?.nodes && data?.content?.nodes[9].nodes[0].textData.text}</dfn>
+                  <dfn>
+                    {data?.content?.nodes &&
+                      data?.content?.nodes[9].nodes[0].textData.text}
+                  </dfn>
                 </dt>
-                <dd>{data?.content?.nodes && data?.content?.nodes[10].nodes[0].textData.text}</dd>
+                <dd>
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[10].nodes[0].textData.text}
+                </dd>
                 <dt>
-                  <dfn>{data?.content?.nodes && data?.content?.nodes[11].nodes[0].textData.text}</dfn>
+                  <dfn>
+                    {data?.content?.nodes &&
+                      data?.content?.nodes[11].nodes[0].textData.text}
+                  </dfn>
                 </dt>
-                <dd>{data?.content?.nodes && data?.content?.nodes[12].nodes[0].textData.text}</dd>
+                <dd>
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[12].nodes[0].textData.text}
+                </dd>
               </dl>
-              <h3>{data?.content?.nodes && data?.content?.nodes[14].nodes[0].textData.text}</h3>
+              <h3>
+                {data?.content?.nodes &&
+                  data?.content?.nodes[14].nodes[0].textData.text}
+              </h3>
               <p>
-                {data?.content?.nodes && data?.content?.nodes[16].nodes[0].textData.text}
-                <b>{data?.content?.nodes && data?.content?.nodes[16].nodes[1].textData.text}</b>
+                {data?.content?.nodes &&
+                  data?.content?.nodes[16].nodes[0].textData.text}
+                <b>
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[16].nodes[1].textData.text}
+                </b>
                 <a
                   href={
                     data?.content?.nodes &&
-                    data?.content?.nodes[16].nodes[3].textData?.decorations[0].linkData.link
-                      .url
+                    data?.content?.nodes[16].nodes[3].textData?.decorations[0]
+                      .linkData.link.url
                   }
                   target="_blank"
                   rel="noreferrer"
                 >
-                  {data?.content?.nodes && data?.content?.nodes[16].nodes[3].textData.text}
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[16].nodes[3].textData.text}
                 </a>
-                {data?.content?.nodes && data?.content?.nodes[16].nodes[4].textData.text}
-                <i>{data?.content?.nodes && data?.content?.nodes[16].nodes[5].textData.text}</i>
+                {data?.content?.nodes &&
+                  data?.content?.nodes[16].nodes[4].textData.text}
+                <i>
+                  {data?.content?.nodes &&
+                    data?.content?.nodes[16].nodes[5].textData.text}
+                </i>
               </p>
             </div>
             <div className="flex-center mt-50">
               <button
-                onClick={() => router.back()}
+                onClick={() => {
+                  pageLoadStart();
+                  router.back();
+                }}
                 className="btn-small-wide btn-gray btn-hover-red"
               >
                 <div className="split-chars">

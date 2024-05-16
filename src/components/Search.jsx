@@ -1,11 +1,16 @@
 import AddToCartModal from "./Product/AddToCartModal";
 import FilterButton from "./Common/FilterButton";
-import Link from "next/link";
 import { useState } from "react";
 import AnimateLink from "./Common/AnimateLink";
 
-const Search = ({ collections, colors, searchedProducts, handleFilterChange }) => {
+const Search = ({
+  collections,
+  colors,
+  searchedProducts,
+  handleFilterChange,
+}) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
+
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -19,13 +24,17 @@ const Search = ({ collections, colors, searchedProducts, handleFilterChange }) =
                 >
                   Search result
                 </h1>
-                <FilterButton collections={collections} colors={colors} handleFilterChange={handleFilterChange} />
+                <FilterButton
+                  collections={collections}
+                  colors={colors}
+                  handleFilterChange={handleFilterChange}
+                />
               </div>
               <ul
                 className="list-search grid-lg-20 grid-md-50 grid-50"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
-                {searchedProducts.map((item) => {
+                {searchedProducts.map((item, index) => {
                   const { variantData, product } = item;
 
                   return (
@@ -85,9 +94,10 @@ const Search = ({ collections, colors, searchedProducts, handleFilterChange }) =
                           <ul className="list-color-options">
                             {variantData
                               .filter((x, index) => index < 2)
-                              .map((variant) => {
+                              .map((variant, index) => {
                                 return (
                                   <li
+                                    key={index}
                                     className="list-item"
                                     data-set-product-link-color={
                                       variant.color[0]
@@ -113,7 +123,9 @@ const Search = ({ collections, colors, searchedProducts, handleFilterChange }) =
                           )}
                         </div>
                         <btn-modal-open
-                          onClick={() => setSelectedProductData(product)}
+                          onClick={() =>
+                            setSelectedProductData(searchedProducts[index])
+                          }
                           group="modal-product"
                           class="modal-add-to-cart"
                         >
