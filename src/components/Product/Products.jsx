@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
 import { BestSeller } from "@/utils/BestSeller";
+import useUserData from "@/hooks/useUserData";
 
 const Products = ({
   filteredProducts,
@@ -22,6 +23,7 @@ const Products = ({
   setSelectedCollections,
 }) => {
   const router = useRouter();
+  const { firstName, memberId, email } = useUserData();
 
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
@@ -75,6 +77,24 @@ const Products = ({
     setSelectedCollections(collections);
   };
 
+  const [members, setMembers] = useState([
+    "20e8f5aa-3c25-4227-8604-1c0da8d8df96",
+    "4a01f1e6-5786-4610-8666-0303bf4e6023",
+    "ae9d8a54-5af3-49ae-8909-03406384c111",
+  ]);
+
+  // Function to handle bookmark click
+  const handleSaveProduct = (id) => {
+    setMembers((prevMembers) => {
+      if (prevMembers.includes(id)) {
+        return prevMembers.filter((memberId) => memberId !== id);
+      } else {
+        return [...prevMembers, id];
+      }
+    });
+  };
+
+  console.log(members, "members>>");
   return (
     <>
       <section className="products-intro">
@@ -160,7 +180,8 @@ const Products = ({
               )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData, category } = data;
+                  const { product, variantData, category, members } = data;
+                  console.log(memberId, members, "data>>");
                   let defaultVariantSku;
                   if (selectedVariant === null) {
                     setSelectedVariant(variantData);
@@ -187,7 +208,10 @@ const Products = ({
                               <span>Best Seller</span>
                             </div>
                           )}
-                          <button className="btn-bookmark">
+                          <button
+                            className="btn-bookmark"
+                            onClick={() => handleSaveProduct(memberId)}
+                          >
                             <i className="icon-bookmark"></i>
                           </button>
                         </div>
