@@ -78,7 +78,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                           >
                             <div class="slider-product">
                               {productData &&
-                                BestSeller[productData.category.name] && (
+                                BestSeller[productData.category._id] && (
                                   <div class="best-seller-tag">
                                     <span>Best Seller</span>
                                   </div>

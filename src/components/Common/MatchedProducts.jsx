@@ -36,7 +36,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               data-product-colors
                             >
                               <div className="container-tags">
-                                {BestSeller[category.name] && (
+                                {BestSeller[category._id] && (
                                   <div className="best-seller">
                                     <span>Best Seller</span>
                                   </div>
