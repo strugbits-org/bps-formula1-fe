@@ -341,9 +341,6 @@ var require_app2 = __commonJS({
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
-          // if (document.body.dataset.pg != "pg-home") {
-          //   singlePjaxInstance.loadUrl(btnSignIn.dataset.href);
-          // }
           if (document.body.dataset.homeState == "sign-in") {
             if (wrapperForm.classList.contains("create-account")) {
               location.hash = "sign-in";
@@ -366,6 +363,22 @@ var require_app2 = __commonJS({
           } else {
             location.hash = "sign-in";
             document.body.dataset.homeState = "sign-in";
+
+            if (wrapperForm.classList.contains("create-account")) {
+              location.hash = "sign-in";
+              wrapperForm.classList.remove("create-account");
+              wrapperForm.classList.add("back-to-sign-in");
+              setTimeout(() => {
+                containerSignIn.classList.remove("d-none");
+                containerCreateAccount.classList.add("d-none");
+                if (!screen.isDesktop) {
+                  recalcWrapperHeight();
+                }
+              }, 600);
+              setTimeout(() => {
+                wrapperForm.classList.remove("back-to-sign-in");
+              }, 1200);
+            }
           }
         });
       }

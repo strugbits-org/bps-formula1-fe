@@ -21,6 +21,8 @@ export const getHomeBottomRightSocialLinks = () =>
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
 
+export const fetchCartProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+
 export const fetchProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
 
 export const getSearchProducts = (collections, colors, searchTerm) => fetchSearchData(collections, colors, searchTerm);

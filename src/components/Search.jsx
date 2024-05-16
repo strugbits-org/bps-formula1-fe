@@ -129,7 +129,7 @@ const Search = ({ collections, colors, searchedProducts, handleFilterChange }) =
                     className="fs--40 text-center split-words white-1"
                     data-aos="d:loop"
                   >
-                    No Products found
+                    No Products Found
                   </h6>
                 )}
               </ul>

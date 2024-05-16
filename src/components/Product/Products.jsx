@@ -179,10 +179,10 @@ const Products = ({
                           </button>
                         </div>
                         <div className="container-copy">
-                          <a href="/#" className="btn-copy copy-link">
+                          <button className="btn-copy copy-link">
                             <span>{defaultVariantSku}</span>
                             <i className="icon-copy"></i>
-                          </a>
+                          </button>
                           <input
                             type="text"
                             className="copy-link-url"
@@ -308,7 +308,7 @@ const Products = ({
                     className="fs--40 text-center split-words white-1"
                     data-aos="d:loop"
                   >
-                    No Products found
+                    No Products Found
                   </h6>
                 )}
               {totalCount > pageSize &&
