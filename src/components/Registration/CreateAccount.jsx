@@ -22,7 +22,6 @@ const CreateAccount = ({
     confirm_password: "",
     hospitality_space: "",
   });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -228,12 +227,14 @@ const CreateAccount = ({
                 <i className="icon-arrow-down no-desktop"></i>
                 <div
                   className="wrapper-select"
-                  onClick={(e) =>
-                    setFormData({
-                      ...formData,
-                      hospitality_space: e.target.innerText.toLowerCase(),
-                    })
-                  }
+                  onClick={(e) => {
+                    if (e.target.innerText.toLowerCase() !== "other") {
+                      setFormData({
+                        ...formData,
+                        hospitality_space: e.target.innerText.toLowerCase(),
+                      });
+                    }
+                  }}
                 >
                   <select
                     className="main-select"
@@ -263,6 +264,12 @@ const CreateAccount = ({
                   name="other"
                   type="text"
                   placeholder="OTHER"
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      hospitality_space: e.target.value,
+                    })
+                  }
                 />
               </div>
             </div>
