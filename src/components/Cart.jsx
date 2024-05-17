@@ -125,7 +125,6 @@ const Cart = () => {
     <>
       <section className="cart-intro pb-lg-80 pb-tablet-70 pb-phone-135">
         <div className="container-fluid pos-relative z-5">
-          <button onClick={addToCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Add to Cart</button>
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
               <div className="container-title">
@@ -263,8 +262,8 @@ const Cart = () => {
                       No Products in Cart
                     </h6>
                   )}
-                  {cartItems.length !== 0 && (
-                    <div className="container-btn mt-md-90 mt-phone-40">
+                  <div className="container-btn mt-md-90 mt-phone-40">
+                    {cartItems.length !== 0 && (
                       <button
                         className="btn-medium-wide btn-red btn-hover-white bt-submit"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
@@ -273,17 +272,17 @@ const Cart = () => {
                           <span>Request for quote</span>
                         </div>
                       </button>
-                      <AnimateLink
-                        to="/products"
-                        className="btn-small-wide btn-gray btn-hover-red mt-lg-30 mt-mobile-20"
-                        data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                      >
-                        <div className="split-chars">
-                          <span>Continue shopping</span>
-                        </div>
-                      </AnimateLink>
-                    </div>
-                  )}
+                    )}
+                    <AnimateLink
+                      to="/products"
+                      className="btn-small-wide btn-gray btn-hover-red mt-lg-30 mt-mobile-20"
+                      data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                    >
+                      <div className="split-chars">
+                        <span>Continue shopping</span>
+                      </div>
+                    </AnimateLink>
+                  </div>
                 </form>
               </div>
             </div>
