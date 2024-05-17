@@ -26,7 +26,10 @@ function useUserData() {
     id: userData?._id,
     email: userData?.email,
     firstName: userData?.firstName,
+    lastName: userData?.lastName,
     phone: userData?.phone,
+    company: userData?.company,
+    hospitality_space: userData?.hospitality_space,
     memberId: userData?.memberId,
   };
 }
