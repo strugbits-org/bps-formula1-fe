@@ -208,7 +208,7 @@ const Cart = () => {
                                       {colors}
                                     </span>
                                   </li>
-                                  <li className="additional-note">
+                                  {/* <li className="additional-note">
                                     <span className="specs-title">
                                       Additional note
                                     </span>
@@ -219,7 +219,7 @@ const Cart = () => {
                                       onInput={(e) => handleNoteChange(_id, e.target.value)}
                                       onBlur={() => updateLineItem(_id)}
                                     />
-                                  </li>
+                                  </li> */}
                                 </ul>
                                 <div className="quantity">
                                   <span className="fs--18 no-mobile">

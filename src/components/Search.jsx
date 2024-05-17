@@ -160,14 +160,14 @@ const Search = ({
       </section>
       {successMessageVisible && (
         <SuccessModal
-          buttonLabel={"Try Again!"}
+          buttonLabel={"Ok"}
           message={"Product Successfully Added to Cart!"}
           setSuccessMessageVisible={setSuccessMessageVisible}
         />
       )}
       {errorMessageVisible && (
         <ErrorModal
-          buttonLabel={"Ok"}
+          buttonLabel={"Try Again!"}
           message={"Something went wrong, please try again"}
           setErrorMessageVisible={setErrorMessageVisible}
         />
