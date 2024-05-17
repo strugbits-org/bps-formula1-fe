@@ -327,40 +327,47 @@ const ProductPost = ({
                     className="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    <li className="sku">
-                      <span className="specs-title">SKU</span>
-                      <span className="specs-text">{selectedVariant.sku}</span>
-                    </li>
-                    <li className="size">
-                      <span className="specs-title">Size</span>
-                      {selectedProductDetails.product.additionalInfoSections.map(
-                        (data, index) => {
-                          const { title, description } = data;
-                          if (title === "Size") {
-                            return (
-                              <span
-                                key={index}
-                                className="specs-text"
-                                dangerouslySetInnerHTML={{
-                                  __html: description,
-                                }}
-                              ></span>
-                            );
+                    {selectedVariant.sku && (
+                      <li className="sku">
+                        <span className="specs-title">SKU</span>
+                        <span className="specs-text">{selectedVariant.sku}</span>
+                      </li>
+                    )}
+                    {selectedProductDetails.product.additionalInfoSections.length !== 0 && (
+                      <li className="size">
+                        <span className="specs-title">Size</span>
+                        {selectedProductDetails.product.additionalInfoSections.map(
+                          (data, index) => {
+                            const { title, description } = data;
+                            if (title === "Size") {
+                              return (
+                                <span
+                                  key={index}
+                                  className="specs-text"
+                                  dangerouslySetInnerHTML={{
+                                    __html: description,
+                                  }}
+                                ></span>
+                              );
+                            }
+                            return null;
                           }
-                          return null;
-                        }
-                      )}
-                    </li>
-                    <li className="color">
-                      <span className="specs-title">Color</span>
-                      <span className="specs-text">
-                        {selectedVariant.color}
-                      </span>
-                    </li>
+                        )}
+                      </li>
+                    )}
+                    {selectedVariant.color && (
+                      <li className="color">
+                        <span className="specs-title">Color</span>
+                        <span className="specs-text">
+                          {selectedVariant.color}
+                        </span>
+                      </li>
+                    )}
                     <li className="weight">
                       <span className="specs-title">Weight</span>
                       <span className="specs-text">11.5lbs</span>
                     </li>
+
 
                     {seatHeightData && (
                       <li className="seat-height">
@@ -433,7 +440,7 @@ const ProductPost = ({
                       </button>
                     </div>
                     <button
-                    onClick={handleAddToCart}
+                      onClick={handleAddToCart}
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
