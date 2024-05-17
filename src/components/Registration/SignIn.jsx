@@ -1,7 +1,5 @@
-"use client";
 import { useState } from "react";
 import Disclaimer from "./Disclaimer";
-import createWixClient from "@/config/WixConfig";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 
@@ -42,7 +40,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data, "user data>>");
 
         const userToken = data.data.jwtToken;
         const userData = JSON.stringify(data.data.member);
@@ -60,13 +57,8 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
 
         return response;
       }
-    
-    
-
     } catch (error) {
-      // let err = JSON.parse(error.message);
       console.log("error", error);
-      // setMessage(err.message);
       setMessage("Invalid Credentials!");
       setErrorMessageVisible(true);
     }
@@ -77,12 +69,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // useEffect(() => {
-  //   if (loginStatus === "succeeded" || loginError !== null) {
-  //     document.body.setAttribute("data-form-cart-state", "success");
-  //   }
-
-  // }, [ loginError]);
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };

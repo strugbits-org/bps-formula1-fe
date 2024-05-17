@@ -1,4 +1,4 @@
-import usePageInitialization from "@/hooks/usePageInitialization";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useEffect } from "react";
 
 const ErrorModal = ({ message }) => {
@@ -8,9 +8,7 @@ const ErrorModal = ({ message }) => {
   useEffect(() => {
     document.body.setAttribute("data-form-cart-state", "success");
   }, []);
-
-  usePageInitialization("pg-home", ".initScript", ".home");
-
+  markPageLoaded();
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
