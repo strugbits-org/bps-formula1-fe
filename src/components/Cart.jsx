@@ -1,6 +1,5 @@
 import RequestForQuote from "./Common/RequestForQuote";
 import AnimateLink from "./Common/AnimateLink";
-import { wixAddToCart, wixCreateCart, wixDeleteCart } from "@/services/fetchFunction";
 import { useEffect, useState } from "react";
 import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { generateImageURL } from "@/utils/GenerateImageURL";
@@ -70,11 +69,9 @@ const Cart = () => {
   }
   const updateProducts = async (id, quantity) => {
     try {
-      if (quantity > 0) {
-        const lineItems = [{ id, quantity }]
-        const response = await updateProductsCart(lineItems);
-        setCart(response.cart);
-      }
+      const lineItems = [{ id, quantity }]
+      const response = await updateProductsCart(lineItems);
+      setCart(response.cart);
     } catch (error) {
       console.log("error", error);
     }
