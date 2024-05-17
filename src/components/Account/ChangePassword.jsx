@@ -2,7 +2,9 @@ import { getUserAuth } from "@/utils/GetUser";
 import React, { useEffect, useState } from "react";
 import ErrorModal from "../Common/ErrorModal";
 
+
 const ChangePassword = ({ changePasswordPageData }) => {
+  const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -23,7 +25,7 @@ const ChangePassword = ({ changePasswordPageData }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:8003/formula1/auth/changePassword",
+        `${base_url}formula1/auth/changePassword`,
         {
           method: "POST",
           headers: {

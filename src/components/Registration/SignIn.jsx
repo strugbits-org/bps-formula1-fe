@@ -19,9 +19,10 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         email: formData.email,
         password: formData.password,
       };
+      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
       const response = await fetch(
-        `http://localhost:8003/formula1/auth/login`,
+        `${base_url}formula1/auth/login`,
         {
           method: "POST",
           headers: {

@@ -42,8 +42,10 @@ const CreateAccount = ({
         phone: formData.phone,
         hospitalityLoc: formData.hospitality_space,
       };
+      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
       const response = await fetch(
-        `http://localhost:8003/formula1/auth/signup`,
+        `${base_url}formula1/auth/signup`,
         {
           method: "POST",
           headers: {

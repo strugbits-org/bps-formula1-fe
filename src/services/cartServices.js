@@ -1,6 +1,6 @@
 import { getUserAuth } from "@/utils/GetUser";
 
-const base_url = "http://localhost:8003";
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const AddProductToCart = async (payload) => {
     try {

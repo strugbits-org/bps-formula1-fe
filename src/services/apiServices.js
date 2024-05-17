@@ -15,6 +15,8 @@ import fetchData, {
   fetchCollectionColorsArray,
 } from "./fetchFunction";
 
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
 export const getHomeBottomRightSocialLinks = () =>
@@ -161,7 +163,7 @@ export const getSavedProductPageData = () => fetchData("SavedProductPageData");
 export const getSavedProductData = async (payload, authToken) => {
   try {
     const response = await fetch(
-      `http://localhost:8003/formula1/wix/getSavedProducts`,
+      `${base_url}formula1/wix/getSavedProducts`,
       {
         method: "POST",
         headers: {

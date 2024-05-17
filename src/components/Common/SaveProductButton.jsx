@@ -15,9 +15,10 @@ export const SaveProductButton = ({ productId, members, dataAos, onUnSave }) => 
   }, [members, memberId]);
 
   const handleProductSaveToggle = async (productId, isSaving) => {
+  const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
     const endpoint = isSaving
-      ? `http://localhost:8003/formula1/wix/saveProduct/${productId}`
-      : `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`;
+      ? `${base_url}formula1/wix/saveProduct/${productId}`
+      : `${base_url}formula1/wix/removeSavedProduct/${productId}`;
 
     try {
       setProductSaved(isSaving);
