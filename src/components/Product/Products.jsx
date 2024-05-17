@@ -29,12 +29,12 @@ const Products = ({
 }) => {
   const router = useRouter();
   const { memberId } = useUserData();
-  const authToken = getUserAuth();
-
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [productSaved, setProductSaved] = useState({});
+
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
@@ -81,60 +81,6 @@ const Products = ({
   const handleFilterChange = (collections, colors) => {
     setSelectedColors(colors);
     setSelectedCollections(collections);
-  };
-
-  // Function to handle bookmark click
-  const handleSaveProduct = async (productId, index) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8003/formula1/wix/saveProduct/${productId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setProductSaved((prevSaved) => ({
-        ...prevSaved,
-        [productId]: true,
-      }));
-    } catch (error) {
-      console.error("Error saving product:", error);
-    }
-  };
-
-  const handleUnSaveProduct = async (productId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      setProductSaved((prevSaved) => ({
-        ...prevSaved,
-        [productId]: false,
-      }));
-
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error saving product:", error);
-    }
   };
 
   return (
@@ -450,10 +396,22 @@ const Products = ({
         </div>
       </section>
       <OtherCollections data={collectionsData} />
-      {/* {successMessageVisible && <SuccessModal message={message} />} */}
-      {/* <ErrorModal message={"Hello"} /> */}
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Ok"}
+          message={"Product Successfully Added to Cart!"}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Try Again!"}
+          message={"Something went wrong, please try again"}
+        />
+      )}
       <AddToCartModal
         setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
         productData={selectedProductData}
       />
     </>
