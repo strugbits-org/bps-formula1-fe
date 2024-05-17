@@ -451,7 +451,7 @@ const Products = ({
       </section>
       <OtherCollections data={collectionsData} />
       {/* {successMessageVisible && <SuccessModal message={message} />} */}
-      <ErrorModal message={"Hello"} />
+      {/* <ErrorModal message={"Hello"} /> */}
       <AddToCartModal
         setProductData={setSelectedProductData}
         productData={selectedProductData}
