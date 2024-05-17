@@ -106,7 +106,7 @@ const AddToCartModal = ({
     } catch (error) {
       console.log("Error:", error);
       setErrorMessageVisible(true);
-    } 
+    }
   };
 
   return (
@@ -294,22 +294,30 @@ const AddToCartModal = ({
                               class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
-                              <li class="sku">
-                                <span class="specs-title">SKU</span>
-                                <span class="specs-text">
-                                  {selectedVariant && selectedVariant.sku}
-                                </span>
-                              </li>
-                              <li class="size">
-                                <span class="specs-title">Size</span>
-                                {selectedVariant && selectedVariant.size}
-                              </li>
-                              <li class="color">
-                                <span class="specs-title">Color</span>
-                                <span class="specs-text">
-                                  {selectedVariant && selectedVariant.color}
-                                </span>
-                              </li>
+                              {selectedVariant?.sku && (
+                                <li class="sku">
+                                  <span class="specs-title">SKU</span>
+                                  <span class="specs-text">
+                                    {selectedVariant && selectedVariant.sku}
+                                  </span>
+                                </li>
+                              )}
+
+                              {selectedVariant?.size && (
+                                <li class="size">
+                                  <span class="specs-title">Size</span>
+                                  {selectedVariant && selectedVariant.size}
+                                </li>
+                              )}
+
+                              {selectedVariant?.color && (
+                                <li class="color">
+                                  <span class="specs-title">Color</span>
+                                  <span class="specs-text">
+                                    {selectedVariant && selectedVariant.color}
+                                  </span>
+                                </li>
+                              )}
                               <li class="weight">
                                 <span class="specs-title">Weight</span>
                                 <span class="specs-text">11.5lbs</span>
@@ -421,7 +429,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                                0 && (
+                              0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "
