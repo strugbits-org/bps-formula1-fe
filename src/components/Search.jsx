@@ -162,12 +162,14 @@ const Search = ({
         <SuccessModal
           buttonLabel={"Try Again!"}
           message={"Product Successfully Added to Cart!"}
+          setSuccessMessageVisible={setSuccessMessageVisible}
         />
       )}
       {errorMessageVisible && (
         <ErrorModal
           buttonLabel={"Ok"}
           message={"Something went wrong, please try again"}
+          setErrorMessageVisible={setErrorMessageVisible}
         />
       )}
       <AddToCartModal

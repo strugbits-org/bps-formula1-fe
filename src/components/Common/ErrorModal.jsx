@@ -1,9 +1,10 @@
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useEffect } from "react";
 
-const ErrorModal = ({ buttonLabel, message }) => {
+const ErrorModal = ({ buttonLabel, message, setErrorMessageVisible }) => {
   function closeModal() {
     document.body.setAttribute("data-form-cart-state", "");
+    setErrorMessageVisible(false);
   }
 
   useEffect(() => {

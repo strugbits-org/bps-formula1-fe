@@ -2,7 +2,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const SuccessModal = ({ message, buttonLabel }) => {
+const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
   const router = useRouter();
 
   function closeModal() {
@@ -10,6 +10,7 @@ const SuccessModal = ({ message, buttonLabel }) => {
     if (router.route === "/") {
       router.push("/");
     }
+    setSuccessMessageVisible(false);
   }
 
   useEffect(() => {

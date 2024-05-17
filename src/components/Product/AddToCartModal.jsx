@@ -105,7 +105,7 @@ const AddToCartModal = ({
     } catch (error) {
       console.log("Error:", error);
       setErrorMessageVisible(true);
-    }
+    } 
   };
 
   return (
