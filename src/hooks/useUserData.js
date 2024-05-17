@@ -9,29 +9,29 @@ function getCookie(name) {
 function useUserData() {
   const [userData, setUserData] = useState(null);
 
-  useEffect(() => {
-    const userDataCookie = getCookie("userData");
-    if (userDataCookie) {
-      try {
-        const parsedUserData = JSON.parse(decodeURIComponent(userDataCookie));
-        setUserData(parsedUserData);
-      } catch (error) {
-        console.error("Error parsing user data from cookie", error);
-      }
+useEffect(() => {
+  const userDataCookie = getCookie("userData");
+  if (userDataCookie) {
+    try {
+      const parsedUserData = JSON.parse(decodeURIComponent(userDataCookie));
+      setUserData(parsedUserData);
+    } catch (error) {
+      console.error("Error parsing user data from cookie", error);
     }
-  }, []);
+  }
+}, []);
 
-  return {
-    userData,
-    id: userData?._id,
-    email: userData?.email,
-    firstName: userData?.firstName,
-    lastName: userData?.lastName,
-    phone: userData?.phone,
-    company: userData?.company,
-    hospitality_space: userData?.hospitality_space,
-    memberId: userData?.memberId,
-  };
+return {
+  userData,
+  id: userData?._id,
+  email: userData?.email,
+  firstName: userData?.firstName,
+  lastName: userData?.lastName,
+  phone: userData?.phone,
+  company: userData?.company,
+  hospitalityLoc: userData?.hospitalityLoc,
+  memberId: userData?.memberId,
+};
 }
 
 export default useUserData;

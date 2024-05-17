@@ -147,7 +147,7 @@ const Cart = () => {
                 </div>
               </div>
               <div data-form-container-cart>
-                <form action="" className="form-cart">
+                <div className="form-cart js-running">
                   <ul
                     className="list-cart list-cart-product mt-35"
                     data-aos="d:loop"
@@ -208,7 +208,7 @@ const Cart = () => {
                                       {colors}
                                     </span>
                                   </li>
-                                  <li className="additional-note">
+                                  {/* <li className="additional-note">
                                     <span className="specs-title">
                                       Additional note
                                     </span>
@@ -219,7 +219,7 @@ const Cart = () => {
                                       onInput={(e) => handleNoteChange(_id, e.target.value)}
                                       onBlur={() => updateLineItem(_id)}
                                     />
-                                  </li>
+                                  </li> */}
                                 </ul>
                                 <div className="quantity">
                                   <span className="fs--18 no-mobile">
@@ -264,7 +264,7 @@ const Cart = () => {
                   <div className="container-btn mt-md-90 mt-phone-40">
                     {cartItems.length !== 0 && (
                       <button
-                        className="btn-medium-wide btn-red btn-hover-white bt-submit"
+                        className="btn-medium-wide btn-red btn-hover-white"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
@@ -282,7 +282,7 @@ const Cart = () => {
                       </div>
                     </AnimateLink>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

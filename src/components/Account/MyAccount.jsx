@@ -3,10 +3,11 @@ import { getUserAuth } from "@/utils/GetUser";
 import useUserData from "@/hooks/useUserData";
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import ErrorModal from "../Common/ErrorModal";
-
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
-  const { firstName, lastName, company, hospitality_space, phone, email } =
+  const { firstName, lastName, company, hospitalityLoc, phone, email } =
     useUserData();
+
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
@@ -32,9 +33,9 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
       lastName: lastName || "",
       company: company || "",
       phone: phone || "",
-      hospitalityLoc: hospitality_space || "",
+      hospitalityLoc: hospitalityLoc || "",
     }));
-  }, [firstName]);
+  }, [firstName, lastName, company, phone, hospitalityLoc]);
 
   useEffect(() => {
     if (successMessageVisible) {
@@ -47,17 +48,14 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        "http://localhost:8003/formula1/auth/updateProfile",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${base_url}formula1/auth/updateProfile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+        body: JSON.stringify(formData),
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -65,6 +63,10 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
         setErrorMessageVisible(true);
       } else {
         setSuccessMessageVisible(true);
+        const userData = JSON.stringify(data.data.member);
+        document.cookie = `userData=${encodeURIComponent(
+          userData
+        )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
@@ -244,6 +246,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                             <select
                               className="main-select"
                               name="hospitalityLoc"
+                              value={formData.hospitalityLoc}
                             >
                               {!formData.hospitalityLoc && (
                                 <option>Choice</option>
@@ -267,6 +270,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                             name="other"
                             type="text"
                             placeholder="OTHER"
+                            defaultValue={formData.hospitalityLoc}
                             onChange={(e) =>
                               setFormData({
                                 ...formData,

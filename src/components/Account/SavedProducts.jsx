@@ -3,6 +3,7 @@ import AddToCartModal from "../Product/AddToCartModal";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
+import AnimateLink from "../Common/AnimateLink";
 
 const SavedProducts = ({
   savedProductPageData,
@@ -81,7 +82,10 @@ const SavedProducts = ({
                                 }
                               />
                             </div>
-                            <a href="products.html" className="link">
+                            <AnimateLink
+                              to={`product/${product.slug}`}
+                              className="link"
+                            >
                               <div className="container-top">
                                 <h2 className="product-title">
                                   {product.name}
@@ -121,7 +125,7 @@ const SavedProducts = ({
                                   {product.formattedPrice}
                                 </div>
                               </div>
-                            </a>
+                            </AnimateLink>
                             <div className="container-color-options">
                               <ul className="list-color-options">
                                 {variantData
