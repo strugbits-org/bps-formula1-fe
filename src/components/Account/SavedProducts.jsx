@@ -1,26 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import { SaveProductButton } from "../Common/SaveProductButton";
 
-const SavedProducts = ({ savedProductPageData, savedProductData }) => {
-  const [savedProductsData, setSavedProductData] = useState(savedProductData);
+const SavedProducts = ({ savedProductPageData, savedProductData, totalCount, pageSize, handleLoadMore }) => {
+  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [selectedProductData, setSelectedProductData] = useState(null);
 
   const handleUnSaveProduct = (productId) => {
-    setSavedProductData((prevData) =>
+    setSavedProductsData((prevData) =>
       prevData.filter(
         (productData) => productData.data.product._id !== productId
       )
     );
   };
 
-  // if (savedProductData && savedProductData.length === 0) {
-  //   return (
-  //     <h6 className="fs--40 text-center split-words white-1" data-aos="d:loop">
-  //       No Products Found
-  //     </h6>
-  //   );
-  // }
+  useEffect(() => {
+    setSavedProductsData(savedProductData);
+  }, [savedProductData])
+
 
   return (
     <>
@@ -167,9 +164,9 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                     })
                   )}
                 </ul>
-                {savedProductData && savedProductData.length > 0 && (
+                {totalCount > pageSize && savedProductData.length !== totalCount && (
                   <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                    <button className="btn-medium btn-red btn-hover-white">
+                    <button onClick={handleLoadMore} className="btn-medium btn-red btn-hover-white">
                       <span className="split-chars">
                         <span>Load more</span>
                       </span>

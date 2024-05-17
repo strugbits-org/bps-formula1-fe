@@ -158,16 +158,17 @@ export const getQuoteHistoryPageData = () =>
 export const getSavedProductPageData = () => fetchData("SavedProductPageData");
 
 // SAVED PRODUCT PAGE APIS
-export const getSavedProductData = async (authToken) => {
+export const getSavedProductData = async (payload, authToken) => {
   try {
     const response = await fetch(
       `http://localhost:8003/formula1/wix/getSavedProducts`,
       {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: authToken,
         },
+        body: JSON.stringify(payload),
       }
     );
     if (!response.ok) {
@@ -175,12 +176,7 @@ export const getSavedProductData = async (authToken) => {
     }
 
     const data = await response.json();
-
-    if (data && data.data && Array.isArray(data.data._items)) {
-      return data.data._items;
-    } else {
-      return [];
-    }
+    return data.data;
   } catch (error) {
     console.error("Error fetching saved products:", error);
     return [];
