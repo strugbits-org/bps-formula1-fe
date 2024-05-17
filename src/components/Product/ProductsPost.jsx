@@ -136,6 +136,7 @@ const ProductPost = ({
       console.log("Error:", error);
     }
   };
+
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -467,8 +468,7 @@ const ProductPost = ({
                         return (
                           <React.Fragment key={index}>
                             <div
-                              style={{ paddingTop: "20px" }}
-                              className="container-product-notes "
+                              className="container-product-notes mb-20"
                             >
                               <div className="container-input product-notes">
                                 <input
@@ -478,11 +478,11 @@ const ProductPost = ({
                                   required={mandatory}
                                 />
                               </div>
-                              <div className="container-submit">
+                              {/* <div className="container-submit">
                                 <button type="submit">
                                   <i className="icon-arrow-right"></i>
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
                           </React.Fragment>
                         );

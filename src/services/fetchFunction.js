@@ -103,7 +103,7 @@ export const listProducts = async (collections = [], categories = [], pageSize =
   try {
     const options = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", "subCategory", "members"],
+      includeReferencedItems: ["category", "product", "subCategory", "members","f1Collection"],
       returnTotalCount: true,
     };
     let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);

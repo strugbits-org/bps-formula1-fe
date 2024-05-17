@@ -12,6 +12,8 @@ import useUserData from "@/hooks/useUserData";
 import { getUserAuth } from "@/utils/GetUser";
 import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";
+import SuccessModal from "../Common/SuccessModal";
+import ErrorModal from "../Common/ErrorModal";
 
 const Products = ({
   filteredProducts,
@@ -448,6 +450,8 @@ const Products = ({
         </div>
       </section>
       <OtherCollections data={collectionsData} />
+      {/* {successMessageVisible && <SuccessModal message={message} />} */}
+      <ErrorModal message={"Hello"} />
       <AddToCartModal
         setProductData={setSelectedProductData}
         productData={selectedProductData}

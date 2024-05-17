@@ -106,8 +106,7 @@ const Cart = () => {
     try {
       const lineItems = cartItems.map((x) => { return { catalogReference: x.catalogReference, quantity: x.quantity } });
       const response = await updateCartItem(lineItems);
-      console.log("response", response);
-      setCart(response.cart);
+      setCart(response);
     } catch (error) {
       console.log("error", error);
     }
