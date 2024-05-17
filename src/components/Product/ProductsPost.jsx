@@ -7,9 +7,10 @@ import RenderImage from "@/utils/RenderImage";
 import React, { useEffect, useRef, useState } from "react";
 import ProductSnapshots from "../Common/productSnapshots";
 import { useRouter } from "next/router";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import { BestSeller } from "@/utils/BestSeller";
 import { SaveProductButton } from "../Common/SaveProductButton";
+import { AddProductToCart } from "@/services/cartServices";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -31,6 +32,7 @@ const ProductPost = ({
   );
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [modalURL, setModalURL] = useState("");
+  const [cartQuantity, setCartQuantity] = useState(1);
 
   const handleImageChange = (index) => {
     setSelectedVariantIndex(index);
@@ -103,14 +105,38 @@ const ProductPost = ({
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
-  const handleAddToCart = () => {
+  const handleQuantityChange = async (value) => {
+    if (value < 10000 && value > 0) {
+      setCartQuantity(value);
+    }
+  }
+  const handleAddToCart = async () => {
     try {
+      pageLoadStart();
+      const product_id = selectedProductDetails.product._id;
+      const variant_id = selectedVariant.variantId.replace(product_id, "").substring(1);
+      const product = {
+        catalogReference: {
+          appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
+          catalogItemId: product_id,
+          options: {
+            "variantId": variant_id,
+            "customTextFields": {
+              collection: selectedProductDetails.f1Collection.collectionName,
+              additonalInfo: "",
+            }
+          }
+        },
+        quantity: cartQuantity
+      }
+      await AddProductToCart([product]);
       router.push("/cart");
     } catch (error) {
+      pageLoadEnd();
       console.log("Error:", error);
     }
   };
-  console.log(selectedProductDetails, "selectedProductDetails>>");
+
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -142,11 +168,10 @@ const ProductPost = ({
                             return (
                               <div
                                 key={index}
-                                className={`swiper-slide ${
-                                  index === selectedVariantIndex
-                                    ? "swiper-slide-active"
-                                    : ""
-                                }`}
+                                className={`swiper-slide ${index === selectedVariantIndex
+                                  ? "swiper-slide-active"
+                                  : ""
+                                  }`}
                               >
                                 <div
                                   className="container-img"
@@ -215,9 +240,8 @@ const ProductPost = ({
                             (variantData, index) => (
                               <div
                                 key={index}
-                                className={`swiper-slide ${
-                                  index === selectedVariantIndex ? "active" : ""
-                                }`}
+                                className={`swiper-slide ${index === selectedVariantIndex ? "active" : ""
+                                  }`}
                               >
                                 <div className="wrapper-img">
                                   <div
@@ -272,7 +296,7 @@ const ProductPost = ({
                 })}
               </ul>
               <div className="container-product-description">
-                <form onSubmit={handleAddToCart} className="form-cart">
+                <div className="form-cart js-running">
                   <input type="hidden" name="sku[]" value="MODCH09" />
                   <div className="wrapper-product-name">
                     <div className="container-product-name">
@@ -390,25 +414,26 @@ const ProductPost = ({
                     className="container-add-to-cart mt-md-40 mt-phone-20"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    <div className="container-input container-input-quantity">
-                      <button type="button" className="minus">
+                    <div className="container-input container-input-quantity js-running">
+                      <button onClick={() => handleQuantityChange(+cartQuantity - 1)} type="button" className="minus">
                         <i className="icon-minus no-mobile"></i>
                         <i className="icon-minus-2 no-desktop"></i>
                       </button>
                       <input
                         type="number"
-                        min="0"
-                        value="1"
+                        min="1"
+                        value={cartQuantity}
                         placeholder="1"
                         className="input-number"
+                        onInput={(e) => handleQuantityChange(e.target.value)}
                       />
-                      <button type="button" className="plus">
+                      <button onClick={() => handleQuantityChange(+cartQuantity + 1)} type="button" className="plus">
                         <i className="icon-plus no-mobile"></i>
                         <i className="icon-plus-2 no-desktop"></i>
                       </button>
                     </div>
                     <button
-                      type="submit"
+                    onClick={handleAddToCart}
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
@@ -422,7 +447,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                      0 && (
+                    0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
@@ -443,8 +468,7 @@ const ProductPost = ({
                         return (
                           <React.Fragment key={index}>
                             <div
-                              style={{ paddingTop: "20px" }}
-                              className="container-product-notes "
+                              className="container-product-notes mb-20"
                             >
                               <div className="container-input product-notes">
                                 <input
@@ -454,17 +478,17 @@ const ProductPost = ({
                                   required={mandatory}
                                 />
                               </div>
-                              <div className="container-submit">
+                              {/* <div className="container-submit">
                                 <button type="submit">
                                   <i className="icon-arrow-right"></i>
                                 </button>
-                              </div>
+                              </div> */}
                             </div>
                           </React.Fragment>
                         );
                       }
                     )}
-                </form>
+                </div>
               </div>
 
               {/* Description  */}
