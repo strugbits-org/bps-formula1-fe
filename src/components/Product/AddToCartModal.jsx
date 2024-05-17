@@ -90,7 +90,6 @@ const AddToCartModal = ({ productData, setProductData }) => {
       await AddProductToCart([product]);
       handleClose();
     } catch (error) {
-      pageLoadEnd();
       console.log("Error:", error);
     }
   };
