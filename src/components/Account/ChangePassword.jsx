@@ -44,11 +44,14 @@ const ChangePassword = ({ changePasswordPageData }) => {
       const data = await response.json();
       if (!response.ok) {
         setErrorMessage(data.message);
+        setErrorMessageVisible(true)
       } else {
         setSuccessMessageVisible(true);
       }
     } catch (err) {
       setErrorMessage("An error occurred. Please try again.");
+      setErrorMessageVisible(true)
+
       console.log("Error", err);
     }
   };
