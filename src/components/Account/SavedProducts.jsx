@@ -1,11 +1,20 @@
 import { useEffect, useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import { SaveProductButton } from "../Common/SaveProductButton";
+import SuccessModal from "../Common/SuccessModal";
+import ErrorModal from "../Common/ErrorModal";
 
-const SavedProducts = ({ savedProductPageData, savedProductData, totalCount, pageSize, handleLoadMore }) => {
+const SavedProducts = ({
+  savedProductPageData,
+  savedProductData,
+  totalCount,
+  pageSize,
+  handleLoadMore,
+}) => {
   const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [selectedProductData, setSelectedProductData] = useState(null);
-
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const handleUnSaveProduct = (productId) => {
     setSavedProductsData((prevData) =>
       prevData.filter(
@@ -16,8 +25,7 @@ const SavedProducts = ({ savedProductPageData, savedProductData, totalCount, pag
 
   useEffect(() => {
     setSavedProductsData(savedProductData);
-  }, [savedProductData])
-
+  }, [savedProductData]);
 
   return (
     <>
@@ -164,21 +172,43 @@ const SavedProducts = ({ savedProductPageData, savedProductData, totalCount, pag
                     })
                   )}
                 </ul>
-                {totalCount > pageSize && savedProductData.length !== totalCount && (
-                  <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                    <button onClick={handleLoadMore} className="btn-medium btn-red btn-hover-white">
-                      <span className="split-chars">
-                        <span>Load more</span>
-                      </span>
-                    </button>
-                  </div>
-                )}
+                {totalCount > pageSize &&
+                  savedProductData.length !== totalCount && (
+                    <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
+                      <button
+                        onClick={handleLoadMore}
+                        className="btn-medium btn-red btn-hover-white"
+                      >
+                        <span className="split-chars">
+                          <span>Load more</span>
+                        </span>
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Ok"}
+          message={"Product Successfully Added to Cart!"}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Try Again!"}
+          message={"Something went wrong, please try again"}
+        />
+      )}
+      <AddToCartModal
+        productData={selectedProductData}
+        setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
+      />
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
