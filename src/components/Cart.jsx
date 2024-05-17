@@ -3,10 +3,11 @@ import AnimateLink from "./Common/AnimateLink";
 import { useEffect, useState } from "react";
 import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { generateImageURL } from "@/utils/GenerateImageURL";
-import { AddProductToCart, getProductsCart, removeProductFromCart, updateProductsCart } from "@/services/cartServices";
+import { AddProductToCart, getProductsCart, getProductsCartTotal, removeProductFromCart, updateCartItem, updateProductsCart } from "@/services/cartServices";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
 
   const addToCart = async () => {
     try {
@@ -32,8 +33,8 @@ const Cart = () => {
             options: {
               "variantId": "e1ffe39b-7a0e-42c8-92f3-3373a5471513",
               "customTextFields": {
-                label: "Hope you enjoy the coffee! :)",
-                label2: "Hello"
+                collection: "Heello",
+                additonalInfo: "this is additonalInfo"
               }
             }
           },
@@ -41,6 +42,7 @@ const Cart = () => {
         },
       ]
       const response = await AddProductToCart(lineItems);
+      setCartItems(response.cart.lineItems);
       setCart(response.cart);
     } catch (error) {
       console.log("error", error);
@@ -49,6 +51,7 @@ const Cart = () => {
   const getCart = async () => {
     try {
       const response = await getProductsCart();
+      setCartItems(response.lineItems);
       setCart(response);
       markPageLoaded();
     } catch (error) {
@@ -59,6 +62,7 @@ const Cart = () => {
   const removeProduct = async (id) => {
     try {
       const response = await removeProductFromCart([id]);
+      setCartItems(response.cart.lineItems);
       setCart(response.cart);
     } catch (error) {
       console.log("error", error);
@@ -66,6 +70,15 @@ const Cart = () => {
   }
   const findColor = (descriptionLines) => {
     return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x) => x.colorInfo.original)
+  }
+  const findDescriptionLine = (descriptionLines, key) => {
+    return descriptionLines.find((x) => x.name.original === key)?.plainText.original || "";
+  }
+  const formatPrice = (price, quantity) => {
+    const currencySymbol = price.formattedAmount.charAt(0);
+    const totalPrice = price.amount * quantity;
+    const formattedPrice = totalPrice.toFixed(2);
+    return `${currencySymbol}${formattedPrice}`;
   }
   const updateProducts = async (id, quantity) => {
     try {
@@ -76,16 +89,35 @@ const Cart = () => {
       console.log("error", error);
     }
   }
-  const handleQuantityChange = async (id, quantity) => {
-    if (quantity < 1000 && quantity > 0) {
-      const updatedLineItems = cart.lineItems.map((x) => {
+  const handleQuantityChange = async (id, quantity, disabled) => {
+    if (quantity < 10000 && quantity > 0) {
+      const updatedLineItems = cartItems.map((x) => {
         if (id === x._id) {
-          x.quantity = quantity;
+          x.quantity = Number(quantity);
         }
         return x;
-      })
-      setCart({ ...cart, lineItems: updatedLineItems });
-      console.log("updatedLineItems", updatedLineItems);
+      });
+      setCartItems(updatedLineItems);
+      if (!disabled) updateProducts(id, quantity);
+    }
+  }
+  const handleNoteChange = async (id, value) => {
+    const updatedLineItems = cartItems.map((x) => {
+      if (id === x._id) {
+        x.catalogReference.options.customTextFields.additonalInfo = value;
+      }
+      return x;
+    });
+    setCartItems(updatedLineItems);
+  }
+  const updateLineItem = async () => {
+    try {
+      const lineItems = cartItems.map((x) => { return { catalogReference: x.catalogReference, quantity: x.quantity } });
+      const response = await updateCartItem(lineItems);
+      console.log("response", response);
+      setCart(response.cart);
+    } catch (error) {
+      console.log("error", error);
     }
   }
 
@@ -94,10 +126,9 @@ const Cart = () => {
   }, [])
 
   useEffect(() => {
-    console.log("cart", cart);
     updatedWatched();
-  }, [cart])
-
+    console.log("cartItems", cartItems);
+  }, [cartItems]);
 
   return (
     <>
@@ -119,7 +150,7 @@ const Cart = () => {
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
                   <div className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
-                    Total {cart?.subtotal.formattedConvertedAmount}
+                    Total {cart?.subtotal.formattedConvertedAmount || "$0.00"}
                   </div>
                   <p className="fs--10 white-1 mt-5">
                     *Estimated value for the cart. Shipping and customization
@@ -133,9 +164,10 @@ const Cart = () => {
                     className="list-cart list-cart-product mt-35"
                     data-aos="d:loop"
                   >
-                    {cart?.lineItems.map((item, index) => {
-                      const { _id, quantity, productName, image, fullPrice, physicalProperties, descriptionLines } = item;
+                    {cartItems.map((item, index) => {
+                      const { _id, quantity, productName, image, price, physicalProperties, descriptionLines, catalogReference } = item;
                       const colors = findColor(descriptionLines).join("-");
+                      const customTextFields = catalogReference.options.customTextFields;
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
@@ -164,7 +196,7 @@ const Cart = () => {
                                   </AnimateLink>
                                 </div>
                                 <div className="container-price">
-                                  <div className="price">{fullPrice.formattedAmount}</div>
+                                  <div className="price">{formatPrice(price, quantity)}</div>
                                   <button onClick={() => removeProduct(_id)} type="button" className="btn-cancel">
                                     <i className="icon-close"></i>
                                   </button>
@@ -180,7 +212,7 @@ const Cart = () => {
                                     <span className="specs-title">
                                       Collection
                                     </span>
-                                    <span className="specs-text">Paddock</span>
+                                    <span className="specs-text">{customTextFields.collection}</span>
                                   </li>
                                   <li className="color">
                                     <span className="specs-title">Color</span>
@@ -194,7 +226,10 @@ const Cart = () => {
                                     </span>
                                     <input
                                       type="text"
+                                      value={customTextFields.additonalInfo}
                                       placeholder="Lorem Ipsum"
+                                      onInput={(e) => handleNoteChange(_id, e.target.value)}
+                                      onBlur={() => updateLineItem(_id)}
                                     />
                                   </li>
                                 </ul>
@@ -203,7 +238,7 @@ const Cart = () => {
                                     Quantity
                                   </span>
                                   <div className="container-input container-input-quantity js-running">
-                                    <button onClick={() => handleQuantityChange(_id, +quantity - 1)} type="button" className="minus">
+                                    <button onClick={() => handleQuantityChange(_id, quantity - 1)} type="button" className="minus">
                                       <i className="icon-minus no-mobile"></i>
                                       <i className="icon-minus-2 no-desktop"></i>
                                     </button>
@@ -213,10 +248,10 @@ const Cart = () => {
                                       value={quantity}
                                       placeholder="1"
                                       className="input-number"
-                                      onInput={(e) => handleQuantityChange(_id, e.target.value)}
-                                    // onBlur={(e) => handleQuantityChange(_id, e.target.value)}
+                                      onInput={(e) => handleQuantityChange(_id, e.target.value, true)}
+                                      onBlur={(e) => updateProducts(_id, e.target.value)}
                                     />
-                                    <button onClick={() => handleQuantityChange(_id, +quantity + 1)} type="button" className="plus">
+                                    <button onClick={() => handleQuantityChange(_id, quantity + 1)} type="button" className="plus">
                                       <i className="icon-plus no-mobile"></i>
                                       <i className="icon-plus-2 no-desktop"></i>
                                     </button>
@@ -229,7 +264,7 @@ const Cart = () => {
                       );
                     })}
                   </ul>
-                  {cart?.lineItems.length === 0 && (
+                  {cartItems.length === 0 && (
                     <h6
                       className="fs--40 text-center split-words white-1"
                       style={{ margin: "28vh auto" }}
@@ -238,7 +273,7 @@ const Cart = () => {
                       No Products in Cart
                     </h6>
                   )}
-                  {cart?.lineItems.length !== 0 && (
+                  {cartItems.length !== 0 && (
                     <div className="container-btn mt-md-90 mt-phone-40">
                       <button
                         className="btn-medium-wide btn-red btn-hover-white bt-submit"
