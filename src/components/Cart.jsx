@@ -17,24 +17,11 @@ const Cart = () => {
             appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
             catalogItemId: "0825d779-f01f-4a87-9777-8a5fbf895c06",
             options: {
-              "variantId": "bef25cb9-f158-4fd2-89c5-7fd5700de244",
-              "customTextFields": {
-                label: "Hope you enjoy the coffee! :)",
-                label2: "Hello"
-              }
-            }
-          },
-          quantity: 2
-        },
-        {
-          catalogReference: {
-            appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
-            catalogItemId: "0825d779-f01f-4a87-9777-8a5fbf895c06",
-            options: {
               "variantId": "e1ffe39b-7a0e-42c8-92f3-3373a5471513",
               "customTextFields": {
-                collection: "Heello",
-                additonalInfo: "this is additonalInfo"
+                collection: "Legacy",
+                additonalInfo: "this is additonalInfo",
+                productSlug: "/product/accent-chair-celeste",
               }
             }
           },
@@ -71,14 +58,19 @@ const Cart = () => {
   const findColor = (descriptionLines) => {
     return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x) => x.colorInfo.original)
   }
-  const findDescriptionLine = (descriptionLines, key) => {
-    return descriptionLines.find((x) => x.name.original === key)?.plainText.original || "";
-  }
   const formatPrice = (price, quantity) => {
     const currencySymbol = price.formattedAmount.charAt(0);
     const totalPrice = price.amount * quantity;
     const formattedPrice = totalPrice.toFixed(2);
     return `${currencySymbol}${formattedPrice}`;
+  }
+  function extractSlugFromUrl(url) {
+    const regex = /\/([^\/]+)\/?$/;
+    const match = regex.exec(url);
+    if (match) {
+      return match[0];
+    }
+    return "";
   }
   const updateProducts = async (id, quantity) => {
     try {
@@ -127,14 +119,12 @@ const Cart = () => {
 
   useEffect(() => {
     updatedWatched();
-    console.log("cartItems", cartItems);
   }, [cartItems]);
 
   return (
     <>
       <section className="cart-intro pb-lg-80 pb-tablet-70 pb-phone-135">
         <div className="container-fluid pos-relative z-5">
-          <button onClick={updateProducts} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Update</button>
           <button onClick={addToCart} className="btn-small" style={{ color: "white", border: "1px solid red", marginRight: "12px" }}>Add to Cart</button>
           <div className="row">
             <div className="col-lg-8 offset-lg-2">
@@ -165,7 +155,7 @@ const Cart = () => {
                     data-aos="d:loop"
                   >
                     {cartItems.map((item, index) => {
-                      const { _id, quantity, productName, image, price, physicalProperties, descriptionLines, catalogReference } = item;
+                      const { _id, quantity, productName, url, image, price, physicalProperties, descriptionLines, catalogReference } = item;
                       const colors = findColor(descriptionLines).join("-");
                       const customTextFields = catalogReference.options.customTextFields;
                       return (
@@ -188,7 +178,7 @@ const Cart = () => {
                                     {productName.original}
                                   </h2>
                                   <AnimateLink
-                                    to={"/products"}
+                                    to={"/product" + extractSlugFromUrl(url)}
                                     className="btn-view"
                                   >
                                     <span>View</span>
