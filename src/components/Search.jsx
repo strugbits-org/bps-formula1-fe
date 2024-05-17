@@ -2,6 +2,9 @@ import AddToCartModal from "./Product/AddToCartModal";
 import FilterButton from "./Common/FilterButton";
 import { useState } from "react";
 import AnimateLink from "./Common/AnimateLink";
+import SuccessModal from "./Common/SuccessModal";
+import ErrorModal from "./Common/ErrorModal";
+import { SaveProductButton } from "./Common/SaveProductButton";
 
 const Search = ({
   collections,
@@ -10,7 +13,8 @@ const Search = ({
   handleFilterChange,
 }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
-
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -35,7 +39,7 @@ const Search = ({
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {searchedProducts.map((item, index) => {
-                  const { variantData, product } = item;
+                  const { product, members, variantData } = item;
 
                   return (
                     <li key={item._id} className="grid-item">
@@ -47,9 +51,10 @@ const Search = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          <button className="btn-bookmark">
-                            <i className="icon-bookmark"></i>
-                          </button>
+                          <SaveProductButton
+                            productId={product._id}
+                            members={members}
+                          />
                         </div>
                         <AnimateLink
                           to={`/product/${product.slug}`}
@@ -69,8 +74,10 @@ const Search = ({
                                     data-get-product-link-color={
                                       variant.color[0]
                                     }
-                                    data-default-product-link-active={index === 0}
-                                    >
+                                    data-default-product-link-active={
+                                      index === 0
+                                    }
+                                  >
                                     <img
                                       src={variant.variant.imageSrc}
                                       style={{
@@ -102,8 +109,10 @@ const Search = ({
                                     data-set-product-link-color={
                                       variant.color[0]
                                     }
-                                    data-default-product-link-active={index === 0}
-                                    >
+                                    data-default-product-link-active={
+                                      index === 0
+                                    }
+                                  >
                                     <div className="container-img">
                                       <img
                                         src={variant.variant.imageSrc}
@@ -149,10 +158,23 @@ const Search = ({
           </div>
         </div>
       </section>
-
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Try Again!"}
+          message={"Product Successfully Added to Cart!"}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Ok"}
+          message={"Something went wrong, please try again"}
+        />
+      )}
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
       />
     </>
   );

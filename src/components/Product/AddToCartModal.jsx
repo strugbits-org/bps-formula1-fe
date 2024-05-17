@@ -5,7 +5,12 @@ import { pageLoadEnd } from "@/utils/AnimationFunctions";
 import { getProductVariants } from "@/services/apiServices";
 import { AddProductToCart } from "@/services/cartServices";
 
-const AddToCartModal = ({ productData, setProductData }) => {
+const AddToCartModal = ({
+  productData,
+  setProductData,
+  setErrorMessageVisible,
+  setSuccessMessageVisible,
+}) => {
   const handleClose = () => {
     setTimeout(() => {
       setProductData(null);
@@ -34,7 +39,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
   const getFullVariantData = async () => {
     const fullVariant = await getProductVariants(productData.product._id);
     setFullVariantData(fullVariant);
-  }
+  };
   const handleImageChange = (index) => {
     setSelectedVariantIndex(index);
     setSelectedVariant(productData.variantData[index].variant);
@@ -67,30 +72,39 @@ const AddToCartModal = ({ productData, setProductData }) => {
     if (value < 10000 && value > 0) {
       setCartQuantity(value);
     }
-  }
+  };
   const handleAddToCart = async () => {
+    setSuccessMessageVisible(false);
+    setErrorMessageVisible(false);
+
     try {
       const product_id = productData.product._id;
-      const selectedVariantData = fullVariantData.find((x) => x.sku === selectedVariant.sku);
-      const variant_id = selectedVariantData._id.replace(product_id, "").substring(1);
+      const selectedVariantData = fullVariantData.find(
+        (x) => x.sku === selectedVariant.sku
+      );
+      const variant_id = selectedVariantData._id
+        .replace(product_id, "")
+        .substring(1);
       const product = {
         catalogReference: {
           appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
           catalogItemId: product_id,
           options: {
-            "variantId": variant_id,
-            "customTextFields": {
+            variantId: variant_id,
+            customTextFields: {
               collection: productData.f1Collection.collectionName,
               additonalInfo: "",
-            }
-          }
+            },
+          },
         },
-        quantity: cartQuantity
-      }
+        quantity: cartQuantity,
+      };
       await AddProductToCart([product]);
       handleClose();
+      setSuccessMessageVisible(true);
     } catch (error) {
       console.log("Error:", error);
+      setErrorMessageVisible(true);
     }
   };
 
@@ -364,7 +378,13 @@ const AddToCartModal = ({ productData, setProductData }) => {
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
                               <div class="container-input container-input-quantity">
-                                <button onClick={() => handleQuantityChange(+cartQuantity - 1)} type="button" class="minus">
+                                <button
+                                  onClick={() =>
+                                    handleQuantityChange(+cartQuantity - 1)
+                                  }
+                                  type="button"
+                                  class="minus"
+                                >
                                   <i class="icon-minus no-mobile"></i>
                                   <i class="icon-minus-2 no-desktop"></i>
                                 </button>
@@ -374,9 +394,17 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                   value={cartQuantity}
                                   placeholder="1"
                                   class="input-number"
-                                  onInput={(e) => handleQuantityChange(e.target.value)}
+                                  onInput={(e) =>
+                                    handleQuantityChange(e.target.value)
+                                  }
                                 />
-                                <button onClick={() => handleQuantityChange(+cartQuantity + 1)} type="button" class="plus">
+                                <button
+                                  onClick={() =>
+                                    handleQuantityChange(+cartQuantity + 1)
+                                  }
+                                  type="button"
+                                  class="plus"
+                                >
                                   <i class="icon-plus no-mobile"></i>
                                   <i class="icon-plus-2 no-desktop"></i>
                                 </button>
@@ -392,7 +420,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                              0 && (
+                                0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "
