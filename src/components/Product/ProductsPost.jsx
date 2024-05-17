@@ -168,10 +168,11 @@ const ProductPost = ({
                             return (
                               <div
                                 key={index}
-                                className={`swiper-slide ${index === selectedVariantIndex
-                                  ? "swiper-slide-active"
-                                  : ""
-                                  }`}
+                                className={`swiper-slide ${
+                                  index === selectedVariantIndex
+                                    ? "swiper-slide-active"
+                                    : ""
+                                }`}
                               >
                                 <div
                                   className="container-img"
@@ -194,7 +195,6 @@ const ProductPost = ({
                             <i className="icon-360"></i>
                             <div className="container-img">
                               <canvas
-                                style={{ padding: "100px" }}
                                 className="infinite-image-scroller"
                                 data-frames="49"
                                 data-path={modalURL}
@@ -207,7 +207,6 @@ const ProductPost = ({
                             <i className="icon-360"></i>
                             <div className="container-img">
                               <canvas
-                                style={{ padding: "100px" }}
                                 className="infinite-image-scroller"
                                 data-frames="49"
                                 data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
@@ -240,8 +239,9 @@ const ProductPost = ({
                             (variantData, index) => (
                               <div
                                 key={index}
-                                className={`swiper-slide ${index === selectedVariantIndex ? "active" : ""
-                                  }`}
+                                className={`swiper-slide ${
+                                  index === selectedVariantIndex ? "active" : ""
+                                }`}
                               >
                                 <div className="wrapper-img">
                                   <div
@@ -330,10 +330,13 @@ const ProductPost = ({
                     {selectedVariant.sku && (
                       <li className="sku">
                         <span className="specs-title">SKU</span>
-                        <span className="specs-text">{selectedVariant.sku}</span>
+                        <span className="specs-text">
+                          {selectedVariant.sku}
+                        </span>
                       </li>
                     )}
-                    {selectedProductDetails.product.additionalInfoSections.length !== 0 && (
+                    {selectedProductDetails.product.additionalInfoSections
+                      .length !== 0 && (
                       <li className="size">
                         <span className="specs-title">Size</span>
                         {selectedProductDetails.product.additionalInfoSections.map(
@@ -367,7 +370,6 @@ const ProductPost = ({
                       <span className="specs-title">Weight</span>
                       <span className="specs-text">11.5lbs</span>
                     </li>
-
 
                     {seatHeightData && (
                       <li className="seat-height">
@@ -422,7 +424,11 @@ const ProductPost = ({
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
                     <div className="container-input container-input-quantity js-running">
-                      <button onClick={() => handleQuantityChange(+cartQuantity - 1)} type="button" className="minus">
+                      <button
+                        onClick={() => handleQuantityChange(+cartQuantity - 1)}
+                        type="button"
+                        className="minus"
+                      >
                         <i className="icon-minus no-mobile"></i>
                         <i className="icon-minus-2 no-desktop"></i>
                       </button>
@@ -434,7 +440,11 @@ const ProductPost = ({
                         className="input-number"
                         onInput={(e) => handleQuantityChange(e.target.value)}
                       />
-                      <button onClick={() => handleQuantityChange(+cartQuantity + 1)} type="button" className="plus">
+                      <button
+                        onClick={() => handleQuantityChange(+cartQuantity + 1)}
+                        type="button"
+                        className="plus"
+                      >
                         <i className="icon-plus no-mobile"></i>
                         <i className="icon-plus-2 no-desktop"></i>
                       </button>
@@ -454,7 +464,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                    0 && (
+                      0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
@@ -474,9 +484,7 @@ const ProductPost = ({
                         const { title, mandatory } = data;
                         return (
                           <React.Fragment key={index}>
-                            <div
-                              className="container-product-notes mb-20"
-                            >
+                            <div className="container-product-notes mb-20">
                               <div className="container-input product-notes">
                                 <input
                                   name="product_notes"
