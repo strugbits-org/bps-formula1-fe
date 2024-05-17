@@ -13,6 +13,15 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
       )
     );
   };
+
+  // if (savedProductData && savedProductData.length === 0) {
+  //   return (
+  //     <h6 className="fs--40 text-center split-words white-1" data-aos="d:loop">
+  //       No Products Found
+  //     </h6>
+  //   );
+  // }
+
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -32,8 +41,17 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {savedProductsData &&
-                    savedProductsData?.map((productData, index) => {
+                  {savedProductData && savedProductData.length === 0 ? (
+                    <div style={{ margin: "20vh auto" }}>
+                      <h6
+                        className="fs--20 text-center split-words "
+                        data-aos="d:loop"
+                      >
+                        No Products Found
+                      </h6>
+                    </div>
+                  ) : (
+                    savedProductsData.map((productData, index) => {
                       const { product, variantData, members } =
                         productData.data;
                       return (
@@ -146,15 +164,18 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                           </div>
                         </li>
                       );
-                    })}
+                    })
+                  )}
                 </ul>
-                <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                  <button className="btn-medium btn-red btn-hover-white">
-                    <span className="split-chars">
-                      <span>Load more</span>
-                    </span>
-                  </button>
-                </div>
+                {savedProductData && savedProductData.length > 0 && (
+                  <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
+                    <button className="btn-medium btn-red btn-hover-white">
+                      <span className="split-chars">
+                        <span>Load more</span>
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

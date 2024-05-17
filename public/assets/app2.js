@@ -17977,14 +17977,6 @@ var require_app2 = __commonJS({
             containerForm.querySelector("form").reset();
           });
         }
-        containerForm
-          .querySelector("form")
-          .addEventListener("submit", function (e2) {
-            e2.preventDefault();
-            {
-              containerForm.dataset.formState = "success";
-            }
-          });
       });
       if (screen.isDesktop) {
         var containerSelect,
@@ -18830,34 +18822,6 @@ var require_app2 = __commonJS({
             }, 1e3);
           });
         });
-        containerForm
-          .querySelector("form")
-          .addEventListener("submit", function (e2) {
-            e2.preventDefault();
-            {
-              document.body.dataset.formCartState = "success";
-              let area = document.querySelector("[data-feedback-area]");
-              document.addEventListener(
-                "click",
-                function (e3) {
-                  if (e3.target !== area) {
-                    document.body.dataset.formCartState = "leave";
-                    setTimeout(() => {
-                      document.body.dataset.formCartState = "";
-                    }, 1e3);
-                  }
-                },
-                { once: true }
-              );
-            }
-            document.addEventListener(
-              "pjax:switch",
-              function () {
-                document.body.dataset.formCartState = "";
-              },
-              { once: true }
-            );
-          });
       });
     }
     document.addEventListener("pjax:complete", formCart);

@@ -2,17 +2,12 @@ import useUserData from "@/hooks/useUserData";
 import { getUserAuth } from "@/utils/GetUser";
 import { useState, useEffect } from "react";
 
-export const SaveProductButton = ({
-  productId,
-  members,
-  dataAos,
-  onUnSave,
-}) => {
+export const SaveProductButton = ({ productId, members, dataAos, onUnSave }) => {
   const authToken = getUserAuth();
   const { memberId } = useUserData();
 
   const [productSaved, setProductSaved] = useState(false);
-
+  const [error, setError] = useState("");
   useEffect(() => {
     if (members && members.length > 0) {
       setProductSaved(members.includes(memberId));
@@ -25,6 +20,7 @@ export const SaveProductButton = ({
       : `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`;
 
     try {
+      setProductSaved(isSaving);
       const response = await fetch(endpoint, {
         method: "GET",
         headers: {
@@ -32,13 +28,11 @@ export const SaveProductButton = ({
           Authorization: authToken,
         },
       });
-
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
       await response.json();
-      setProductSaved(isSaving);
       if (!isSaving && onUnSave) {
         onUnSave(productId);
       }
@@ -47,6 +41,13 @@ export const SaveProductButton = ({
         `Error ${isSaving ? "saving" : "unsaving"} product:`,
         error
       );
+      if (isSaving) {
+        setError("saving");
+        setProductSaved(false);
+      } else {
+        setError("unsaving");
+        setProductSaved(true);
+      }
     }
   };
 
@@ -55,9 +56,10 @@ export const SaveProductButton = ({
   };
 
   const buttonProps = {
-    className: `btn-bookmark aos-animate ${
-      productSaved ? "productSavedColor" : ""
-    }`,
+    className: `btn-bookmark aos-animate 
+    ${error === "" && productSaved ? "productSavedColor" : ""}
+    ${error === "saving" && productSaved ? "productSavedColor" : ""}
+    ${error === "unsaving" && productSaved ? "productSavedColor" : ""}`,
     onClick: handleClick,
     ...(dataAos && { "data-aos": dataAos }),
   };
