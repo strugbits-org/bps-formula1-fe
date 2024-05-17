@@ -9,6 +9,7 @@ import ProductSnapshots from "../Common/productSnapshots";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { BestSeller } from "@/utils/BestSeller";
+import { SaveProductButton } from "../Common/SaveProductButton";
 
 const breadCrumbData = [
   { name: "Home", href: "/" },
@@ -102,6 +103,14 @@ const ProductPost = ({
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
+  const handleAddToCart = () => {
+    try {
+      router.push("/cart");
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+  console.log(selectedProductDetails, "selectedProductDetails>>");
   return (
     <>
       <section className="product-post-intro" data-product-content>
@@ -263,7 +272,7 @@ const ProductPost = ({
                 })}
               </ul>
               <div className="container-product-description">
-                <form action="cart.html" className="form-cart" data-pjax>
+                <form onSubmit={handleAddToCart} className="form-cart">
                   <input type="hidden" name="sku[]" value="MODCH09" />
                   <div className="wrapper-product-name">
                     <div className="container-product-name">
@@ -283,12 +292,12 @@ const ProductPost = ({
                         }
                       </div>
                     </div>
-                    <button
-                      className="btn-bookmark"
-                      data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                    >
-                      <i className="icon-bookmark"></i>
-                    </button>
+
+                    <SaveProductButton
+                      productId={selectedProductDetails.product._id}
+                      members={selectedProductDetails.members}
+                      dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                    />
                   </div>
                   <ul
                     className="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
@@ -398,8 +407,8 @@ const ProductPost = ({
                         <i className="icon-plus-2 no-desktop"></i>
                       </button>
                     </div>
-                    <Link
-                      href="/cart"
+                    <button
+                      type="submit"
                       className="btn-add-to-cart btn-red btn-hover-white"
                     >
                       <div className="split-chars">
@@ -408,7 +417,7 @@ const ProductPost = ({
                             productPostPageData.addToCartButtonLabel}
                         </span>
                       </div>
-                    </Link>
+                    </button>
                   </div>
 
                   {selectedProductDetails &&

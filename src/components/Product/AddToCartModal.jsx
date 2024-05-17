@@ -1,5 +1,6 @@
 import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
+import { SaveProductButton } from "../Common/SaveProductButton";
 
 const AddToCartModal = ({ productData, setProductData }) => {
   const handleClose = () => {
@@ -226,12 +227,13 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                     productData.product.formattedPrice}
                                 </div>
                               </div>
-                              <button
-                                class="btn-bookmark"
-                                data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                              >
-                                <i class="icon-bookmark"></i>
-                              </button>
+                              <SaveProductButton
+                                productId={
+                                  productData && productData.product._id
+                                }
+                                members={productData && productData.members}
+                                dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                              />
                             </div>
                             <ul
                               class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"

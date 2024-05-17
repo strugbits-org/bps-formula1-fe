@@ -22,13 +22,24 @@ export const getHomeBottomRightSocialLinks = () =>
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
 
-export const fetchCartProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+export const fetchCartProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
 
-export const fetchProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+export const fetchProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
 
-export const getSearchProducts = (collections, colors, searchTerm) => fetchSearchData(collections, colors, searchTerm);
-
-
+export const getSearchProducts = (collections, colors, searchTerm) =>
+  fetchSearchData(collections, colors, searchTerm);
 
 // REGISTRATION PAGE APIS
 export const getSignInPage = () => fetchData("SignInPageF1");
@@ -83,7 +94,11 @@ export const getCollectionsPostPageData = () =>
 
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
-listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
+  listProducts(
+    "locationFilteredVariant",
+    ["category", "product", "subCategory"],
+    slug
+  );
 
 export const getFilterProducts = (slug) =>
   fetchCategoriesReferenceDataa(
@@ -141,3 +156,33 @@ export const getQuoteHistoryPageData = () =>
   fetchData("QuotesHistoryPageDataF1");
 
 export const getSavedProductPageData = () => fetchData("SavedProductPageData");
+
+// SAVED PRODUCT PAGE APIS
+export const getSavedProductData = async (authToken) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8003/formula1/wix/getSavedProducts`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+
+    if (data && data.data && Array.isArray(data.data._items)) {
+      return data.data._items;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching saved products:", error);
+    return [];
+  }
+};

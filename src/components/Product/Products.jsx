@@ -10,6 +10,8 @@ import { parseArrayFromParams } from "@/utils/utils";
 import { BestSeller } from "@/utils/BestSeller";
 import useUserData from "@/hooks/useUserData";
 import { getUserAuth } from "@/utils/GetUser";
+import { BestSellerTag } from "../Common/BestSellerTag";
+import { SaveProductButton } from "../Common/SaveProductButton";
 
 const Products = ({
   filteredProducts,
@@ -26,7 +28,7 @@ const Products = ({
   const router = useRouter();
   const { memberId } = useUserData();
   const authToken = getUserAuth();
-  
+
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -133,9 +135,6 @@ const Products = ({
     }
   };
 
-  function compareSubCategory(arr1, obj) {
-    return arr1.some((item) => obj[item._id]);
-  }
   return (
     <>
       <section className="products-intro">
@@ -249,13 +248,12 @@ const Products = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          {compareSubCategory(subCategory, BestSeller) && (
-                            <div className="best-seller">
-                              <span>Best Seller</span>
-                            </div>
-                          )}
-
-                          {productIsSaved || productSaved[product._id] ? (
+                          <BestSellerTag subCategory={subCategory} />
+                          <SaveProductButton
+                            productId={product._id}
+                            members={members}
+                          />
+                          {/* {productIsSaved || productSaved[product._id] ? (
                             <button
                               className="btn-bookmark productSavedColor"
                               onClick={() =>
@@ -273,7 +271,7 @@ const Products = ({
                             >
                               <i className="icon-bookmark"></i>
                             </button>
-                          )}
+                          )} */}
                         </div>
                         <div className="container-copy">
                           <button className="btn-copy copy-link">
