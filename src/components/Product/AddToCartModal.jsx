@@ -1,16 +1,28 @@
 import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
+import { SaveProductButton } from "../Common/SaveProductButton";
+import { pageLoadEnd } from "@/utils/AnimationFunctions";
+import { getProductVariants } from "@/services/apiServices";
+import { AddProductToCart } from "@/services/cartServices";
 
-const AddToCartModal = ({ productData, setProductData }) => {
+const AddToCartModal = ({
+  productData,
+  setProductData,
+  setErrorMessageVisible,
+  setSuccessMessageVisible,
+}) => {
   const handleClose = () => {
     setTimeout(() => {
       setProductData(null);
       setSelectedVariant(null);
+      setCartQuantity(1);
     }, 1000);
   };
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [fullVariantData, setFullVariantData] = useState([]);
   const [modalURL, setModalURL] = useState("");
+  const [cartQuantity, setCartQuantity] = useState(1);
 
   useEffect(() => {
     document.querySelector(".addToCart").click();
@@ -20,11 +32,15 @@ const AddToCartModal = ({ productData, setProductData }) => {
         let newUrl = url.replace(/0\.jpg$/, "");
         setModalURL(newUrl);
       }
-
       setSelectedVariant(productData.variantData[0].variant);
+      getFullVariantData();
     }
   }, [productData]);
 
+  const getFullVariantData = async () => {
+    const fullVariant = await getProductVariants(productData.product._id);
+    setFullVariantData(fullVariant);
+  };
   const handleImageChange = (index) => {
     setSelectedVariantIndex(index);
     setSelectedVariant(productData.variantData[index].variant);
@@ -52,6 +68,46 @@ const AddToCartModal = ({ productData, setProductData }) => {
     productData.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
+
+  const handleQuantityChange = async (value) => {
+    if (value < 10000 && value > 0) {
+      setCartQuantity(value);
+    }
+  };
+  const handleAddToCart = async () => {
+    setSuccessMessageVisible(false);
+    setErrorMessageVisible(false);
+
+    try {
+      const product_id = productData.product._id;
+      const selectedVariantData = fullVariantData.find(
+        (x) => x.sku === selectedVariant.sku
+      );
+      const variant_id = selectedVariantData._id
+        .replace(product_id, "")
+        .substring(1);
+      const product = {
+        catalogReference: {
+          appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
+          catalogItemId: product_id,
+          options: {
+            variantId: variant_id,
+            customTextFields: {
+              collection: productData.f1Collection.collectionName,
+              additonalInfo: "",
+            },
+          },
+        },
+        quantity: cartQuantity,
+      };
+      await AddProductToCart([product]);
+      handleClose();
+      setSuccessMessageVisible(true);
+    } catch (error) {
+      console.log("Error:", error);
+      setErrorMessageVisible(true);
+    } 
+  };
 
   return (
     <div id="reloading-area">
@@ -208,7 +264,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                         </ul>
 
                         <div class="container-product-description">
-                          <form action="cart" class="form-cart" data-pjax>
+                          <div class="form-cart">
                             <input type="hidden" name="sku[]" value="MODCH09" />
                             <div class="wrapper-product-name">
                               <div class="container-product-name">
@@ -226,12 +282,13 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                     productData.product.formattedPrice}
                                 </div>
                               </div>
-                              <button
-                                class="btn-bookmark"
-                                data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                              >
-                                <i class="icon-bookmark"></i>
-                              </button>
+                              <SaveProductButton
+                                productId={
+                                  productData && productData.product._id
+                                }
+                                members={productData && productData.members}
+                                dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                              />
                             </div>
                             <ul
                               class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
@@ -322,25 +379,40 @@ const AddToCartModal = ({ productData, setProductData }) => {
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
                               <div class="container-input container-input-quantity">
-                                <button type="button" class="minus">
+                                <button
+                                  onClick={() =>
+                                    handleQuantityChange(+cartQuantity - 1)
+                                  }
+                                  type="button"
+                                  class="minus"
+                                >
                                   <i class="icon-minus no-mobile"></i>
                                   <i class="icon-minus-2 no-desktop"></i>
                                 </button>
                                 <input
                                   type="number"
-                                  min="0"
-                                  value="1"
+                                  min="1"
+                                  value={cartQuantity}
                                   placeholder="1"
                                   class="input-number"
+                                  onInput={(e) =>
+                                    handleQuantityChange(e.target.value)
+                                  }
                                 />
-                                <button type="button" class="plus">
+                                <button
+                                  onClick={() =>
+                                    handleQuantityChange(+cartQuantity + 1)
+                                  }
+                                  type="button"
+                                  class="plus"
+                                >
                                   <i class="icon-plus no-mobile"></i>
                                   <i class="icon-plus-2 no-desktop"></i>
                                 </button>
                               </div>
                               <button
                                 class="btn-add-to-cart btn-red btn-hover-white"
-                                type="submit"
+                                onClick={handleAddToCart}
                               >
                                 <div class="split-chars">
                                   <span>Add to cart</span>
@@ -398,7 +470,7 @@ const AddToCartModal = ({ productData, setProductData }) => {
                                 </button>
                               </div>
                             </div> */}
-                          </form>
+                          </div>
                         </div>
                         <btn-modal-close onClick={handleClose}>
                           <i class="icon-close"></i>

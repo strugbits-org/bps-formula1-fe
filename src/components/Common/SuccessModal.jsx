@@ -1,18 +1,23 @@
-import usePageInitialization from "@/hooks/usePageInitialization";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-const SuccessModal = ({ message }) => {
+const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
   const router = useRouter();
+
   function closeModal() {
     document.body.setAttribute("data-form-cart-state", "");
-    router.push("/");
+    if (router.route === "/") {
+      router.push("/");
+    }
+    setSuccessMessageVisible(false);
   }
+
   useEffect(() => {
     document.body.setAttribute("data-form-cart-state", "success");
   }, []);
 
-  usePageInitialization("pg-home", ".initScript", ".home");
+  markPageLoaded();
 
   return (
     <div id="reloading-area">
@@ -62,19 +67,9 @@ const SuccessModal = ({ message }) => {
                           data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                         >
                           <span className="split-chars">
-                            <span>Ok</span>
+                            <span>{buttonLabel || "OK!"}</span>
                           </span>
                         </button>
-                        {/* <AnimateLink
-                          to={"/collections"}
-                          className="btn-small-wide btn-gray btn-back-to-collections btn-hover-red-white mt-md-30 mt-phone-20"
-                          data-close-feedback
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <div className="split-chars">
-                            <span>Back to collections</span>
-                          </div>
-                        </AnimateLink> */}
                       </div>
                     </div>
                   </div>

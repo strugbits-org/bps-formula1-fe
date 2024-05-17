@@ -2,9 +2,13 @@ import { useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
 import { BestSeller } from "@/utils/BestSeller";
+import ErrorModal from "./ErrorModal";
+import SuccessModal from "./SuccessModal";
 
 const MatchedProducts = ({ matchedProductsData }) => {
   const [selectedProductData, setSelectedProductData] = useState(null);
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -188,10 +192,25 @@ const MatchedProducts = ({ matchedProductsData }) => {
           </div>
         </div>
       </section>
-
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Try Again!"}
+          message={"Product Successfully Added to Cart!"}
+          setSuccessMessageVisible={setSuccessMessageVisible}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Ok"}
+          message={"Something went wrong, please try again"}
+          setErrorMessageVisible={setErrorMessageVisible}
+        />
+      )}
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
       />
     </>
   );

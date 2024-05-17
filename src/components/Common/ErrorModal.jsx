@@ -1,16 +1,17 @@
-import usePageInitialization from "@/hooks/usePageInitialization";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useEffect } from "react";
 
-const ErrorModal = ({ message }) => {
+const ErrorModal = ({ buttonLabel, message, setErrorMessageVisible }) => {
   function closeModal() {
     document.body.setAttribute("data-form-cart-state", "");
+    setErrorMessageVisible(false);
   }
+
   useEffect(() => {
     document.body.setAttribute("data-form-cart-state", "success");
   }, []);
 
-  usePageInitialization("pg-home", ".initScript", ".home");
-
+  markPageLoaded();
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -59,19 +60,9 @@ const ErrorModal = ({ message }) => {
                           data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                         >
                           <span className="split-chars">
-                            <span>Try Again</span>
+                            <span>{buttonLabel || "Try Again!"}</span>
                           </span>
                         </button>
-                        {/* <AnimateLink
-                          to={"/collections"}
-                          className="btn-small-wide btn-gray btn-back-to-collections btn-hover-red-white mt-md-30 mt-phone-20"
-                          data-close-feedback
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <div className="split-chars">
-                            <span>Back to collections</span>
-                          </div>
-                        </AnimateLink> */}
                       </div>
                     </div>
                   </div>

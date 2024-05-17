@@ -10,6 +10,10 @@ import { parseArrayFromParams } from "@/utils/utils";
 import { BestSeller } from "@/utils/BestSeller";
 import useUserData from "@/hooks/useUserData";
 import { getUserAuth } from "@/utils/GetUser";
+import { BestSellerTag } from "../Common/BestSellerTag";
+import { SaveProductButton } from "../Common/SaveProductButton";
+import SuccessModal from "../Common/SuccessModal";
+import ErrorModal from "../Common/ErrorModal";
 
 const Products = ({
   filteredProducts,
@@ -25,12 +29,12 @@ const Products = ({
 }) => {
   const router = useRouter();
   const { memberId } = useUserData();
-  const authToken = getUserAuth();
-  
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [productSaved, setProductSaved] = useState({});
+
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
@@ -79,63 +83,6 @@ const Products = ({
     setSelectedCollections(collections);
   };
 
-  // Function to handle bookmark click
-  const handleSaveProduct = async (productId, index) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8003/formula1/wix/saveProduct/${productId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      setProductSaved((prevSaved) => ({
-        ...prevSaved,
-        [productId]: true,
-      }));
-    } catch (error) {
-      console.error("Error saving product:", error);
-    }
-  };
-
-  const handleUnSaveProduct = async (productId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8003/formula1/wix/removeSavedProduct/${productId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      setProductSaved((prevSaved) => ({
-        ...prevSaved,
-        [productId]: false,
-      }));
-
-      const data = await response.json();
-    } catch (error) {
-      console.error("Error saving product:", error);
-    }
-  };
-
-  function compareSubCategory(arr1, obj) {
-    return arr1.some((item) => obj[item._id]);
-  }
   return (
     <>
       <section className="products-intro">
@@ -249,13 +196,12 @@ const Products = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          {compareSubCategory(subCategory, BestSeller) && (
-                            <div className="best-seller">
-                              <span>Best Seller</span>
-                            </div>
-                          )}
-
-                          {productIsSaved || productSaved[product._id] ? (
+                          <BestSellerTag subCategory={subCategory} />
+                          <SaveProductButton
+                            productId={product._id}
+                            members={members}
+                          />
+                          {/* {productIsSaved || productSaved[product._id] ? (
                             <button
                               className="btn-bookmark productSavedColor"
                               onClick={() =>
@@ -273,7 +219,7 @@ const Products = ({
                             >
                               <i className="icon-bookmark"></i>
                             </button>
-                          )}
+                          )} */}
                         </div>
                         <div className="container-copy">
                           <button className="btn-copy copy-link">
@@ -450,8 +396,24 @@ const Products = ({
         </div>
       </section>
       <OtherCollections data={collectionsData} />
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Ok"}
+          message={"Product Successfully Added to Cart!"}
+          setSuccessMessageVisible={setSuccessMessageVisible}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Try Again!"}
+          message={"Something went wrong, please try again"}
+          setErrorMessageVisible={setErrorMessageVisible}
+        />
+      )}
       <AddToCartModal
         setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
         productData={selectedProductData}
       />
     </>

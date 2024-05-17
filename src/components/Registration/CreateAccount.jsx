@@ -4,7 +4,6 @@ import Disclaimer from "./Disclaimer";
 const CreateAccount = ({
   data,
   dropdown,
-  successMessageVisible,
   setSuccessMessageVisible,
   setErrorMessageVisible,
   setMessage,
@@ -36,14 +35,17 @@ const CreateAccount = ({
       const userData = {
         email: formData.email,
         password: formData.password,
+        confirmPassword: formData.confirm_password,
         firstName: formData.first_name,
         lastName: formData.last_name,
         company: formData.company,
         phone: formData.phone,
         hospitalityLoc: formData.hospitality_space,
       };
+      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
       const response = await fetch(
-        `http://localhost:8003/formula1/auth/signup`,
+        `${base_url}formula1/auth/signup`,
         {
           method: "POST",
           headers: {
@@ -79,14 +81,8 @@ const CreateAccount = ({
       return response;
     } catch (error) {
       console.log(error, "error>>");
-      // let err = JSON.parse(error.message);
-      // if (err?.details?.applicationError?.code === "-19995") {
-      //   setMessage("Email already exists!");
-      // } else {
-      //   setMessage(err.message);
-      // }
-      setMessage("Something Went Wrong");
 
+      setMessage("Something Went Wrong");
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
     }
@@ -98,11 +94,6 @@ const CreateAccount = ({
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  // useEffect(() => {
-  //   // if (createAccountStatus === "succeeded") {
-  //   document.body.setAttribute("data-form-cart-state", "");
-  //   // }
-  // }, []);
   return (
     <div className="container-create-account d-none">
       <div

@@ -15,6 +15,8 @@ import fetchData, {
   fetchCollectionColorsArray,
 } from "./fetchFunction";
 
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 // HOME PAGE APIS
 export const getHomePageData = () => fetchData("HomePageContentF1");
 export const getHomeBottomRightSocialLinks = () =>
@@ -22,13 +24,24 @@ export const getHomeBottomRightSocialLinks = () =>
 export const getHomeBottomLeftLink = () =>
   fetchData("HomePageBottomLeftLinksF1");
 
-export const fetchCartProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+export const fetchCartProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
 
-export const fetchProducts = (collections, categories, pageSize, colors, skip) => listProducts(collections, categories, pageSize, colors, skip);
+export const fetchProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
 
-export const getSearchProducts = (collections, colors, searchTerm) => fetchSearchData(collections, colors, searchTerm);
-
-
+export const getSearchProducts = (collections, colors, searchTerm) =>
+  fetchSearchData(collections, colors, searchTerm);
 
 // REGISTRATION PAGE APIS
 export const getSignInPage = () => fetchData("SignInPageF1");
@@ -83,7 +96,11 @@ export const getCollectionsPostPageData = () =>
 
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
-listProducts("locationFilteredVariant", ["category", "product", 'subCategory'], slug);
+  listProducts(
+    "locationFilteredVariant",
+    ["category", "product", "subCategory"],
+    slug
+  );
 
 export const getFilterProducts = (slug) =>
   fetchCategoriesReferenceDataa(
@@ -141,3 +158,29 @@ export const getQuoteHistoryPageData = () =>
   fetchData("QuotesHistoryPageDataF1");
 
 export const getSavedProductPageData = () => fetchData("SavedProductPageData");
+
+// SAVED PRODUCT PAGE APIS
+export const getSavedProductData = async (payload, authToken) => {
+  try {
+    const response = await fetch(
+      `${base_url}formula1/wix/getSavedProducts`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: authToken,
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching saved products:", error);
+    return [];
+  }
+};

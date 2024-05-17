@@ -1,42 +1,32 @@
-import { markPageLoaded } from "@/utils/AnimationFunctions";
-import AddToCartModal from "../Product/AddToCartModal";
 import { useEffect, useState } from "react";
-import { getUserAuth } from "@/utils/GetUser";
+import AddToCartModal from "../Product/AddToCartModal";
+import { SaveProductButton } from "../Common/SaveProductButton";
+import SuccessModal from "../Common/SuccessModal";
+import ErrorModal from "../Common/ErrorModal";
 
-const SavedProducts = ({ savedProductPageData }) => {
+const SavedProducts = ({
+  savedProductPageData,
+  savedProductData,
+  totalCount,
+  pageSize,
+  handleLoadMore,
+}) => {
+  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [selectedProductData, setSelectedProductData] = useState(null);
-  const [data, setData] = useState(null);
-  const authToken = getUserAuth();
-
-  const handleUnSaveProduct = async (productId) => {
-    try {
-      const response = await fetch(
-        `http://localhost:8003/formula1/wix/getSavedProducts/${productId}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: authToken,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
-      markPageLoaded();
-
-      setData(data.data._items);
-    } catch (error) {
-      console.error("Error saving product:", error);
-    }
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const handleUnSaveProduct = (productId) => {
+    setSavedProductsData((prevData) =>
+      prevData.filter(
+        (productData) => productData.data.product._id !== productId
+      )
+    );
   };
 
   useEffect(() => {
-    handleUnSaveProduct();
-  }, []);
+    setSavedProductsData(savedProductData);
+  }, [savedProductData]);
+
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -56,9 +46,19 @@ const SavedProducts = ({ savedProductPageData }) => {
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {data &&
-                    data.map((productData, index) => {
-                      const { product, variantData } = productData.data;
+                  {savedProductData && savedProductData.length === 0 ? (
+                    <div style={{ margin: "20vh auto" }}>
+                      <h6
+                        className="fs--20 text-center split-words "
+                        data-aos="d:loop"
+                      >
+                        No Products Found
+                      </h6>
+                    </div>
+                  ) : (
+                    savedProductsData.map((productData, index) => {
+                      const { product, variantData, members } =
+                        productData.data;
                       return (
                         <li key={index} className="grid-item">
                           <div
@@ -68,9 +68,18 @@ const SavedProducts = ({ savedProductPageData }) => {
                             data-product-colors
                           >
                             <div className="container-tags">
-                              <button className="btn-bookmark">
-                                <i className="icon-bookmark"></i>
-                              </button>
+                              {/* <SaveProductButton
+                                productId={product._id}
+                                members={members}
+                              /> */}
+
+                              <SaveProductButton
+                                productId={product._id}
+                                members={members}
+                                onUnSave={() =>
+                                  handleUnSaveProduct(product._id)
+                                }
+                              />
                             </div>
                             <a href="products.html" className="link">
                               <div className="container-top">
@@ -149,7 +158,9 @@ const SavedProducts = ({ savedProductPageData }) => {
                               group="modal-product"
                               class="modal-add-to-cart"
                               onClick={() =>
-                                setSelectedProductData(data[index].data)
+                                setSelectedProductData(
+                                  savedProductData[index].data
+                                )
                               }
                             >
                               <span>Add to cart</span>
@@ -158,21 +169,48 @@ const SavedProducts = ({ savedProductPageData }) => {
                           </div>
                         </li>
                       );
-                    })}
+                    })
+                  )}
                 </ul>
-                <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                  <button className="btn-medium btn-red btn-hover-white">
-                    <span className="split-chars">
-                      <span>Load more</span>
-                    </span>
-                  </button>
-                </div>
+                {totalCount > pageSize &&
+                  savedProductData.length !== totalCount && (
+                    <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
+                      <button
+                        onClick={handleLoadMore}
+                        className="btn-medium btn-red btn-hover-white"
+                      >
+                        <span className="split-chars">
+                          <span>Load more</span>
+                        </span>
+                      </button>
+                    </div>
+                  )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Ok"}
+          message={"Product Successfully Added to Cart!"}
+          setSuccessMessageVisible={setSuccessMessageVisible}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Try Again!"}
+          message={"Something went wrong, please try again"}
+          setErrorMessageVisible={setErrorMessageVisible}
+        />
+      )}
+      <AddToCartModal
+        productData={selectedProductData}
+        setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
+      />
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
