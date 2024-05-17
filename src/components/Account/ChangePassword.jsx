@@ -10,6 +10,8 @@ const ChangePassword = ({ changePasswordPageData }) => {
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+
   const authToken = getUserAuth();
 
   const handleChange = (e) => {
@@ -65,7 +67,12 @@ const ChangePassword = ({ changePasswordPageData }) => {
 
   return (
     <>
-      {errorMessage && <ErrorModal message={errorMessage} />}
+      {errorMessageVisible && (
+        <ErrorModal
+          message={errorMessage}
+          setErrorMessageVisible={setErrorMessageVisible}
+        />
+      )}
       <section className="my-account-intro section-change-password">
         <div className="container-fluid">
           <div className="row">
