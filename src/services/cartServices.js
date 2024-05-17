@@ -5,7 +5,7 @@ const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 export const AddProductToCart = async (payload) => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/addToCart`, {
+        const response = await fetch(`${base_url}formula1/wix/addToCart`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ export const AddProductToCart = async (payload) => {
 export const removeProductFromCart = async (payload) => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/removeCart`, {
+        const response = await fetch(`${base_url}formula1/wix/removeCart`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ export const removeProductFromCart = async (payload) => {
 export const getProductsCartTotal = async () => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/getEstimatedAmount`, {
+        const response = await fetch(`${base_url}formula1/wix/getEstimatedAmount`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export const getProductsCartTotal = async () => {
 export const getProductsCart = async () => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/getCart`, {
+        const response = await fetch(`${base_url}formula1/wix/getCart`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ export const getProductsCart = async () => {
 export const updateProductsCart = async (payload) => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/updateQuantityCart`, {
+        const response = await fetch(`${base_url}formula1/wix/updateQuantityCart`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ export const updateProductsCart = async (payload) => {
 export const updateCartItem = async (payload) => {
     try {
         const authToken = getUserAuth();
-        const response = await fetch(`${base_url}/formula1/wix/updateCart`, {
+        const response = await fetch(`${base_url}formula1/wix/updateCart`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

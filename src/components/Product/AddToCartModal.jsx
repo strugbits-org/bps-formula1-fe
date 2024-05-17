@@ -15,6 +15,7 @@ const AddToCartModal = ({
     setTimeout(() => {
       setProductData(null);
       setSelectedVariant(null);
+      setCartQuantity(1);
     }, 1000);
   };
   const [selectedVariant, setSelectedVariant] = useState(null);
