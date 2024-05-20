@@ -23,7 +23,6 @@ const publicRoutes = [
 
 export default async function middleware(req) {
   const path = req.nextUrl.pathname;
-
   // Check if the current path matches any protected route
   const isProtectedRoute = protectedRoutes.some((route) => route.test(path));
   // Check if the current path matches any public route
@@ -44,9 +43,9 @@ export default async function middleware(req) {
 
   // Uncomment this if you want to redirect authenticated users from public routes
   // Redirect to dashboard if the route is a public route and user is authenticated
-  // if (isPublicRoute && isAuthenticated) {
+  // if (path === "/" && isAuthenticated) {
   //   const url = req.nextUrl.clone();
-  //   url.pathname = "/dashboard"; // Adjust the path as needed
+  //   url.pathname = "/collections"; // Adjust the path as needed
   //   return NextResponse.redirect(url);
   // }
 
