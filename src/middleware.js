@@ -1,9 +1,25 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-// Specify protected and public routes using regular expressions for dynamic routes
-const protectedRoutes = [/^\/collections$/, /^\/products$/, /^\/product\/.+$/];
-const publicRoutes = [/^\/$/, /^\/gallery$/];
+const protectedRoutes = [
+  /^\/cart$/,
+  /^\/collections$/,
+  /^\/collections-category$/,
+  /^\/products$/,
+  /^\/product(\/.*)?$/,
+  /^\/search$/,
+  /^\/my-account$/,
+  /^\/my-account-change-password$/,
+  /^\/my-account-quotes-history$/,
+  /^\/my-account-saved-products$/,
+];
+
+const publicRoutes = [
+  /^\/$/,
+  /^\/gallery$/,
+  /^\/terms-and-condition$/,
+  /^\/privacy-and-policy$/,
+];
 
 export default async function middleware(req) {
   const path = req.nextUrl.pathname;
