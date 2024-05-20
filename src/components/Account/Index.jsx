@@ -34,6 +34,8 @@ const Account = () => {
       if (loggedIn) {
         document.cookie =
           "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          document.cookie =
+            "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         pageLoadStart();
         router.push("/");
         setTimeout(() => {
