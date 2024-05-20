@@ -16293,3 +16293,10 @@ html.with-fancybox body.hide-scrollbar {
 .productSavedColor{
   background-color:  var(--red-1) !important;
 }
+
+/* .container-product-description .wrapper-product-name .btn-bookmark:hover {
+  background: var(--red-1);
+} */
+.productSavedColor i {
+  color: var(--white-1) !important;
+}

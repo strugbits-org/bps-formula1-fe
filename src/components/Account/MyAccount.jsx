@@ -3,11 +3,12 @@ import { getUserAuth } from "@/utils/GetUser";
 import useUserData from "@/hooks/useUserData";
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import ErrorModal from "../Common/ErrorModal";
+
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   const { firstName, lastName, company, hospitalityLoc, phone, email } =
     useUserData();
-
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
@@ -18,23 +19,60 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
     phone: "",
     hospitalityLoc: "",
   });
+  const [initialData, setInitialData] = useState({
+    firstName: "",
+    lastName: "",
+    company: "",
+    phone: "",
+    hospitalityLoc: "",
+  });
+  const [isOtherSelected, setIsOtherSelected] = useState(false);
+  console.log(formData, "formData>>");
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(value, "handleChange value>>");
     setFormData({
       ...formData,
       [name]: value,
     });
   };
-  const authToken = getUserAuth();
+
+  const handleSelectChange = (e) => {
+    const value = e.target.innerText.toLowerCase();
+    console.log(value, "handleSelectChange value>>");
+    if (value === "other") {
+      setIsOtherSelected(true);
+      setFormData({
+        ...formData,
+        hospitalityLoc: "Other",
+      });
+    } else {
+      setIsOtherSelected(false);
+      setFormData({
+        ...formData,
+        hospitalityLoc: value,
+      });
+    }
+  };
+
   useEffect(() => {
-    setFormData((prevData) => ({
-      ...prevData,
+    if (
+      hospitalityLoc &&
+      !["koval", "skybox", "paddock"].includes(hospitalityLoc.toLowerCase())
+    ) {
+      setIsOtherSelected(true);
+    } else {
+      setIsOtherSelected(false);
+    }
+    const userData = {
       firstName: firstName || "",
       lastName: lastName || "",
       company: company || "",
       phone: phone || "",
       hospitalityLoc: hospitalityLoc || "",
-    }));
+    };
+    setFormData(userData);
+    setInitialData(userData);
   }, [firstName, lastName, company, phone, hospitalityLoc]);
 
   useEffect(() => {
@@ -45,6 +83,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
       return () => clearTimeout(timer);
     }
   }, [successMessageVisible]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -52,7 +91,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: authToken,
+          Authorization: getUserAuth(),
         },
         body: JSON.stringify(formData),
       });
@@ -67,6 +106,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
         document.cookie = `userData=${encodeURIComponent(
           userData
         )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+        setInitialData(formData);
       }
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
@@ -74,20 +114,15 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
     }
   };
 
-  const discord = (e) => {
+  const discardChanges = (e) => {
     e.preventDefault();
     pageLoadStart();
-    setFormData({
-      firstName: "",
-      lastName: "",
-      company: "",
-      phone: "",
-      hospitalityLoc: "",
-    });
     setTimeout(() => {
+      setFormData(initialData);
       pageLoadEnd();
     }, 900);
   };
+
   return (
     <>
       {errorMessageVisible && (
@@ -206,10 +241,8 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                         required
                       />
                     </div>
-
                     <div className="container-input col-lg-3">
                       <label htmlFor="account-email">
-                        {" "}
                         {createAccountForm && createAccountForm.emailLabel}
                       </label>
                       <input
@@ -231,26 +264,19 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                           <i className="icon-arrow-down no-desktop"></i>
                           <div
                             className="wrapper-select"
-                            onClick={(e) => {
-                              if (
-                                e.target.innerText.toLowerCase() !== "other"
-                              ) {
-                                setFormData({
-                                  ...formData,
-                                  hospitalityLoc:
-                                    e.target.innerText.toLowerCase(),
-                                });
-                              }
-                            }}
+                            onClick={handleSelectChange}
                           >
                             <select
                               className="main-select"
                               name="hospitalityLoc"
                               value={formData.hospitalityLoc}
                             >
-                              {!formData.hospitalityLoc && (
-                                <option>Choice</option>
-                              )}
+                              <option>
+                                {isOtherSelected
+                                  ? "Other"
+                                  : formData.hospitalityLoc}
+                              </option>
+
                               {dropdown
                                 ?.sort((a, b) => a.order - b.order)
                                 .map((data, index) => (
@@ -262,26 +288,24 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="container-select-specify-other input-hide">
+                      <div
+                        className={`container-select-specify-other ${
+                          isOtherSelected ? "" : "input-hide"
+                        }`}
+                      >
                         <div className="wrapper-input">
                           <label htmlFor="account-other">Specify</label>
                           <input
                             id="account-other"
-                            name="other"
+                            name="hospitalityLoc"
                             type="text"
                             placeholder="OTHER"
-                            defaultValue={formData.hospitalityLoc}
-                            onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                hospitalityLoc: e.target.value,
-                              })
-                            }
+                            onChange={handleChange}
+                            value={formData.hospitalityLoc}
                           />
                         </div>
                       </div>
                     </div>
-
                     <div className="container-submit flex-mobile-center col-lg-6 mt-lg-30 mt-tablet-15 mt-phone-40">
                       <button
                         type="submit"
@@ -298,7 +322,7 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                     <div className="container-discard flex-mobile-center col-12 mt-lg-30 mt-mobile-20">
                       <button
                         type="button"
-                        onClick={discord}
+                        onClick={discardChanges}
                         className="btn-small-wide btn-white btn-hover-black-white btn-discard"
                       >
                         <div className="split-chars">

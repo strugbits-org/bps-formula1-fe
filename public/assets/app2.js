@@ -3,7 +3,7 @@ var __commonJS = (cb, mod) =>
   function __require() {
     return (
       mod ||
-      (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
+        (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
       mod.exports
     );
   };
@@ -49,7 +49,7 @@ var require_app2 = __commonJS({
         "iframe" === a2.nodeName.toLowerCase() &&
           a2.getAttribute("data-src") &&
           (a2.setAttribute("src", a2.getAttribute("data-src")),
-            a2.setAttribute("data-loaded", "true"));
+          a2.setAttribute("data-loaded", "true"));
         if (
           "video" === a2.nodeName.toLowerCase() &&
           !a2.getAttribute("data-src") &&
@@ -847,7 +847,7 @@ var require_app2 = __commonJS({
       connectedCallback() {
         this.modal = this.closest(modalLocalName);
       }
-      disconnectedCallback() { }
+      disconnectedCallback() {}
       open() {
         if (this.visible) return;
         this.visible = true;
@@ -1255,10 +1255,10 @@ var require_app2 = __commonJS({
           }
           warn(
             msg +
-            "\nArguments: " +
-            Array.prototype.slice.call(args).join("") +
-            "\n" +
-            new Error().stack
+              "\nArguments: " +
+              Array.prototype.slice.call(args).join("") +
+              "\n" +
+              new Error().stack
           );
           firstTime = false;
         }
@@ -1298,8 +1298,8 @@ var require_app2 = __commonJS({
       this._config = config;
       this._dayOfMonthOrdinalParseLenient = new RegExp(
         (this._dayOfMonthOrdinalParse.source || this._ordinalParse.source) +
-        "|" +
-        /\d{1,2}/.source
+          "|" +
+          /\d{1,2}/.source
       );
     }
     function mergeConfigs(parentConfig, childConfig) {
@@ -1372,7 +1372,7 @@ var require_app2 = __commonJS({
       );
     }
     var formattingTokens =
-      /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,
+        /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g,
       localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g,
       formatFunctions = {},
       formatTokenFunctions = {};
@@ -1645,8 +1645,8 @@ var require_app2 = __commonJS({
       regexes[token2] = isFunction(regex)
         ? regex
         : function (isStrict, localeData2) {
-          return isStrict && strictRegex ? strictRegex : regex;
-        };
+            return isStrict && strictRegex ? strictRegex : regex;
+          };
     }
     function getParseRegexForToken(token2, config) {
       if (!hasOwnProp(regexes, token2)) {
@@ -1914,9 +1914,9 @@ var require_app2 = __commonJS({
       }
     });
     var defaultLocaleMonths =
-      "January_February_March_April_May_June_July_August_September_October_November_December".split(
-        "_"
-      ),
+        "January_February_March_April_May_June_July_August_September_October_November_December".split(
+          "_"
+        ),
       defaultLocaleMonthsShort =
         "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
       MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/,
@@ -1931,10 +1931,10 @@ var require_app2 = __commonJS({
       return isArray(this._months)
         ? this._months[m2.month()]
         : this._months[
-        (this._months.isFormat || MONTHS_IN_FORMAT).test(format2)
-          ? "format"
-          : "standalone"
-        ][m2.month()];
+            (this._months.isFormat || MONTHS_IN_FORMAT).test(format2)
+              ? "format"
+              : "standalone"
+          ][m2.month()];
     }
     function localeMonthsShort(m2, format2) {
       if (!m2) {
@@ -1945,8 +1945,8 @@ var require_app2 = __commonJS({
       return isArray(this._monthsShort)
         ? this._monthsShort[m2.month()]
         : this._monthsShort[
-        MONTHS_IN_FORMAT.test(format2) ? "format" : "standalone"
-        ][m2.month()];
+            MONTHS_IN_FORMAT.test(format2) ? "format" : "standalone"
+          ][m2.month()];
     }
     function handleStrictParse(monthName, format2, strict) {
       var i2,
@@ -2318,7 +2318,7 @@ var require_app2 = __commonJS({
       return ws.slice(n2, 7).concat(ws.slice(0, n2));
     }
     var defaultLocaleWeekdays =
-      "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
+        "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
       defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
       defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
       defaultWeekdaysRegex = matchWord,
@@ -2328,29 +2328,29 @@ var require_app2 = __commonJS({
       var weekdays = isArray(this._weekdays)
         ? this._weekdays
         : this._weekdays[
-        m2 && m2 !== true && this._weekdays.isFormat.test(format2)
-          ? "format"
-          : "standalone"
-        ];
+            m2 && m2 !== true && this._weekdays.isFormat.test(format2)
+              ? "format"
+              : "standalone"
+          ];
       return m2 === true
         ? shiftWeekdays(weekdays, this._week.dow)
         : m2
-          ? weekdays[m2.day()]
-          : weekdays;
+        ? weekdays[m2.day()]
+        : weekdays;
     }
     function localeWeekdaysShort(m2) {
       return m2 === true
         ? shiftWeekdays(this._weekdaysShort, this._week.dow)
         : m2
-          ? this._weekdaysShort[m2.day()]
-          : this._weekdaysShort;
+        ? this._weekdaysShort[m2.day()]
+        : this._weekdaysShort;
     }
     function localeWeekdaysMin(m2) {
       return m2 === true
         ? shiftWeekdays(this._weekdaysMin, this._week.dow)
         : m2
-          ? this._weekdaysMin[m2.day()]
-          : this._weekdaysMin;
+        ? this._weekdaysMin[m2.day()]
+        : this._weekdaysMin;
     }
     function handleStrictParse$1(weekdayName, format2, strict) {
       var i2,
@@ -2932,19 +2932,19 @@ var require_app2 = __commonJS({
           a2[MONTH] < 0 || a2[MONTH] > 11
             ? MONTH
             : a2[DATE] < 1 || a2[DATE] > daysInMonth(a2[YEAR], a2[MONTH])
-              ? DATE
-              : a2[HOUR] < 0 ||
-                a2[HOUR] > 24 ||
-                (a2[HOUR] === 24 &&
-                  (a2[MINUTE] !== 0 || a2[SECOND] !== 0 || a2[MILLISECOND] !== 0))
-                ? HOUR
-                : a2[MINUTE] < 0 || a2[MINUTE] > 59
-                  ? MINUTE
-                  : a2[SECOND] < 0 || a2[SECOND] > 59
-                    ? SECOND
-                    : a2[MILLISECOND] < 0 || a2[MILLISECOND] > 999
-                      ? MILLISECOND
-                      : -1;
+            ? DATE
+            : a2[HOUR] < 0 ||
+              a2[HOUR] > 24 ||
+              (a2[HOUR] === 24 &&
+                (a2[MINUTE] !== 0 || a2[SECOND] !== 0 || a2[MILLISECOND] !== 0))
+            ? HOUR
+            : a2[MINUTE] < 0 || a2[MINUTE] > 59
+            ? MINUTE
+            : a2[SECOND] < 0 || a2[SECOND] > 59
+            ? SECOND
+            : a2[MILLISECOND] < 0 || a2[MILLISECOND] > 999
+            ? MILLISECOND
+            : -1;
         if (
           getParsingFlags(m2)._overflowDayOfYear &&
           (overflow < YEAR || overflow > DATE)
@@ -2962,7 +2962,7 @@ var require_app2 = __commonJS({
       return m2;
     }
     var extendedIsoRegex =
-      /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
+        /^\s*((?:[+-]\d{6}|\d{4})-(?:\d\d-\d\d|W\d\d-\d|W\d\d|\d\d\d|\d\d))(?:(T| )(\d\d(?::\d\d(?::\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
       basicIsoRegex =
         /^\s*((?:[+-]\d{6}|\d{4})(?:\d\d\d\d|W\d\d\d|W\d\d|\d\d\d|\d\d|))(?:(T| )(\d\d(?:\d\d(?:\d\d(?:[.,]\d+)?)?)?)([+-]\d\d(?::?\d\d)?|\s*Z)?)?$/,
       tzRegex = /Z|[+-]\d\d(?::?\d\d)?/,
@@ -3310,8 +3310,8 @@ var require_app2 = __commonJS({
         config._dayOfYear = temp.dayOfYear;
       }
     }
-    hooks.ISO_8601 = function () { };
-    hooks.RFC_2822 = function () { };
+    hooks.ISO_8601 = function () {};
+    hooks.RFC_2822 = function () {};
     function configFromStringAndFormat(config) {
       if (config._f === hooks.ISO_8601) {
         configFromISO(config);
@@ -3562,16 +3562,16 @@ var require_app2 = __commonJS({
       return createLocalOrUTC(input, format2, locale2, strict, false);
     }
     var prototypeMin = deprecate(
-      "moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",
-      function () {
-        var other = createLocal.apply(null, arguments);
-        if (this.isValid() && other.isValid()) {
-          return other < this ? this : other;
-        } else {
-          return createInvalid();
+        "moment().min is deprecated, use moment.max instead. http://momentjs.com/guides/#/warnings/min-max/",
+        function () {
+          var other = createLocal.apply(null, arguments);
+          if (this.isValid() && other.isValid()) {
+            return other < this ? this : other;
+          } else {
+            return createInvalid();
+          }
         }
-      }
-    ),
+      ),
       prototypeMax = deprecate(
         "moment().max is deprecated, use moment.min instead. http://momentjs.com/guides/#/warnings/min-max/",
         function () {
@@ -3759,7 +3759,7 @@ var require_app2 = __commonJS({
     function getDateOffset(m2) {
       return -Math.round(m2._d.getTimezoneOffset());
     }
-    hooks.updateOffset = function () { };
+    hooks.updateOffset = function () {};
     function getSetOffset(input, keepLocalTime, keepMinutes) {
       var offset2 = this._offset || 0,
         localAdjust;
@@ -3978,10 +3978,10 @@ var require_app2 = __commonJS({
           deprecateSimple(
             name,
             "moment()." +
-            name +
-            "(period, number) is deprecated. Please use moment()." +
-            name +
-            "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."
+              name +
+              "(period, number) is deprecated. Please use moment()." +
+              name +
+              "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."
           );
           tmp = val;
           val = period;
@@ -4103,16 +4103,16 @@ var require_app2 = __commonJS({
       return diff2 < -6
         ? "sameElse"
         : diff2 < -1
-          ? "lastWeek"
-          : diff2 < 0
-            ? "lastDay"
-            : diff2 < 1
-              ? "sameDay"
-              : diff2 < 2
-                ? "nextDay"
-                : diff2 < 7
-                  ? "nextWeek"
-                  : "sameElse";
+        ? "lastWeek"
+        : diff2 < 0
+        ? "lastDay"
+        : diff2 < 1
+        ? "sameDay"
+        : diff2 < 2
+        ? "nextDay"
+        : diff2 < 7
+        ? "nextWeek"
+        : "sameElse";
     }
     function calendar$1(time, formats) {
       if (arguments.length === 1) {
@@ -4251,7 +4251,7 @@ var require_app2 = __commonJS({
         return -monthDiff(b2, a2);
       }
       var wholeMonthDiff =
-        (b2.year() - a2.year()) * 12 + (b2.month() - a2.month()),
+          (b2.year() - a2.year()) * 12 + (b2.month() - a2.month()),
         anchor = a2.clone().add(wholeMonthDiff, "months"),
         anchor2,
         adjust;
@@ -5226,12 +5226,12 @@ var require_app2 = __commonJS({
             toInt((number % 100) / 10) === 1
               ? "th"
               : b2 === 1
-                ? "st"
-                : b2 === 2
-                  ? "nd"
-                  : b2 === 3
-                    ? "rd"
-                    : "th";
+              ? "st"
+              : b2 === 2
+              ? "nd"
+              : b2 === 3
+              ? "rd"
+              : "th";
         return number + output;
       },
     });
@@ -5959,7 +5959,7 @@ var require_app2 = __commonJS({
               let promise = el2.play();
               if (promise !== void 0) {
                 promise
-                  .then((_2) => { })
+                  .then((_2) => {})
                   .catch((error) => {
                     if (screen.isIphone) {
                       document.body.addEventListener(
@@ -5975,7 +5975,7 @@ var require_app2 = __commonJS({
                               let promise2 = element.play();
                               if (promise2 !== void 0) {
                                 promise2
-                                  .then((_2) => { })
+                                  .then((_2) => {})
                                   .catch((error2) => {
                                     element.play();
                                     element.controls = true;
@@ -6036,13 +6036,13 @@ var require_app2 = __commonJS({
      * @author: Jack Doyle, jack@greensock.com
      */
     var _config$1 = {
-      autoSleep: 120,
-      force3D: "auto",
-      nullTargetWarn: 1,
-      units: {
-        lineHeight: "",
+        autoSleep: 120,
+        force3D: "auto",
+        nullTargetWarn: 1,
+        units: {
+          lineHeight: "",
+        },
       },
-    },
       _defaults$1 = {
         duration: 0.5,
         overwrite: false,
@@ -6085,7 +6085,7 @@ var require_app2 = __commonJS({
       },
       _isTypedArray =
         (typeof ArrayBuffer === "function" && ArrayBuffer.isView) ||
-        function () { },
+        function () {},
       _isArray = Array.isArray,
       _strictNumExp = /(?:-?\.?\d|\.)+/gi,
       _numExp = /[-+=.]*\d+[.e\-+]*\d*[e\-+]*\d*/g,
@@ -6156,7 +6156,7 @@ var require_app2 = __commonJS({
         _isObject$1(target) || _isFunction$2(target) || (targets = [targets]);
         if (!(harnessPlugin = (target._gsap || {}).harness)) {
           i2 = _harnessPlugins.length;
-          while (i2-- && !_harnessPlugins[i2].targetTest(target)) { }
+          while (i2-- && !_harnessPlugins[i2].targetTest(target)) {}
           harnessPlugin = _harnessPlugins[i2];
         }
         i2 = targets.length;
@@ -6175,9 +6175,9 @@ var require_app2 = __commonJS({
         return (v2 = target[property]) && _isFunction$2(v2)
           ? target[property]()
           : (_isUndefined(v2) &&
-            target.getAttribute &&
-            target.getAttribute(property)) ||
-          v2;
+              target.getAttribute &&
+              target.getAttribute(property)) ||
+              v2;
       },
       _forEachName = function _forEachName2(names, func) {
         return (names = names.split(",")).forEach(func) || names;
@@ -6195,15 +6195,15 @@ var require_app2 = __commonJS({
         return operator === "+"
           ? start + end
           : operator === "-"
-            ? start - end
-            : operator === "*"
-              ? start * end
-              : start / end;
+          ? start - end
+          : operator === "*"
+          ? start * end
+          : start / end;
       },
       _arrayContainsAny = function _arrayContainsAny2(toSearch, toFind) {
         var l2 = toFind.length,
           i2 = 0;
-        for (; toSearch.indexOf(toFind[i2]) < 0 && ++i2 < l2;) { }
+        for (; toSearch.indexOf(toFind[i2]) < 0 && ++i2 < l2; ) {}
         return i2 < l2;
       },
       _lazyRender = function _lazyRender2() {
@@ -6231,9 +6231,9 @@ var require_app2 = __commonJS({
           time,
           suppressEvents,
           force ||
-          (_reverting$1 &&
-            time < 0 &&
-            (animation._initted || animation._startAt))
+            (_reverting$1 &&
+              time < 0 &&
+              (animation._initted || animation._startAt))
         );
         _lazyTweens.length && !_reverting$1 && _lazyRender();
       },
@@ -6243,8 +6243,8 @@ var require_app2 = __commonJS({
           (value + "").match(_delimitedValueExp).length < 2
           ? n2
           : _isString$2(value)
-            ? value.trim()
-            : value;
+          ? value.trim()
+          : value;
       },
       _passThrough$1 = function _passThrough2(p2) {
         return p2;
@@ -6306,7 +6306,7 @@ var require_app2 = __commonJS({
       _arraysMatch = function _arraysMatch2(a1, a2) {
         var i2 = a1.length,
           match = i2 === a2.length;
-        while (match && i2-- && a1[i2] === a2[i2]) { }
+        while (match && i2-- && a1[i2] === a2[i2]) {}
         return i2 < 0;
       },
       _addLinkedListItem = function _addLinkedListItem2(
@@ -6415,7 +6415,7 @@ var require_app2 = __commonJS({
           (_reverting$1
             ? tween._startAt.revert(_revertConfigNoKill)
             : (tween.vars.immediateRender && !tween.vars.autoRevert) ||
-            tween._startAt.render(totalTime, true, force))
+              tween._startAt.render(totalTime, true, force))
         );
       },
       _hasNoPausedAncestors = function _hasNoPausedAncestors2(animation) {
@@ -6427,9 +6427,9 @@ var require_app2 = __commonJS({
       _elapsedCycleDuration = function _elapsedCycleDuration2(animation) {
         return animation._repeat
           ? _animationCycle(
-            animation._tTime,
-            (animation = animation.duration() + animation._rDelay)
-          ) * animation
+              animation._tTime,
+              (animation = animation.duration() + animation._rDelay)
+            ) * animation
           : 0;
       },
       _animationCycle = function _animationCycle2(tTime, cycleDuration) {
@@ -6445,15 +6445,15 @@ var require_app2 = __commonJS({
           (child._ts >= 0
             ? 0
             : child._dirty
-              ? child.totalDuration()
-              : child._tDur)
+            ? child.totalDuration()
+            : child._tDur)
         );
       },
       _setEnd = function _setEnd2(animation) {
         return (animation._end = _roundPrecise(
           animation._start +
-          (animation._tDur /
-            Math.abs(animation._ts || animation._rts || _tinyNum) || 0)
+            (animation._tDur /
+              Math.abs(animation._ts || animation._rts || _tinyNum) || 0)
         ));
       },
       _alignPlayhead = function _alignPlayhead2(animation, totalTime) {
@@ -6461,13 +6461,13 @@ var require_app2 = __commonJS({
         if (parent2 && parent2.smoothChildTiming && animation._ts) {
           animation._start = _roundPrecise(
             parent2._time -
-            (animation._ts > 0
-              ? totalTime / animation._ts
-              : ((animation._dirty
-                ? animation.totalDuration()
-                : animation._tDur) -
-                totalTime) /
-              -animation._ts)
+              (animation._ts > 0
+                ? totalTime / animation._ts
+                : ((animation._dirty
+                    ? animation.totalDuration()
+                    : animation._tDur) -
+                    totalTime) /
+                  -animation._ts)
           );
           _setEnd(animation);
           parent2._dirty || _uncache(parent2, animation);
@@ -6516,12 +6516,12 @@ var require_app2 = __commonJS({
           (_isNumber$1(position)
             ? position
             : position || timeline !== _globalTimeline
-              ? _parsePosition$1(timeline, position, child)
-              : timeline._time) + child._delay
+            ? _parsePosition$1(timeline, position, child)
+            : timeline._time) + child._delay
         );
         child._end = _roundPrecise(
           child._start +
-          (child.totalDuration() / Math.abs(child.timeScale()) || 0)
+            (child.totalDuration() / Math.abs(child.timeScale()) || 0)
         );
         _addLinkedListItem(
           timeline,
@@ -6591,12 +6591,12 @@ var require_app2 = __commonJS({
         var prevRatio = tween.ratio,
           ratio =
             totalTime < 0 ||
-              (!totalTime &&
-                ((!tween._start &&
-                  _parentPlayheadIsBeforeStart(tween) &&
-                  !(!tween._initted && _isFromOrFromStart(tween))) ||
-                  ((tween._ts < 0 || tween._dp._ts < 0) &&
-                    !_isFromOrFromStart(tween))))
+            (!totalTime &&
+              ((!tween._start &&
+                _parentPlayheadIsBeforeStart(tween) &&
+                !(!tween._initted && _isFromOrFromStart(tween))) ||
+                ((tween._ts < 0 || tween._dp._ts < 0) &&
+                  !_isFromOrFromStart(tween))))
               ? 0
               : 1,
           repeatDelay = tween._rDelay,
@@ -6704,8 +6704,8 @@ var require_app2 = __commonJS({
         animation._tDur = !repeat
           ? dur
           : repeat < 0
-            ? 1e10
-            : _roundPrecise(dur * (repeat + 1) + animation._rDelay * repeat);
+          ? 1e10
+          : _roundPrecise(dur * (repeat + 1) + animation._rDelay * repeat);
         totalProgress > 0 &&
           !leavePlayhead &&
           _alignPlayhead(
@@ -6751,9 +6751,9 @@ var require_app2 = __commonJS({
                 ? recent._start
                 : recent.endTime(recent._repeat >= 0)) +
               (parseFloat(position.substr(1)) || 0) *
-              (isPercent
-                ? (i2 < 0 ? recent : percentAnimation).totalDuration() / 100
-                : 1)
+                (isPercent
+                  ? (i2 < 0 ? recent : percentAnimation).totalDuration() / 100
+                  : 1)
             );
           }
           if (i2 < 0) {
@@ -6773,10 +6773,10 @@ var require_app2 = __commonJS({
           }
           return i2 > 1
             ? _parsePosition2(
-              animation,
-              position.substr(0, i2 - 1),
-              percentAnimation
-            ) + offset2
+                animation,
+                position.substr(0, i2 - 1),
+                percentAnimation
+              ) + offset2
             : clippedDuration + offset2;
         }
         return position == null ? clippedDuration : +position;
@@ -6839,9 +6839,9 @@ var require_app2 = __commonJS({
             return (_isString$2(value) && !leaveStrings) ||
               _isArrayLike(value, 1)
               ? (_accumulator = accumulator).push.apply(
-                _accumulator,
-                toArray(value)
-              )
+                  _accumulator,
+                  toArray(value)
+                )
               : accumulator.push(value);
           }) || accumulator
         );
@@ -6850,14 +6850,14 @@ var require_app2 = __commonJS({
         return _context$2 && !scope && _context$2.selector
           ? _context$2.selector(value)
           : _isString$2(value) && !leaveStrings && (_coreInitted$3 || !_wake())
-            ? _slice.call((scope || _doc$3).querySelectorAll(value), 0)
-            : _isArray(value)
-              ? _flatten(value, leaveStrings)
-              : _isArrayLike(value)
-                ? _slice.call(value, 0)
-                : value
-                  ? [value]
-                  : [];
+          ? _slice.call((scope || _doc$3).querySelectorAll(value), 0)
+          : _isArray(value)
+          ? _flatten(value, leaveStrings)
+          : _isArrayLike(value)
+          ? _slice.call(value, 0)
+          : value
+          ? [value]
+          : [];
       },
       selector = function selector2(value) {
         value = toArray(value)[0] || _warn("Invalid scope") || {};
@@ -6868,8 +6868,8 @@ var require_app2 = __commonJS({
             el.querySelectorAll
               ? el
               : el === value
-                ? _warn("Invalid scope") || _doc$3.createElement("div")
-                : value
+              ? _warn("Invalid scope") || _doc$3.createElement("div")
+              : value
           );
         };
       },
@@ -6883,10 +6883,10 @@ var require_app2 = __commonJS({
           return v2;
         }
         var vars = _isObject$1(v2)
-          ? v2
-          : {
-            each: v2,
-          },
+            ? v2
+            : {
+                each: v2,
+              },
           ease = _parseEase(vars.ease),
           from2 = vars.from || 0,
           base = parseFloat(vars.base) || 0,
@@ -6927,7 +6927,7 @@ var require_app2 = __commonJS({
               while (
                 max2 < (max2 = a2[wrapAt++].getBoundingClientRect().left) &&
                 wrapAt < l2
-              ) { }
+              ) {}
               wrapAt < l2 && wrapAt--;
             }
             distances = cache[l2] = [];
@@ -6938,8 +6938,8 @@ var require_app2 = __commonJS({
               wrapAt === _bigNum$1
                 ? 0
                 : ratios
-                  ? (l2 * ratioY) / wrapAt - 0.5
-                  : (from2 / wrapAt) | 0;
+                ? (l2 * ratioY) / wrapAt - 0.5
+                : (from2 / wrapAt) | 0;
             max2 = 0;
             min2 = _bigNum$1;
             for (j2 = 0; j2 < l2; j2++) {
@@ -6957,13 +6957,13 @@ var require_app2 = __commonJS({
             distances.v = l2 =
               (parseFloat(vars.amount) ||
                 parseFloat(vars.each) *
-                (wrapAt > l2
-                  ? l2 - 1
-                  : !axis
+                  (wrapAt > l2
+                    ? l2 - 1
+                    : !axis
                     ? Math.max(wrapAt, l2 / wrapAt)
                     : axis === "y"
-                      ? l2 / wrapAt
-                      : wrapAt) ||
+                    ? l2 / wrapAt
+                    : wrapAt) ||
                 0) * (from2 === "edges" ? -1 : 1);
             distances.b = l2 < 0 ? base - l2 : base;
             distances.u = getUnit(vars.amount || vars.each) || 0;
@@ -7003,11 +7003,11 @@ var require_app2 = __commonJS({
           !isArray2
             ? _roundModifier(snapTo)
             : _isFunction$2(snapTo)
-              ? function (raw) {
+            ? function (raw) {
                 is2D = snapTo(raw);
                 return Math.abs(is2D - raw) <= radius ? is2D : raw;
               }
-              : function (raw) {
+            : function (raw) {
                 var x2 = parseFloat(is2D ? raw.x : raw),
                   y2 = parseFloat(is2D ? raw.y : 0),
                   min2 = _bigNum$1,
@@ -7040,27 +7040,27 @@ var require_app2 = __commonJS({
           _isArray(min2)
             ? !max2
             : roundingIncrement === true
-              ? !!(roundingIncrement = 0)
-              : !returnFunction,
+            ? !!(roundingIncrement = 0)
+            : !returnFunction,
           function () {
             return _isArray(min2)
               ? min2[~~(Math.random() * min2.length)]
               : (roundingIncrement = roundingIncrement || 1e-5) &&
-              (returnFunction =
-                roundingIncrement < 1
-                  ? Math.pow(10, (roundingIncrement + "").length - 2)
-                  : 1) &&
-              Math.floor(
-                Math.round(
-                  (min2 -
-                    roundingIncrement / 2 +
-                    Math.random() *
-                    (max2 - min2 + roundingIncrement * 0.99)) /
-                  roundingIncrement
-                ) *
-                roundingIncrement *
-                returnFunction
-              ) / returnFunction;
+                  (returnFunction =
+                    roundingIncrement < 1
+                      ? Math.pow(10, (roundingIncrement + "").length - 2)
+                      : 1) &&
+                  Math.floor(
+                    Math.round(
+                      (min2 -
+                        roundingIncrement / 2 +
+                        Math.random() *
+                          (max2 - min2 + roundingIncrement * 0.99)) /
+                        roundingIncrement
+                    ) *
+                      roundingIncrement *
+                      returnFunction
+                  ) / returnFunction;
           }
         );
       },
@@ -7096,8 +7096,8 @@ var require_app2 = __commonJS({
         return _isArray(min2)
           ? _wrapArray(min2, wrap2(0, min2.length), max2)
           : _conditionalReturn(value, function (value2) {
-            return ((range + ((value2 - min2) % range)) % range) + min2;
-          });
+              return ((range + ((value2 - min2) % range)) % range) + min2;
+            });
       },
       wrapYoyo = function wrapYoyo2(min2, max2, value) {
         var range = max2 - min2,
@@ -7105,9 +7105,9 @@ var require_app2 = __commonJS({
         return _isArray(min2)
           ? _wrapArray(min2, wrapYoyo2(0, min2.length - 1), max2)
           : _conditionalReturn(value, function (value2) {
-            value2 = (total + ((value2 - min2) % total)) % total || 0;
-            return min2 + (value2 > range ? total - value2 : value2);
-          });
+              value2 = (total + ((value2 - min2) % total)) % total || 0;
+              return min2 + (value2 > range ? total - value2 : value2);
+            });
       },
       _replaceRandom = function _replaceRandom2(value) {
         var prev = 0,
@@ -7144,8 +7144,8 @@ var require_app2 = __commonJS({
         var func = isNaN(start + end)
           ? 0
           : function (p3) {
-            return (1 - p3) * start + p3 * end;
-          };
+              return (1 - p3) * start + p3 * end;
+            };
         if (!func) {
           var isString2 = _isString$2(start),
             master = {},
@@ -7251,8 +7251,8 @@ var require_app2 = __commonJS({
             Plugin =
               name && !isFunc && config.init
                 ? function () {
-                  this._props = [];
-                }
+                    this._props = [];
+                  }
                 : config,
             instanceDefaults = {
               init: _emptyFunc,
@@ -7326,10 +7326,10 @@ var require_app2 = __commonJS({
           ((h2 * 6 < 1
             ? m1 + (m2 - m1) * h2 * 6
             : h2 < 0.5
-              ? m2
-              : h2 * 3 < 2
-                ? m1 + (m2 - m1) * (2 / 3 - h2) * 6
-                : m1) *
+            ? m2
+            : h2 * 3 < 2
+            ? m1 + (m2 - m1) * (2 / 3 - h2) * 6
+            : m1) *
             _255 +
             0.5) |
           0
@@ -7337,8 +7337,8 @@ var require_app2 = __commonJS({
       },
       splitColor = function splitColor2(v2, toHSL, forceAlpha) {
         var a2 = !v2
-          ? _colorLookup.black
-          : _isNumber$1(v2)
+            ? _colorLookup.black
+            : _isNumber$1(v2)
             ? [v2 >> 16, (v2 >> 8) & _255, v2 & _255]
             : 0,
           r2,
@@ -7421,8 +7421,8 @@ var require_app2 = __commonJS({
               max2 === r2
                 ? (g2 - b2) / d2 + (g2 < b2 ? 6 : 0)
                 : max2 === g2
-                  ? (b2 - r2) / d2 + 2
-                  : (r2 - g2) / d2 + 4;
+                ? (b2 - r2) / d2 + 2
+                : (r2 - g2) / d2 + 4;
             h2 *= 60;
           }
           a2[0] = ~~(h2 + 0.5);
@@ -7460,10 +7460,10 @@ var require_app2 = __commonJS({
           return (
             (color = splitColor(color, toHSL, 1)) &&
             type +
-            (toHSL
-              ? color[0] + "," + color[1] + "%," + color[2] + "%," + color[3]
-              : color.join(",")) +
-            ")"
+              (toHSL
+                ? color[0] + "," + color[1] + "%," + color[2] + "%," + color[3]
+                : color.join(",")) +
+              ")"
           );
         });
         if (orderMatchData) {
@@ -7478,11 +7478,11 @@ var require_app2 = __commonJS({
                 (~c2.indexOf(i2)
                   ? colors.shift() || type + "0,0,0,0)"
                   : (d2.length
-                    ? d2
-                    : colors.length
+                      ? d2
+                      : colors.length
                       ? colors
                       : orderMatchData
-                  ).shift());
+                    ).shift());
             }
           }
         }
@@ -7497,7 +7497,7 @@ var require_app2 = __commonJS({
       },
       _colorExp = (function () {
         var s2 =
-          "(?:\\b(?:(?:rgb|rgba|hsl|hsla)\\(.+?\\))|\\B#(?:[0-9a-f]{3,4}){1,2}\\b",
+            "(?:\\b(?:(?:rgb|rgba|hsl|hsla)\\(.+?\\))|\\B#(?:[0-9a-f]{3,4}){1,2}\\b",
           p2;
         for (p2 in _colorLookup) {
           s2 += "|" + p2 + "\\b";
@@ -7578,9 +7578,9 @@ var require_app2 = __commonJS({
                 );
                 _install(
                   _installScope ||
-                  _win$3.GreenSockGlobals ||
-                  (!_win$3.gsap && _win$3) ||
-                  {}
+                    _win$3.GreenSockGlobals ||
+                    (!_win$3.gsap && _win$3) ||
+                    {}
                 );
                 _registerPluginQueue.forEach(_createPlugin);
               }
@@ -7613,9 +7613,9 @@ var require_app2 = __commonJS({
           add: function add2(callback, once, prioritize) {
             var func = once
               ? function (t2, d2, f2, v2) {
-                callback(t2, d2, f2, v2);
-                _self.remove(func);
-              }
+                  callback(t2, d2, f2, v2);
+                  _self.remove(func);
+                }
               : callback;
             _self.remove(callback);
             _listeners2[prioritize ? "unshift" : "push"](func);
@@ -7672,14 +7672,14 @@ var require_app2 = __commonJS({
           ease = _easeMap[split[0]];
         return ease && split.length > 1 && ease.config
           ? ease.config.apply(
-            null,
-            ~name.indexOf("{")
-              ? [_parseObjectInString(split[1])]
-              : _valueInParentheses(name).split(",").map(_numericIfPossible)
-          )
+              null,
+              ~name.indexOf("{")
+                ? [_parseObjectInString(split[1])]
+                : _valueInParentheses(name).split(",").map(_numericIfPossible)
+            )
           : _easeMap._CE && _customEaseExp.test(name)
-            ? _easeMap._CE("", name)
-            : ease;
+          ? _easeMap._CE("", name)
+          : ease;
       },
       _invertEase = function _invertEase2(ease) {
         return function (p2) {
@@ -7713,8 +7713,8 @@ var require_app2 = __commonJS({
         return !ease
           ? defaultEase
           : (_isFunction$2(ease)
-            ? ease
-            : _easeMap[ease] || _configEaseFromString(ease)) || defaultEase;
+              ? ease
+              : _easeMap[ease] || _configEaseFromString(ease)) || defaultEase;
       },
       _insertEase = function _insertEase2(names, easeIn, easeOut, easeInOut) {
         if (easeOut === void 0) {
@@ -7728,10 +7728,10 @@ var require_app2 = __commonJS({
           };
         }
         var ease = {
-          easeIn,
-          easeOut,
-          easeInOut,
-        },
+            easeIn,
+            easeOut,
+            easeInOut,
+          },
           lowercaseName;
         _forEachName(names, function (name) {
           _easeMap[name] = _globals[name] = ease;
@@ -7739,7 +7739,7 @@ var require_app2 = __commonJS({
           for (var p2 in ease) {
             _easeMap[
               lowercaseName +
-              (p2 === "easeIn" ? ".in" : p2 === "easeOut" ? ".out" : ".inOut")
+                (p2 === "easeIn" ? ".in" : p2 === "easeOut" ? ".out" : ".inOut")
             ] = _easeMap[name + "." + p2] = ease[p2];
           }
         });
@@ -7766,10 +7766,10 @@ var require_app2 = __commonJS({
             type === "out"
               ? easeOut
               : type === "in"
-                ? function (p4) {
+              ? function (p4) {
                   return 1 - easeOut(1 - p4);
                 }
-                : _easeInOutFromOut(easeOut);
+              : _easeInOutFromOut(easeOut);
         p2 = _2PI / p2;
         ease.config = function (amplitude2, period2) {
           return _configElastic2(type, amplitude2, period2);
@@ -7781,16 +7781,16 @@ var require_app2 = __commonJS({
           overshoot = 1.70158;
         }
         var easeOut = function easeOut2(p2) {
-          return p2 ? --p2 * p2 * ((overshoot + 1) * p2 + overshoot) + 1 : 0;
-        },
+            return p2 ? --p2 * p2 * ((overshoot + 1) * p2 + overshoot) + 1 : 0;
+          },
           ease =
             type === "out"
               ? easeOut
               : type === "in"
-                ? function (p2) {
+              ? function (p2) {
                   return 1 - easeOut(1 - p2);
                 }
-                : _easeInOutFromOut(easeOut);
+              : _easeInOutFromOut(easeOut);
         ease.config = function (overshoot2) {
           return _configBack2(type, overshoot2);
         };
@@ -7802,11 +7802,11 @@ var require_app2 = __commonJS({
         name + ",Power" + (power - 1),
         i2
           ? function (p2) {
-            return Math.pow(p2, power);
-          }
+              return Math.pow(p2, power);
+            }
           : function (p2) {
-            return p2;
-          },
+              return p2;
+            },
         function (p2) {
           return 1 - Math.pow(1 - p2, power);
         },
@@ -7832,10 +7832,10 @@ var require_app2 = __commonJS({
           return p2 < n1
             ? n2 * p2 * p2
             : p2 < n22
-              ? n2 * Math.pow(p2 - 1.5 / c2, 2) + 0.75
-              : p2 < n3
-                ? n2 * (p2 -= 2.25 / c2) * p2 + 0.9375
-                : n2 * Math.pow(p2 - 2.625 / c2, 2) + 0.984375;
+            ? n2 * Math.pow(p2 - 1.5 / c2, 2) + 0.75
+            : p2 < n3
+            ? n2 * (p2 -= 2.25 / c2) * p2 + 0.9375
+            : n2 * Math.pow(p2 - 2.625 / c2, 2) + 0.984375;
         };
       _insertEase(
         "Bounce",
@@ -7858,20 +7858,20 @@ var require_app2 = __commonJS({
     _easeMap.SteppedEase =
       _easeMap.steps =
       _globals.SteppedEase =
-      {
-        config: function config(steps, immediateStart) {
-          if (steps === void 0) {
-            steps = 1;
-          }
-          var p1 = 1 / steps,
-            p2 = steps + (immediateStart ? 0 : 1),
-            p3 = immediateStart ? 1 : 0,
-            max2 = 1 - _tinyNum;
-          return function (p4) {
-            return (((p2 * _clamp$1(0, max2, p4)) | 0) + p3) * p1;
-          };
-        },
-      };
+        {
+          config: function config(steps, immediateStart) {
+            if (steps === void 0) {
+              steps = 1;
+            }
+            var p1 = 1 / steps,
+              p2 = steps + (immediateStart ? 0 : 1),
+              p3 = immediateStart ? 1 : 0,
+              max2 = 1 - _tinyNum;
+            return function (p4) {
+              return (((p2 * _clamp$1(0, max2, p4)) | 0) + p3) * p1;
+            };
+          },
+        };
     _defaults$1.ease = _easeMap["quad.out"];
     _forEachName(
       "onComplete,onUpdate,onStart,onRepeat,onReverseComplete,onInterrupt",
@@ -7918,10 +7918,10 @@ var require_app2 = __commonJS({
       _proto.duration = function duration(value) {
         return arguments.length
           ? this.totalDuration(
-            this._repeat > 0
-              ? value + (value + this._rDelay) * this._repeat
-              : value
-          )
+              this._repeat > 0
+                ? value + (value + this._rDelay) * this._repeat
+                : value
+            )
           : this.totalDuration() && this._dur;
       };
       _proto.totalDuration = function totalDuration(value) {
@@ -7949,9 +7949,9 @@ var require_app2 = __commonJS({
             if (
               parent2.parent._time !==
               parent2._start +
-              (parent2._ts >= 0
-                ? parent2._tTime / parent2._ts
-                : (parent2.totalDuration() - parent2._tTime) / -parent2._ts)
+                (parent2._ts >= 0
+                  ? parent2._tTime / parent2._ts
+                  : (parent2.totalDuration() - parent2._tTime) / -parent2._ts)
             ) {
               parent2.totalTime(parent2._tTime, true);
             }
@@ -7981,48 +7981,48 @@ var require_app2 = __commonJS({
       _proto.time = function time(value, suppressEvents) {
         return arguments.length
           ? this.totalTime(
-            Math.min(
-              this.totalDuration(),
-              value + _elapsedCycleDuration(this)
-            ) %
-            (this._dur + this._rDelay) || (value ? this._dur : 0),
-            suppressEvents
-          )
+              Math.min(
+                this.totalDuration(),
+                value + _elapsedCycleDuration(this)
+              ) %
+                (this._dur + this._rDelay) || (value ? this._dur : 0),
+              suppressEvents
+            )
           : this._time;
       };
       _proto.totalProgress = function totalProgress(value, suppressEvents) {
         return arguments.length
           ? this.totalTime(this.totalDuration() * value, suppressEvents)
           : this.totalDuration()
-            ? Math.min(1, this._tTime / this._tDur)
-            : this.rawTime() > 0
-              ? 1
-              : 0;
+          ? Math.min(1, this._tTime / this._tDur)
+          : this.rawTime() > 0
+          ? 1
+          : 0;
       };
       _proto.progress = function progress(value, suppressEvents) {
         return arguments.length
           ? this.totalTime(
-            this.duration() *
-            (this._yoyo && !(this.iteration() & 1) ? 1 - value : value) +
-            _elapsedCycleDuration(this),
-            suppressEvents
-          )
+              this.duration() *
+                (this._yoyo && !(this.iteration() & 1) ? 1 - value : value) +
+                _elapsedCycleDuration(this),
+              suppressEvents
+            )
           : this.duration()
-            ? Math.min(1, this._time / this._dur)
-            : this.rawTime() > 0
-              ? 1
-              : 0;
+          ? Math.min(1, this._time / this._dur)
+          : this.rawTime() > 0
+          ? 1
+          : 0;
       };
       _proto.iteration = function iteration(value, suppressEvents) {
         var cycleDuration = this.duration() + this._rDelay;
         return arguments.length
           ? this.totalTime(
-            this._time + (value - 1) * cycleDuration,
-            suppressEvents
-          )
+              this._time + (value - 1) * cycleDuration,
+              suppressEvents
+            )
           : this._repeat
-            ? _animationCycle(this._tTime, cycleDuration) + 1
-            : 1;
+          ? _animationCycle(this._tTime, cycleDuration) + 1
+          : 1;
       };
       _proto.timeScale = function timeScale(value, suppressEvents) {
         if (!arguments.length) {
@@ -8061,8 +8061,8 @@ var require_app2 = __commonJS({
                 ? this.rawTime()
                 : this._tTime || this._pTime,
               this.progress() === 1 &&
-              Math.abs(this._zTime) !== _tinyNum &&
-              (this._tTime -= _tinyNum)
+                Math.abs(this._zTime) !== _tinyNum &&
+                (this._tTime -= _tinyNum)
             );
           }
         }
@@ -8085,7 +8085,7 @@ var require_app2 = __commonJS({
           (_isNotFalse(includeRepeats)
             ? this.totalDuration()
             : this.duration()) /
-          Math.abs(this._ts || 1)
+            Math.abs(this._ts || 1)
         );
       };
       _proto.rawTime = function rawTime(wrapRepeats) {
@@ -8095,10 +8095,10 @@ var require_app2 = __commonJS({
           : wrapRepeats &&
             (!this._ts ||
               (this._repeat && this._time && this.totalProgress() < 1))
-            ? this._tTime % (this._dur + this._rDelay)
-            : !this._ts
-              ? this._tTime
-              : _parentToChildTotalTime(parent2.rawTime(wrapRepeats), this);
+          ? this._tTime % (this._dur + this._rDelay)
+          : !this._ts
+          ? this._tTime
+          : _parentToChildTotalTime(parent2.rawTime(wrapRepeats), this);
       };
       _proto.revert = function revert(config) {
         if (config === void 0) {
@@ -8455,7 +8455,7 @@ var require_app2 = __commonJS({
               this._lock = 1;
               this.render(
                 prevTime ||
-                (isYoyo ? 0 : _roundPrecise(iteration * cycleDuration)),
+                  (isYoyo ? 0 : _roundPrecise(iteration * cycleDuration)),
                 suppressEvents,
                 !dur
               )._lock = 0;
@@ -8527,7 +8527,7 @@ var require_app2 = __commonJS({
                   child._ts > 0
                     ? (time - child._start) * child._ts
                     : (child._dirty ? child.totalDuration() : child._tDur) +
-                    (time - child._start) * child._ts,
+                        (time - child._start) * child._ts,
                   suppressEvents,
                   force
                 );
@@ -8556,7 +8556,7 @@ var require_app2 = __commonJS({
                   child._ts > 0
                     ? (adjustedTime - child._start) * child._ts
                     : (child._dirty ? child.totalDuration() : child._tDur) +
-                    (adjustedTime - child._start) * child._ts,
+                        (adjustedTime - child._start) * child._ts,
                   suppressEvents,
                   force || (_reverting$1 && (child._initted || child._startAt))
                 );
@@ -8705,9 +8705,9 @@ var require_app2 = __commonJS({
         if (!this._dp && this._ts) {
           this._start = _roundPrecise(
             _ticker.time -
-            (this._ts > 0
-              ? _totalTime2 / this._ts
-              : (this.totalDuration() - _totalTime2) / -this._ts)
+              (this._ts > 0
+                ? _totalTime2 / this._ts
+                : (this.totalDuration() - _totalTime2) / -this._ts)
           );
         }
         _Animation.prototype.totalTime.call(this, _totalTime2, suppressEvents);
@@ -8758,8 +8758,8 @@ var require_app2 = __commonJS({
               _arrayContainsAny(child._targets, parsedTargets) &&
               (isGlobalTime
                 ? (!_overwritingTween || (child._initted && child._ts)) &&
-                child.globalTime(0) <= onlyActive &&
-                child.globalTime(child.totalDuration()) > onlyActive
+                  child.globalTime(0) <= onlyActive &&
+                  child.globalTime(child.totalDuration()) > onlyActive
                 : !onlyActive || child.isActive())
             ) {
               a2.push(child);
@@ -8799,7 +8799,7 @@ var require_app2 = __commonJS({
                       (startAt && "time" in startAt
                         ? startAt.time
                         : tl._time)) /
-                    tl.timeScale()
+                      tl.timeScale()
                   ) ||
                   _tinyNum,
                 onStart: function onStart() {
@@ -8812,7 +8812,7 @@ var require_app2 = __commonJS({
                           (startAt && "time" in startAt
                             ? startAt.time
                             : tl._time)) /
-                        tl.timeScale()
+                          tl.timeScale()
                       );
                     tween._dur !== duration &&
                       _setDuration(tween, duration, 0, 1).render(
@@ -8933,7 +8933,7 @@ var require_app2 = __commonJS({
         if (arguments.length) {
           return self2.timeScale(
             (self2._repeat < 0 ? self2.duration() : self2.totalDuration()) /
-            (self2.reversed() ? -value : value)
+              (self2.reversed() ? -value : value)
           );
         }
         if (self2._dirty) {
@@ -9005,80 +9005,80 @@ var require_app2 = __commonJS({
       _forcing: 0,
     });
     var _addComplexStringPropTween = function _addComplexStringPropTween2(
-      target,
-      prop,
-      start,
-      end,
-      setter,
-      stringFilter,
-      funcParam
-    ) {
-      var pt2 = new PropTween(
-        this._pt,
         target,
         prop,
-        0,
-        1,
-        _renderComplexString,
-        null,
-        setter
-      ),
-        index = 0,
-        matchIndex = 0,
-        result,
-        startNums,
-        color,
-        endNum,
-        chunk,
-        startNum,
-        hasRandom,
-        a2;
-      pt2.b = start;
-      pt2.e = end;
-      start += "";
-      end += "";
-      if ((hasRandom = ~end.indexOf("random("))) {
-        end = _replaceRandom(end);
-      }
-      if (stringFilter) {
-        a2 = [start, end];
-        stringFilter(a2, target, prop);
-        start = a2[0];
-        end = a2[1];
-      }
-      startNums = start.match(_complexStringNumExp) || [];
-      while ((result = _complexStringNumExp.exec(end))) {
-        endNum = result[0];
-        chunk = end.substring(index, result.index);
-        if (color) {
-          color = (color + 1) % 5;
-        } else if (chunk.substr(-5) === "rgba(") {
-          color = 1;
+        start,
+        end,
+        setter,
+        stringFilter,
+        funcParam
+      ) {
+        var pt2 = new PropTween(
+            this._pt,
+            target,
+            prop,
+            0,
+            1,
+            _renderComplexString,
+            null,
+            setter
+          ),
+          index = 0,
+          matchIndex = 0,
+          result,
+          startNums,
+          color,
+          endNum,
+          chunk,
+          startNum,
+          hasRandom,
+          a2;
+        pt2.b = start;
+        pt2.e = end;
+        start += "";
+        end += "";
+        if ((hasRandom = ~end.indexOf("random("))) {
+          end = _replaceRandom(end);
         }
-        if (endNum !== startNums[matchIndex++]) {
-          startNum = parseFloat(startNums[matchIndex - 1]) || 0;
-          pt2._pt = {
-            _next: pt2._pt,
-            p: chunk || matchIndex === 1 ? chunk : ",",
-            //note: SVG spec allows omission of comma/space when a negative sign is wedged between two numbers, like 2.5-5.3 instead of 2.5,-5.3 but when tweening, the negative value may switch to positive, so we insert the comma just in case.
-            s: startNum,
-            c:
-              endNum.charAt(1) === "="
-                ? _parseRelative(startNum, endNum) - startNum
-                : parseFloat(endNum) - startNum,
-            m: color && color < 4 ? Math.round : 0,
-          };
-          index = _complexStringNumExp.lastIndex;
+        if (stringFilter) {
+          a2 = [start, end];
+          stringFilter(a2, target, prop);
+          start = a2[0];
+          end = a2[1];
         }
-      }
-      pt2.c = index < end.length ? end.substring(index, end.length) : "";
-      pt2.fp = funcParam;
-      if (_relExp.test(end) || hasRandom) {
-        pt2.e = 0;
-      }
-      this._pt = pt2;
-      return pt2;
-    },
+        startNums = start.match(_complexStringNumExp) || [];
+        while ((result = _complexStringNumExp.exec(end))) {
+          endNum = result[0];
+          chunk = end.substring(index, result.index);
+          if (color) {
+            color = (color + 1) % 5;
+          } else if (chunk.substr(-5) === "rgba(") {
+            color = 1;
+          }
+          if (endNum !== startNums[matchIndex++]) {
+            startNum = parseFloat(startNums[matchIndex - 1]) || 0;
+            pt2._pt = {
+              _next: pt2._pt,
+              p: chunk || matchIndex === 1 ? chunk : ",",
+              //note: SVG spec allows omission of comma/space when a negative sign is wedged between two numbers, like 2.5-5.3 instead of 2.5,-5.3 but when tweening, the negative value may switch to positive, so we insert the comma just in case.
+              s: startNum,
+              c:
+                endNum.charAt(1) === "="
+                  ? _parseRelative(startNum, endNum) - startNum
+                  : parseFloat(endNum) - startNum,
+              m: color && color < 4 ? Math.round : 0,
+            };
+            index = _complexStringNumExp.lastIndex;
+          }
+        }
+        pt2.c = index < end.length ? end.substring(index, end.length) : "";
+        pt2.fp = funcParam;
+        if (_relExp.test(end) || hasRandom) {
+          pt2.e = 0;
+        }
+        this._pt = pt2;
+        return pt2;
+      },
       _addPropTween = function _addPropTween2(
         target,
         prop,
@@ -9097,20 +9097,20 @@ var require_app2 = __commonJS({
             start !== "get"
               ? start
               : !_isFunction$2(currentValue)
-                ? currentValue
-                : funcParam
-                  ? target[
-                    prop.indexOf("set") ||
-                      !_isFunction$2(target["get" + prop.substr(3)])
-                      ? prop
-                      : "get" + prop.substr(3)
-                  ](funcParam)
-                  : target[prop](),
+              ? currentValue
+              : funcParam
+              ? target[
+                  prop.indexOf("set") ||
+                  !_isFunction$2(target["get" + prop.substr(3)])
+                    ? prop
+                    : "get" + prop.substr(3)
+                ](funcParam)
+              : target[prop](),
           setter = !_isFunction$2(currentValue)
             ? _setterPlain
             : funcParam
-              ? _setterFuncWithParam
-              : _setterFunc,
+            ? _setterFuncWithParam
+            : _setterFunc,
           pt2;
         if (_isString$2(end)) {
           if (~end.indexOf("random(")) {
@@ -9267,8 +9267,8 @@ var require_app2 = __commonJS({
         tween._ease = _parseEase(ease, _defaults$1.ease);
         tween._yEase = yoyoEase
           ? _invertEase(
-            _parseEase(yoyoEase === true ? ease : yoyoEase, _defaults$1.ease)
-          )
+              _parseEase(yoyoEase === true ? ease : yoyoEase, _defaults$1.ease)
+            )
           : 0;
         if (yoyoEase && tween._yoyo && !tween._repeat) {
           yoyoEase = tween._yEase;
@@ -9285,10 +9285,10 @@ var require_app2 = __commonJS({
             time < 0 && runBackwards && immediateRender && !autoRevert
               ? prevStartAt.render(-1, true)
               : prevStartAt.revert(
-                runBackwards && dur
-                  ? _revertConfigNoKill
-                  : _startAtRevertConfig
-              );
+                  runBackwards && dur
+                    ? _revertConfigNoKill
+                    : _startAtRevertConfig
+                );
             prevStartAt._lazy = 0;
           }
           if (startAt) {
@@ -9453,8 +9453,8 @@ var require_app2 = __commonJS({
         skipRecursion
       ) {
         var ptCache = ((tween._pt && tween._ptCache) || (tween._ptCache = {}))[
-          property
-        ],
+            property
+          ],
           pt2,
           rootPT,
           lookup,
@@ -9553,8 +9553,8 @@ var require_app2 = __commonJS({
         return _isFunction$2(value)
           ? value.call(tween, i2, target, targets)
           : _isString$2(value) && ~value.indexOf("random(")
-            ? _replaceRandom(value)
-            : value;
+          ? _replaceRandom(value)
+          : value;
       },
       _staggerTweenProps =
         _callbackNames +
@@ -9607,9 +9607,9 @@ var require_app2 = __commonJS({
         _this3._targets = parsedTargets.length
           ? _harness(parsedTargets)
           : _warn(
-            "GSAP target " + targets + " not found. https://gsap.com",
-            !_config$1.nullTargetWarn
-          ) || [];
+              "GSAP target " + targets + " not found. https://gsap.com",
+              !_config$1.nullTargetWarn
+            ) || [];
         _this3._ptLookup = [];
         _this3._overwrite = overwrite;
         if (
@@ -9762,8 +9762,8 @@ var require_app2 = __commonJS({
             totalTime > tDur - _tinyNum && !isNegative
               ? tDur
               : totalTime < _tinyNum
-                ? 0
-                : totalTime,
+              ? 0
+              : totalTime,
           time,
           pt2,
           iteration,
@@ -9950,9 +9950,9 @@ var require_app2 = __commonJS({
         _tickerActive || _ticker.wake();
         this._ts || this.play();
         var time = Math.min(
-          this._dur,
-          (this._dp._time - this._start) * this._ts
-        ),
+            this._dur,
+            (this._dp._time - this._start) * this._ts
+          ),
           ratio;
         this._initted || _initTween(this, time);
         ratio = this._ease(time / this._dur);
@@ -10113,8 +10113,8 @@ var require_app2 = __commonJS({
       };
     });
     var _setterPlain = function _setterPlain2(target, property, value) {
-      return (target[property] = value);
-    },
+        return (target[property] = value);
+      },
       _setterFunc = function _setterFunc2(target, property, value) {
         return target[property](value);
       },
@@ -10133,8 +10133,8 @@ var require_app2 = __commonJS({
         return _isFunction$2(target[property])
           ? _setterFunc
           : _isUndefined(target[property]) && target.setAttribute
-            ? _setterAttribute
-            : _setterPlain;
+          ? _setterAttribute
+          : _setterPlain;
       },
       _renderPlain = function _renderPlain2(ratio, data) {
         return data.set(
@@ -10280,7 +10280,7 @@ var require_app2 = __commonJS({
     })();
     _forEachName(
       _callbackNames +
-      "parent,duration,ease,delay,overwrite,runBackwards,startAt,yoyo,immediateRender,repeat,repeatDelay,data,paused,reversed,lazy,callbackScope,stringFilter,id,yoyoEase,stagger,inherit,repeatRefresh,keyframes,autoRevert,scrollTrigger",
+        "parent,duration,ease,delay,overwrite,runBackwards,startAt,yoyo,immediateRender,repeat,repeatDelay,data,paused,reversed,lazy,callbackScope,stringFilter,id,yoyoEase,stagger,inherit,repeatRefresh,keyframes,autoRevert,scrollTrigger",
       function (name) {
         return (_reservedProps[name] = 1);
       }
@@ -10374,11 +10374,11 @@ var require_app2 = __commonJS({
         self2.last = f2;
         return name === _isFunction$2
           ? f2(self2, function (func2) {
-            return self2.add(null, func2);
-          })
+              return self2.add(null, func2);
+            })
           : name
-            ? (self2[name] = f2)
-            : f2;
+          ? (self2[name] = f2)
+          : f2;
       };
       _proto5.ignore = function ignore(func) {
         var prev = _context$2;
@@ -10392,8 +10392,8 @@ var require_app2 = __commonJS({
           return e2 instanceof Context2
             ? a2.push.apply(a2, e2.getTweens())
             : e2 instanceof Tween &&
-            !(e2.parent && e2.parent.data === "nested") &&
-            a2.push(e2);
+                !(e2.parent && e2.parent.data === "nested") &&
+                a2.push(e2);
         });
         return a2;
       };
@@ -10421,8 +10421,8 @@ var require_app2 = __commonJS({
                 return {
                   g:
                     t3._dur ||
-                      t3._delay ||
-                      (t3._sat && !t3._sat.vars.immediateRender)
+                    t3._delay ||
+                    (t3._sat && !t3._sat.vars.immediateRender)
                       ? t3.globalTime(0)
                       : -Infinity,
                   t: t3,
@@ -10549,7 +10549,7 @@ var require_app2 = __commonJS({
         return !target
           ? target
           : !property
-            ? function (property2, unit2, uncache2) {
+          ? function (property2, unit2, uncache2) {
               return format2(
                 ((_plugins[property2] && _plugins[property2].get) || getter)(
                   target,
@@ -10559,7 +10559,7 @@ var require_app2 = __commonJS({
                 )
               );
             }
-            : format2(
+          : format2(
               ((_plugins[property] && _plugins[property].get) || getter)(
                 target,
                 property,
@@ -10572,8 +10572,8 @@ var require_app2 = __commonJS({
         target = toArray(target);
         if (target.length > 1) {
           var setters = target.map(function (t2) {
-            return gsap$3.quickSetter(t2, property, unit);
-          }),
+              return gsap$3.quickSetter(t2, property, unit);
+            }),
             l2 = setters.length;
           return function (value) {
             var i2 = l2;
@@ -10590,33 +10590,33 @@ var require_app2 = __commonJS({
             property,
           setter = Plugin
             ? function (value) {
-              var p3 = new Plugin();
-              _quickTween._pt = 0;
-              p3.init(target, unit ? value + unit : value, _quickTween, 0, [
-                target,
-              ]);
-              p3.render(1, p3);
-              _quickTween._pt && _renderPropTweens(1, _quickTween);
-            }
+                var p3 = new Plugin();
+                _quickTween._pt = 0;
+                p3.init(target, unit ? value + unit : value, _quickTween, 0, [
+                  target,
+                ]);
+                p3.render(1, p3);
+                _quickTween._pt && _renderPropTweens(1, _quickTween);
+              }
             : cache.set(target, p2);
         return Plugin
           ? setter
           : function (value) {
-            return setter(target, p2, unit ? value + unit : value, cache, 1);
-          };
+              return setter(target, p2, unit ? value + unit : value, cache, 1);
+            };
       },
       quickTo: function quickTo(target, property, vars) {
         var _merge2;
         var tween = gsap$3.to(
-          target,
-          _merge(
-            ((_merge2 = {}),
+            target,
+            _merge(
+              ((_merge2 = {}),
               (_merge2[property] = "+=0.1"),
               (_merge2.paused = true),
               _merge2),
-            vars || {}
-          )
-        ),
+              vars || {}
+            )
+          ),
           func = function func2(value, start, startIsRelative) {
             return tween.resetTo(property, value, start, startIsRelative);
           };
@@ -10799,12 +10799,12 @@ var require_app2 = __commonJS({
       }
     );
     var _getPluginPropTween = function _getPluginPropTween2(plugin, prop) {
-      var pt2 = plugin._pt;
-      while (pt2 && pt2.p !== prop && pt2.op !== prop && pt2.fp !== prop) {
-        pt2 = pt2._next;
-      }
-      return pt2;
-    },
+        var pt2 = plugin._pt;
+        while (pt2 && pt2.p !== prop && pt2.op !== prop && pt2.fp !== prop) {
+          pt2 = pt2._next;
+        }
+        return pt2;
+      },
       _addModifiers = function _addModifiers2(tween, modifiers) {
         var targets = tween._targets,
           p2,
@@ -11058,11 +11058,11 @@ var require_app2 = __commonJS({
             property = _propertyAliases[property] || property;
             ~property.indexOf(",")
               ? property.split(",").forEach(function (a2) {
-                return (_this.tfm[a2] = _get(target, a2));
-              })
+                  return (_this.tfm[a2] = _get(target, a2));
+                })
               : (this.tfm[property] = cache.x
-                ? cache[property]
-                : _get(target, property));
+                  ? cache[property]
+                  : _get(target, property));
             property === _transformOriginProp &&
               (this.tfm.zOrigin = cache.zOrigin);
           } else {
@@ -11102,8 +11102,8 @@ var require_app2 = __commonJS({
           props[i2 + 1]
             ? (target[props[i2]] = props[i2 + 2])
             : props[i2 + 2]
-              ? (style[props[i2]] = props[i2 + 2])
-              : style.removeProperty(
+            ? (style[props[i2]] = props[i2 + 2])
+            : style.removeProperty(
                 props[i2].substr(0, 2) === "--"
                   ? props[i2]
                   : props[i2].replace(_capsExp$1, "-$1").toLowerCase()
@@ -11147,9 +11147,9 @@ var require_app2 = __commonJS({
       _createElement = function _createElement2(type, ns) {
         var e2 = _doc$2.createElementNS
           ? _doc$2.createElementNS(
-            (ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"),
-            type
-          )
+              (ns || "http://www.w3.org/1999/xhtml").replace(/^https/, "http"),
+              type
+            )
           : _doc$2.createElement(type);
         return e2 && e2.style ? e2 : _doc$2.createElement(type);
       },
@@ -11187,7 +11187,7 @@ var require_app2 = __commonJS({
           return property;
         }
         property = property.charAt(0).toUpperCase() + property.substr(1);
-        while (i2-- && !(_prefixes[i2] + property in s2)) { }
+        while (i2-- && !(_prefixes[i2] + property in s2)) {}
         return i2 < 0
           ? null
           : (i2 === 3 ? "ms" : i2 >= 0 ? _prefixes[i2] : "") + property;
@@ -11212,11 +11212,11 @@ var require_app2 = __commonJS({
       },
       _getBBoxHack = function _getBBoxHack2(swapIfPossible) {
         var svg = _createElement(
-          "svg",
-          (this.ownerSVGElement &&
-            this.ownerSVGElement.getAttribute("xmlns")) ||
-          "http://www.w3.org/2000/svg"
-        ),
+            "svg",
+            (this.ownerSVGElement &&
+              this.ownerSVGElement.getAttribute("xmlns")) ||
+              "http://www.w3.org/2000/svg"
+          ),
           oldParent = this.parentNode,
           oldSibling = this.nextSibling,
           oldCSS = this.style.cssText,
@@ -11229,7 +11229,7 @@ var require_app2 = __commonJS({
             bbox = this.getBBox();
             this._gsapBBox = this.getBBox;
             this.getBBox = _getBBoxHack2;
-          } catch (e2) { }
+          } catch (e2) {}
         } else if (this._gsapBBox) {
           bbox = this._gsapBBox();
         }
@@ -11267,11 +11267,11 @@ var require_app2 = __commonJS({
           (bounds = _getBBoxHack.call(target, true));
         return bounds && !bounds.width && !bounds.x && !bounds.y
           ? {
-            x: +_getAttributeFallbacks(target, ["x", "cx", "x1"]) || 0,
-            y: +_getAttributeFallbacks(target, ["y", "cy", "y1"]) || 0,
-            width: 0,
-            height: 0,
-          }
+              x: +_getAttributeFallbacks(target, ["x", "cx", "x1"]) || 0,
+              y: +_getAttributeFallbacks(target, ["y", "cy", "y1"]) || 0,
+              width: 0,
+              height: 0,
+            }
           : bounds;
       },
       _isSVG = function _isSVG2(e2) {
@@ -11382,7 +11382,7 @@ var require_app2 = __commonJS({
           amount + (toPixels ? curUnit : unit);
         parent2 =
           ~property.indexOf("adius") ||
-            (unit === "em" && target.appendChild && !isRootSVG)
+          (unit === "em" && target.appendChild && !isRootSVG)
             ? target
             : target.parentNode;
         if (isSVG) {
@@ -11429,8 +11429,8 @@ var require_app2 = __commonJS({
           toPixels
             ? (px * curValue) / amount
             : px && curValue
-              ? (amount / px) * curValue
-              : 0
+            ? (amount / px) * curValue
+            : 0
         );
       },
       _get = function _get2(target, property, unit, uncache) {
@@ -11448,8 +11448,8 @@ var require_app2 = __commonJS({
             property !== "transformOrigin"
               ? value[property]
               : value.svg
-                ? value.origin
-                : _firstTwoOnly(
+              ? value.origin
+              : _firstTwoOnly(
                   _getComputedProperty(target, _transformOriginProp)
                 ) +
                 " " +
@@ -11492,13 +11492,13 @@ var require_app2 = __commonJS({
           }
         }
         var pt2 = new PropTween(
-          this._pt,
-          target.style,
-          prop,
-          0,
-          1,
-          _renderComplexString
-        ),
+            this._pt,
+            target.style,
+            prop,
+            0,
+            1,
+            _renderComplexString
+          ),
           index = 0,
           matchIndex = 0,
           a2,
@@ -11784,8 +11784,8 @@ var require_app2 = __commonJS({
             nextSibling
               ? parent2.insertBefore(target, nextSibling)
               : parent2
-                ? parent2.appendChild(target)
-                : _docElement.removeChild(target);
+              ? parent2.appendChild(target)
+              : _docElement.removeChild(target);
           }
         }
         return force2D && matrix.length > 6
@@ -11944,7 +11944,7 @@ var require_app2 = __commonJS({
           skewX =
           skewY =
           perspective =
-          0;
+            0;
         scaleX = scaleY = 1;
         cache.svg = !!(target.getCTM && _isSVG(target));
         if (cs.translate) {
@@ -11956,8 +11956,8 @@ var require_app2 = __commonJS({
             style[_transformProp$1] =
               (cs.translate !== "none"
                 ? "translate3d(" +
-                (cs.translate + " 0 0").split(" ").slice(0, 3).join(", ") +
-                ") "
+                  (cs.translate + " 0 0").split(" ").slice(0, 3).join(", ") +
+                  ") "
                 : "") +
               (cs.rotate !== "none" ? "rotate(" + cs.rotate + ") " : "") +
               (cs.scale !== "none"
@@ -12128,8 +12128,8 @@ var require_app2 = __commonJS({
         cache.renderTransform = cache.svg
           ? _renderSVGTransforms
           : _supports3D
-            ? _renderCSSTransforms
-            : _renderNon3DTransforms;
+          ? _renderCSSTransforms
+          : _renderNon3DTransforms;
         cache.uncache = 0;
         return cache;
       },
@@ -12141,7 +12141,7 @@ var require_app2 = __commonJS({
         return (
           _round$1(
             parseFloat(start) +
-            parseFloat(_convertToUnit(target, "x", value + "px", unit))
+              parseFloat(_convertToUnit(target, "x", value + "px", unit))
           ) + unit
         );
       },
@@ -12513,8 +12513,8 @@ var require_app2 = __commonJS({
             }
             endUnit
               ? startUnit !== endUnit &&
-              (startValue =
-                _convertToUnit(target, p2, startValue, endUnit) + endUnit)
+                (startValue =
+                  _convertToUnit(target, p2, startValue, endUnit) + endUnit)
               : startUnit && (endValue += startUnit);
             this.add(
               style,
@@ -12697,8 +12697,8 @@ var require_app2 = __commonJS({
                   ? _parseRelative(startNum, relative + endNum)
                   : endNum) - startNum,
                 !isTransformRelated &&
-                  (endUnit === "px" || p2 === "zIndex") &&
-                  vars.autoRound !== false
+                (endUnit === "px" || p2 === "zIndex") &&
+                vars.autoRound !== false
                   ? _renderRoundedCSSProp
                   : _renderCSSProp
               );
@@ -12763,14 +12763,14 @@ var require_app2 = __commonJS({
               ? _setterScale
               : _setterTransform
             : (_recentSetterPlugin = plugin || {}) &&
-            (property === "scale"
-              ? _setterScaleWithRender
-              : _setterTransformWithRender)
+              (property === "scale"
+                ? _setterScaleWithRender
+                : _setterTransformWithRender)
           : target.style && !_isUndefined(target.style[property])
-            ? _setterCSSStyle
-            : ~property.indexOf("-")
-              ? _setterCSSProp
-              : _getSetter(target, property);
+          ? _setterCSSStyle
+          : ~property.indexOf("-")
+          ? _setterCSSProp
+          : _getSetter(target, property);
       },
       core: {
         _removeProperty,
@@ -12944,10 +12944,10 @@ var require_app2 = __commonJS({
           return arguments.length
             ? _win$1.scrollTo(value, _vertical.sc())
             : _win$1.pageXOffset ||
-            _doc$1[_scrollLeft] ||
-            _docEl$2[_scrollLeft] ||
-            _body$2[_scrollLeft] ||
-            0;
+                _doc$1[_scrollLeft] ||
+                _docEl$2[_scrollLeft] ||
+                _body$2[_scrollLeft] ||
+                0;
         }),
       },
       _vertical = {
@@ -12964,10 +12964,10 @@ var require_app2 = __commonJS({
           return arguments.length
             ? _win$1.scrollTo(_horizontal.sc(), value)
             : _win$1.pageYOffset ||
-            _doc$1[_scrollTop] ||
-            _docEl$2[_scrollTop] ||
-            _body$2[_scrollTop] ||
-            0;
+                _doc$1[_scrollTop] ||
+                _docEl$2[_scrollTop] ||
+                _body$2[_scrollTop] ||
+                0;
         }),
       },
       _getTarget = function _getTarget2(t2, self2) {
@@ -12999,10 +12999,10 @@ var require_app2 = __commonJS({
               (_isViewport$1(element)
                 ? sc
                 : _scrollCacheFunc(function (value) {
-                  return arguments.length
-                    ? (element[s2] = value)
-                    : element[s2];
-                })));
+                    return arguments.length
+                      ? (element[s2] = value)
+                      : element[s2];
+                  })));
         func.target = element;
         prev ||
           (func.smooth =
@@ -13047,8 +13047,8 @@ var require_app2 = __commonJS({
             return t1 === t2 || t3 - t2 > dropToZeroTime
               ? 0
               : ((v1 + (useDelta ? vOld : -vOld)) /
-                ((useDelta ? t3 : t1) - tOld)) *
-              1e3;
+                  ((useDelta ? t3 : t1) - tOld)) *
+                  1e3;
           };
         return {
           update,
@@ -13083,23 +13083,23 @@ var require_app2 = __commonJS({
           _body$2 = _doc$1.body;
           _root$1 = [_win$1, _doc$1, _docEl$2, _body$2];
           gsap$2.utils.clamp;
-          _context$1 = gsap$2.core.context || function () { };
+          _context$1 = gsap$2.core.context || function () {};
           _pointerType = "onpointerenter" in _body$2 ? "pointer" : "mouse";
           _isTouch = Observer.isTouch =
             _win$1.matchMedia &&
-              _win$1.matchMedia("(hover: none), (pointer: coarse)").matches
+            _win$1.matchMedia("(hover: none), (pointer: coarse)").matches
               ? 1
               : "ontouchstart" in _win$1 ||
                 navigator.maxTouchPoints > 0 ||
                 navigator.msMaxTouchPoints > 0
-                ? 2
-                : 0;
+              ? 2
+              : 0;
           _eventTypes = Observer.eventTypes = (
             "ontouchstart" in _docEl$2
               ? "touchstart,touchmove,touchcancel,touchend"
               : !("onpointerdown" in _docEl$2)
-                ? "mousedown,mousemove,mouseup,mouseup"
-                : "pointerdown,pointermove,pointercancel,pointerup"
+              ? "mousedown,mousemove,mouseup,mouseup"
+              : "pointerdown,pointermove,pointercancel,pointerup"
           ).split(",");
           setTimeout(function () {
             return (_startup$1 = 0);
@@ -13425,8 +13425,8 @@ var require_app2 = __commonJS({
               (e2.deltaMode === 1
                 ? lineHeight
                 : e2.deltaMode === 2
-                  ? _win$1.innerHeight
-                  : 1) * wheelSpeed;
+                ? _win$1.innerHeight
+                : 1) * wheelSpeed;
             onDelta(e2.deltaX * multiplier, e2.deltaY * multiplier, 0);
             onStop && !isNormalizer && onStopDelayedCall.restart(true);
           },
@@ -13641,7 +13641,7 @@ var require_app2 = __commonJS({
           element === _docEl$1 ||
           element === _body$1
           ? Math.max(_docEl$1[scroll], _body$1[scroll]) -
-          (_window["inner" + dim] || _docEl$1[client] || _body$1[client])
+              (_window["inner" + dim] || _docEl$1[client] || _body$1[client])
           : element[scroll] - element["offset" + dim];
       },
       _buildGetter = function _buildGetter2(e2, axis) {
@@ -13664,12 +13664,12 @@ var require_app2 = __commonJS({
             value !== "max" &&
             value.charAt(1) !== "="
             ? {
-              x: value,
-              y: value,
-            }
+                x: value,
+                y: value,
+              }
             : {
-              y: value,
-            };
+                y: value,
+              };
         } else if (value.nodeType) {
           return {
             y: value,
@@ -13701,19 +13701,19 @@ var require_app2 = __commonJS({
           isRoot = !container || container === _window || container === _body$1,
           cRect = isRoot
             ? {
-              top:
-                _docEl$1.clientTop -
-                (_window.pageYOffset ||
-                  _docEl$1.scrollTop ||
-                  _body$1.scrollTop ||
-                  0),
-              left:
-                _docEl$1.clientLeft -
-                (_window.pageXOffset ||
-                  _docEl$1.scrollLeft ||
-                  _body$1.scrollLeft ||
-                  0),
-            }
+                top:
+                  _docEl$1.clientTop -
+                  (_window.pageYOffset ||
+                    _docEl$1.scrollTop ||
+                    _body$1.scrollTop ||
+                    0),
+                left:
+                  _docEl$1.clientLeft -
+                  (_window.pageXOffset ||
+                    _docEl$1.scrollLeft ||
+                    _body$1.scrollLeft ||
+                    0),
+              }
             : container.getBoundingClientRect(),
           offsets = {
             x: rect.left - cRect.left,
@@ -13735,15 +13735,15 @@ var require_app2 = __commonJS({
         return !isNaN(value) && typeof value !== "object"
           ? parseFloat(value) - offset2
           : _isString$1(value) && value.charAt(1) === "="
-            ? parseFloat(value.substr(2)) * (value.charAt(0) === "-" ? -1 : 1) +
+          ? parseFloat(value.substr(2)) * (value.charAt(0) === "-" ? -1 : 1) +
             currentVal -
             offset2
-            : value === "max"
-              ? _max(target, axis) - offset2
-              : Math.min(
-                _max(target, axis),
-                _getOffset(value, target)[axis] - offset2
-              );
+          : value === "max"
+          ? _max(target, axis) - offset2
+          : Math.min(
+              _max(target, axis),
+              _getOffset(value, target)[axis] - offset2
+            );
       },
       _initCore = function _initCore2() {
         gsap$1 = _getGSAP$1();
@@ -14025,13 +14025,13 @@ var require_app2 = __commonJS({
           _getProxyProp(element, "getBoundingClientRect") ||
           (_isViewport(element)
             ? function () {
-              _winOffsets.width = _win.innerWidth;
-              _winOffsets.height = _100vh;
-              return _winOffsets;
-            }
+                _winOffsets.width = _win.innerWidth;
+                _winOffsets.height = _100vh;
+                return _winOffsets;
+              }
             : function () {
-              return _getBounds(element);
-            })
+                return _getBounds(element);
+              })
         );
       },
       _getSizeFunc = function _getSizeFunc2(scroller, isViewport, _ref) {
@@ -14040,22 +14040,22 @@ var require_app2 = __commonJS({
           a2 = _ref.a;
         return (a2 = _getProxyProp(scroller, "getBoundingClientRect"))
           ? function () {
-            return a2()[d2];
-          }
+              return a2()[d2];
+            }
           : function () {
-            return (
-              (isViewport
-                ? _getViewportDimension(d22)
-                : scroller["client" + d22]) || 0
-            );
-          };
+              return (
+                (isViewport
+                  ? _getViewportDimension(d22)
+                  : scroller["client" + d22]) || 0
+              );
+            };
       },
       _getOffsetsFunc = function _getOffsetsFunc2(element, isViewport) {
         return !isViewport || ~_proxies.indexOf(element)
           ? _getBoundsFunc(element)
           : function () {
-            return _winOffsets;
-          };
+              return _winOffsets;
+            };
       },
       _maxScroll = function _maxScroll2(element, _ref2) {
         var s2 = _ref2.s,
@@ -14067,8 +14067,8 @@ var require_app2 = __commonJS({
           (s2 = "scroll" + d2) && (a2 = _getProxyProp(element, s2))
             ? a2() - _getBoundsFunc(element)()[d3]
             : _isViewport(element)
-              ? (_docEl[s2] || _body[s2]) - _getViewportDimension(d2)
-              : element[s2] - element["offset" + d2]
+            ? (_docEl[s2] || _body[s2]) - _getViewportDimension(d2)
+            : element[s2] - element["offset" + d2]
         );
       },
       _iterateAutoRefresh = function _iterateAutoRefresh2(func, events) {
@@ -14101,8 +14101,8 @@ var require_app2 = __commonJS({
         if (self2.enabled) {
           var result = self2._ctx
             ? self2._ctx.add(function () {
-              return func(self2);
-            })
+                return func(self2);
+              })
             : func(self2);
           result && result.totalTime && (self2.callbackAnimation = result);
         }
@@ -14141,23 +14141,23 @@ var require_app2 = __commonJS({
       },
       _getBounds = function _getBounds2(element, withoutTransforms) {
         var tween =
-          withoutTransforms &&
-          _getComputedStyle(element)[_transformProp] !==
-          "matrix(1, 0, 0, 1, 0, 0)" &&
-          gsap
-            .to(element, {
-              x: 0,
-              y: 0,
-              xPercent: 0,
-              yPercent: 0,
-              rotation: 0,
-              rotationX: 0,
-              rotationY: 0,
-              scale: 1,
-              skewX: 0,
-              skewY: 0,
-            })
-            .progress(1),
+            withoutTransforms &&
+            _getComputedStyle(element)[_transformProp] !==
+              "matrix(1, 0, 0, 1, 0, 0)" &&
+            gsap
+              .to(element, {
+                x: 0,
+                y: 0,
+                xPercent: 0,
+                yPercent: 0,
+                rotation: 0,
+                rotationX: 0,
+                rotationY: 0,
+                scale: 1,
+                skewX: 0,
+                skewY: 0,
+              })
+              .progress(1),
           bounds = element.getBoundingClientRect();
         tween && tween.progress(0).kill();
         return bounds;
@@ -14190,47 +14190,47 @@ var require_app2 = __commonJS({
             });
         return a2
           ? function (value, direction, threshold) {
-            if (threshold === void 0) {
-              threshold = 1e-3;
-            }
-            var i2;
-            if (!direction) {
-              return snap2(value);
-            }
-            if (direction > 0) {
-              value -= threshold;
-              for (i2 = 0; i2 < a2.length; i2++) {
-                if (a2[i2] >= value) {
-                  return a2[i2];
+              if (threshold === void 0) {
+                threshold = 1e-3;
+              }
+              var i2;
+              if (!direction) {
+                return snap2(value);
+              }
+              if (direction > 0) {
+                value -= threshold;
+                for (i2 = 0; i2 < a2.length; i2++) {
+                  if (a2[i2] >= value) {
+                    return a2[i2];
+                  }
+                }
+                return a2[i2 - 1];
+              } else {
+                i2 = a2.length;
+                value += threshold;
+                while (i2--) {
+                  if (a2[i2] <= value) {
+                    return a2[i2];
+                  }
                 }
               }
-              return a2[i2 - 1];
-            } else {
-              i2 = a2.length;
-              value += threshold;
-              while (i2--) {
-                if (a2[i2] <= value) {
-                  return a2[i2];
-                }
-              }
+              return a2[0];
             }
-            return a2[0];
-          }
           : function (value, direction, threshold) {
-            if (threshold === void 0) {
-              threshold = 1e-3;
-            }
-            var snapped = snap2(value);
-            return !direction ||
-              Math.abs(snapped - value) < threshold ||
-              snapped - value < 0 === direction < 0
-              ? snapped
-              : snap2(
-                direction < 0
-                  ? value - snapIncrementOrArray
-                  : value + snapIncrementOrArray
-              );
-          };
+              if (threshold === void 0) {
+                threshold = 1e-3;
+              }
+              var snapped = snap2(value);
+              return !direction ||
+                Math.abs(snapped - value) < threshold ||
+                snapped - value < 0 === direction < 0
+                ? snapped
+                : snap2(
+                    direction < 0
+                      ? value - snapIncrementOrArray
+                      : value + snapIncrementOrArray
+                  );
+            };
       },
       _getLabelAtDirection = function _getLabelAtDirection2(timeline) {
         return function (value, st2) {
@@ -14300,7 +14300,7 @@ var require_app2 = __commonJS({
           var eqIndex = value.indexOf("="),
             relative = ~eqIndex
               ? +(value.charAt(eqIndex - 1) + 1) *
-              parseFloat(value.substr(eqIndex + 1))
+                parseFloat(value.substr(eqIndex + 1))
               : 0;
           if (~eqIndex) {
             value.indexOf("%") > eqIndex && (relative *= size / 100);
@@ -14311,8 +14311,8 @@ var require_app2 = __commonJS({
             (value in _keywords
               ? _keywords[value] * size
               : ~value.indexOf("%")
-                ? (parseFloat(value) * size) / 100
-                : parseFloat(value) || 0);
+              ? (parseFloat(value) * size) / 100
+              : parseFloat(value) || 0);
         }
         return value;
       },
@@ -14386,8 +14386,8 @@ var require_app2 = __commonJS({
         flipped
       ) {
         var vars = {
-          display: "block",
-        },
+            display: "block",
+          },
           side = direction[flipped ? "os2" : "p2"],
           oppositeSide = direction[flipped ? "p2" : "os2"];
         marker._isFlipped = flipped;
@@ -14436,7 +14436,7 @@ var require_app2 = __commonJS({
           (!_ignoreMobileResize ||
             _baseScreenWidth !== _win.innerWidth ||
             Math.abs(_win.innerHeight - _baseScreenHeight) >
-            _win.innerHeight * 0.25) &&
+              _win.innerHeight * 0.25) &&
           _resizeDelay.restart(true);
       },
       _listeners = {},
@@ -14711,7 +14711,7 @@ var require_app2 = __commonJS({
             pinStyle[_margin] =
             pinStyle[_top] =
             pinStyle[_left] =
-            "0";
+              "0";
           _setState(spacerState);
           pinStyle[_width] = pinStyle["max" + _Width] = cs[_width];
           pinStyle[_height] = pinStyle["max" + _Height] = cs[_height];
@@ -14835,7 +14835,7 @@ var require_app2 = __commonJS({
               globalOffset,
               direction,
               scrollerSize - globalOffset < 20 ||
-              (markerScroller._isStart && globalOffset > 20)
+                (markerScroller._isStart && globalOffset > 20)
             );
           scrollerSize -= scrollerSize - globalOffset;
         } else {
@@ -14863,11 +14863,11 @@ var require_app2 = __commonJS({
             position,
             direction,
             (isStart && position > 20) ||
-            (!isStart &&
-              (useFixedPosition
-                ? Math.max(_body[p1], _docEl[p1])
-                : marker.parentNode[p1]) <=
-              position + 1)
+              (!isStart &&
+                (useFixedPosition
+                  ? Math.max(_body[p1], _docEl[p1])
+                  : marker.parentNode[p1]) <=
+                  position + 1)
           );
           if (useFixedPosition) {
             scrollerBounds = _getBounds(markerScroller);
@@ -14977,8 +14977,8 @@ var require_app2 = __commonJS({
             modifiers[prop] = function () {
               return checkForInterruption(
                 initialValue +
-                change1 * tween.ratio +
-                change2 * tween.ratio * tween.ratio
+                  change1 * tween.ratio +
+                  change2 * tween.ratio * tween.ratio
               );
             };
             vars.onUpdate = function () {
@@ -15022,8 +15022,8 @@ var require_app2 = __commonJS({
         vars = _setDefaults(
           _isString(vars) || _isNumber(vars) || vars.nodeType
             ? {
-              trigger: vars,
-            }
+                trigger: vars,
+              }
             : vars,
           _defaults
         );
@@ -15050,7 +15050,7 @@ var require_app2 = __commonJS({
           preventOverlaps = _vars.preventOverlaps,
           direction =
             vars.horizontal ||
-              (vars.containerAnimation && vars.horizontal !== false)
+            (vars.containerAnimation && vars.horizontal !== false)
               ? _horizontal
               : _vertical,
           isToggle = !scrub && scrub !== 0,
@@ -15061,7 +15061,7 @@ var require_app2 = __commonJS({
             ("pinType" in vars
               ? vars.pinType
               : _getProxyProp(scroller, "pinType") ||
-              (isViewport && "fixed")) === "fixed",
+                (isViewport && "fixed")) === "fixed",
           callbacks = [
             vars.onEnter,
             vars.onLeave,
@@ -15073,8 +15073,8 @@ var require_app2 = __commonJS({
           borderWidth = isViewport
             ? 0
             : parseFloat(
-              _getComputedStyle(scroller)["border" + direction.p2 + _Width]
-            ) || 0,
+                _getComputedStyle(scroller)["border" + direction.p2 + _Width]
+              ) || 0,
           self2 = this,
           onRefreshInit =
             vars.onRefreshInit &&
@@ -15154,15 +15154,15 @@ var require_app2 = __commonJS({
             scrubTween
               ? scrubTween.duration(value)
               : (scrubTween = gsap.to(animation, {
-                ease: "expo",
-                totalProgress: "+=0",
-                inherit: false,
-                duration: scrubSmooth,
-                paused: true,
-                onComplete: function onComplete() {
-                  return onScrubComplete && onScrubComplete(self2);
-                },
-              }));
+                  ease: "expo",
+                  totalProgress: "+=0",
+                  inherit: false,
+                  duration: scrubSmooth,
+                  paused: true,
+                  onComplete: function onComplete() {
+                    return onScrubComplete && onScrubComplete(self2);
+                  },
+                }));
           }
         };
         if (animation) {
@@ -15192,24 +15192,24 @@ var require_app2 = __commonJS({
             return (
               _isFunction(o2) &&
               o2.target ===
-              (isViewport ? _doc.scrollingElement || _docEl : scroller) &&
+                (isViewport ? _doc.scrollingElement || _docEl : scroller) &&
               (o2.smooth = false)
             );
           });
           snapFunc = _isFunction(snap2.snapTo)
             ? snap2.snapTo
             : snap2.snapTo === "labels"
-              ? _getClosestLabel(animation)
-              : snap2.snapTo === "labelsDirectional"
-                ? _getLabelAtDirection(animation)
-                : snap2.directional !== false
-                  ? function (value, st2) {
-                    return _snapDirectional(snap2.snapTo)(
-                      value,
-                      _getTime() - lastRefresh < 500 ? 0 : st2.direction
-                    );
-                  }
-                  : gsap.utils.snap(snap2.snapTo);
+            ? _getClosestLabel(animation)
+            : snap2.snapTo === "labelsDirectional"
+            ? _getLabelAtDirection(animation)
+            : snap2.directional !== false
+            ? function (value, st2) {
+                return _snapDirectional(snap2.snapTo)(
+                  value,
+                  _getTime() - lastRefresh < 500 ? 0 : st2.direction
+                );
+              }
+            : gsap.utils.snap(snap2.snapTo);
           snapDurClamp = snap2.duration || {
             min: 0.1,
             max: 2,
@@ -15236,7 +15236,7 @@ var require_app2 = __commonJS({
                   velocity = refreshedRecently
                     ? 0
                     : ((totalProgress - snap22) / (_getTime() - _time2)) *
-                    1e3 || 0,
+                        1e3 || 0,
                   change1 = gsap.utils.clamp(
                     -progress,
                     1 - progress,
@@ -15274,8 +15274,8 @@ var require_app2 = __commonJS({
                             _abs(endValue - totalProgress)
                           ) *
                             0.185) /
-                          velocity /
-                          0.05 || 0
+                            velocity /
+                            0.05 || 0
                         )
                       ),
                       ease: snap2.ease || "power3",
@@ -15294,10 +15294,10 @@ var require_app2 = __commonJS({
                         if (animation) {
                           scrubTween
                             ? scrubTween.resetTo(
-                              "totalProgress",
-                              endValue,
-                              animation._tTime / animation._tDur
-                            )
+                                "totalProgress",
+                                endValue,
+                                animation._tTime / animation._tDur
+                              )
                             : animation.progress(endValue);
                         }
                         snap1 = snap22 =
@@ -15335,9 +15335,9 @@ var require_app2 = __commonJS({
             pinSpacing === _margin ||
             (pinSpacing =
               !pinSpacing &&
-                pin.parentNode &&
-                pin.parentNode.style &&
-                _getComputedStyle(pin.parentNode).display === "flex"
+              pin.parentNode &&
+              pin.parentNode.style &&
+              _getComputedStyle(pin.parentNode).display === "flex"
                 ? false
                 : _padding);
           self2.pin = pin;
@@ -15533,7 +15533,7 @@ var require_app2 = __commonJS({
             parsedStart = _isObject(position)
               ? position.start
               : vars.start ||
-              (vars.start === 0 || !trigger ? 0 : pin ? "0 0" : "0 100%"),
+                (vars.start === 0 || !trigger ? 0 : pin ? "0 0" : "0 100%"),
             pinnedContainer = (self2.pinnedContainer =
               vars.pinnedContainer && _getTarget(vars.pinnedContainer, self2)),
             triggerIndex =
@@ -15609,14 +15609,14 @@ var require_app2 = __commonJS({
               parsedEnd = _isString(parsedStart)
                 ? parsedStart
                 : (containerAnimation
-                  ? gsap.utils.mapRange(
-                    0,
-                    containerAnimation.duration(),
-                    containerAnimation.scrollTrigger.start,
-                    containerAnimation.scrollTrigger.end,
-                    start
-                  )
-                  : start) + offset3;
+                    ? gsap.utils.mapRange(
+                        0,
+                        containerAnimation.duration(),
+                        containerAnimation.scrollTrigger.start,
+                        containerAnimation.scrollTrigger.end,
+                        start
+                      )
+                    : start) + offset3;
               parsedEndTrigger = trigger;
             }
           }
@@ -15709,7 +15709,7 @@ var require_app2 = __commonJS({
               if (
                 isViewport &&
                 _getComputedStyle(_body)[
-                "overflow" + direction.a.toUpperCase()
+                  "overflow" + direction.a.toUpperCase()
                 ] !== "scroll"
               ) {
                 forcedOverflow.style["overflow" + direction.a.toUpperCase()] =
@@ -15777,7 +15777,7 @@ var require_app2 = __commonJS({
                 override[_margin + _Right] =
                 override[_margin + _Bottom] =
                 override[_margin + _Left] =
-                "0";
+                  "0";
               override[_padding] = cs2[_padding];
               override[_padding + _Top] = cs2[_padding + _Top];
               override[_padding + _Right] = cs2[_padding + _Right];
@@ -15810,11 +15810,11 @@ var require_app2 = __commonJS({
             forcedOverflow &&
               (forcedOverflow.value
                 ? (forcedOverflow.style[
-                  "overflow" + direction.a.toUpperCase()
-                ] = forcedOverflow.value)
+                    "overflow" + direction.a.toUpperCase()
+                  ] = forcedOverflow.value)
                 : forcedOverflow.style.removeProperty(
-                  "overflow-" + direction.a
-                ));
+                    "overflow-" + direction.a
+                  ));
           } else if (trigger && scrollFunc() && !containerAnimation) {
             bounds = trigger.parentNode;
             while (bounds && bounds !== _body) {
@@ -15908,8 +15908,8 @@ var require_app2 = __commonJS({
             scrubTween
               ? scrubTween.progress(1)
               : !animation.paused()
-                ? _endAnimation(animation, animation.reversed())
-                : isToggle || _endAnimation(animation, self2.direction < 0, 1);
+              ? _endAnimation(animation, animation.reversed())
+              : isToggle || _endAnimation(animation, self2.direction < 0, 1);
           }
         };
         self2.labelToScroll = function (label) {
@@ -15917,7 +15917,7 @@ var require_app2 = __commonJS({
             (animation &&
               animation.labels &&
               (start || self2.refresh() || start) +
-              (animation.labels[label] / animation.duration()) * change) ||
+                (animation.labels[label] / animation.duration()) * change) ||
             0
           );
         };
@@ -15930,8 +15930,8 @@ var require_app2 = __commonJS({
           return (
             _isString(name)
               ? a2.filter(function (t2) {
-                return t2.vars.preventOverlaps === name;
-              })
+                  return t2.vars.preventOverlaps === name;
+                })
               : a2
           ).filter(function (t2) {
             return self2.direction > 0 ? t2.end <= start : t2.start >= end;
@@ -15972,15 +15972,15 @@ var require_app2 = __commonJS({
             if (
               !clipped &&
               start <
-              scroll +
-              ((scroll - scroll2) / (_getTime() - _time2)) * anticipatePin
+                scroll +
+                  ((scroll - scroll2) / (_getTime() - _time2)) * anticipatePin
             ) {
               clipped = 1e-4;
             } else if (
               clipped === 1 &&
               end >
-              scroll +
-              ((scroll - scroll2) / (_getTime() - _time2)) * anticipatePin
+                scroll +
+                  ((scroll - scroll2) / (_getTime() - _time2)) * anticipatePin
             ) {
               clipped = 0.9999;
             }
@@ -15997,10 +15997,10 @@ var require_app2 = __commonJS({
                 clipped && !prevProgress2
                   ? 0
                   : clipped === 1
-                    ? 1
-                    : prevProgress2 === 1
-                      ? 2
-                      : 3;
+                  ? 1
+                  : prevProgress2 === 1
+                  ? 2
+                  : 3;
               if (isToggle) {
                 action =
                   (!toggled &&
@@ -16020,8 +16020,8 @@ var require_app2 = __commonJS({
               (_isFunction(preventOverlaps)
                 ? preventOverlaps(self2)
                 : self2.getTrailing(preventOverlaps).forEach(function (t2) {
-                  return t2.endAnimation();
-                }));
+                    return t2.endAnimation();
+                  }));
             if (!isToggle) {
               if (scrubTween && !_refreshing && !_startup) {
                 scrubTween._dp._time - scrubTween._start !== scrubTween._time &&
@@ -16063,11 +16063,11 @@ var require_app2 = __commonJS({
                       pin,
                       _body,
                       bounds.top +
-                      (direction === _vertical ? _offset : 0) +
-                      _px,
+                        (direction === _vertical ? _offset : 0) +
+                        _px,
                       bounds.left +
-                      (direction === _vertical ? 0 : _offset) +
-                      _px
+                        (direction === _vertical ? 0 : _offset) +
+                        _px
                     );
                   } else {
                     _reparent(pin, spacer);
@@ -16127,16 +16127,16 @@ var require_app2 = __commonJS({
                 fastScrollEnd &&
                 !isActive &&
                 Math.abs(self2.getVelocity()) >
-                (_isNumber(fastScrollEnd) ? fastScrollEnd : 2500)
+                  (_isNumber(fastScrollEnd) ? fastScrollEnd : 2500)
               ) {
                 _endAnimation(self2.callbackAnimation);
                 scrubTween
                   ? scrubTween.progress(1)
                   : _endAnimation(
-                    animation,
-                    action === "reverse" ? 1 : !clipped,
-                    1
-                  );
+                      animation,
+                      action === "reverse" ? 1 : !clipped,
+                      1
+                    );
               }
             } else if (isToggle && onUpdate && !_refreshing) {
               onUpdate(self2);
@@ -16145,7 +16145,7 @@ var require_app2 = __commonJS({
           if (markerEndSetter) {
             var n2 = containerAnimation
               ? (scroll / containerAnimation.duration()) *
-              (containerAnimation._caScrollDist || 0)
+                (containerAnimation._caScrollDist || 0)
               : scroll;
             markerStartSetter(n2 + (markerStartTrigger._isFlipped ? 1 : 0));
             markerEndSetter(n2);
@@ -16153,7 +16153,7 @@ var require_app2 = __commonJS({
           caMarkerSetter &&
             caMarkerSetter(
               (-scroll / containerAnimation.duration()) *
-              (containerAnimation._caScrollDist || 0)
+                (containerAnimation._caScrollDist || 0)
             );
         };
         self2.enable = function (reset, refresh) {
@@ -16507,14 +16507,14 @@ var require_app2 = __commonJS({
         horizontal
       ) {
         var bounds = (
-          _isString(element) ? _getTarget(element) : element
-        ).getBoundingClientRect(),
+            _isString(element) ? _getTarget(element) : element
+          ).getBoundingClientRect(),
           offset2 = bounds[horizontal ? _width : _height] * ratio || 0;
         return horizontal
           ? bounds.right - offset2 > 0 &&
-          bounds.left + offset2 < _win.innerWidth
+              bounds.left + offset2 < _win.innerWidth
           : bounds.bottom - offset2 > 0 &&
-          bounds.top + offset2 < _win.innerHeight;
+              bounds.top + offset2 < _win.innerHeight;
       };
       ScrollTrigger2.positionInViewport = function positionInViewport(
         element,
@@ -16528,10 +16528,10 @@ var require_app2 = __commonJS({
             referencePoint == null
               ? size / 2
               : referencePoint in _keywords
-                ? _keywords[referencePoint] * size
-                : ~referencePoint.indexOf("%")
-                  ? (parseFloat(referencePoint) * size) / 100
-                  : parseFloat(referencePoint) || 0;
+              ? _keywords[referencePoint] * size
+              : ~referencePoint.indexOf("%")
+              ? (parseFloat(referencePoint) * size) / 100
+              : parseFloat(referencePoint) || 0;
         return horizontal
           ? (bounds.left + offset2) / _win.innerWidth
           : (bounds.top + offset2) / _win.innerHeight;
@@ -16554,18 +16554,18 @@ var require_app2 = __commonJS({
     ScrollTrigger.saveStyles = function (targets) {
       return targets
         ? _toArray(targets).forEach(function (target) {
-          if (target && target.style) {
-            var i2 = _savedStyles.indexOf(target);
-            i2 >= 0 && _savedStyles.splice(i2, 5);
-            _savedStyles.push(
-              target,
-              target.style.cssText,
-              target.getBBox && target.getAttribute("transform"),
-              gsap.core.getCache(target),
-              _context()
-            );
-          }
-        })
+            if (target && target.style) {
+              var i2 = _savedStyles.indexOf(target);
+              i2 >= 0 && _savedStyles.splice(i2, 5);
+              _savedStyles.push(
+                target,
+                target.style.cssText,
+                target.getBBox && target.getAttribute("transform"),
+                gsap.core.getCache(target),
+                _context()
+              );
+            }
+          })
         : _savedStyles;
     };
     ScrollTrigger.revert = function (soft, media) {
@@ -16639,8 +16639,8 @@ var require_app2 = __commonJS({
       for (p2 in vars) {
         varsCopy[p2] =
           p2.substr(0, 2) === "on" &&
-            _isFunction(vars[p2]) &&
-            p2 !== "onRefreshInit"
+          _isFunction(vars[p2]) &&
+          p2 !== "onRefreshInit"
             ? proxyCallback(p2, vars[p2])
             : vars[p2];
       }
@@ -16661,19 +16661,19 @@ var require_app2 = __commonJS({
       return result;
     };
     var _clampScrollAndGetDurationMultiplier =
-      function _clampScrollAndGetDurationMultiplier2(
-        scrollFunc,
-        current,
-        end,
-        max2
-      ) {
-        current > max2 ? scrollFunc(max2) : current < 0 && scrollFunc(0);
-        return end > max2
-          ? (max2 - current) / (end - current)
-          : end < 0
+        function _clampScrollAndGetDurationMultiplier2(
+          scrollFunc,
+          current,
+          end,
+          max2
+        ) {
+          current > max2 ? scrollFunc(max2) : current < 0 && scrollFunc(0);
+          return end > max2
+            ? (max2 - current) / (end - current)
+            : end < 0
             ? current / (current - end)
             : 1;
-      },
+        },
       _allowNativePanning = function _allowNativePanning2(target, direction) {
         if (direction === true) {
           target.style.removeProperty("touch-action");
@@ -16682,8 +16682,8 @@ var require_app2 = __commonJS({
             direction === true
               ? "auto"
               : direction
-                ? "pan-" + direction + (Observer.isTouch ? " pinch-zoom" : "")
-                : "none";
+              ? "pan-" + direction + (Observer.isTouch ? " pinch-zoom" : "")
+              : "none";
         }
         target === _docEl && _allowNativePanning2(_body, direction);
       },
@@ -16696,7 +16696,7 @@ var require_app2 = __commonJS({
           target = _ref5.target,
           axis = _ref5.axis;
         var node = (event.changedTouches ? event.changedTouches[0] : event)
-          .target,
+            .target,
           cache = node._gsap || gsap.core.getCache(node),
           time = _getTime(),
           cs;
@@ -16801,11 +16801,11 @@ var require_app2 = __commonJS({
           wheelRefresh = 0,
           resolveMomentumDuration = _isFunction(momentum)
             ? function () {
-              return momentum(self2);
-            }
+                return momentum(self2);
+              }
             : function () {
-              return momentum || 2.8;
-            },
+                return momentum || 2.8;
+              },
           lastRefreshID,
           skipTouchMove,
           inputObserver = _inputObserver(
@@ -16844,7 +16844,7 @@ var require_app2 = __commonJS({
                 scrollFuncY.offset = scroll - scrollFuncY.v;
                 var y2 = _round(
                   (parseFloat(content && content._gsap.y) || 0) -
-                  scrollFuncY.offset
+                    scrollFuncY.offset
                 );
                 content.style.transform =
                   "matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, " +
@@ -16888,7 +16888,7 @@ var require_app2 = __commonJS({
           var prevScale = scale;
           scale = _round(
             ((_win.visualViewport && _win.visualViewport.scale) || 1) /
-            initialScale
+              initialScale
           );
           tween.pause();
           prevScale !== scale &&
@@ -17022,13 +17022,13 @@ var require_app2 = __commonJS({
     ScrollTrigger.sort = function (func) {
       return _triggers.sort(
         func ||
-        function (a2, b2) {
-          return (
-            (a2.vars.refreshPriority || 0) * -1e6 +
-            a2.start -
-            (b2.start + (b2.vars.refreshPriority || 0) * -1e6)
-          );
-        }
+          function (a2, b2) {
+            return (
+              (a2.vars.refreshPriority || 0) * -1e6 +
+              a2.start -
+              (b2.start + (b2.vars.refreshPriority || 0) * -1e6)
+            );
+          }
       );
     };
     ScrollTrigger.observe = function (vars) {
@@ -17165,7 +17165,7 @@ var require_app2 = __commonJS({
             anticipatePin: true,
             invalidateOnRefresh: true,
             toggleActions: "play pause play pause",
-            onUpdate: function (ev) { },
+            onUpdate: function (ev) {},
           },
         });
         animation.fromTo(
@@ -17263,7 +17263,7 @@ var require_app2 = __commonJS({
             anticipatePin: true,
             invalidateOnRefresh: true,
             toggleActions: "play pause play pause",
-            onUpdate: function (ev) { },
+            onUpdate: function (ev) {},
           },
         });
         animation.fromTo(
@@ -17713,7 +17713,7 @@ var require_app2 = __commonJS({
         }
         function setCache(elems, overflowing, x2) {
           var cache = x2 ? cacheX : cacheY;
-          for (var i2 = elems.length; i2--;)
+          for (var i2 = elems.length; i2--; )
             cache[uniqueID(elems[i2])] = overflowing;
           return overflowing;
         }
@@ -17791,7 +17791,7 @@ var require_app2 = __commonJS({
         if (window.localStorage && localStorage.SS_deltaBuffer) {
           try {
             deltaBuffer = localStorage.SS_deltaBuffer.split(",");
-          } catch (e2) { }
+          } catch (e2) {}
         }
         function isTouchpad(deltaY) {
           if (!deltaY) return;
@@ -17805,7 +17805,7 @@ var require_app2 = __commonJS({
           deltaBufferTimer = setTimeout(function () {
             try {
               localStorage.SS_deltaBuffer = deltaBuffer.join(",");
-            } catch (e2) { }
+            } catch (e2) {}
           }, 1e3);
           var dpiScaledWheelDelta =
             deltaY > 120 && allDeltasDivisableBy(deltaY);
@@ -17916,7 +17916,7 @@ var require_app2 = __commonJS({
               },
             })
           );
-        } catch (e2) { }
+        } catch (e2) {}
         var wheelOpt = supportsPassive ? { passive: false } : false;
         var wheelEvent =
           "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
@@ -18082,7 +18082,8 @@ var require_app2 = __commonJS({
         document.querySelectorAll(".container-select").forEach((element) => {
           let select2 = element.querySelector(".main-select");
           let other = element.querySelector(".container-select-specify-other");
-          if (select2.value == "Other") {
+          const restrictedValues = ["Choice", "koval", "skybox", "paddock"];
+          if (!restrictedValues.includes(select2.value)) {
             if (other) {
               if (screen.isDesktop) {
                 setTimeout(() => {
@@ -26973,7 +26974,6 @@ var require_app2 = __commonJS({
     function main() {
       productLinkColor();
       filterProducts();
-
     }
     const pgMyAccountSavedProducts = new Page({
       pageName,
@@ -27128,7 +27128,7 @@ var require_app2 = __commonJS({
 
     //  Change Password Page
     const pageName$01 = "my-account-change-password";
-    function main$01() { }
+    function main$01() {}
     const pgChangePassword = new Page({
       pageName: pageName$01,
       main: main$01,
@@ -27140,7 +27140,7 @@ var require_app2 = __commonJS({
     //  Change Password Page
 
     const pageName$02 = "pg-collections";
-    function main$02() { }
+    function main$02() {}
     const pgCollections = new Page({
       pageName: pageName$02,
       main: main$02,
@@ -27152,7 +27152,7 @@ var require_app2 = __commonJS({
 
     // My Acocunt
     const pageName$03 = "pg-my-account";
-    function main$03() { }
+    function main$03() {}
     const pgMyAccount = new Page({
       pageName: pageName$03,
       main: main$03,
