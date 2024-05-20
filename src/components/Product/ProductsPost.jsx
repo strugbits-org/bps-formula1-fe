@@ -11,14 +11,9 @@ import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import { BestSeller } from "@/utils/BestSeller";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import { AddProductToCart } from "@/services/cartServices";
-
-const breadCrumbData = [
-  { name: "Home", href: "/" },
-  { name: "Collections", href: "/collections" },
-  { name: "Collection detail", href: "/collections" },
-  { name: "Category", href: "/collections-category" },
-  { name: "Product list", href: "#" },
-];
+import { usePathname } from "next/navigation";
+import Breadcrumb from "../Common/BreadCrumbData";
+import { BestSellerTag } from "../Common/BestSellerTag";
 
 const ProductPost = ({
   productPostPageData,
@@ -27,6 +22,7 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
 }) => {
+  const router = useRouter();
   const [selectedVariant, setSelectedVariant] = useState(
     selectedProductDetails.variantData[0].variant
   );
@@ -34,11 +30,12 @@ const ProductPost = ({
   const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);
 
+  console.log(productSnapshots, "productSnapshots>>");
   const handleImageChange = (index) => {
     setSelectedVariantIndex(index);
     setSelectedVariant(selectedProductDetails.variantData[index].variant);
   };
-  const router = useRouter();
+
   const productFoundRedirection = (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
 
@@ -50,10 +47,6 @@ const ProductPost = ({
     queryParams.delete("slug");
     router.push({ pathname: "/products", query: queryParams.toString() });
     pageLoadStart();
-  };
-  const handleColorSelect = (index) => {
-    setSelectedVariantIndex(index);
-    setSelectedVariant(selectedProductDetails.variantData[index].variant);
   };
 
   function findUseCaseImages(array, variantId) {
@@ -101,34 +94,39 @@ const ProductPost = ({
       );
     }
   }, [productData]);
+
   const seatHeightData =
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
+
   const handleQuantityChange = async (value) => {
     if (value < 10000 && value > 0) {
       setCartQuantity(value);
     }
-  }
+  };
+
   const handleAddToCart = async () => {
     try {
       pageLoadStart();
       const product_id = selectedProductDetails.product._id;
-      const variant_id = selectedVariant.variantId.replace(product_id, "").substring(1);
+      const variant_id = selectedVariant.variantId
+        .replace(product_id, "")
+        .substring(1);
       const product = {
         catalogReference: {
           appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
           catalogItemId: product_id,
           options: {
-            "variantId": variant_id,
-            "customTextFields": {
+            variantId: variant_id,
+            customTextFields: {
               collection: selectedProductDetails.f1Collection.collectionName,
               additonalInfo: "",
-            }
-          }
+            },
+          },
         },
-        quantity: cartQuantity
-      }
+        quantity: cartQuantity,
+      };
       await AddProductToCart([product]);
       router.push("/cart");
     } catch (error) {
@@ -156,6 +154,14 @@ const ProductPost = ({
                   }
                 >
                   <div className="slider-product">
+                    <BestSellerTag
+                      subCategory={
+                        selectedProductDetails &&
+                        selectedProductDetails.subCategory
+                      }
+                      className="best-seller-tag"
+                    />
+
                     {BestSeller[selectedProductDetails.category._id] && (
                       <div class="best-seller-tag">
                         <span>Best Seller</span>
@@ -283,18 +289,8 @@ const ProductPost = ({
               </ul>
             </div>
             <div className="col-lg-3 column-2 mt-tablet-20 mt-phone-10">
-              <ul className="list-breadcrumb" data-aos="fadeIn .8s ease-in-out">
-                {breadCrumbData.map((data, index) => {
-                  const { name, href } = data;
-                  return (
-                    <li key={index} className="list-breadcrumb-item">
-                      <AnimateLink to={href} className="breadcrumb">
-                        <span>{name}</span>
-                      </AnimateLink>
-                    </li>
-                  );
-                })}
-              </ul>
+              <Breadcrumb selectedProductDetails={selectedProductDetails} />
+
               <div className="container-product-description">
                 <div className="form-cart js-running">
                   <input type="hidden" name="sku[]" value="MODCH09" />
