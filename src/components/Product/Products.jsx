@@ -3,7 +3,12 @@ import FilterButton from "../Common/FilterButton";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
 import React, { useEffect, useState } from "react";
-import { getCategoriesData } from "@/services/apiServices";
+import {
+  getCategoriesData,
+  getProductSnapShots,
+  getProductVariants,
+  getSelectedProductDetails,
+} from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
@@ -34,7 +39,83 @@ const Products = ({
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [productSnapshots, setProductSnapshots] = useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const getSelectedProductSnapShots = async (productData) => {
+    setSelectedProductData(productData);
+    try {
+      const res = await getProductSnapShots(productData.product._id);
+      setProductSnapshots(res);
 
+      const productVariantsData = await getProductVariants(
+        productData.product._id
+      );
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      if (
+        filteredVariantData &&
+        filteredVariantData.length > 0 &&
+        res &&
+        res.length > 0
+      ) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: res,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+  };
   const handleFilter = (id) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
@@ -50,7 +131,6 @@ const Products = ({
       router.push({ pathname: router.pathname, query: queryParams.toString() });
     }
   };
-  const [selectedVariant, setSelectedVariant] = useState(null);
 
   const handleImageHover = (variantData) => {
     setSelectedVariant(variantData.variant);
@@ -338,7 +418,7 @@ const Products = ({
                         </div>
                         <btn-modal-open
                           onClick={() =>
-                            setSelectedProductData(filteredProducts[index])
+                            getSelectedProductSnapShots(filteredProducts[index])
                           }
                           group="modal-product"
                           class="modal-add-to-cart"
@@ -415,6 +495,12 @@ const Products = ({
         setErrorMessageVisible={setErrorMessageVisible}
         setSuccessMessageVisible={setSuccessMessageVisible}
         productData={selectedProductData}
+        productSnapshots={productSnapshots}
+        productFilteredVariantData={productFilteredVariantData}
+        selectedVariantData={selectedVariantData}
+        setSelectedVariantData={setSelectedVariantData}
+        handleImageChange={handleImageChange}
+        selectedVariantIndex={selectedVariantIndex}
       />
     </>
   );

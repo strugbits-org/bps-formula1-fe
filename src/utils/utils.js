@@ -17,3 +17,20 @@ export const extractUniqueColors = (data) => {
     const uniqueColors = [...new Set(allColors)];
     return uniqueColors;
 }
+export const findColor = (data) => {
+    return data.filter((x) => x.colorInfo !== undefined).map((x) => x.colorInfo.original)
+}
+export const formatPrice = (price, quantity) => {
+    const currencySymbol = price.formattedAmount.charAt(0);
+    const totalPrice = price.amount * quantity;
+    const formattedPrice = totalPrice.toFixed(2);
+    return `${currencySymbol}${formattedPrice}`;
+}
+export const extractSlugFromUrl = (url) => {
+    const regex = /\/([^\/]+)\/?$/;
+    const match = regex.exec(url);
+    if (match) {
+        return match[0];
+    }
+    return "";
+}

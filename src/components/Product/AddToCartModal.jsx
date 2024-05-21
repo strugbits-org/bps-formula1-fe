@@ -1,29 +1,32 @@
 import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
 import { SaveProductButton } from "../Common/SaveProductButton";
-import { pageLoadEnd } from "@/utils/AnimationFunctions";
 import { getProductVariants } from "@/services/apiServices";
 import { AddProductToCart } from "@/services/cartServices";
+import RenderImage from "@/utils/RenderImage";
 
 const AddToCartModal = ({
   productData,
   setProductData,
   setErrorMessageVisible,
   setSuccessMessageVisible,
+  productSnapshots,
+  productFilteredVariantData,
+  selectedVariantData,
+  setSelectedVariantData,
+  handleImageChange,
+  selectedVariantIndex,
 }) => {
   const handleClose = () => {
     setTimeout(() => {
       setProductData(null);
-      setSelectedVariant(null);
+      setSelectedVariantData(null);
       setCartQuantity(1);
     }, 1000);
   };
-  const [selectedVariant, setSelectedVariant] = useState(null);
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [fullVariantData, setFullVariantData] = useState([]);
   const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);
-
   useEffect(() => {
     document.querySelector(".addToCart").click();
     if (productData) {
@@ -32,7 +35,6 @@ const AddToCartModal = ({
         let newUrl = url.replace(/0\.jpg$/, "");
         setModalURL(newUrl);
       }
-      setSelectedVariant(productData.variantData[0].variant);
       getFullVariantData();
     }
   }, [productData]);
@@ -41,28 +43,7 @@ const AddToCartModal = ({
     const fullVariant = await getProductVariants(productData.product._id);
     setFullVariantData(fullVariant);
   };
-  const handleImageChange = (index) => {
-    setSelectedVariantIndex(index);
-    setSelectedVariant(productData.variantData[index].variant);
-  };
 
-  const handlePrevButtonClick = () => {
-    const currentIndex = productData.variantData.findIndex(
-      (data) => data.variant.sku === selectedVariant.sku
-    );
-    const prevIndex =
-      (currentIndex - 1 + productData.variantData.length) %
-      productData.variantData.length;
-    setSelectedVariant(productData.variantData[prevIndex].variant);
-  };
-
-  const handleNextButtonClick = () => {
-    const currentIndex = productData.variantData.findIndex(
-      (data) => data.variant.sku === selectedVariant.sku
-    );
-    const nextIndex = (currentIndex + 1) % productData.variantData.length;
-    setSelectedVariant(productData.variantData[nextIndex].variant);
-  };
   const seatHeightData =
     productData &&
     productData.product.additionalInfoSections.find(
@@ -81,7 +62,7 @@ const AddToCartModal = ({
     try {
       const product_id = productData.product._id;
       const selectedVariantData = fullVariantData.find(
-        (x) => x.sku === selectedVariant.sku
+        (x) => x.sku === selectedVariantData.sku
       );
       const variant_id = selectedVariantData._id
         .replace(product_id, "")
@@ -141,23 +122,17 @@ const AddToCartModal = ({
                                 )}
                               <div class="swiper-container">
                                 <div class="swiper-wrapper">
-                                  {productData &&
-                                    productData.variantData.map(
-                                      (variantData, index) => {
-                                        const { variant } = variantData;
+                                  {selectedVariantData &&
+                                    selectedVariantData.images?.map(
+                                      (imageData, index) => {
                                         return (
                                           <div key={index} class="swiper-slide">
-                                            <div
-                                              class="container-img"
-                                              onClick={() =>
-                                                handleImageChange(index)
-                                              }
-                                            >
+                                            <div class="container-img">
                                               <img
                                                 style={{
                                                   padding: "100px",
                                                 }}
-                                                src={variant.imageSrc}
+                                                src={RenderImage(imageData.src)}
                                                 data-preload
                                                 class="media"
                                                 alt="product"
@@ -196,16 +171,10 @@ const AddToCartModal = ({
                                   )}
                                 </div>
                               </div>
-                              <div
-                                class="swiper-button-prev"
-                                onClick={handlePrevButtonClick}
-                              >
+                              <div class="swiper-button-prev">
                                 <i class="icon-arrow-left"></i>
                               </div>
-                              <div
-                                class="swiper-button-next"
-                                onClick={handleNextButtonClick}
-                              >
+                              <div class="swiper-button-next">
                                 <i class="icon-arrow-right"></i>
                               </div>
                             </div>
@@ -213,27 +182,22 @@ const AddToCartModal = ({
                               <div class="slider-product-thumb">
                                 <div class="swiper-container">
                                   <div class="swiper-wrapper">
-                                    {productData &&
-                                      productData.variantData.map(
-                                        (variantData, index) => {
-                                          const { variant } = variantData;
+                                    {selectedVariantData &&
+                                      selectedVariantData.images?.map(
+                                        (data, index) => {
+                                          const { src } = data;
                                           return (
                                             <div
                                               key={index}
                                               class="swiper-slide"
                                             >
                                               <div class="wrapper-img">
-                                                <div
-                                                  class="container-img"
-                                                  onClick={() =>
-                                                    handleImageChange(index)
-                                                  }
-                                                >
+                                                <div class="container-img">
                                                   <img
                                                     style={{
                                                       padding: "20px",
                                                     }}
-                                                    src={variant.imageSrc}
+                                                    src={RenderImage(src)}
                                                     data-preload
                                                     class="media"
                                                     alt="product"
@@ -294,27 +258,30 @@ const AddToCartModal = ({
                               class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
-                              {selectedVariant?.sku && (
+                              {selectedVariantData?.sku && (
                                 <li class="sku">
                                   <span class="specs-title">SKU</span>
                                   <span class="specs-text">
-                                    {selectedVariant && selectedVariant.sku}
+                                    {selectedVariantData &&
+                                      selectedVariantData.sku}
                                   </span>
                                 </li>
                               )}
 
-                              {selectedVariant?.size && (
+                              {selectedVariantData?.size && (
                                 <li class="size">
                                   <span class="specs-title">Size</span>
-                                  {selectedVariant && selectedVariant.size}
+                                  {selectedVariantData &&
+                                    selectedVariantData.size}
                                 </li>
                               )}
 
-                              {selectedVariant?.color && (
+                              {selectedVariantData?.color && (
                                 <li class="color">
                                   <span class="specs-title">Color</span>
                                   <span class="specs-text">
-                                    {selectedVariant && selectedVariant.color}
+                                    {selectedVariantData &&
+                                      selectedVariantData.color}
                                   </span>
                                 </li>
                               )}
@@ -341,10 +308,9 @@ const AddToCartModal = ({
                               class="list-colors"
                               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                             >
-                              {productData &&
-                                productData.variantData.map(
+                              {productFilteredVariantData &&
+                                productFilteredVariantData.map(
                                   (variantData, index) => {
-                                    const { variant } = variantData;
                                     return (
                                       <li key={index} class="list-colors-item">
                                         <div
@@ -353,7 +319,13 @@ const AddToCartModal = ({
                                             variantData.variant.color
                                           }
                                           onClick={() =>
-                                            handleImageChange(index)
+                                            handleImageChange({
+                                              index: index,
+                                              selectedVariantData:
+                                                variantData.variant,
+                                              productSnapshots:
+                                                productSnapshots,
+                                            })
                                           }
                                         >
                                           <label>
@@ -429,7 +401,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                              0 && (
+                                0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "

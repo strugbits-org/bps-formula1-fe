@@ -1,6 +1,11 @@
+import { useEffect } from "react";
 import AnimateLink from "./AnimateLink";
 
 const RequestForQuote = () => {
+  useEffect(() => {
+    document.body.setAttribute("data-form-cart-state", "success");
+  }, []);
+  
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -43,7 +48,7 @@ const RequestForQuote = () => {
                       </h2>
                       <div className="container-btn">
                         <AnimateLink
-                          to={"/account/my-account"}
+                          to={"/my-account"}
                           className="btn-small-wide btn-red btn-my-account btn-hover-black"
                           data-close-feedback
                           data-aos="fadeIn .8s ease-in-out .2s, d:loop"

@@ -5,6 +5,10 @@ import AnimateLink from "./Common/AnimateLink";
 import SuccessModal from "./Common/SuccessModal";
 import ErrorModal from "./Common/ErrorModal";
 import { SaveProductButton } from "./Common/SaveProductButton";
+import {
+  getProductSnapShots,
+  getProductVariants,
+} from "@/services/apiServices";
 
 const Search = ({
   collections,
@@ -15,6 +19,83 @@ const Search = ({
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [productSnapshots, setProductSnapshots] = useState();
+
+  const getSelectedProductSnapShots = async (productData) => {
+    setSelectedProductData(productData);
+    try {
+      const res = await getProductSnapShots(productData.product._id);
+      setProductSnapshots(res);
+
+      const productVariantsData = await getProductVariants(
+        productData.product._id
+      );
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      if (
+        filteredVariantData &&
+        filteredVariantData.length > 0 &&
+        res &&
+        res.length > 0
+      ) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: res,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+  };
   return (
     <>
       <section className="search pt-lg-150 pb-95">
@@ -133,7 +214,7 @@ const Search = ({
                         </div>
                         <btn-modal-open
                           onClick={() =>
-                            setSelectedProductData(searchedProducts[index])
+                            getSelectedProductSnapShots(searchedProducts[index])
                           }
                           group="modal-product"
                           class="modal-add-to-cart"
@@ -177,6 +258,12 @@ const Search = ({
         setProductData={setSelectedProductData}
         setErrorMessageVisible={setErrorMessageVisible}
         setSuccessMessageVisible={setSuccessMessageVisible}
+        productSnapshots={productSnapshots}
+        productFilteredVariantData={productFilteredVariantData}
+        selectedVariantData={selectedVariantData}
+        setSelectedVariantData={setSelectedVariantData}
+        handleImageChange={handleImageChange}
+        selectedVariantIndex={selectedVariantIndex}
       />
     </>
   );
