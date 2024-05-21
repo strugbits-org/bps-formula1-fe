@@ -11,7 +11,6 @@ import Breadcrumb from "../Common/BreadCrumbData";
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
-import { BestSeller } from "@/utils/BestSeller";
 import RenderImage from "@/utils/RenderImage";
 
 const ProductPost = ({
@@ -26,15 +25,13 @@ const ProductPost = ({
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);
-  console.log(productSnapshots, "productSnapshots>>");
-  console.log(selectedVariant, "selectedVariant>>");
+
   const handleImageChange = ({ index, selectedVariantData }) => {
     const selectedVariantFilteredData = productSnapshots.find(
       (variant) => variant.colorVariation === selectedVariantData.variantId
     );
 
-    console.log(selectedVariantData, "selectedVariantData data???");
-    if (selectedVariantFilteredData?.images) {
+    if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
       const combinedVariantData = {
         ...selectedVariantData,
         ...selectedVariantFilteredData,
@@ -48,11 +45,11 @@ const ProductPost = ({
         ...selectedVariantFilteredData,
         images: [{ src: selectedVariantData.imageSrc }],
       };
-      console.log(combinedVariantData, "combinedVariantData>>");
-      setSelectedVariantIndex(0);
+      setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     }
   };
+
   useEffect(() => {
     if (selectedProductDetails && productSnapshots) {
       const selectedVariantData = selectedProductDetails.variantData[0].variant;
@@ -60,7 +57,7 @@ const ProductPost = ({
         (variant) => variant.colorVariation === selectedVariantData.variantId
       );
 
-      if (selectedVariantFilteredData.images) {
+      if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
@@ -80,7 +77,6 @@ const ProductPost = ({
     }
   }, [productSnapshots, selectedProductDetails]);
 
-  
   const productFoundRedirection = (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
 
@@ -166,10 +162,7 @@ const ProductPost = ({
                 <li
                   className="wrapper-slider-product"
                   data-default-active
-                  data-get-color={
-                    selectedProductDetails.variantData[selectedVariantIndex]
-                      .variant.color
-                  }
+                  data-get-color={selectedVariant && selectedVariant.color}
                 >
                   <div className="slider-product">
                     <BestSellerTag
@@ -193,10 +186,7 @@ const ProductPost = ({
                                     : ""
                                 }`}
                               >
-                                <div
-                                  className="container-img"
-                                  // onClick={() => handleImageChange(index)}
-                                >
+                                <div className="container-img">
                                   <img
                                     style={{ padding: "100px" }}
                                     src={RenderImage(imageData.src)}
@@ -300,7 +290,7 @@ const ProductPost = ({
               <Breadcrumb selectedProductDetails={selectedProductDetails} />
 
               <div className="container-product-description">
-                <div className={`form-cart js-running  formCartMargin`}>
+                <div className={`form-cart js-running formCartMargin`}>
                   <input type="hidden" name="sku[]" value="MODCH09" />
                   <div className="wrapper-product-name">
                     <div className="container-product-name">
@@ -339,29 +329,19 @@ const ProductPost = ({
                         </span>
                       </li>
                     )}
-                    {selectedProductDetails.product.additionalInfoSections
-                      .length !== 0 && (
+
+                    {selectedVariant && selectedVariant.size && (
                       <li className="size">
                         <span className="specs-title">Size</span>
-                        {selectedProductDetails.product.additionalInfoSections.map(
-                          (data, index) => {
-                            const { title, description } = data;
-                            if (title === "Size") {
-                              return (
-                                <span
-                                  key={index}
-                                  className="specs-text"
-                                  dangerouslySetInnerHTML={{
-                                    __html: description,
-                                  }}
-                                ></span>
-                              );
-                            }
-                            return null;
-                          }
-                        )}
+                        <span
+                          className="specs-text"
+                          dangerouslySetInnerHTML={{
+                            __html: selectedVariant.size,
+                          }}
+                        ></span>
                       </li>
                     )}
+
                     {selectedVariant && selectedVariant.color && (
                       <li className="color">
                         <span className="specs-title">Color</span>
@@ -617,6 +597,7 @@ const ProductPost = ({
       {matchedProductsData.length > 0 && (
         <MatchedProducts matchedProductsData={matchedProductsData} />
       )}
+
       <OtherCollections data={collectionsData} />
     </>
   );
