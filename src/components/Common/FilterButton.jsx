@@ -1,6 +1,9 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 const FilterButton = ({ collections, colors, handleFilterChange }) => {
+  const router = useRouter();
+
   const [collectionsArray, setCollectionsArray] = useState([]);
   const [colorsArray, setColorsArray] = useState([]);
 
@@ -38,30 +41,32 @@ const FilterButton = ({ collections, colors, handleFilterChange }) => {
         <div className="wrapper-content" data-filter-area>
           <div className="wrapper-overflow">
             <form action="" className="form-filter wrapper-list-filter">
-              <div className="container-list">
-                <h3 className="filter-title">Collections</h3>
-                <div className="list-filter">
-                  {collectionsArray.map((data, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="container-checkbox list-filter-item"
-                      >
-                        <label className="checkbox-box">
-                          <input
-                            type="checkbox"
-                            required
-                            checked={data.checked || false}
-                            onChange={() => handleCollectionChange(data._id)}
-                          />
-                          <span className="checkmark"></span>
-                          <span className="filter-tag">{data.collectionName}</span>
-                        </label>
-                      </div>
-                    );
-                  })}
+              {(router.query.collection === undefined || router.query.collection === "all") && (
+                <div className="container-list">
+                  <h3 className="filter-title">Collections</h3>
+                  <div className="list-filter">
+                    {collectionsArray.map((data, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="container-checkbox list-filter-item"
+                        >
+                          <label className="checkbox-box">
+                            <input
+                              type="checkbox"
+                              required
+                              checked={data.checked || false}
+                              onChange={() => handleCollectionChange(data._id)}
+                            />
+                            <span className="checkmark"></span>
+                            <span className="filter-tag">{data.collectionName}</span>
+                          </label>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
               {colors.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Colors</h3>

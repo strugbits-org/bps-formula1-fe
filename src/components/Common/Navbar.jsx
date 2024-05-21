@@ -38,21 +38,23 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    router.push(`/collections/` + collectionSlug);
+    const queryParams = new URLSearchParams(router.query);
+    queryParams.set("collection", collectionSlug);
+    router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
   };
   const handleCategorySelection = (name, id) => {
-    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || (selectedCollection === "Collections" ? "all" : selectedCollection);
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    if (id === "all") {
+    if (id === "all" && router.query.collection === undefined) {
       router.push(`/products`);
+    } else if (id === "all" && router.query.collection !== undefined) {
+      const queryParams = new URLSearchParams(router.query);
+      router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     } else {
-      router.push(`/products?collection=${_selectedCollection}&category=${id}`);
-
-      // if (router.pathname === "/products") {
-      //   pageLoadEnd();
-      // }
+      const queryParams = new URLSearchParams(router.query);
+      queryParams.set("category", id);
+      router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     }
   };
 
@@ -111,13 +113,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               // onClick={signIn}
               className="btn-small btn-red btn-hover-white btn-sign-in"
-              // data-href="index.html#sign-in"
+            // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
@@ -154,9 +156,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -165,7 +166,6 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     setSelectedCollection("All");
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
-
                     router.push("/collections");
                   }}
                 >
@@ -207,9 +207,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
@@ -218,7 +217,6 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     handleCategorySelection("All", "all");
                     setCategoryDropdownOpen(false);
                     pageLoadStart();
-                    router.push("/products");
                   }}
                 >
                   <span className="link-dropdown cursor-pointer">
@@ -266,9 +264,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               data-search-form
             >
               <div
-                className={`container-input input-header ${
-                  searchTerm !== "" ? "preenchido" : ""
-                }`}
+                className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""
+                  }`}
               >
                 <label htmlFor="search" className="split-chars">
                   Search
