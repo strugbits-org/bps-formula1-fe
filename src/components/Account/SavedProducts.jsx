@@ -4,6 +4,10 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
 import AnimateLink from "../Common/AnimateLink";
+import {
+  getProductSnapShots,
+  getProductVariants,
+} from "@/services/apiServices";
 
 const SavedProducts = ({
   savedProductPageData,
@@ -16,6 +20,12 @@ const SavedProducts = ({
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productSnapshots, setProductSnapshots] = useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+
   const handleUnSaveProduct = (productId) => {
     setSavedProductsData((prevData) =>
       prevData.filter(
@@ -28,6 +38,77 @@ const SavedProducts = ({
     setSavedProductsData(savedProductData);
   }, [savedProductData]);
 
+  const getSelectedProductSnapShots = async (productData) => {
+    setSelectedProductData(productData);
+    try {
+      const res = await getProductSnapShots(productData.product._id);
+      setProductSnapshots(res);
+
+      const productVariantsData = await getProductVariants(
+        productData.product._id
+      );
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      if (
+        filteredVariantData &&
+        filteredVariantData.length > 0 &&
+        res &&
+        res.length > 0
+      ) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: res,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+  };
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -47,7 +128,7 @@ const SavedProducts = ({
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {savedProductData && savedProductData.length === 0 ? (
+                  {savedProductsData && savedProductsData.length === 0 ? (
                     <div style={{ margin: "20vh auto" }}>
                       <h6
                         className="fs--20 text-center split-words "
@@ -57,7 +138,7 @@ const SavedProducts = ({
                       </h6>
                     </div>
                   ) : (
-                    savedProductsData.map((productData, index) => {
+                    savedProductsData?.map((productData, index) => {
                       const { product, variantData, members } =
                         productData.data;
                       return (
@@ -162,8 +243,8 @@ const SavedProducts = ({
                               group="modal-product"
                               class="modal-add-to-cart"
                               onClick={() =>
-                                setSelectedProductData(
-                                  savedProductData[index].data
+                                getSelectedProductSnapShots(
+                                  savedProductsData[index].data
                                 )
                               }
                             >
@@ -177,7 +258,7 @@ const SavedProducts = ({
                   )}
                 </ul>
                 {totalCount > pageSize &&
-                  savedProductData.length !== totalCount && (
+                  savedProductsData.length !== totalCount && (
                     <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
                       <button
                         onClick={handleLoadMore}
@@ -209,15 +290,16 @@ const SavedProducts = ({
           setErrorMessageVisible={setErrorMessageVisible}
         />
       )}
+
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
-        setErrorMessageVisible={setErrorMessageVisible}
-        setSuccessMessageVisible={setSuccessMessageVisible}
-      />
-      <AddToCartModal
-        productData={selectedProductData}
-        setProductData={setSelectedProductData}
+        productSnapshots={productSnapshots}
+        productFilteredVariantData={productFilteredVariantData}
+        selectedVariantData={selectedVariantData}
+        setSelectedVariantData={setSelectedVariantData}
+        handleImageChange={handleImageChange}
+        selectedVariantIndex={selectedVariantIndex}
       />
     </>
   );

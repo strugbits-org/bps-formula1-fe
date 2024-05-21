@@ -21,10 +21,12 @@ const ProductPost = ({
   productSnapshots,
 }) => {
   const router = useRouter();
-  const [selectedVariant, setSelectedVariant] = useState();
+  
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [modalURL, setModalURL] = useState("");
+  const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
+  const [modalURL, setModalURL] = useState("");
+  const descriptionRef = useRef(null);
 
   const handleImageChange = ({ index, selectedVariantData }) => {
     const selectedVariantFilteredData = productSnapshots.find(
@@ -89,8 +91,6 @@ const ProductPost = ({
     router.push({ pathname: "/products", query: queryParams.toString() });
     pageLoadStart();
   };
-
-  const descriptionRef = useRef(null);
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
@@ -244,7 +244,7 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide ${
+                                  className={`swiper-slide  ${
                                     index === selectedVariantIndex
                                       ? "active"
                                       : ""
@@ -264,21 +264,19 @@ const ProductPost = ({
                                 </div>
                               );
                             })}
-                          {selectedProductDetails &&
-                            selectedProductDetails.zipUrl && (
-                              <div class="swiper-slide">
-                                <div class="wrapper-img img-3d">
-                                  <div class="container-img">
-                                    <img
-                                      src="/images/3d.svg"
-                                      data-preload
-                                      class="media"
-                                    />
-                                  </div>
-                                  <span class="hide">360</span>
-                                </div>
+
+                          <div class="swiper-slide">
+                            <div class="wrapper-img img-3d">
+                              <div class="container-img">
+                                <img
+                                  src="/images/3d.svg"
+                                  data-preload
+                                  class="media"
+                                />
                               </div>
-                            )}
+                              <span class="hide">360</span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
