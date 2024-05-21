@@ -93,6 +93,7 @@ export const changeProgress = (percent) => {
 
 export const closeFiltersModal = () => {
   if (typeof window !== "undefined") {
+    document.body.setAttribute("data-form-cart-state", "");
     const filterModal = document.querySelector(".container-filter-products");
     if (filterModal) {
       filterModal?.classList.remove("active");

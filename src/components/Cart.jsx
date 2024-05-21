@@ -3,38 +3,14 @@ import AnimateLink from "./Common/AnimateLink";
 import { useEffect, useState } from "react";
 import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { generateImageURL } from "@/utils/GenerateImageURL";
-import { AddProductToCart, getProductsCart, getProductsCartTotal, removeProductFromCart, updateCartItem, updateProductsCart } from "@/services/cartServices";
+import { AddProductToCart, createPriceQuote, getProductsCart, getProductsCartTotal, removeProductFromCart, updateCartItem, updateProductsCart } from "@/services/cartServices";
+import { extractSlugFromUrl, findColor, formatPrice } from "@/utils/utils";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const [quouteStatus, setQuouteStatus] = useState("");
 
-  const addToCart = async () => {
-    try {
-      const lineItems = [
-        {
-          catalogReference: {
-            appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
-            catalogItemId: "0825d779-f01f-4a87-9777-8a5fbf895c06",
-            options: {
-              "variantId": "e1ffe39b-7a0e-42c8-92f3-3373a5471513",
-              "customTextFields": {
-                collection: "Legacy",
-                additonalInfo: "this is additonalInfo",
-                productSlug: "/product/accent-chair-celeste",
-              }
-            }
-          },
-          quantity: 2
-        },
-      ]
-      const response = await AddProductToCart(lineItems);
-      setCartItems(response.cart.lineItems);
-      setCart(response.cart);
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
   const getCart = async () => {
     try {
       const response = await getProductsCart();
@@ -54,23 +30,6 @@ const Cart = () => {
     } catch (error) {
       console.log("error", error);
     }
-  }
-  const findColor = (descriptionLines) => {
-    return descriptionLines.filter((x) => x.colorInfo !== undefined).map((x) => x.colorInfo.original)
-  }
-  const formatPrice = (price, quantity) => {
-    const currencySymbol = price.formattedAmount.charAt(0);
-    const totalPrice = price.amount * quantity;
-    const formattedPrice = totalPrice.toFixed(2);
-    return `${currencySymbol}${formattedPrice}`;
-  }
-  function extractSlugFromUrl(url) {
-    const regex = /\/([^\/]+)\/?$/;
-    const match = regex.exec(url);
-    if (match) {
-      return match[0];
-    }
-    return "";
   }
   const updateProducts = async (id, quantity) => {
     try {
@@ -93,20 +52,20 @@ const Cart = () => {
       if (!disabled) updateProducts(id, quantity);
     }
   }
-  const handleNoteChange = async (id, value) => {
-    const updatedLineItems = cartItems.map((x) => {
-      if (id === x._id) {
-        x.catalogReference.options.customTextFields.additonalInfo = value;
-      }
-      return x;
-    });
-    setCartItems(updatedLineItems);
-  }
-  const updateLineItem = async () => {
+  const handleSubmitQuote = async () => {
     try {
-      const lineItems = cartItems.map((x) => { return { catalogReference: x.catalogReference, quantity: x.quantity } });
-      const response = await updateCartItem(lineItems);
-      setCart(response);
+      const lineItems = cartItems.map((x) => {
+        return {
+          "id": x._id,
+          "name": x.physicalProperties.sku,
+          "description": x.productName.original,
+          "price": x.price.amount,
+          "quantity": x.quantity
+        };
+      });
+      await createPriceQuote(lineItems);
+      setQuouteStatus("success");
+      updatedWatched();
     } catch (error) {
       console.log("error", error);
     }
@@ -264,6 +223,7 @@ const Cart = () => {
                   <div className="container-btn mt-md-90 mt-phone-40">
                     {cartItems.length !== 0 && (
                       <button
+                        onClick={handleSubmitQuote}
                         className="btn-medium-wide btn-red btn-hover-white"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
@@ -306,8 +266,7 @@ const Cart = () => {
           </div>
         </div>
       </section>
-
-      <RequestForQuote />
+      {quouteStatus === "success" && <RequestForQuote />}
     </>
   );
 };
