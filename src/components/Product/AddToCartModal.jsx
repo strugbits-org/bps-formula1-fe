@@ -17,6 +17,10 @@ const AddToCartModal = ({
   handleImageChange,
   selectedVariantIndex,
 }) => {
+  const [fullVariantData, setFullVariantData] = useState([]);
+  const [modalURL, setModalURL] = useState("");
+  const [cartQuantity, setCartQuantity] = useState(1);
+
   const handleClose = () => {
     setTimeout(() => {
       setProductData(null);
@@ -24,9 +28,6 @@ const AddToCartModal = ({
       setCartQuantity(1);
     }, 1000);
   };
-  const [fullVariantData, setFullVariantData] = useState([]);
-  const [modalURL, setModalURL] = useState("");
-  const [cartQuantity, setCartQuantity] = useState(1);
   useEffect(() => {
     document.querySelector(".addToCart").click();
     if (productData) {
@@ -61,10 +62,8 @@ const AddToCartModal = ({
 
     try {
       const product_id = productData.product._id;
-      const selectedVariantData = fullVariantData.find(
-        (x) => x.sku === selectedVariantData.sku
-      );
-      const variant_id = selectedVariantData._id
+      const selectedVariantFullData = fullVariantData.find((x) => x.sku === selectedVariantData.sku);
+      const variant_id = selectedVariantFullData._id
         .replace(product_id, "")
         .substring(1);
       const product = {
