@@ -26,7 +26,7 @@ export default function Page({ savedProductPageData, savedProductData }) {
   useEffect(() => {
     markPageLoaded();
   }, [])
-
+console.log(productsData, "productsData>>");
   return (
     <SavedProducts
       savedProductPageData={savedProductPageData[0]}

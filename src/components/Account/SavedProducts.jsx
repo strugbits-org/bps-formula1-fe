@@ -4,6 +4,10 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
 import AnimateLink from "../Common/AnimateLink";
+import {
+  getProductSnapShots,
+  getProductVariants,
+} from "@/services/apiServices";
 
 const SavedProducts = ({
   savedProductPageData,
@@ -12,7 +16,6 @@ const SavedProducts = ({
   pageSize,
   handleLoadMore,
 }) => {
-  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
@@ -23,11 +26,86 @@ const SavedProducts = ({
       )
     );
   };
+  console.log(savedProductData, "savedProductData>>");
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [productSnapshots, setProductSnapshots] = useState();
+  console.log(selectedVariantData, "selectedVariantData>>");
 
-  useEffect(() => {
-    setSavedProductsData(savedProductData);
-  }, [savedProductData]);
+  const getSelectedProductSnapShots = async (productData) => {
+    console.log(productData, "productData>>");
+    setSelectedProductData(productData);
+    try {
+      const res = await getProductSnapShots(productData.product._id);
+      setProductSnapshots(res);
 
+      const productVariantsData = await getProductVariants(
+        productData.product._id
+      );
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      if (
+        filteredVariantData &&
+        filteredVariantData.length > 0 &&
+        res &&
+        res.length > 0
+      ) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: res,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+  };
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -57,7 +135,7 @@ const SavedProducts = ({
                       </h6>
                     </div>
                   ) : (
-                    savedProductsData.map((productData, index) => {
+                    savedProductData?.map((productData, index) => {
                       const { product, variantData, members } =
                         productData.data;
                       return (
@@ -162,7 +240,7 @@ const SavedProducts = ({
                               group="modal-product"
                               class="modal-add-to-cart"
                               onClick={() =>
-                                setSelectedProductData(
+                                getSelectedProductSnapShots(
                                   savedProductData[index].data
                                 )
                               }
@@ -209,15 +287,16 @@ const SavedProducts = ({
           setErrorMessageVisible={setErrorMessageVisible}
         />
       )}
+
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
-        setErrorMessageVisible={setErrorMessageVisible}
-        setSuccessMessageVisible={setSuccessMessageVisible}
-      />
-      <AddToCartModal
-        productData={selectedProductData}
-        setProductData={setSelectedProductData}
+        productSnapshots={productSnapshots}
+        productFilteredVariantData={productFilteredVariantData}
+        selectedVariantData={selectedVariantData}
+        setSelectedVariantData={setSelectedVariantData}
+        handleImageChange={handleImageChange}
+        selectedVariantIndex={selectedVariantIndex}
       />
     </>
   );
