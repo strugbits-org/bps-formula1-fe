@@ -42,9 +42,7 @@ const CartModal = ({ data }) => {
                             {data &&
                               data.length > 0 &&
                               data.map((data, index) => {
-                                console.log(data, "data>>");
-                                const { name, description, price, quantity } =
-                                  data;
+                                const { name, description, price } = data;
                                 return (
                                   <li key={index} class="list-item">
                                     <input

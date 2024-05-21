@@ -17,7 +17,6 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
     return formattedDate.replace(/\d{2}/, dayWithSuffix);
   };
 
-  console.log(quotesData, "quotesData>>");
   return (
     <>
       <section className="my-account-intro section-quotes-history">
