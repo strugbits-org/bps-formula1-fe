@@ -10,7 +10,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-console.log(data, "data>>");
 const LoginUser = async (e) => {
   e.preventDefault();
   setErrorMessageVisible(false);
