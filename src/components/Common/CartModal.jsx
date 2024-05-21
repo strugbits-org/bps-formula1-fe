@@ -1,6 +1,9 @@
 import AnimateLink from "./AnimateLink";
 
-const CartModal = () => {
+const CartModal = ({ data }) => {
+  const totalPrice = data?.reduce((total, item) => {
+    return total + Number(item.price);
+  }, 0);
   return (
     <div id="reloading-area">
       <modal-group name="modal-quotes-history" class="modal-quotes-history">
@@ -23,7 +26,7 @@ const CartModal = () => {
                           </div>
                           <div class="total-price text-lg-right text-mobile-center mt-mobile-20">
                             <div class="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
-                              Total $ 9999.99*
+                              Total $ {totalPrice}*
                             </div>
                             <p class="fs--10 mt-5">
                               *Estimated value for the cart. Shipping and
@@ -36,82 +39,87 @@ const CartModal = () => {
                             class="list-cart list-cart-product"
                             data-aos="d:loop"
                           >
-                            {[1, 2, 3, 4, 5].map((data, index) => {
-                              return (
-                                <li key={index} class="list-item">
-                                  <input
-                                    type="hidden"
-                                    name="sku[]"
-                                    value="MODCH09"
-                                  />
-                                  <div class="cart-product">
-                                    <div class="container-img">
-                                      <img
-                                        src="images/products/img-01.png"
-                                        data-preload
-                                        class="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                    <div class="wrapper-product-info">
-                                      <div class="container-top">
-                                        <div class="container-product-name">
-                                          <h2 class="product-name">
-                                            Arm Chair - Tapas
-                                          </h2>
-                                          <AnimateLink
-                                            to="/products"
-                                            className="btn-view"
-                                          >
-                                            <span>View</span>
-                                            <i class="icon-arrow-right"></i>
-                                          </AnimateLink>
-                                        </div>
-                                        <div class="container-price">
-                                          <div class="price">$99.00</div>
-                                          {/* <button
+                            {data &&
+                              data.length > 0 &&
+                              data.map((data, index) => {
+                                const { name, description, price } = data;
+                                return (
+                                  <li key={index} class="list-item">
+                                    <input
+                                      type="hidden"
+                                      name="sku[]"
+                                      value="MODCH09"
+                                    />
+                                    <div class="cart-product">
+                                      <div class="container-img">
+                                        <img
+                                          src="images/products/img-01.png"
+                                          data-preload
+                                          class="media"
+                                          alt="product"
+                                        />
+                                      </div>
+                                      <div class="wrapper-product-info">
+                                        <div class="container-top">
+                                          <div class="container-product-name">
+                                            <h2 class="product-name">
+                                              {description}
+                                            </h2>
+                                            <AnimateLink
+                                              to="/products"
+                                              className="btn-view"
+                                            >
+                                              <span>View</span>
+                                              <i class="icon-arrow-right"></i>
+                                            </AnimateLink>
+                                          </div>
+                                          <div class="container-price">
+                                            <div class="price">${price}</div>
+                                            {/* <button
                                             type="button"
                                             class="btn-cancel"
                                           >
                                             <i class="icon-close"></i>
                                           </button> */}
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div class="container-specs">
-                                        <ul class="list-specs">
-                                          <li class="sku">
-                                            <span class="specs-title">SKU</span>
-                                            <span class="specs-text">
-                                              MODCH09
-                                            </span>
-                                          </li>
-                                          <li class="collection">
-                                            <span class="specs-title">
-                                              Collection
-                                            </span>
-                                            <span class="specs-text">
-                                              Paddock
-                                            </span>
-                                          </li>
-                                          <li class="color">
-                                            <span class="specs-title">
-                                              Color
-                                            </span>
-                                            <span class="specs-text">
-                                              Yellow - Birch
-                                            </span>
-                                          </li>
-                                          <li class="additional-note">
-                                            <span class="specs-title">
-                                              Additional note
-                                            </span>
-                                            <input
-                                              type="text"
-                                              placeholder="Lorem Ipsum"
-                                            />
-                                          </li>
-                                        </ul>
-                                        {/* <div class="quantity">
+                                        <div class="container-specs">
+                                          <ul class="list-specs">
+                                            <li class="sku">
+                                              <span class="specs-title">
+                                                SKU
+                                              </span>
+                                              <span class="specs-text">
+                                                {name}
+                                              </span>
+                                            </li>
+                                            <li class="collection">
+                                              <span class="specs-title">
+                                                Collection
+                                              </span>
+                                              <span class="specs-text">
+                                                Paddock
+                                              </span>
+                                            </li>
+                                            <li class="color">
+                                              <span class="specs-title">
+                                                Color
+                                              </span>
+                                              <span class="specs-text">
+                                                Yellow - Birch
+                                              </span>
+                                            </li>
+                                            {/* <li class="additional-note">
+                                              <span class="specs-title">
+                                                Additional note
+                                              </span>
+                                              <input
+                                                type="text"
+                                                placeholder="Lorem Ipsum"
+                                              />
+                                            </li> */}
+                                          </ul>
+                                          {/* <div class="quantity">
                                           <span class="fs--18 no-mobile">
                                             Quantity
                                           </span>
@@ -142,12 +150,12 @@ const CartModal = () => {
                                             </button>
                                           </div>
                                         </div> */}
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </li>
-                              );
-                            })}
+                                  </li>
+                                );
+                              })}
                           </ul>
                         </form>
                         <div class="flex-center mt-lg-65 mt-tablet-55 mt-phone-35">
