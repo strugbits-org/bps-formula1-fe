@@ -1,24 +1,17 @@
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+
+import { SaveProductButton } from "../Common/SaveProductButton";
+import ProductSnapshots from "../Common/productSnapshots";
 import OtherCollections from "../Common/OtherCollections";
+import { BestSellerTag } from "../Common/BestSellerTag";
 import MatchedProducts from "../Common/MatchedProducts";
-import AnimateLink from "../Common/AnimateLink";
-import Link from "next/link";
+import Breadcrumb from "../Common/BreadCrumbData";
+
+import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
+import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
 import RenderImage from "@/utils/RenderImage";
-import React, { useEffect, useRef, useState } from "react";
-import ProductSnapshots from "../Common/productSnapshots";
-import { useRouter } from "next/router";
-import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
-import { BestSeller } from "@/utils/BestSeller";
-import { SaveProductButton } from "../Common/SaveProductButton";
-import { AddProductToCart } from "@/services/cartServices";
-
-const breadCrumbData = [
-  { name: "Home", href: "/" },
-  { name: "Collections", href: "/collections" },
-  { name: "Collection detail", href: "/collections" },
-  { name: "Category", href: "/collections-category" },
-  { name: "Product list", href: "#" },
-];
 
 const ProductPost = ({
   productPostPageData,
@@ -27,18 +20,63 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
 }) => {
-  const [selectedVariant, setSelectedVariant] = useState(
-    selectedProductDetails.variantData[0].variant
-  );
+  const router = useRouter();
+  const [selectedVariant, setSelectedVariant] = useState();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);
 
-  const handleImageChange = (index) => {
-    setSelectedVariantIndex(index);
-    setSelectedVariant(selectedProductDetails.variantData[index].variant);
+  const handleImageChange = ({ index, selectedVariantData }) => {
+    const selectedVariantFilteredData = productSnapshots.find(
+      (variant) => variant.colorVariation === selectedVariantData.variantId
+    );
+
+    if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+      const combinedVariantData = {
+        ...selectedVariantData,
+        ...selectedVariantFilteredData,
+      };
+
+      setSelectedVariantIndex(index);
+      setSelectedVariant(combinedVariantData);
+    } else {
+      const combinedVariantData = {
+        ...selectedVariantData,
+        ...selectedVariantFilteredData,
+        images: [{ src: selectedVariantData.imageSrc }],
+      };
+      setSelectedVariantIndex(index);
+      setSelectedVariant(combinedVariantData);
+    }
   };
-  const router = useRouter();
+
+  useEffect(() => {
+    if (selectedProductDetails && productSnapshots) {
+      const selectedVariantData = selectedProductDetails.variantData[0].variant;
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      }
+    }
+  }, [productSnapshots, selectedProductDetails]);
+
   const productFoundRedirection = (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
 
@@ -50,37 +88,6 @@ const ProductPost = ({
     queryParams.delete("slug");
     router.push({ pathname: "/products", query: queryParams.toString() });
     pageLoadStart();
-  };
-  const handleColorSelect = (index) => {
-    setSelectedVariantIndex(index);
-    setSelectedVariant(selectedProductDetails.variantData[index].variant);
-  };
-
-  function findUseCaseImages(array, variantId) {
-    for (let item of array) {
-      if (item.colorVariation === variantId) {
-        return item.usecaseImages;
-      }
-    }
-    return null;
-  }
-
-  const productSnapShots = findUseCaseImages(
-    productSnapshots,
-    selectedVariant.variantId
-  );
-
-  const handlePrevButtonClick = () => {
-    const prevIndex =
-      (selectedVariantIndex - 1 + selectedProductDetails.variantData.length) %
-      selectedProductDetails.variantData.length;
-    handleImageChange(prevIndex);
-  };
-
-  const handleNextButtonClick = () => {
-    const nextIndex =
-      (selectedVariantIndex + 1) % selectedProductDetails.variantData.length;
-    handleImageChange(nextIndex);
   };
 
   const descriptionRef = useRef(null);
@@ -101,34 +108,39 @@ const ProductPost = ({
       );
     }
   }, [productData]);
+
   const seatHeightData =
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
     );
+
   const handleQuantityChange = async (value) => {
     if (value < 10000 && value > 0) {
       setCartQuantity(value);
     }
-  }
+  };
+
   const handleAddToCart = async () => {
     try {
       pageLoadStart();
       const product_id = selectedProductDetails.product._id;
-      const variant_id = selectedVariant.variantId.replace(product_id, "").substring(1);
+      const variant_id = selectedVariant.variantId
+        .replace(product_id, "")
+        .substring(1);
       const product = {
         catalogReference: {
           appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
           catalogItemId: product_id,
           options: {
-            "variantId": variant_id,
-            "customTextFields": {
+            variantId: variant_id,
+            customTextFields: {
               collection: selectedProductDetails.f1Collection.collectionName,
               additonalInfo: "",
-            }
-          }
+            },
+          },
         },
-        quantity: cartQuantity
-      }
+        quantity: cartQuantity,
+      };
       await AddProductToCart([product]);
       router.push("/cart");
     } catch (error) {
@@ -150,21 +162,21 @@ const ProductPost = ({
                 <li
                   className="wrapper-slider-product"
                   data-default-active
-                  data-get-color={
-                    selectedProductDetails.variantData[selectedVariantIndex]
-                      .variant.color
-                  }
+                  data-get-color={selectedVariant && selectedVariant.color}
                 >
                   <div className="slider-product">
-                    {BestSeller[selectedProductDetails.category._id] && (
-                      <div class="best-seller-tag">
-                        <span>Best Seller</span>
-                      </div>
-                    )}
+                    <BestSellerTag
+                      subCategory={
+                        selectedProductDetails &&
+                        selectedProductDetails.subCategory
+                      }
+                      className="best-seller-tag"
+                    />
+
                     <div className="swiper-container">
                       <div className="swiper-wrapper">
-                        {selectedProductDetails.variantData.map(
-                          (variantData, index) => {
+                        {selectedVariant &&
+                          selectedVariant.images?.map((imageData, index) => {
                             return (
                               <div
                                 key={index}
@@ -174,13 +186,10 @@ const ProductPost = ({
                                     : ""
                                 }`}
                               >
-                                <div
-                                  className="container-img"
-                                  onClick={() => handleImageChange(index)}
-                                >
+                                <div className="container-img">
                                   <img
                                     style={{ padding: "100px" }}
-                                    src={variantData.variant.imageSrc}
+                                    src={RenderImage(imageData.src)}
                                     data-preload
                                     className="media"
                                     alt={`product-${index}`}
@@ -188,8 +197,8 @@ const ProductPost = ({
                                 </div>
                               </div>
                             );
-                          }
-                        )}
+                          })}
+
                         {modalURL ? (
                           <div className="swiper-slide slide-360">
                             <i className="icon-360"></i>
@@ -217,16 +226,10 @@ const ProductPost = ({
                         )}
                       </div>
                     </div>
-                    <div
-                      className="swiper-button-prev"
-                      onClick={handlePrevButtonClick}
-                    >
+                    <div className="swiper-button-prev">
                       <i className="icon-arrow-left"></i>
                     </div>
-                    <div
-                      className="swiper-button-next"
-                      onClick={handleNextButtonClick}
-                    >
+                    <div className="swiper-button-next">
                       <i className="icon-arrow-right"></i>
                     </div>
                   </div>
@@ -235,31 +238,32 @@ const ProductPost = ({
                     <div className="slider-product-thumb">
                       <div className="swiper-container">
                         <div className="swiper-wrapper">
-                          {selectedProductDetails.variantData.map(
-                            (variantData, index) => (
-                              <div
-                                key={index}
-                                className={`swiper-slide ${
-                                  index === selectedVariantIndex ? "active" : ""
-                                }`}
-                              >
-                                <div className="wrapper-img">
-                                  <div
-                                    className="container-img"
-                                    onClick={() => handleImageChange(index)}
-                                  >
-                                    <img
-                                      style={{ padding: "20px" }}
-                                      src={variantData.variant.imageSrc}
-                                      data-preload
-                                      className="media"
-                                      alt={`product-thumb-${index}`}
-                                    />
+                          {selectedVariant &&
+                            selectedVariant.images?.map((data, index) => {
+                              const { src } = data;
+                              return (
+                                <div
+                                  key={index}
+                                  className={`swiper-slide ${
+                                    index === selectedVariantIndex
+                                      ? "active"
+                                      : ""
+                                  }`}
+                                >
+                                  <div className="wrapper-img">
+                                    <div className="container-img">
+                                      <img
+                                        style={{ padding: "20px" }}
+                                        src={RenderImage(src)}
+                                        data-preload
+                                        className="media"
+                                        alt={`product-thumb-${index}`}
+                                      />
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            )
-                          )}
+                              );
+                            })}
                           {selectedProductDetails &&
                             selectedProductDetails.zipUrl && (
                               <div class="swiper-slide">
@@ -283,20 +287,10 @@ const ProductPost = ({
               </ul>
             </div>
             <div className="col-lg-3 column-2 mt-tablet-20 mt-phone-10">
-              <ul className="list-breadcrumb" data-aos="fadeIn .8s ease-in-out">
-                {breadCrumbData.map((data, index) => {
-                  const { name, href } = data;
-                  return (
-                    <li key={index} className="list-breadcrumb-item">
-                      <AnimateLink to={href} className="breadcrumb">
-                        <span>{name}</span>
-                      </AnimateLink>
-                    </li>
-                  );
-                })}
-              </ul>
+              <Breadcrumb selectedProductDetails={selectedProductDetails} />
+
               <div className="container-product-description">
-                <div className="form-cart js-running">
+                <div className={`form-cart js-running formCartMargin`}>
                   <input type="hidden" name="sku[]" value="MODCH09" />
                   <div className="wrapper-product-name">
                     <div className="container-product-name">
@@ -327,42 +321,32 @@ const ProductPost = ({
                     className="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    {selectedVariant.sku && (
+                    {selectedVariant && selectedVariant.sku && (
                       <li className="sku">
                         <span className="specs-title">SKU</span>
                         <span className="specs-text">
-                          {selectedVariant.sku}
+                          {selectedVariant && selectedVariant.sku}
                         </span>
                       </li>
                     )}
-                    {selectedProductDetails.product.additionalInfoSections
-                      .length !== 0 && (
+
+                    {selectedVariant && selectedVariant.size && (
                       <li className="size">
                         <span className="specs-title">Size</span>
-                        {selectedProductDetails.product.additionalInfoSections.map(
-                          (data, index) => {
-                            const { title, description } = data;
-                            if (title === "Size") {
-                              return (
-                                <span
-                                  key={index}
-                                  className="specs-text"
-                                  dangerouslySetInnerHTML={{
-                                    __html: description,
-                                  }}
-                                ></span>
-                              );
-                            }
-                            return null;
-                          }
-                        )}
+                        <span
+                          className="specs-text"
+                          dangerouslySetInnerHTML={{
+                            __html: selectedVariant.size,
+                          }}
+                        ></span>
                       </li>
                     )}
-                    {selectedVariant.color && (
+
+                    {selectedVariant && selectedVariant.color && (
                       <li className="color">
                         <span className="specs-title">Color</span>
                         <span className="specs-text">
-                          {selectedVariant.color}
+                          {selectedVariant && selectedVariant.color}
                         </span>
                       </li>
                     )}
@@ -390,33 +374,40 @@ const ProductPost = ({
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
                     {selectedProductDetails.variantData.map(
-                      (variantData, index) => (
-                        <li key={index} className="list-colors-item">
-                          <div
-                            className="container-input"
-                            data-set-color={variantData.variant.color}
-                            onClick={() => handleImageChange(index)}
-                          >
-                            <label>
-                              <input
-                                type="radio"
-                                name="colors"
-                                value={variantData.variant.color}
-                                checked={index === selectedVariantIndex}
-                                readOnly
-                              />
-                              <div className="container-img">
-                                <img
-                                  src={variantData.variant.imageSrc}
-                                  data-preload
-                                  className="media"
-                                  alt="pro-product"
+                      (variantData, index) => {
+                        return (
+                          <li key={index} className="list-colors-item">
+                            <div
+                              className="container-input"
+                              data-set-color={variantData.variant.color}
+                              onClick={() =>
+                                handleImageChange({
+                                  index: index,
+                                  selectedVariantData: variantData.variant,
+                                })
+                              }
+                            >
+                              <label>
+                                <input
+                                  type="radio"
+                                  name="colors"
+                                  value={variantData.variant.color}
+                                  checked={index === selectedVariantIndex}
+                                  readOnly
                                 />
-                              </div>
-                            </label>
-                          </div>
-                        </li>
-                      )
+                                <div className="container-img">
+                                  <img
+                                    src={variantData.variant.imageSrc}
+                                    data-preload
+                                    className="media"
+                                    alt="pro-product"
+                                  />
+                                </div>
+                              </label>
+                            </div>
+                          </li>
+                        );
+                      }
                     )}
                   </ul>
                   <div
@@ -599,13 +590,14 @@ const ProductPost = ({
         </div>
       </section>
 
-      {productSnapShots && productSnapShots.length > 0 && (
-        <ProductSnapshots data={productSnapShots} />
+      {selectedVariant && selectedVariant.usecaseImages?.length > 0 && (
+        <ProductSnapshots data={selectedVariant.usecaseImages} />
       )}
 
       {matchedProductsData.length > 0 && (
         <MatchedProducts matchedProductsData={matchedProductsData} />
       )}
+
       <OtherCollections data={collectionsData} />
     </>
   );

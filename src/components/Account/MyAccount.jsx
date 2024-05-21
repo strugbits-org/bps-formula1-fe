@@ -27,10 +27,8 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
     hospitalityLoc: "",
   });
   const [isOtherSelected, setIsOtherSelected] = useState(false);
-  console.log(formData, "formData>>");
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(value, "handleChange value>>");
     setFormData({
       ...formData,
       [name]: value,
@@ -39,7 +37,6 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
 
   const handleSelectChange = (e) => {
     const value = e.target.innerText.toLowerCase();
-    console.log(value, "handleSelectChange value>>");
     if (value === "other") {
       setIsOtherSelected(true);
       setFormData({
