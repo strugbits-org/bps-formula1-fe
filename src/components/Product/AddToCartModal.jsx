@@ -66,14 +66,15 @@ const AddToCartModal = ({
       const variant_id = selectedVariantFullData._id
         .replace(product_id, "")
         .substring(1);
-      const product = {
+
+        const product = {
         catalogReference: {
           appId: "215238eb-22a5-4c36-9e7b-e7c08025e04e",
           catalogItemId: product_id,
           options: {
             variantId: variant_id,
             customTextFields: {
-              collection: productData.f1Collection.collectionName,
+              collection: productData.f1Collection?.collectionName || "",
               additonalInfo: "",
             },
           },

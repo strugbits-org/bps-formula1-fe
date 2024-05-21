@@ -133,7 +133,7 @@ export const fetchSearchData = async (collections, colors, searchTerm) => {
 
     const options = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", 'subCategory'],
+      includeReferencedItems: ["category", "product", 'subCategory',"f1Collection"],
       "returnTotalCount": true,
     };
 
