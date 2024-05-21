@@ -24,7 +24,6 @@ const AddToCartModal = ({
       setCartQuantity(1);
     }, 1000);
   };
-  console.log(productFilteredVariantData, "log from cart");
   const [fullVariantData, setFullVariantData] = useState([]);
   const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);

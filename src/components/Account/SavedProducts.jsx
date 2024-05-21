@@ -16,9 +16,16 @@ const SavedProducts = ({
   pageSize,
   handleLoadMore,
 }) => {
+  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productSnapshots, setProductSnapshots] = useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+
   const handleUnSaveProduct = (productId) => {
     setSavedProductsData((prevData) =>
       prevData.filter(
@@ -26,16 +33,12 @@ const SavedProducts = ({
       )
     );
   };
-  console.log(savedProductData, "savedProductData>>");
-  const [selectedVariantData, setSelectedVariantData] = useState(null);
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
-  const [productSnapshots, setProductSnapshots] = useState();
-  console.log(selectedVariantData, "selectedVariantData>>");
+
+  useEffect(() => {
+    setSavedProductsData(savedProductData);
+  }, [savedProductData]);
 
   const getSelectedProductSnapShots = async (productData) => {
-    console.log(productData, "productData>>");
     setSelectedProductData(productData);
     try {
       const res = await getProductSnapShots(productData.product._id);
@@ -125,7 +128,7 @@ const SavedProducts = ({
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {savedProductData && savedProductData.length === 0 ? (
+                  {savedProductsData && savedProductsData.length === 0 ? (
                     <div style={{ margin: "20vh auto" }}>
                       <h6
                         className="fs--20 text-center split-words "
@@ -135,7 +138,7 @@ const SavedProducts = ({
                       </h6>
                     </div>
                   ) : (
-                    savedProductData?.map((productData, index) => {
+                    savedProductsData?.map((productData, index) => {
                       const { product, variantData, members } =
                         productData.data;
                       return (
@@ -241,7 +244,7 @@ const SavedProducts = ({
                               class="modal-add-to-cart"
                               onClick={() =>
                                 getSelectedProductSnapShots(
-                                  savedProductData[index].data
+                                  savedProductsData[index].data
                                 )
                               }
                             >
@@ -255,7 +258,7 @@ const SavedProducts = ({
                   )}
                 </ul>
                 {totalCount > pageSize &&
-                  savedProductData.length !== totalCount && (
+                  savedProductsData.length !== totalCount && (
                     <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
                       <button
                         onClick={handleLoadMore}
