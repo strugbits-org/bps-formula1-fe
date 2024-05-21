@@ -10,6 +10,7 @@ const Cart = () => {
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
   const [quouteStatus, setQuouteStatus] = useState("");
+  const [cartProcessing, setCartProcessing] = useState(false);
 
   const getCart = async () => {
     try {
@@ -54,6 +55,8 @@ const Cart = () => {
   }
   const handleSubmitQuote = async () => {
     try {
+      setCartProcessing(true);
+      updatedWatched();
       const lineItems = cartItems.map((x) => {
         return {
           "id": x._id,
@@ -65,9 +68,11 @@ const Cart = () => {
       });
       await createPriceQuote(lineItems);
       setQuouteStatus("success");
-      updatedWatched();
     } catch (error) {
       console.log("error", error);
+    }finally{
+      updatedWatched();
+      setCartProcessing(false);
     }
   }
 
@@ -224,11 +229,11 @@ const Cart = () => {
                     {cartItems.length !== 0 && (
                       <button
                         onClick={handleSubmitQuote}
-                        className="btn-medium-wide btn-red btn-hover-white"
+                        className={`btn-medium-wide btn-red btn-hover-white ${cartProcessing ? "events-disabled" : ""}`}
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
-                          <span>Request for quote</span>
+                          <span>{cartProcessing ? "Requesting for quote...": "Request for quote"}</span>
                         </div>
                       </button>
                     )}
