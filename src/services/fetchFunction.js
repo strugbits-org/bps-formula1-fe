@@ -155,6 +155,7 @@ export const listProducts = async (
       query = query.hasSome("subCategory", categories);
     }
 
+    console.log("filter tree", query.filterTree);
     const response = await query.limit(pageSize).skip(skip).find();
     return response;
   } catch (error) {

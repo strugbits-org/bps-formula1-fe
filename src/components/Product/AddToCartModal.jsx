@@ -63,7 +63,6 @@ const AddToCartModal = ({
     try {
       const product_id = productData.product._id;
       const selectedVariantFullData = fullVariantData.find((x) => x.sku === selectedVariantData.sku);
-      console.log("productData", productData);
       const variant_id = selectedVariantFullData._id
         .replace(product_id, "")
         .substring(1);

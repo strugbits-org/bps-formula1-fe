@@ -29,8 +29,8 @@ const Products = ({
   totalCount,
   pageSize,
   handleLoadMore,
-  setSelectedColors,
-  setSelectedCollections,
+  setFilterColors,
+  setfilterCollections,
 }) => {
   const router = useRouter();
   const { memberId } = useUserData();
@@ -40,8 +40,7 @@ const Products = ({
   const [mainCategories, setMainCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] = useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -148,7 +147,6 @@ const Products = ({
       if (selectedCollection.length !== 0) {
         collectionIds = selectedCollection.map((x) => x._id);
       }
-      console.log("collectionIds", collectionIds);
       const categories = await getCategoriesData(collectionIds);
       setMainCategories(categories);
     };
@@ -160,8 +158,8 @@ const Products = ({
   }, [router]);
 
   const handleFilterChange = (collections, colors) => {
-    setSelectedColors(colors);
-    setSelectedCollections(collections);
+    setFilterColors(colors);
+    setfilterCollections(collections);
   };
 
   return (

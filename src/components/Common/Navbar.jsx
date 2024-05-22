@@ -40,6 +40,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     pageLoadStart();
     const queryParams = new URLSearchParams(router.query);
     queryParams.set("collection", collectionSlug);
+    queryParams.delete("category");
+    queryParams.delete("subCategory");
     router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
   };
   const handleCategorySelection = (name, id) => {
@@ -51,10 +53,12 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     } else if (id === "all" && router.query.collection !== undefined) {
       const queryParams = new URLSearchParams(router.query);
       queryParams.delete("category");
+      queryParams.delete("subCategory");
       router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     } else {
       const queryParams = new URLSearchParams(router.query);
       queryParams.set("category", id);
+      queryParams.delete("subCategory");
       router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     }
   };

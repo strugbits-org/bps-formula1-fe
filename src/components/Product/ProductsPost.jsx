@@ -86,8 +86,6 @@ const ProductPost = ({
     const queryParams = new URLSearchParams(router.query);
 
     const categoryId = selectedProductDetails.category._id;
-    const collectionSlug = selectedProductDetails.f1Collection.collectionSlug;
-    queryParams.set("collection", collectionSlug);
     queryParams.set("category", categoryId);
     queryParams.set("subCategories", JSON.stringify([subCategoryId]));
     queryParams.delete("slug");
