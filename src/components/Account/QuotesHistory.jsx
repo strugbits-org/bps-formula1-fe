@@ -2,9 +2,8 @@ import { useState } from "react";
 import AnimateLink from "../Common/AnimateLink";
 import CartModal from "../Common/CartModal";
 
-const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
-  const [itemData, setItemData] = useState();
-  const formatCustomDate = (dateString) => {
+export const formatCustomDate = (dateString) => {
+  if (dateString) {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "long", day: "2-digit" };
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
@@ -15,8 +14,11 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
     const dayWithSuffix = `${day < 10 ? "0" : ""}${day}h`;
 
     return formattedDate.replace(/\d{2}/, dayWithSuffix);
-  };
-
+  }
+};
+const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
+  const [itemData, setItemData] = useState();
+  console.log(quotesData, "quotesData>>");
   return (
     <>
       <section className="my-account-intro section-quotes-history">
@@ -45,7 +47,7 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                   quotesData.map((quote, index) => {
                     const { data } = quote;
                     const totalPrice = data.lineItems.reduce((total, item) => {
-                      return total + Number(item.price);
+                      return total + Number(item.price) * item.quantity;
                     }, 0);
 
                     const issueDate = formatCustomDate(data.dates.issueDate);
@@ -63,7 +65,7 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                               group="modal-quotes-history"
                               class="btn-small btn-white-red btn-hover-red-white"
                               onClick={() =>
-                                setItemData(quotesData[index].data.lineItems)
+                                setItemData(quotesData[index].data)
                               }
                             >
                               <div class="split-chars">
@@ -91,7 +93,7 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
         </div>
       </section>
 
-      <CartModal data={itemData} />
+      <CartModal data={itemData} title={quoteHistoryPageData.pageTitle} />
     </>
   );
 };

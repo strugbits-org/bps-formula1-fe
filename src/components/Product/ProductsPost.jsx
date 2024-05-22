@@ -28,9 +28,6 @@ const ProductPost = ({
   const [modalURL, setModalURL] = useState("");
   const descriptionRef = useRef(null);
 
-console.log(modalURL, "modalURL>>");
-console.log(selectedProductDetails, "selectedProductDetails>>");
-
 const handleImageChange = ({ index, selectedVariantData }) => {
   const selectedVariantFilteredData = productSnapshots.find(
     (variant) => variant.colorVariation === selectedVariantData.variantId

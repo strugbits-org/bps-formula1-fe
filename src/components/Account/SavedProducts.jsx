@@ -63,12 +63,7 @@ const SavedProducts = ({
           });
       }
       setProductFilteredVariantData(filteredVariantData);
-      if (
-        filteredVariantData &&
-        filteredVariantData.length > 0 &&
-        res &&
-        res.length > 0
-      ) {
+      if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
@@ -150,11 +145,6 @@ const SavedProducts = ({
                             data-product-colors
                           >
                             <div className="container-tags">
-                              {/* <SaveProductButton
-                                productId={product._id}
-                                members={members}
-                              /> */}
-
                               <SaveProductButton
                                 productId={product._id}
                                 members={members}
