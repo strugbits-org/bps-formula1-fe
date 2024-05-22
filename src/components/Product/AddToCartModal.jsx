@@ -68,6 +68,7 @@ const AddToCartModal = ({
       const variant_id = selectedVariantFullData._id
         .replace(product_id, "")
         .substring(1);
+      const collection = productData.f1Collection.map(x => x.collectionName).join(" - ");
 
       const product = {
         catalogReference: {
@@ -76,7 +77,7 @@ const AddToCartModal = ({
           options: {
             variantId: variant_id,
             customTextFields: {
-              collection: productData.f1Collection?.collectionName || "",
+              collection: collection,
               additonalInfo: "",
             },
           },
@@ -403,7 +404,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                                0 && (
+                              0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "
