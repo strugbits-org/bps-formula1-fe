@@ -90,7 +90,13 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                 className="list-quotes-history mt-lg-70 mt-mobile-30"
                 data-aos="d:loop"
               >
-                {quotesData &&
+                {quotesData && quotesData.length === 0 ? (
+                  <div style={{ margin: "20vh auto" }}>
+                    <h6 className="fs--20 text-center split-words ">
+                      No Quote History Found
+                    </h6>
+                  </div>
+                ) : (
                   quotesData.map((quote, index) => {
                     const { data } = quote;
                     const totalPrice = data.lineItems.reduce((total, item) => {
@@ -132,7 +138,8 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                         </div>
                       </li>
                     );
-                  })}
+                  })
+                )}
               </ul>
             </div>
           </div>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import AddToCartModal from "../Product/AddToCartModal";
+
 import { SaveProductButton } from "../Common/SaveProductButton";
+import AddToCartModal from "../Product/AddToCartModal";
 import SuccessModal from "../Common/SuccessModal";
-import ErrorModal from "../Common/ErrorModal";
 import AnimateLink from "../Common/AnimateLink";
+import ErrorModal from "../Common/ErrorModal";
 import {
   getProductSnapShots,
   getProductVariants,
@@ -104,6 +105,7 @@ const SavedProducts = ({
       }
     }
   };
+
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -125,10 +127,7 @@ const SavedProducts = ({
                 >
                   {savedProductsData && savedProductsData.length === 0 ? (
                     <div style={{ margin: "20vh auto" }}>
-                      <h6
-                        className="fs--20 text-center split-words "
-                        data-aos="d:loop"
-                      >
+                      <h6 className="fs--20 text-center split-words ">
                         No Products Found
                       </h6>
                     </div>
