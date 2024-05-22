@@ -307,7 +307,7 @@ const Products = ({
                           <input
                             type="text"
                             className="copy-link-url"
-                            value="MODCH39"
+                            value={defaultVariantSku}
                             style={{
                               position: "absolute",
                               opacity: 0,

@@ -49,7 +49,6 @@ export const getServerSideProps = async (context) => {
     productVariantsData = await getProductVariants(selectedProductId);
     dataMap = new Map(productVariantsData.map((item) => [item.sku, item]));
   }
-
   const [
     productPostPageData,
     selectedProductDetails,
@@ -76,11 +75,15 @@ export const getServerSideProps = async (context) => {
         return false;
       });
   }
+
+  const filteredMatchedProductsData = matchedProductsData.filter(
+    (item) => item.isF1
+  );
   return {
     props: {
       productPostPageData,
       selectedProductDetails,
-      matchedProductsData,
+      matchedProductsData: filteredMatchedProductsData,
       collectionsData,
       productSnapshots,
     },
