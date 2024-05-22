@@ -11,6 +11,7 @@ import {
   getSelectedProductId,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { redirect } from 'next/navigation';
 
 export default function Page({
   productPostPageData,
@@ -62,6 +63,14 @@ export const getServerSideProps = async (context) => {
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
   ]);
+  if (selectedProductDetails.length === 0) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404"
+      }
+    }
+  }
 
   let filteredVariantData;
   if (productVariantsData && selectedProductDetails) {
