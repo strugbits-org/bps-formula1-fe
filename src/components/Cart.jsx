@@ -63,14 +63,15 @@ const Cart = () => {
           "name": x.physicalProperties.sku,
           "description": x.productName.original,
           "price": x.price.amount,
-          "quantity": x.quantity
+          "quantity": x.quantity,
+          "fullItem": x
         };
       });
       await createPriceQuote(lineItems);
       setQuouteStatus("success");
     } catch (error) {
       console.log("error", error);
-    }finally{
+    } finally {
       updatedWatched();
       setCartProcessing(false);
     }
@@ -233,7 +234,7 @@ const Cart = () => {
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
-                          <span>{cartProcessing ? "Requesting for quote...": "Request for quote"}</span>
+                          <span>{cartProcessing ? "Requesting for quote..." : "Request for quote"}</span>
                         </div>
                       </button>
                     )}
