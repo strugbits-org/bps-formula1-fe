@@ -18,8 +18,8 @@ const AddToCartModal = ({
   selectedVariantIndex,
 }) => {
   const [fullVariantData, setFullVariantData] = useState([]);
-  const [modalURL, setModalURL] = useState("");
   const [cartQuantity, setCartQuantity] = useState(1);
+  const [modalURL, setModalURL] = useState("");
 
   const handleClose = () => {
     setTimeout(() => {
@@ -28,6 +28,8 @@ const AddToCartModal = ({
       setCartQuantity(1);
     }, 1000);
   };
+
+  
   useEffect(() => {
     document.querySelector(".addToCart").click();
     if (productData) {

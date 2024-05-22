@@ -127,7 +127,7 @@ export const getPairItWithProductsId = (slug) =>
 export const getPairItWithProducts = (productId) =>
   fetchPairItWithProducts(
     "locationFilteredVariant",
-    ["category", "product", "subCategory"],
+    ["category", "product", "subCategory", "f1Collection"],
     productId
   );
 export const getProductVariants = (selectedProductId) =>

@@ -4,11 +4,98 @@ import AnimateLink from "./AnimateLink";
 import { BestSeller } from "@/utils/BestSeller";
 import ErrorModal from "./ErrorModal";
 import SuccessModal from "./SuccessModal";
+import {
+  getProductSnapShots,
+  getProductVariants,
+} from "@/services/apiServices";
+import useUserData from "@/hooks/useUserData";
+import { BestSellerTag } from "./BestSellerTag";
+import { SaveProductButton } from "./SaveProductButton";
 
 const MatchedProducts = ({ matchedProductsData }) => {
+  const { memberId } = useUserData();
+
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState(null);
+
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [productSnapshots, setProductSnapshots] = useState();
+
+  const getSelectedProductSnapShots = async (productData) => {
+    setSelectedProductData(productData);
+    try {
+      const res = await getProductSnapShots(productData.product._id);
+      setProductSnapshots(res);
+
+      const productVariantsData = await getProductVariants(
+        productData.product._id
+      );
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      if (filteredVariantData && filteredVariantData.length > 0) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: res,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
+
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+        };
+
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+  };
+
+  const handleImageHover = (variantData) => {
+    setSelectedVariant(variantData.variant);
+  };
   return (
     <>
       <section className="product-post-match pt-lg-90 pt-tablet-95 pt-phone-70">
@@ -26,7 +113,21 @@ const MatchedProducts = ({ matchedProductsData }) => {
                   <div className="swiper-wrapper">
                     {matchedProductsData &&
                       matchedProductsData.map((data, index) => {
-                        const { variantData, product, category } = data;
+                        const { product, variantData, members, subCategory } =
+                          data;
+
+                        let defaultVariantSku;
+                        if (selectedVariant === null) {
+                          setSelectedVariant(variantData);
+                        }
+                        if (selectedVariant) {
+                          const defaultVariant = variantData.find(
+                            (variant) => variant.sku === selectedVariant.sku
+                          );
+                          defaultVariantSku = defaultVariant
+                            ? defaultVariant.sku
+                            : variantData[0].sku;
+                        }
                         return (
                           <div
                             key={index}
@@ -40,24 +141,21 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               data-product-colors
                             >
                               <div className="container-tags">
-                                {BestSeller[category._id] && (
-                                  <div className="best-seller">
-                                    <span>Best Seller</span>
-                                  </div>
-                                )}
-                                <button className="btn-bookmark">
-                                  <i className="icon-bookmark"></i>
-                                </button>
+                                <BestSellerTag subCategory={subCategory} />
+                                <SaveProductButton
+                                  productId={product._id}
+                                  members={members}
+                                />
                               </div>
                               <div className="container-copy">
-                                <a href="/#" className="btn-copy copy-link">
-                                  <span>MODCH39</span>
+                                <button className="btn-copy copy-link">
+                                  <span>{defaultVariantSku}</span>
                                   <i className="icon-copy"></i>
-                                </a>
+                                </button>
                                 <input
                                   type="text"
                                   className="copy-link-url"
-                                  value="MODCH39"
+                                  value={defaultVariantSku}
                                   style={{
                                     position: "absolute",
                                     opacity: 0,
@@ -138,6 +236,9 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                           data-set-product-link-color={
                                             variantData.color[0]
                                           }
+                                          onMouseEnter={() =>
+                                            handleImageHover(variantData)
+                                          }
                                           data-default-product-link-active={
                                             index === 0
                                           }
@@ -164,7 +265,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               </div>
                               <btn-modal-open
                                 onClick={() =>
-                                  setSelectedProductData(
+                                  getSelectedProductSnapShots(
                                     matchedProductsData[index]
                                   )
                                 }
@@ -206,11 +307,18 @@ const MatchedProducts = ({ matchedProductsData }) => {
           setErrorMessageVisible={setErrorMessageVisible}
         />
       )}
+
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
         setErrorMessageVisible={setErrorMessageVisible}
         setSuccessMessageVisible={setSuccessMessageVisible}
+        productSnapshots={productSnapshots}
+        productFilteredVariantData={productFilteredVariantData}
+        selectedVariantData={selectedVariantData}
+        setSelectedVariantData={setSelectedVariantData}
+        handleImageChange={handleImageChange}
+        selectedVariantIndex={selectedVariantIndex}
       />
     </>
   );

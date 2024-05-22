@@ -9,7 +9,6 @@ const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   const { firstName, lastName, company, hospitalityLoc, phone, email } =
     useUserData();
-    console.log(myAccountPageData, "myAccountPageData>");
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessageVisible, setSuccessMessageVisible] = useState(false);
     const [errorMessageVisible, setErrorMessageVisible] = useState(false);
