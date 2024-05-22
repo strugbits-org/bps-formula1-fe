@@ -1,6 +1,5 @@
-import Navbar from "@/components/Common/Navbar";
 import { useRouter } from "next/router";
-import Loader from "@/components/Common/Loader";
+
 import {
   getCategoriesData,
   getCollectionsData,
@@ -10,11 +9,14 @@ import {
   getHomePageData,
 } from "@/services/apiServices";
 
+import Account from "@/components/Account/Index";
+import Navbar from "@/components/Common/Navbar";
+import Loader from "@/components/Common/Loader";
+import Footer from "@/components/Common/Footer";
+import { getUserAuth } from "@/utils/GetUser";
+
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
-import Footer from "@/components/Common/Footer";
-// import { markPageLoaded } from "@/utils/AnimationFunctions";
-import Account from "@/components/Account/Index";
 
 export default function App({
   Component,
@@ -30,16 +32,26 @@ export default function App({
   const pathname =
     router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
   const cleanPath = pathname.split("/")[0].trim();
-  // markPageLoaded();
+
   if (typeof document !== "undefined") {
-    const loggedIn = document.cookie
-      .split(";")
-      .some((item) => item.trim().startsWith("authToken"));
+    const loggedIn = getUserAuth();
 
     if (loggedIn) {
       document.body.setAttribute("data-login-state", "logged");
     }
   }
+
+  // const handleNavigationChange = (event) => {
+  //   pageLoadStart();
+
+  //   console.log("Navigated to:", window.location.pathname);
+  //   setTimeout(() => {
+  //     pageLoadEnd();
+  //   }, 900);
+  // };
+
+  // useNavigationDetection(handleNavigationChange);
+
   return (
     <div>
       <Loader />
@@ -51,7 +63,11 @@ export default function App({
       />
       <Account />
       <div id="main-transition">
-        <div id={`pg-${cleanPath === "404" ? "error" : cleanPath}`} className="wrapper" data-scroll-container>
+        <div
+          id={`pg-${cleanPath === "404" ? "error" : cleanPath}`}
+          className="wrapper"
+          data-scroll-container
+        >
           <main>
             <Component {...pageProps} />
           </main>
@@ -68,11 +84,17 @@ export default function App({
 
 App.getInitialProps = async (context) => {
   const router = context.router;
-  const pathname = router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
+  const pathname =
+    router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
   const page_name = pathname.split("/")[0].trim();
 
   const collectionsData = await getCollectionsData();
-  const selectedCollections = (page_name === "collections" && router.query?.slug) ? collectionsData.filter((x) => x.collectionSlug === router.query.slug).map((x) => x._id) : collectionsData.map((x) => x._id);
+  const selectedCollections =
+    page_name === "collections" && router.query?.slug
+      ? collectionsData
+          .filter((x) => x.collectionSlug === router.query.slug)
+          .map((x) => x._id)
+      : collectionsData.map((x) => x._id);
 
   const [
     homePageData,
