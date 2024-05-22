@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+// /^\/collections$/,
 const protectedRoutes = [
   /^\/cart$/,
-  /^\/collections$/,
   /^\/collections-category$/,
   /^\/products$/,
   /^\/product(\/.*)?$/,
