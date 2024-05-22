@@ -50,6 +50,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       router.push(`/products`);
     } else if (id === "all" && router.query.collection !== undefined) {
       const queryParams = new URLSearchParams(router.query);
+      queryParams.delete("category");
       router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     } else {
       const queryParams = new URLSearchParams(router.query);

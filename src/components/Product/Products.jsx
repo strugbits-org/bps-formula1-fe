@@ -144,12 +144,13 @@ const Products = ({
 
   useEffect(() => {
     const getMainCategories = async () => {
-      if (selectedCategory === undefined || selectedCategory === null) {
-        const categories = await getCategoriesData(
-          collectionsData.map((x) => x._id)
-        );
-        setMainCategories(categories);
+      let collectionIds = collectionsData.map((x) => x._id);
+      if (selectedCollection.length !== 0) {
+        collectionIds = selectedCollection.map((x) => x._id);
       }
+      console.log("collectionIds", collectionIds);
+      const categories = await getCategoriesData(collectionIds);
+      setMainCategories(categories);
     };
     getMainCategories();
     const _selectedCategories = parseArrayFromParams(
@@ -183,38 +184,37 @@ const Products = ({
               >
                 {selectedCategory?.level2Collections !== undefined
                   ? selectedCategory?.level2Collections?.map((data, index) => {
-                      const { name, _id } = data;
-                      if (name) {
-                        return (
-                          <li key={index} className="list-item">
-                            <button
-                              className={`btn-tag js-running ${
-                                selectedCategories.includes(_id) ? "active" : ""
-                              }`}
-                              onClick={() => {
-                                handleFilter(_id);
-                              }}
-                            >
-                              <span>{name}</span>
-                            </button>
-                          </li>
-                        );
-                      }
-                    })
-                  : mainCategories.map((data, index) => {
+                    const { name, _id } = data;
+                    if (name) {
                       return (
                         <li key={index} className="list-item">
                           <button
-                            className="btn-tag"
-                            onClick={() =>
-                              changeCategory(data.parentCollection._id)
-                            }
+                            className={`btn-tag js-running ${selectedCategories.includes(_id) ? "active" : ""
+                              }`}
+                            onClick={() => {
+                              handleFilter(_id);
+                            }}
                           >
-                            <span>{data.parentCollection.name}</span>
+                            <span>{name}</span>
                           </button>
                         </li>
                       );
-                    })}
+                    }
+                  })
+                  : mainCategories.map((data, index) => {
+                    return (
+                      <li key={index} className="list-item">
+                        <button
+                          className="btn-tag"
+                          onClick={() =>
+                            changeCategory(data.parentCollection._id)
+                          }
+                        >
+                          <span>{data.parentCollection.name}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
 
@@ -227,7 +227,7 @@ const Products = ({
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
             <div className="col-lg-10 offset-lg-1 column-1">
-              {selectedCollection.length === 1 && (
+              {selectedCollection.length !== 0 && (
                 <div className="container-title">
                   <h2 className="fs-lg-24 white-1 text-center text-uppercase">
                     <span
