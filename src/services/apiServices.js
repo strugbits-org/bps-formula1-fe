@@ -55,7 +55,7 @@ export const getGalleryPageData = () => fetchData("GalleryPageF1");
 // COLLECTIONS DATA
 export const getCollectionsData = () => fetchData("CollectionsF1");
 export const getSelectedCollectionData = (slug) =>
-  selectedCollectionData("Collectionsf1", slug);
+  selectedCollectionData("CollectionsF1", slug);
 
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
