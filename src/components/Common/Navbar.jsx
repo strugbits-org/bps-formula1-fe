@@ -171,7 +171,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     setSelectedCollection("All");
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
-                    router.push("/collections");
+                    router.push("/products");
                   }}
                 >
                   <span className="link-dropdown cursor-pointer">
