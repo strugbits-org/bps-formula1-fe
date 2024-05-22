@@ -3,7 +3,7 @@ import { extractSlugFromUrl, findColor } from "@/utils/utils";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 import { formatCustomDate } from "../Account/QuotesHistory";
 
-const CartModal = ({ data }) => {
+const CartModal = ({ data, handleAddToCart }) => {
   const totalPrice = data?.lineItems?.reduce((total, item) => {
     return total + Number(item.price) * item.quantity;
   }, 0);
@@ -58,7 +58,7 @@ const CartModal = ({ data }) => {
                                 const {
                                   productName,
                                   physicalProperties,
-                                  price,
+                                  quantity,
                                   image,
                                   descriptionLines,
                                   url,
@@ -154,37 +154,37 @@ const CartModal = ({ data }) => {
                                               />
                                             </li> */}
                                           </ul>
-                                          {/* <div class="quantity">
-                                          <span class="fs--18 no-mobile">
-                                            Quantity
-                                          </span>
-                                          <div class="container-input container-input-quantity">
-                                            <button
-                                              type="button"
-                                              class="minus"
-                                              disabled
-                                            >
-                                              <i class="icon-minus no-mobile"></i>
-                                              <i class="icon-minus-2 no-desktop"></i>
-                                            </button>
-                                            <input
-                                              type="number"
-                                              min="0"
-                                              value="1"
-                                              placeholder="1"
-                                              class="input-number"
-                                              disabled
-                                            />
-                                            <button
-                                              type="button"
-                                              class="plus"
-                                              disabled
-                                            >
-                                              <i class="icon-plus no-mobile"></i>
-                                              <i class="icon-plus-2 no-desktop"></i>
-                                            </button>
+                                          <div class="quantity">
+                                            <span class="fs--18 no-mobile">
+                                              Quantity
+                                            </span>
+                                            <div class="container-input container-input-quantity">
+                                              {/* <button
+                                                type="button"
+                                                class="minus"
+                                                disabled
+                                              >
+                                                <i class="icon-minus no-mobile"></i>
+                                                <i class="icon-minus-2 no-desktop"></i>
+                                              </button> */}
+                                              <input
+                                                type="number"
+                                                min="0"
+                                                value={quantity}
+                                                placeholder={quantity}
+                                                class="input-number"
+                                                disabled
+                                              />
+                                              {/* <button
+                                                type="button"
+                                                class="plus"
+                                                disabled
+                                              >
+                                                <i class="icon-plus no-mobile"></i>
+                                                <i class="icon-plus-2 no-desktop"></i>
+                                              </button> */}
+                                            </div>
                                           </div>
-                                        </div> */}
                                         </div>
                                       </div>
                                     </div>
@@ -194,14 +194,14 @@ const CartModal = ({ data }) => {
                           </ul>
                         </form>
                         <div class="flex-center mt-lg-65 mt-tablet-55 mt-phone-35">
-                          <AnimateLink
-                            to="/cart"
+                          <button
+                            onClick={() => handleAddToCart(data.lineItems)}
                             className="btn-medium-wide btn-red btn-hover-white-1 manual-modal-close"
                           >
                             <span class="split-chars">
                               <span>Order Again</span>
                             </span>
-                          </AnimateLink>
+                          </button>
                         </div>
                         <div class="container-btn-modal-close">
                           <btn-modal-close class="btn-close">
