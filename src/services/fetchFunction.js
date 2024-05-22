@@ -1,4 +1,5 @@
 import createWixClient from "@/config/WixConfig";
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const WixClient = createWixClient();
 
@@ -15,14 +16,15 @@ const fetchData = async (dataCollectionId) => {
 export const selectedCollectionData = async (dataCollectionId, slug) => {
   try {
     const options = { dataCollectionId };
-    const { items } = await WixClient.items.queryDataItems(options).eq("collectionSlug", slug).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("collectionSlug", slug)
+      .find();
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
 };
-
-
 
 export const fetchReferenceData = async (dataCollectionId, references) => {
   try {
@@ -38,17 +40,18 @@ export const fetchReferenceData = async (dataCollectionId, references) => {
   }
 };
 
-
-
-
-
-
-export const fetchCollectionColorsArray = async (dataCollectionId, categories) => {
+export const fetchCollectionColorsArray = async (
+  dataCollectionId,
+  categories
+) => {
   try {
     const options = {
       dataCollectionId,
     };
-    const { items } = await WixClient.items.queryDataItems(options).hasSome("category", categories).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .hasSome("category", categories)
+      .find();
 
     return items.map((item) => item.data);
   } catch (error) {
@@ -61,7 +64,10 @@ export const fetchCollectionColors = async (dataCollectionId, category) => {
     const options = {
       dataCollectionId,
     };
-    const { items } = await WixClient.items.queryDataItems(options).eq("category", category).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .eq("category", category)
+      .find();
 
     return items.map((item) => item.data)[0];
   } catch (error) {
@@ -69,14 +75,20 @@ export const fetchCollectionColors = async (dataCollectionId, category) => {
   }
 };
 
-export const selectedCategoryData = async (dataCollectionId, references, slug) => {
+export const selectedCategoryData = async (
+  dataCollectionId,
+  references,
+  slug
+) => {
   try {
     const options = {
       dataCollectionId,
       includeReferencedItems: references,
-
     };
-    const { items } = await WixClient.items.queryDataItems(options).hasSome("parentCollection", [slug]).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .hasSome("parentCollection", [slug])
+      .find();
 
     return items.map((item) => item.data);
   } catch (error) {
@@ -84,29 +96,52 @@ export const selectedCategoryData = async (dataCollectionId, references, slug) =
   }
 };
 
-export const fetchCategoriesReferenceData = async (dataCollectionId, references, selectedCollectionId) => {
+export const fetchCategoriesReferenceData = async (
+  dataCollectionId,
+  references,
+  selectedCollectionId
+) => {
   try {
     const options = {
       dataCollectionId,
       includeReferencedItems: references,
     };
-    const { items } = await WixClient.items.queryDataItems(options).hasSome("f1Collections", selectedCollectionId).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .hasSome("f1Collections", selectedCollectionId)
+      .find();
 
-    return items.filter((x) => x.data.parentCollection.slug !== "all-products").map((item) => item.data);
+    return items
+      .filter((x) => x.data.parentCollection.slug !== "all-products")
+      .map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
-
-export const listProducts = async (collections = [], categories = [], pageSize = 9, colors = [], skip = 0) => {
+export const listProducts = async (
+  collections = [],
+  categories = [],
+  pageSize = 9,
+  colors = [],
+  skip = 0
+) => {
   try {
     const options = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", "subCategory", "members","f1Collection"],
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "members",
+        "f1Collection",
+      ],
       returnTotalCount: true,
     };
-    let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
+    let query = WixClient.items
+      .queryDataItems(options)
+      .ne("hidden", true)
+      .eq("isF1", true);
 
     if (collections.length !== 0) {
       query = query.hasSome("f1Collection", collections);
@@ -130,14 +165,21 @@ export const listProducts = async (collections = [], categories = [], pageSize =
 
 export const fetchSearchData = async (collections, colors, searchTerm) => {
   try {
-
     const options = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", 'subCategory'],
-      "returnTotalCount": true,
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "f1Collection",
+      ],
+      returnTotalCount: true,
     };
 
-    let query = WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true);
+    let query = WixClient.items
+      .queryDataItems(options)
+      .ne("hidden", true)
+      .eq("isF1", true);
 
     if (collections.length !== 0) {
       query = query.hasSome("f1Collection", collections);
@@ -154,15 +196,23 @@ export const fetchSearchData = async (collections, colors, searchTerm) => {
   }
 };
 
-export const fetchCategoriesReferenceDataa = async (dataCollectionId, references, slug) => {
+export const fetchCategoriesReferenceDataa = async (
+  dataCollectionId,
+  references,
+  slug
+) => {
   try {
     const options = {
       dataCollectionId,
       includeReferencedItems: references,
-
     };
 
-    const { items } = await WixClient.items.queryDataItems(options).ne('hidden', true).eq('isF1', true).hasSome("category", [slug]).find();
+    const { items } = await WixClient.items
+      .queryDataItems(options)
+      .ne("hidden", true)
+      .eq("isF1", true)
+      .hasSome("category", [slug])
+      .find();
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
@@ -278,6 +328,25 @@ export const fetchProductSnapshots = async (dataCollectionId, slug) => {
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);
+  }
+};
+
+export const fetchQuotes = async (authToken) => {
+  try {
+    const response = await fetch(`${base_url}formula1/wix/getAllPriceQuote`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: authToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch quotes");
+    }
+    const data = await response.json();
+    return data.data._items;
+  } catch (error) {
+    console.log("Error:", error);
   }
 };
 

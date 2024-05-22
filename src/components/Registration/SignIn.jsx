@@ -10,7 +10,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-console.log(data, "data>>");
 const LoginUser = async (e) => {
   e.preventDefault();
   setErrorMessageVisible(false);
@@ -35,26 +34,26 @@ const LoginUser = async (e) => {
       setErrorMessageVisible(true);
       return;
     }
+console.log(response, "response>>");
+if (response.ok) {
+  const data = await response.json();
+  console.log(data, "data>>");
+  const userToken = data.data.jwtToken;
+  const userData = JSON.stringify(data.data.member);
+  document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+  document.cookie = `userData=${encodeURIComponent(
+    userData
+  )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
 
-    if (response.ok) {
-      const data = await response.json();
-
-      const userToken = data.data.jwtToken;
-      const userData = JSON.stringify(data.data.member);
-      document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-      document.cookie = `userData=${encodeURIComponent(
-        userData
-      )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-
-      pageLoadStart();
-      router.push("/collections");
-
-      setTimeout(() => {
-        document.body.dataset.loginState = "logged";
-      }, 800);
-
-      return response;
-    }
+  pageLoadStart();
+  router.push("/collections");
+  console.log("log after rouer");
+  setTimeout(() => {
+    document.body.dataset.loginState = "logged";
+  }, 800);
+  console.log("user logged in");
+}
+return response;
   } catch (error) {
     console.log("error", error);
     setMessage("Invalid Credentials!");

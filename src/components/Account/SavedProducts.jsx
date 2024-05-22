@@ -294,6 +294,8 @@ const SavedProducts = ({
       <AddToCartModal
         productData={selectedProductData}
         setProductData={setSelectedProductData}
+        setErrorMessageVisible={setErrorMessageVisible}
+        setSuccessMessageVisible={setSuccessMessageVisible}
         productSnapshots={productSnapshots}
         productFilteredVariantData={productFilteredVariantData}
         selectedVariantData={selectedVariantData}

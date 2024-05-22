@@ -16303,3 +16303,7 @@ html.with-fancybox body.hide-scrollbar {
 .formCartMargin {
   margin-top: 0px !important;
 }
+
+.events-disabled {
+  pointer-events: none;
+}
