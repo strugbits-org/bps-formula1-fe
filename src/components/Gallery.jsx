@@ -48,7 +48,7 @@ const Gallery = ({
         collectionFilter === "all" ||
         data.collectionSlug === collectionFilter
       ) {
-        totalItemsCount += data.gallery1.length;
+        totalItemsCount += data.gallery.length;
       }
     });
     if (visibleItems >= totalItemsCount) {
@@ -83,8 +83,9 @@ const Gallery = ({
                   <i className="icon-arrow-down"></i>
                 </button>
                 <div
-                  className={`wrapper-list-dropdown ${option === true ? "active" : ""
-                    }`}
+                  className={`wrapper-list-dropdown ${
+                    option === true ? "active" : ""
+                  }`}
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
@@ -127,7 +128,7 @@ const Gallery = ({
                 data-get-collections="legacy"
               >
                 {collectionsData.map((data, index) => {
-                  const { gallery1, collectionSlug } = data;
+                  const { gallery, collectionSlug } = data;
                   const isVisibleCollection =
                     collectionFilter === collectionSlug ||
                     collectionFilter === "all";
@@ -135,14 +136,14 @@ const Gallery = ({
                     const remainingItems = visibleItems - totalVisibleItems;
                     const visibleItemsFromCollection = Math.min(
                       remainingItems,
-                      gallery1.length
+                      gallery.length
                     );
                     totalVisibleItems += visibleItemsFromCollection;
 
                     if (visibleItemsFromCollection > 0) {
                       return (
                         <React.Fragment key={index}>
-                          {gallery1
+                          {gallery
                             .slice(0, visibleItemsFromCollection)
                             .map((galleryData, galleryIndex) => {
                               const { src } = galleryData;
