@@ -48,13 +48,12 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       const loggedIn = document.cookie
         .split(";")
         .some((item) => item.trim().startsWith("authToken"));
-      console.log(loggedIn, "loggedIn>>");
       if (loggedIn) {
         pageLoadStart();
         setTimeout(() => {
           router.replace("/collections");
           document.body.setAttribute("data-login-state", "logged");
-        }, 100);
+        }, 1000);
       }
 
     } catch (error) {
