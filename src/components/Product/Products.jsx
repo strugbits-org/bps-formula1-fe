@@ -54,28 +54,26 @@ const Products = ({
       const productVariantsData = await getProductVariants(
         productData.product._id
       );
+
       let dataMap = new Map(
-        productVariantsData.map((item) => [item.sku, item])
+        productVariantsData.map((item) => [item.sku.toLowerCase(), item])
       );
+
       let filteredVariantData;
       if (productVariantsData && productData) {
-        filteredVariantData = productData.variantData =
-          productData.variantData.filter((variant) => {
-            if (dataMap.has(variant.sku)) {
-              const dataItem = dataMap.get(variant.sku);
-              variant.variant.variantId = dataItem._id;
-              return true;
-            }
-            return false;
-          });
+        filteredVariantData = productData.variantData.filter((variant) => {
+          const normalizedSku = variant.sku.toLowerCase();
+          if (dataMap.has(normalizedSku)) {
+            const dataItem = dataMap.get(normalizedSku);
+            variant.variant.variantId = dataItem._id;
+            return true;
+          }
+          return false;
+        });
       }
       setProductFilteredVariantData(filteredVariantData);
-      if (
-        filteredVariantData &&
-        filteredVariantData.length > 0 &&
-        res &&
-        res.length > 0
-      ) {
+
+      if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,

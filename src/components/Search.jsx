@@ -50,12 +50,7 @@ const Search = ({
           });
       }
       setProductFilteredVariantData(filteredVariantData);
-      if (
-        filteredVariantData &&
-        filteredVariantData.length > 0 &&
-        res &&
-        res.length > 0
-      ) {
+      if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,

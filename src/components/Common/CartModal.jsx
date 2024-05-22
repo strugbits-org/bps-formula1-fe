@@ -1,9 +1,20 @@
 import AnimateLink from "./AnimateLink";
+import { extractSlugFromUrl, findColor } from "@/utils/utils";
+import { generateImageURL } from "@/utils/GenerateImageURL";
+import { formatCustomDate } from "../Account/QuotesHistory";
 
-const CartModal = ({ data }) => {
-  const totalPrice = data?.reduce((total, item) => {
-    return total + Number(item.price);
+const CartModal = ({ data, handleAddToCart }) => {
+  const totalPrice = data?.lineItems?.reduce((total, item) => {
+    return total + Number(item.price) * item.quantity;
   }, 0);
+  const issueDate = formatCustomDate(data?.dates.issueDate);
+  function calculateTotalPrice(item) {
+    const price = parseFloat(item.price);
+    const quantity = item.quantity;
+    const totalPrice = price * quantity;
+
+    return totalPrice;
+  }
   return (
     <div id="reloading-area">
       <modal-group name="modal-quotes-history" class="modal-quotes-history">
@@ -21,8 +32,10 @@ const CartModal = ({ data }) => {
                       >
                         <div class="container-title">
                           <div class="title">
-                            <h2 class="fs--45 text-uppercase">Mclaren</h2>
-                            <p class="fs--12 mt-5">February, 09h, 2024</p>
+                            <h2 class="fs--45 text-uppercase">
+                              {data && data.title}
+                            </h2>
+                            <p class="fs--12 mt-5">{issueDate}</p>
                           </div>
                           <div class="total-price text-lg-right text-mobile-center mt-mobile-20">
                             <div class="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
@@ -40,9 +53,21 @@ const CartModal = ({ data }) => {
                             data-aos="d:loop"
                           >
                             {data &&
-                              data.length > 0 &&
-                              data.map((data, index) => {
-                                const { name, description, price } = data;
+                              data.lineItems.length > 0 &&
+                              data.lineItems.map((data, index) => {
+                                const {
+                                  productName,
+                                  physicalProperties,
+                                  quantity,
+                                  image,
+                                  descriptionLines,
+                                  url,
+                                  catalogReference,
+                                } = data.fullItem;
+                                const colors =
+                                  findColor(descriptionLines).join("-");
+                                const customTextFields =
+                                  catalogReference.options.customTextFields;
                                 return (
                                   <li key={index} class="list-item">
                                     <input
@@ -53,7 +78,12 @@ const CartModal = ({ data }) => {
                                     <div class="cart-product">
                                       <div class="container-img">
                                         <img
-                                          src="images/products/img-01.png"
+                                          style={{ padding: "20px" }}
+                                          src={generateImageURL({
+                                            wix_url: image,
+                                            h: "150",
+                                            w: "150",
+                                          })}
                                           data-preload
                                           class="media"
                                           alt="product"
@@ -63,18 +93,23 @@ const CartModal = ({ data }) => {
                                         <div class="container-top">
                                           <div class="container-product-name">
                                             <h2 class="product-name">
-                                              {description}
+                                              {productName.original}
                                             </h2>
                                             <AnimateLink
-                                              to="/products"
+                                              to={
+                                                "/product" +
+                                                extractSlugFromUrl(url)
+                                              }
                                               className="btn-view"
                                             >
                                               <span>View</span>
-                                              <i class="icon-arrow-right"></i>
+                                              <i className="icon-arrow-right"></i>
                                             </AnimateLink>
                                           </div>
                                           <div class="container-price">
-                                            <div class="price">${price}</div>
+                                            <div class="price">
+                                              ${calculateTotalPrice(data)}
+                                            </div>
                                             {/* <button
                                             type="button"
                                             class="btn-cancel"
@@ -90,7 +125,7 @@ const CartModal = ({ data }) => {
                                                 SKU
                                               </span>
                                               <span class="specs-text">
-                                                {name}
+                                                {physicalProperties.sku}
                                               </span>
                                             </li>
                                             <li class="collection">
@@ -98,7 +133,7 @@ const CartModal = ({ data }) => {
                                                 Collection
                                               </span>
                                               <span class="specs-text">
-                                                Paddock
+                                                {customTextFields.collection}
                                               </span>
                                             </li>
                                             <li class="color">
@@ -106,7 +141,7 @@ const CartModal = ({ data }) => {
                                                 Color
                                               </span>
                                               <span class="specs-text">
-                                                Yellow - Birch
+                                                {colors}
                                               </span>
                                             </li>
                                             {/* <li class="additional-note">
@@ -119,37 +154,37 @@ const CartModal = ({ data }) => {
                                               />
                                             </li> */}
                                           </ul>
-                                          {/* <div class="quantity">
-                                          <span class="fs--18 no-mobile">
-                                            Quantity
-                                          </span>
-                                          <div class="container-input container-input-quantity">
-                                            <button
-                                              type="button"
-                                              class="minus"
-                                              disabled
-                                            >
-                                              <i class="icon-minus no-mobile"></i>
-                                              <i class="icon-minus-2 no-desktop"></i>
-                                            </button>
-                                            <input
-                                              type="number"
-                                              min="0"
-                                              value="1"
-                                              placeholder="1"
-                                              class="input-number"
-                                              disabled
-                                            />
-                                            <button
-                                              type="button"
-                                              class="plus"
-                                              disabled
-                                            >
-                                              <i class="icon-plus no-mobile"></i>
-                                              <i class="icon-plus-2 no-desktop"></i>
-                                            </button>
+                                          <div class="quantity">
+                                            <span class="fs--18 no-mobile">
+                                              Quantity
+                                            </span>
+                                            <div class="container-input container-input-quantity">
+                                              {/* <button
+                                                type="button"
+                                                class="minus"
+                                                disabled
+                                              >
+                                                <i class="icon-minus no-mobile"></i>
+                                                <i class="icon-minus-2 no-desktop"></i>
+                                              </button> */}
+                                              <input
+                                                type="number"
+                                                min="0"
+                                                value={quantity}
+                                                placeholder={quantity}
+                                                class="input-number"
+                                                disabled
+                                              />
+                                              {/* <button
+                                                type="button"
+                                                class="plus"
+                                                disabled
+                                              >
+                                                <i class="icon-plus no-mobile"></i>
+                                                <i class="icon-plus-2 no-desktop"></i>
+                                              </button> */}
+                                            </div>
                                           </div>
-                                        </div> */}
                                         </div>
                                       </div>
                                     </div>
@@ -159,14 +194,14 @@ const CartModal = ({ data }) => {
                           </ul>
                         </form>
                         <div class="flex-center mt-lg-65 mt-tablet-55 mt-phone-35">
-                          <AnimateLink
-                            to="/cart"
+                          <button
+                            onClick={() => handleAddToCart(data.lineItems)}
                             className="btn-medium-wide btn-red btn-hover-white-1 manual-modal-close"
                           >
                             <span class="split-chars">
                               <span>Order Again</span>
                             </span>
-                          </AnimateLink>
+                          </button>
                         </div>
                         <div class="container-btn-modal-close">
                           <btn-modal-close class="btn-close">

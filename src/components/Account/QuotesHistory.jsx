@@ -1,10 +1,11 @@
-import { useState } from "react";
-import AnimateLink from "../Common/AnimateLink";
+import { useReducer, useState } from "react";
 import CartModal from "../Common/CartModal";
+import { AddProductToCart } from "@/services/cartServices";
+import { useRouter } from "next/router";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 
-const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
-  const [itemData, setItemData] = useState();
-  const formatCustomDate = (dateString) => {
+export const formatCustomDate = (dateString) => {
+  if (dateString) {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "long", day: "2-digit" };
     const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
@@ -15,6 +16,54 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
     const dayWithSuffix = `${day < 10 ? "0" : ""}${day}h`;
 
     return formattedDate.replace(/\d{2}/, dayWithSuffix);
+  }
+};
+const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
+  const [itemData, setItemData] = useState();
+  const router = useRouter();
+  const handleAddToCart = async (data) => {
+    try {
+      const products = [];
+      data.forEach((item) => {
+        // Extract required information from the item
+        const {
+          catalogReference: {
+            appId,
+            catalogItemId,
+            options: {
+              variantId,
+              customTextFields: { collection },
+            },
+          },
+          quantity,
+        } = item.fullItem;
+
+        // Construct product object
+        const product = {
+          catalogReference: {
+            appId,
+            catalogItemId,
+            options: {
+              variantId,
+              customTextFields: {
+                collection,
+                additonalInfo: "", // Assuming this is fixed for all products
+              },
+            },
+          },
+          quantity,
+        };
+
+        // Push the product object to the products array
+        products.push(product);
+      });
+      await AddProductToCart(products);
+      pageLoadStart();
+      router.push("/cart");
+      // handleClose();
+    } catch (error) {
+      console.log("Error:", error);
+    }
   };
 
   return (
@@ -45,9 +94,8 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                   quotesData.map((quote, index) => {
                     const { data } = quote;
                     const totalPrice = data.lineItems.reduce((total, item) => {
-                      return total + Number(item.price);
+                      return total + Number(item.price) * item.quantity;
                     }, 0);
-
                     const issueDate = formatCustomDate(data.dates.issueDate);
 
                     return (
@@ -63,7 +111,7 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                               group="modal-quotes-history"
                               class="btn-small btn-white-red btn-hover-red-white"
                               onClick={() =>
-                                setItemData(quotesData[index].data.lineItems)
+                                setItemData(quotesData[index].data)
                               }
                             >
                               <div class="split-chars">
@@ -71,15 +119,15 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                               </div>
                               <i className="icon-arrow-diagonal"></i>
                             </btn-modal-open>
-                            <AnimateLink
-                              to="/cart"
+                            <button
+                              onClick={() => handleAddToCart(data.lineItems)}
                               className="btn-small btn-red btn-hover-black"
                             >
                               <div className="split-chars">
                                 <span>Order again</span>
                               </div>
                               <i className="icon-arrow-diagonal"></i>
-                            </AnimateLink>
+                            </button>
                           </div>
                         </div>
                       </li>
@@ -91,7 +139,11 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
         </div>
       </section>
 
-      <CartModal data={itemData} />
+      <CartModal
+        data={itemData}
+        title={quoteHistoryPageData.pageTitle}
+        handleAddToCart={handleAddToCart}
+      />
     </>
   );
 };
