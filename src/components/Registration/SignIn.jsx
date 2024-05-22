@@ -45,14 +45,18 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         userData
       )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
 
-      pageLoadStart();
+      const loggedIn = document.cookie
+        .split(";")
+        .some((item) => item.trim().startsWith("authToken"));
+      console.log(loggedIn, "loggedIn>>");
+      if (loggedIn) {
+        pageLoadStart();
+        setTimeout(() => {
+          router.replace("/collections");
+          document.body.setAttribute("data-login-state", "logged");
+        }, 100);
+      }
 
-      // Ensure all async tasks are complete before redirecting
-      await new Promise((resolve) => setTimeout(resolve, 100)); // Short delay to ensure cookies are set
-
-      router.replace("/collections");
-
-      document.body.dataset.loginState = "logged";
     } catch (error) {
       console.log("Error during login:", error);
       setMessage("Invalid Credentials!");
