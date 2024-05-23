@@ -28,56 +28,60 @@ const ProductPost = ({
   const [modalURL, setModalURL] = useState("");
   const descriptionRef = useRef(null);
 
-const handleImageChange = ({ index, selectedVariantData }) => {
-  const selectedVariantFilteredData = productSnapshots.find(
-    (variant) => variant.colorVariation === selectedVariantData.variantId
-  );
 
-  if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
-    const combinedVariantData = {
-      ...selectedVariantData,
-      ...selectedVariantFilteredData,
-    };
-
-    setSelectedVariantIndex(index);
-    setSelectedVariant(combinedVariantData);
-  } else {
-    const combinedVariantData = {
-      ...selectedVariantData,
-      ...selectedVariantFilteredData,
-      images: [{ src: selectedVariantData.imageSrc }],
-    };
-    setSelectedVariantIndex(index);
-    setSelectedVariant(combinedVariantData);
-  }
-};
-
-useEffect(() => {
-  if (selectedProductDetails && productSnapshots) {
-    const selectedVariantData = selectedProductDetails.variantData[0].variant;
+  const handleImageChange = ({ index, selectedVariantData, modalUrl }) => {
     const selectedVariantFilteredData = productSnapshots.find(
       (variant) => variant.colorVariation === selectedVariantData.variantId
     );
-
-    if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
+    if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
       const combinedVariantData = {
         ...selectedVariantData,
         ...selectedVariantFilteredData,
+        modalUrl: modalUrl,
       };
 
-      setSelectedVariantIndex(0);
+      setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     } else {
       const combinedVariantData = {
         ...selectedVariantData,
         ...selectedVariantFilteredData,
+        modalUrl: modalUrl,
         images: [{ src: selectedVariantData.imageSrc }],
       };
-      setSelectedVariantIndex(0);
+      setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     }
-  }
-}, [productSnapshots, selectedProductDetails]);
+  };
+
+  useEffect(() => {
+    if (selectedProductDetails && productSnapshots) {
+      const selectedVariantData = selectedProductDetails.variantData[0].variant;
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: selectedProductDetails.variantData[0].zipUrl,
+        };
+
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: selectedProductDetails.variantData[0].zipUrl,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      }
+    }
+  }, [productSnapshots, selectedProductDetails]);
 
   const productFoundRedirection = (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
@@ -127,7 +131,9 @@ useEffect(() => {
       const variant_id = selectedVariant.variantId
         .replace(product_id, "")
         .substring(1);
-      const collection = selectedProductDetails.f1Collection.map(x => x.collectionName).join(" - ");
+      const collection = selectedProductDetails.f1Collection
+        .map((x) => x.collectionName)
+        .join(" - ");
 
       const product = {
         catalogReference: {
@@ -182,10 +188,11 @@ useEffect(() => {
                             return (
                               <div
                                 key={index}
-                                className={`swiper-slide ${index === selectedVariantIndex
+                                className={`swiper-slide ${
+                                  index === selectedVariantIndex
                                     ? "swiper-slide-active"
                                     : ""
-                                  }`}
+                                }`}
                               >
                                 <div className="container-img">
                                   <img
@@ -200,14 +207,14 @@ useEffect(() => {
                             );
                           })}
 
-                        {modalURL ? (
+                        {selectedVariant && selectedVariant.modalUrl ? (
                           <div className="swiper-slide slide-360">
                             <i className="icon-360"></i>
                             <div className="container-img">
                               <canvas
                                 className="infinite-image-scroller"
                                 data-frames="49"
-                                data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
+                                data-path={selectedVariant.modalUrl}
                                 data-extension="jpg"
                               ></canvas>
                             </div>
@@ -219,7 +226,9 @@ useEffect(() => {
                               <canvas
                                 className="infinite-image-scroller"
                                 data-frames="49"
-                                data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
+                                data-path={
+                                  selectedVariant && selectedVariant.modalUrl
+                                }
                                 data-extension="jpg"
                               ></canvas>
                             </div>
@@ -245,8 +254,11 @@ useEffect(() => {
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${index === selectedVariantIndex ? "active" : ""
-                                    }`}
+                                  className={`swiper-slide  ${
+                                    index === selectedVariantIndex
+                                      ? "active"
+                                      : ""
+                                  }`}
                                 >
                                   <div className="wrapper-img">
                                     <div className="container-img">
@@ -302,7 +314,10 @@ useEffect(() => {
                         className="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
-                        {selectedProductDetails.product.formattedDiscountedPrice}
+                        {
+                          selectedProductDetails.product
+                            .formattedDiscountedPrice
+                        }
                       </div>
                     </div>
 
@@ -379,6 +394,7 @@ useEffect(() => {
                                 handleImageChange({
                                   index: index,
                                   selectedVariantData: variantData.variant,
+                                  modalUrl: variantData.zipUrl,
                                 })
                               }
                             >
@@ -450,7 +466,7 @@ useEffect(() => {
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                    0 && (
+                      0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
@@ -499,7 +515,8 @@ useEffect(() => {
               >
                 <h3 className="title-info-text split-words" data-aos="">
                   <span>
-                    {productPostPageData && productPostPageData.descriptionLabel}
+                    {productPostPageData &&
+                      productPostPageData.descriptionLabel}
                   </span>
                 </h3>
                 <div className="wrapper-text" data-aos="fadeIn .8s ease-in-out">
@@ -527,7 +544,8 @@ useEffect(() => {
                 selectedProductDetails.productDocs?.length > 0 && (
                   <div className="container-info-text" data-aos="">
                     <h3 className="title-info-text split-words" data-aos="">
-                      {productPostPageData && productPostPageData.downloadsLabel}
+                      {productPostPageData &&
+                        productPostPageData.downloadsLabel}
                     </h3>
                     <div
                       className="container-btn"
