@@ -11,6 +11,7 @@ import {
 import useUserData from "@/hooks/useUserData";
 import { BestSellerTag } from "./BestSellerTag";
 import { SaveProductButton } from "./SaveProductButton";
+import { resetSlideIndex } from "@/utils/AnimationFunctions";
 
 const MatchedProducts = ({ matchedProductsData }) => {
   const { memberId } = useUserData();
@@ -56,6 +57,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: res,
+          modalUrl: filteredVariantData[0].zipUrl
         });
       }
     } catch (error) {
@@ -67,6 +69,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
     index,
     selectedVariantData,
     productSnapshots,
+    modalUrl
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -77,6 +80,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
         };
 
         setSelectedVariantIndex(index);
@@ -85,12 +89,14 @@ const MatchedProducts = ({ matchedProductsData }) => {
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
           images: [{ src: selectedVariantData.imageSrc }],
         };
         setSelectedVariantIndex(index);
         setSelectedVariantData(combinedVariantData);
       }
     }
+    resetSlideIndex();
   };
 
   const handleImageHover = (variantData) => {

@@ -8,10 +8,11 @@ import { BestSellerTag } from "../Common/BestSellerTag";
 import MatchedProducts from "../Common/MatchedProducts";
 import Breadcrumb from "../Common/BreadCrumbData";
 
-import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadEnd, pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
 import RenderImage from "@/utils/RenderImage";
+import ModalCanvas3d from "../Common/ModalCanvas3d";
 
 const ProductPost = ({
   productPostPageData,
@@ -25,7 +26,6 @@ const ProductPost = ({
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
-  const [modalURL, setModalURL] = useState("");
   const descriptionRef = useRef(null);
 
 
@@ -52,6 +52,7 @@ const ProductPost = ({
       setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     }
+    resetSlideIndex();
   };
 
   useEffect(() => {
@@ -98,13 +99,6 @@ const ProductPost = ({
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
-    if (selectedProductDetails) {
-      let url = selectedProductDetails.zipUrl;
-      if (url) {
-        let newUrl = url.replace(/0\.jpg$/, "");
-        setModalURL(newUrl);
-      }
-    }
     if (descriptionElement) {
       descriptionElement.innerHTML = descriptionElement.innerHTML.replace(
         /<span style="color:#000000;">/g,
@@ -181,19 +175,12 @@ const ProductPost = ({
                       className="best-seller-tag"
                     />
 
-                    <div className="swiper-container">
+                    <div className="swiper-container reset-slide-enabled">
                       <div className="swiper-wrapper">
                         {selectedVariant &&
                           selectedVariant.images?.map((imageData, index) => {
                             return (
-                              <div
-                                key={index}
-                                className={`swiper-slide ${
-                                  index === selectedVariantIndex
-                                    ? "swiper-slide-active"
-                                    : ""
-                                }`}
-                              >
+                              <div key={index} className="swiper-slide">
                                 <div className="container-img">
                                   <img
                                     style={{ padding: "100px" }}
@@ -206,31 +193,11 @@ const ProductPost = ({
                               </div>
                             );
                           })}
-
-                        {selectedVariant && selectedVariant.modalUrl ? (
+                        {selectedVariant?.modalUrl && (
                           <div className="swiper-slide slide-360">
                             <i className="icon-360"></i>
                             <div className="container-img">
-                              <canvas
-                                className="infinite-image-scroller"
-                                data-frames="49"
-                                data-path={selectedVariant.modalUrl}
-                                data-extension="jpg"
-                              ></canvas>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="swiper-slide slide-360">
-                            <i className="icon-360"></i>
-                            <div className="container-img">
-                              <canvas
-                                className="infinite-image-scroller"
-                                data-frames="49"
-                                data-path={
-                                  selectedVariant && selectedVariant.modalUrl
-                                }
-                                data-extension="jpg"
-                              ></canvas>
+                              <ModalCanvas3d path={selectedVariant?.modalUrl} />
                             </div>
                           </div>
                         )}
@@ -254,11 +221,10 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${
-                                    index === selectedVariantIndex
-                                      ? "active"
-                                      : ""
-                                  }`}
+                                  className={`swiper-slide  ${index === selectedVariantIndex
+                                    ? "active"
+                                    : ""
+                                    }`}
                                 >
                                   <div className="wrapper-img">
                                     <div className="container-img">
@@ -275,7 +241,7 @@ const ProductPost = ({
                               );
                             })}
 
-                          {modalURL && (
+                          {selectedVariant?.modalUrl && (
                             <div class="swiper-slide">
                               <div class="wrapper-img img-3d">
                                 <div class="container-img">
@@ -466,7 +432,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                      0 && (
+                    0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
@@ -581,6 +547,8 @@ const ProductPost = ({
                     >
                       {selectedProductDetails.subCategory.map((data, index) => {
                         const { name, _id } = data;
+                        const allProductsId = "00000000-000000-000000-000000000001";
+                        if (allProductsId == _id) return;
                         return (
                           <button
                             key={index}

@@ -9,6 +9,7 @@ import {
   getProductSnapShots,
   getProductVariants,
 } from "@/services/apiServices";
+import { resetSlideIndex } from "@/utils/AnimationFunctions";
 
 const SavedProducts = ({
   savedProductPageData,
@@ -69,6 +70,7 @@ const SavedProducts = ({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: res,
+          modalUrl: filteredVariantData[0].zipUrl
         });
       }
     } catch (error) {
@@ -80,6 +82,7 @@ const SavedProducts = ({
     index,
     selectedVariantData,
     productSnapshots,
+    modalUrl
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -90,6 +93,7 @@ const SavedProducts = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
         };
 
         setSelectedVariantIndex(index);
@@ -98,12 +102,14 @@ const SavedProducts = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
           images: [{ src: selectedVariantData.imageSrc }],
         };
         setSelectedVariantIndex(index);
         setSelectedVariantData(combinedVariantData);
       }
     }
+    resetSlideIndex();
   };
 
   return (
