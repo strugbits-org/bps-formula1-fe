@@ -62,7 +62,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.gallery1.map((data, index) => {
+                  filteredCollectionData.gallery.map((data, index) => {
                     const { src } = data;
                     return (
                       <li key={index}>

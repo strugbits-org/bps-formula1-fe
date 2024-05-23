@@ -35,7 +35,7 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
                           data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                         >
                           <img
-                            src="images/logo-formula-1-red.svg"
+                            src="/images/logo-formula-1-red.svg"
                             data-preload
                             className="media"
                             alt="product"
@@ -46,7 +46,7 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
                           data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                         >
                           <img
-                            src="images/logo-blueprint-rentals-black.svg"
+                            src="/images/logo-blueprint-rentals-black.svg"
                             data-preload
                             className="media"
                             alt="product"

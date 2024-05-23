@@ -32,8 +32,8 @@ export default async function middleware(req) {
   const authTokenCookie = cookies(req.headers).get("authToken");
   // Check if user is authenticated
   const isAuthenticated = !!authTokenCookie;
-
   // Redirect to login page if the route is protected and user is not authenticated
+
   if (isProtectedRoute && !isAuthenticated) {
     const url = req.nextUrl.clone();
     url.pathname = "/";
@@ -43,11 +43,11 @@ export default async function middleware(req) {
 
   // Uncomment this if you want to redirect authenticated users from public routes
   // Redirect to dashboard if the route is a public route and user is authenticated
-  // if (path === "/" && isAuthenticated) {
-  //   const url = req.nextUrl.clone();
-  //   url.pathname = "/collections"; // Adjust the path as needed
-  //   return NextResponse.redirect(url);
-  // }
+  if (path === "/" && isAuthenticated) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/collections"; // Adjust the path as needed
+    return NextResponse.redirect(url);
+  }
 
   // Allow the request to proceed
   return NextResponse.next();

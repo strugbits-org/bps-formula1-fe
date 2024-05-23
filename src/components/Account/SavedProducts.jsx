@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import AddToCartModal from "../Product/AddToCartModal";
+
 import { SaveProductButton } from "../Common/SaveProductButton";
+import AddToCartModal from "../Product/AddToCartModal";
 import SuccessModal from "../Common/SuccessModal";
-import ErrorModal from "../Common/ErrorModal";
 import AnimateLink from "../Common/AnimateLink";
+import ErrorModal from "../Common/ErrorModal";
 import {
   getProductSnapShots,
   getProductVariants,
 } from "@/services/apiServices";
+import { resetSlideIndex } from "@/utils/AnimationFunctions";
 
 const SavedProducts = ({
   savedProductPageData,
@@ -63,16 +65,12 @@ const SavedProducts = ({
           });
       }
       setProductFilteredVariantData(filteredVariantData);
-      if (
-        filteredVariantData &&
-        filteredVariantData.length > 0 &&
-        res &&
-        res.length > 0
-      ) {
+      if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: res,
+          modalUrl: filteredVariantData[0].zipUrl
         });
       }
     } catch (error) {
@@ -84,6 +82,7 @@ const SavedProducts = ({
     index,
     selectedVariantData,
     productSnapshots,
+    modalUrl
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -94,6 +93,7 @@ const SavedProducts = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
         };
 
         setSelectedVariantIndex(index);
@@ -102,13 +102,16 @@ const SavedProducts = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
           images: [{ src: selectedVariantData.imageSrc }],
         };
         setSelectedVariantIndex(index);
         setSelectedVariantData(combinedVariantData);
       }
     }
+    resetSlideIndex();
   };
+
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -130,10 +133,7 @@ const SavedProducts = ({
                 >
                   {savedProductsData && savedProductsData.length === 0 ? (
                     <div style={{ margin: "20vh auto" }}>
-                      <h6
-                        className="fs--20 text-center split-words "
-                        data-aos="d:loop"
-                      >
+                      <h6 className="fs--20 text-center split-words ">
                         No Products Found
                       </h6>
                     </div>
@@ -150,11 +150,6 @@ const SavedProducts = ({
                             data-product-colors
                           >
                             <div className="container-tags">
-                              {/* <SaveProductButton
-                                productId={product._id}
-                                members={members}
-                              /> */}
-
                               <SaveProductButton
                                 productId={product._id}
                                 members={members}

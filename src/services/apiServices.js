@@ -53,9 +53,9 @@ export const getCreateAccountDropdown = () =>
 export const getGalleryPageData = () => fetchData("GalleryPageF1");
 
 // COLLECTIONS DATA
-export const getCollectionsData = () => fetchData("Collectionsf1");
+export const getCollectionsData = () => fetchData("CollectionsF1");
 export const getSelectedCollectionData = (slug) =>
-  selectedCollectionData("Collectionsf1", slug);
+  selectedCollectionData("CollectionsF1", slug);
 
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
@@ -127,7 +127,7 @@ export const getPairItWithProductsId = (slug) =>
 export const getPairItWithProducts = (productId) =>
   fetchPairItWithProducts(
     "locationFilteredVariant",
-    ["category", "product", "subCategory"],
+    ["category", "product", "subCategory", "f1Collection"],
     productId
   );
 export const getProductVariants = (selectedProductId) =>

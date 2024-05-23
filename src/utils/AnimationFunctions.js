@@ -26,6 +26,21 @@ export const initAnimations = () => {
   }
 };
 
+export const initializeCanvasTrigger = () => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      const customEvent = new Event('customInit');
+      document.querySelector(".initializeCanvas").dispatchEvent(customEvent);
+    }, 200);
+  }
+};
+
+export const resetSlideIndex = () => {
+  if (typeof window !== "undefined") {
+    document.querySelectorAll(".swiper-container.reset-slide-enabled").forEach((x) => x.swiper.slideTo(0));
+  }
+};
+
 export const updatedWatched = () => {
   if (typeof window !== "undefined") {
     setTimeout(() => {

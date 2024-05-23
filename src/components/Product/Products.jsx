@@ -9,7 +9,7 @@ import {
   getProductVariants,
 } from "@/services/apiServices";
 import { useRouter } from "next/router";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
 import useUserData from "@/hooks/useUserData";
 import { BestSellerTag } from "../Common/BestSellerTag";
@@ -53,32 +53,31 @@ const Products = ({
       const productVariantsData = await getProductVariants(
         productData.product._id
       );
+
       let dataMap = new Map(
-        productVariantsData.map((item) => [item.sku, item])
+        productVariantsData.map((item) => [item.sku.toLowerCase(), item])
       );
+
       let filteredVariantData;
       if (productVariantsData && productData) {
-        filteredVariantData = productData.variantData =
-          productData.variantData.filter((variant) => {
-            if (dataMap.has(variant.sku)) {
-              const dataItem = dataMap.get(variant.sku);
-              variant.variant.variantId = dataItem._id;
-              return true;
-            }
-            return false;
-          });
+        filteredVariantData = productData.variantData.filter((variant) => {
+          const normalizedSku = variant.sku.toLowerCase();
+          if (dataMap.has(normalizedSku)) {
+            const dataItem = dataMap.get(normalizedSku);
+            variant.variant.variantId = dataItem._id;
+            return true;
+          }
+          return false;
+        });
       }
       setProductFilteredVariantData(filteredVariantData);
-      if (
-        filteredVariantData &&
-        filteredVariantData.length > 0 &&
-        res &&
-        res.length > 0
-      ) {
+
+      if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: res,
+          modalUrl: filteredVariantData[0].zipUrl
         });
       }
     } catch (error) {
@@ -90,6 +89,7 @@ const Products = ({
     index,
     selectedVariantData,
     productSnapshots,
+    modalUrl
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -100,6 +100,7 @@ const Products = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
         };
 
         setSelectedVariantIndex(index);
@@ -108,6 +109,7 @@ const Products = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
           images: [{ src: selectedVariantData.imageSrc }],
         };
         setSelectedVariantIndex(index);
@@ -296,7 +298,7 @@ const Products = ({
                           <input
                             type="text"
                             className="copy-link-url"
-                            value="MODCH39"
+                            value={defaultVariantSku}
                             style={{
                               position: "absolute",
                               opacity: 0,

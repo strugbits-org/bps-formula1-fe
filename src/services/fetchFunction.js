@@ -288,6 +288,8 @@ export const fetchProductDetails = async (
 
     const { items } = await WixClient.items
       .queryDataItems(options)
+      .ne("hidden", true)
+      .eq("isF1", true)
       .eq("product", slug)
       .find();
     return items.map((item) => item.data);

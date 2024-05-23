@@ -11,6 +11,7 @@ import {
   getSelectedProductId,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { redirect } from 'next/navigation';
 
 export default function Page({
   productPostPageData,
@@ -49,7 +50,6 @@ export const getServerSideProps = async (context) => {
     productVariantsData = await getProductVariants(selectedProductId);
     dataMap = new Map(productVariantsData.map((item) => [item.sku, item]));
   }
-
   const [
     productPostPageData,
     selectedProductDetails,
@@ -63,6 +63,14 @@ export const getServerSideProps = async (context) => {
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
   ]);
+  if (selectedProductDetails.length === 0) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/404"
+      }
+    }
+  }
 
   let filteredVariantData;
   if (productVariantsData && selectedProductDetails) {
@@ -76,11 +84,15 @@ export const getServerSideProps = async (context) => {
         return false;
       });
   }
+
+  const filteredMatchedProductsData = matchedProductsData.filter(
+    (item) => item.isF1
+  );
   return {
     props: {
       productPostPageData,
       selectedProductDetails,
-      matchedProductsData,
+      matchedProductsData: filteredMatchedProductsData,
       collectionsData,
       productSnapshots,
     },

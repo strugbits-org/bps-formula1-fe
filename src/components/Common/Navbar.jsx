@@ -108,7 +108,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         </div>
         <div className="container-h-2 mx-md-45 order-phone-1">
           <AnimateLink
-            to="/collections"
+            to="/"
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
