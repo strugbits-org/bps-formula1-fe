@@ -10,7 +10,7 @@ import {
   getSelectedProductDetails,
 } from "@/services/apiServices";
 import { useRouter } from "next/router";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
 import { BestSeller } from "@/utils/BestSeller";
 import useUserData from "@/hooks/useUserData";
@@ -78,6 +78,7 @@ const Products = ({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: res,
+          modalUrl: filteredVariantData[0].zipUrl
         });
       }
     } catch (error) {
@@ -89,6 +90,7 @@ const Products = ({
     index,
     selectedVariantData,
     productSnapshots,
+    modalUrl
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -99,6 +101,7 @@ const Products = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
         };
 
         setSelectedVariantIndex(index);
@@ -107,12 +110,14 @@ const Products = ({
         const combinedVariantData = {
           ...selectedVariantData,
           ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
           images: [{ src: selectedVariantData.imageSrc }],
         };
         setSelectedVariantIndex(index);
         setSelectedVariantData(combinedVariantData);
       }
     }
+    resetSlideIndex();
   };
   const handleFilter = (id) => {
     pageLoadStart();
@@ -181,38 +186,37 @@ const Products = ({
               >
                 {selectedCategory?.level2Collections !== undefined
                   ? selectedCategory?.level2Collections?.map((data, index) => {
-                      const { name, _id } = data;
-                      if (name) {
-                        return (
-                          <li key={index} className="list-item">
-                            <button
-                              className={`btn-tag js-running ${
-                                selectedCategories.includes(_id) ? "active" : ""
-                              }`}
-                              onClick={() => {
-                                handleFilter(_id);
-                              }}
-                            >
-                              <span>{name}</span>
-                            </button>
-                          </li>
-                        );
-                      }
-                    })
-                  : mainCategories.map((data, index) => {
+                    const { name, _id } = data;
+                    if (name) {
                       return (
                         <li key={index} className="list-item">
                           <button
-                            className="btn-tag"
-                            onClick={() =>
-                              changeCategory(data.parentCollection._id)
-                            }
+                            className={`btn-tag js-running ${selectedCategories.includes(_id) ? "active" : ""
+                              }`}
+                            onClick={() => {
+                              handleFilter(_id);
+                            }}
                           >
-                            <span>{data.parentCollection.name}</span>
+                            <span>{name}</span>
                           </button>
                         </li>
                       );
-                    })}
+                    }
+                  })
+                  : mainCategories.map((data, index) => {
+                    return (
+                      <li key={index} className="list-item">
+                        <button
+                          className="btn-tag"
+                          onClick={() =>
+                            changeCategory(data.parentCollection._id)
+                          }
+                        >
+                          <span>{data.parentCollection.name}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
 

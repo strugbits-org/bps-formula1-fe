@@ -42,6 +42,7 @@ export default function Document() {
         className="overflow-hidden"
       >
         <span className="initScript d-none"></span>
+        <span className="initializeCanvas d-none"></span>
         <span className="home d-none"></span>
         <span className="updateWatched d-none"></span>
         <span className="galleryLightBox d-none"></span>

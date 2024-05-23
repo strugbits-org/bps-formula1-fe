@@ -1,9 +1,9 @@
 import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
 import { SaveProductButton } from "../Common/SaveProductButton";
-import { getProductVariants } from "@/services/apiServices";
 import { AddProductToCart } from "@/services/cartServices";
 import RenderImage from "@/utils/RenderImage";
+import ModalCanvas3d from "../Common/ModalCanvas3d";
 
 const AddToCartModal = ({
   productData,
@@ -17,9 +17,7 @@ const AddToCartModal = ({
   handleImageChange,
   selectedVariantIndex,
 }) => {
-  const [fullVariantData, setFullVariantData] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(1);
-  const [modalURL, setModalURL] = useState("");
 
   const handleClose = () => {
     setTimeout(() => {
@@ -29,23 +27,9 @@ const AddToCartModal = ({
     }, 1000);
   };
 
-  
   useEffect(() => {
     document.querySelector(".addToCart").click();
-    if (productData) {
-      let url = productData.zipUrl;
-      if (url) {
-        let newUrl = url.replace(/0\.jpg$/, "");
-        setModalURL(newUrl);
-      }
-      getFullVariantData();
-    }
   }, [productData]);
-
-  const getFullVariantData = async () => {
-    const fullVariant = await getProductVariants(productData.product._id);
-    setFullVariantData(fullVariant);
-  };
 
   const seatHeightData =
     productData &&
@@ -64,12 +48,7 @@ const AddToCartModal = ({
 
     try {
       const product_id = productData.product._id;
-      const selectedVariantFullData = fullVariantData.find(
-        (x) => x.sku === selectedVariantData.sku
-      );
-      const variant_id = selectedVariantFullData._id
-        .replace(product_id, "")
-        .substring(1);
+      const variant_id = selectedVariantData.variantId.replace(product_id, "").substring(1);
       const collection = productData.f1Collection.map(x => x.collectionName).join(" - ");
 
       const product = {
@@ -125,7 +104,7 @@ const AddToCartModal = ({
                                     <span>Best Seller</span>
                                   </div>
                                 )}
-                              <div class="swiper-container">
+                              <div class="swiper-container reset-slide-enabled">
                                 <div class="swiper-wrapper">
                                   {selectedVariantData &&
                                     selectedVariantData.images?.map(
@@ -147,30 +126,11 @@ const AddToCartModal = ({
                                         );
                                       }
                                     )}
-                                  {modalURL ? (
+                                  {selectedVariantData?.modalUrl && (
                                     <div className="swiper-slide slide-360 ">
                                       <i className="icon-360"></i>
                                       <div className="container-img">
-                                        <canvas
-                                          className="infinite-image-scroller"
-                                          data-frames="49"
-                                          data-path={modalURL}
-                                          data-extension="jpg"
-                                        ></canvas>
-                                      </div>
-                                    </div>
-                                  ) : (
-                                    <div className="swiper-slide slide-360 ">
-                                      <i className="icon-360"></i>
-                                      <div className="container-img">
-                                        <canvas
-                                          className="infinite-image-scroller"
-                                          data-frames="49"
-                                          data-path={
-                                            "https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
-                                          }
-                                          data-extension="jpg"
-                                        ></canvas>
+                                        <ModalCanvas3d path={selectedVariantData?.modalUrl} />
                                       </div>
                                     </div>
                                   )}
@@ -213,18 +173,20 @@ const AddToCartModal = ({
                                           );
                                         }
                                       )}
-                                    <div class="swiper-slide">
-                                      <div class="wrapper-img img-3d">
-                                        <div class="container-img">
-                                          <img
-                                            src="/images/3d.svg"
-                                            data-preload
-                                            class="media"
-                                          />
+                                    {selectedVariantData?.modalUrl && (
+                                      <div class="swiper-slide">
+                                        <div class="wrapper-img img-3d">
+                                          <div class="container-img">
+                                            <img
+                                              src="/images/3d.svg"
+                                              data-preload
+                                              class="media"
+                                            />
+                                          </div>
+                                          <span class="hide">360</span>
                                         </div>
-                                        <span class="hide">360</span>
                                       </div>
-                                    </div>
+                                    )}
                                   </div>
                                 </div>
                               </div>
@@ -326,10 +288,9 @@ const AddToCartModal = ({
                                           onClick={() =>
                                             handleImageChange({
                                               index: index,
-                                              selectedVariantData:
-                                                variantData.variant,
-                                              productSnapshots:
-                                                productSnapshots,
+                                              selectedVariantData: variantData.variant,
+                                              productSnapshots: productSnapshots,
+                                              modalUrl: variantData.zipUrl,
                                             })
                                           }
                                         >

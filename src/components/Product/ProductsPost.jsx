@@ -8,10 +8,11 @@ import { BestSellerTag } from "../Common/BestSellerTag";
 import MatchedProducts from "../Common/MatchedProducts";
 import Breadcrumb from "../Common/BreadCrumbData";
 
-import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadEnd, pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
 import RenderImage from "@/utils/RenderImage";
+import ModalCanvas3d from "../Common/ModalCanvas3d";
 
 const ProductPost = ({
   productPostPageData,
@@ -25,59 +26,63 @@ const ProductPost = ({
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
-  const [modalURL, setModalURL] = useState("");
   const descriptionRef = useRef(null);
 
-const handleImageChange = ({ index, selectedVariantData }) => {
-  const selectedVariantFilteredData = productSnapshots.find(
-    (variant) => variant.colorVariation === selectedVariantData.variantId
-  );
 
-  if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
-    const combinedVariantData = {
-      ...selectedVariantData,
-      ...selectedVariantFilteredData,
-    };
-
-    setSelectedVariantIndex(index);
-    setSelectedVariant(combinedVariantData);
-  } else {
-    const combinedVariantData = {
-      ...selectedVariantData,
-      ...selectedVariantFilteredData,
-      images: [{ src: selectedVariantData.imageSrc }],
-    };
-    setSelectedVariantIndex(index);
-    setSelectedVariant(combinedVariantData);
-  }
-};
-
-useEffect(() => {
-  if (selectedProductDetails && productSnapshots) {
-    const selectedVariantData = selectedProductDetails.variantData[0].variant;
+  const handleImageChange = ({ index, selectedVariantData, modalUrl }) => {
     const selectedVariantFilteredData = productSnapshots.find(
       (variant) => variant.colorVariation === selectedVariantData.variantId
     );
-
-    if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
+    if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
       const combinedVariantData = {
         ...selectedVariantData,
         ...selectedVariantFilteredData,
+        modalUrl: modalUrl,
       };
 
-      setSelectedVariantIndex(0);
+      setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     } else {
       const combinedVariantData = {
         ...selectedVariantData,
         ...selectedVariantFilteredData,
+        modalUrl: modalUrl,
         images: [{ src: selectedVariantData.imageSrc }],
       };
-      setSelectedVariantIndex(0);
+      setSelectedVariantIndex(index);
       setSelectedVariant(combinedVariantData);
     }
-  }
-}, [productSnapshots, selectedProductDetails]);
+    resetSlideIndex();
+  };
+
+  useEffect(() => {
+    if (selectedProductDetails && productSnapshots) {
+      const selectedVariantData = selectedProductDetails.variantData[0].variant;
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
+
+      if (selectedVariantFilteredData && selectedVariantFilteredData.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: selectedProductDetails.variantData[0].zipUrl,
+        };
+
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: selectedProductDetails.variantData[0].zipUrl,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(0);
+        setSelectedVariant(combinedVariantData);
+      }
+    }
+  }, [productSnapshots, selectedProductDetails]);
 
   const productFoundRedirection = (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
@@ -94,13 +99,6 @@ useEffect(() => {
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
-    if (selectedProductDetails) {
-      let url = selectedProductDetails.zipUrl;
-      if (url) {
-        let newUrl = url.replace(/0\.jpg$/, "");
-        setModalURL(newUrl);
-      }
-    }
     if (descriptionElement) {
       descriptionElement.innerHTML = descriptionElement.innerHTML.replace(
         /<span style="color:#000000;">/g,
@@ -127,7 +125,9 @@ useEffect(() => {
       const variant_id = selectedVariant.variantId
         .replace(product_id, "")
         .substring(1);
-      const collection = selectedProductDetails.f1Collection.map(x => x.collectionName).join(" - ");
+      const collection = selectedProductDetails.f1Collection
+        .map((x) => x.collectionName)
+        .join(" - ");
 
       const product = {
         catalogReference: {
@@ -175,18 +175,12 @@ useEffect(() => {
                       className="best-seller-tag"
                     />
 
-                    <div className="swiper-container">
+                    <div className="swiper-container reset-slide-enabled">
                       <div className="swiper-wrapper">
                         {selectedVariant &&
                           selectedVariant.images?.map((imageData, index) => {
                             return (
-                              <div
-                                key={index}
-                                className={`swiper-slide ${index === selectedVariantIndex
-                                    ? "swiper-slide-active"
-                                    : ""
-                                  }`}
-                              >
+                              <div key={index} className="swiper-slide">
                                 <div className="container-img">
                                   <img
                                     style={{ padding: "100px" }}
@@ -199,29 +193,11 @@ useEffect(() => {
                               </div>
                             );
                           })}
-
-                        {modalURL ? (
+                        {selectedVariant?.modalUrl && (
                           <div className="swiper-slide slide-360">
                             <i className="icon-360"></i>
                             <div className="container-img">
-                              <canvas
-                                className="infinite-image-scroller"
-                                data-frames="49"
-                                data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
-                                data-extension="jpg"
-                              ></canvas>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="swiper-slide slide-360">
-                            <i className="icon-360"></i>
-                            <div className="container-img">
-                              <canvas
-                                className="infinite-image-scroller"
-                                data-frames="49"
-                                data-path="https://super-drivers.s3.us-east-2.amazonaws.com/BPS+ONLINE/F1/3DProds/_demosku/0_"
-                                data-extension="jpg"
-                              ></canvas>
+                              <ModalCanvas3d path={selectedVariant?.modalUrl} />
                             </div>
                           </div>
                         )}
@@ -245,7 +221,9 @@ useEffect(() => {
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${index === selectedVariantIndex ? "active" : ""
+                                  className={`swiper-slide  ${index === selectedVariantIndex
+                                    ? "active"
+                                    : ""
                                     }`}
                                 >
                                   <div className="wrapper-img">
@@ -263,7 +241,7 @@ useEffect(() => {
                               );
                             })}
 
-                          {modalURL && (
+                          {selectedVariant?.modalUrl && (
                             <div class="swiper-slide">
                               <div class="wrapper-img img-3d">
                                 <div class="container-img">
@@ -302,7 +280,10 @@ useEffect(() => {
                         className="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
-                        {selectedProductDetails.product.formattedDiscountedPrice}
+                        {
+                          selectedProductDetails.product
+                            .formattedDiscountedPrice
+                        }
                       </div>
                     </div>
 
@@ -379,6 +360,7 @@ useEffect(() => {
                                 handleImageChange({
                                   index: index,
                                   selectedVariantData: variantData.variant,
+                                  modalUrl: variantData.zipUrl,
                                 })
                               }
                             >
@@ -499,7 +481,8 @@ useEffect(() => {
               >
                 <h3 className="title-info-text split-words" data-aos="">
                   <span>
-                    {productPostPageData && productPostPageData.descriptionLabel}
+                    {productPostPageData &&
+                      productPostPageData.descriptionLabel}
                   </span>
                 </h3>
                 <div className="wrapper-text" data-aos="fadeIn .8s ease-in-out">
@@ -527,7 +510,8 @@ useEffect(() => {
                 selectedProductDetails.productDocs?.length > 0 && (
                   <div className="container-info-text" data-aos="">
                     <h3 className="title-info-text split-words" data-aos="">
-                      {productPostPageData && productPostPageData.downloadsLabel}
+                      {productPostPageData &&
+                        productPostPageData.downloadsLabel}
                     </h3>
                     <div
                       className="container-btn"
@@ -563,6 +547,8 @@ useEffect(() => {
                     >
                       {selectedProductDetails.subCategory.map((data, index) => {
                         const { name, _id } = data;
+                        const allProductsId = "00000000-000000-000000-000000000001";
+                        if (allProductsId == _id) return;
                         return (
                           <button
                             key={index}

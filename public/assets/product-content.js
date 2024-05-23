@@ -298,6 +298,22 @@ class InfiniteImageScroller {
     this.draw();
   }
 }
+
+export function initializeCanvas() {
+  let productContent2 = document.querySelectorAll("[data-product-content]");
+  productContent2.forEach((element) => {
+    element.querySelectorAll(".infinite-image-scroller").forEach((ele) => {
+      const imageScroller = new InfiniteImageScroller(
+        ele,
+        ele.dataset.frames,
+        ele.dataset.path,
+        ele.dataset.extension
+      );
+      ele.InfiniteImageScroller = imageScroller;
+    });
+  });
+}
+
 export function productContent() {
   let productContent2 = document.querySelectorAll(
     "[data-product-content]:not(.js-cart-running)"
@@ -314,10 +330,10 @@ export function productContent() {
       multiple: false,
       deactivateOnClickOutside: false,
       leaveDelay: 800,
-      onClose: () => {},
-      onComplete: () => {},
-      onActivate: (item) => {},
-      onDeactivate: (item) => {},
+      onClose: () => { },
+      onComplete: () => { },
+      onActivate: (item) => { },
+      onDeactivate: (item) => { },
     });
     let slider = element.querySelectorAll(
       ".wrapper-slider-product:not(.js-slider-running)"
@@ -388,15 +404,6 @@ export function productContent() {
       );
       el.querySelector(".slider-product .swiper-container").swiper =
         sliderProduct;
-    });
-    element.querySelectorAll(".infinite-image-scroller").forEach((ele) => {
-      const imageScroller = new InfiniteImageScroller(
-        ele,
-        ele.dataset.frames,
-        ele.dataset.path,
-        ele.dataset.extension
-      );
-      ele.InfiniteImageScroller = imageScroller;
     });
     element.addEventListener("modal:open", function () {
       setTimeout(() => {
