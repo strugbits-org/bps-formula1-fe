@@ -12,17 +12,17 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState("All");
+  const [selectedCollection, setSelectedCollection] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState(router.query.for || "");
-  const [selectedCategory, setSelectedCategory] = useState("Categories");
   // Function to handle selection of a collection
 
   useEffect(() => {
     if (router) {
-      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName || "Collections";
-      setSelectedCollection(_selectedCollection);
-      const _selectedCategory = categoriesData.find(x => x.parentCollection._id === router.query.category)?.parentCollection?.name || "Categories";
-      setSelectedCategory(_selectedCategory);
+      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName;
+      if (_selectedCollection) setSelectedCollection(_selectedCollection);
+      const _selectedCategory = categoriesData.find(x => x.parentCollection._id === router.query.category)?.parentCollection?.name;
+      if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
       if (
         pathname === "/" &&
@@ -38,11 +38,15 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    const queryParams = new URLSearchParams(router.query);
-    queryParams.set("collection", collectionSlug);
-    queryParams.delete("category");
-    queryParams.delete("subCategory");
-    router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
+    if (router.pathname === "/products") {
+      const queryParams = new URLSearchParams(router.query);
+      queryParams.set("collection", collectionSlug);
+      queryParams.delete("category");
+      queryParams.delete("subCategory");
+      router.push({ pathname: router.pathname, query: queryParams.toString() });
+    } else {
+      router.push(`/collections/${collectionSlug}`)
+    }
   };
   const handleCategorySelection = (name, id) => {
     setSelectedCategory(name);
@@ -157,7 +161,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               className="btn-dropdown"
               data-set-submenu="collections"
             >
-              <span>{selectedCollection}</span>
+              <span>{selectedCollection || "COLLECTIONS"}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
@@ -208,22 +212,15 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               className="btn-dropdown"
               data-set-submenu="category"
             >
-              <span>{selectedCategory}</span>
+              <span>{selectedCategory || "CATEGORIES"}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
-                }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"}`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
-                <li
-                  onClick={() => {
-                    handleCategorySelection("All", "all");
-                    setCategoryDropdownOpen(false);
-                    pageLoadStart();
-                  }}
-                >
+                <li onClick={() => handleCategorySelection("All", "all")}>
                   <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>

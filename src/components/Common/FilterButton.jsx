@@ -57,7 +57,7 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                           key={index}
                           className="container-checkbox list-filter-item"
                         >
-                          <label className="checkbox-box">
+                          <label className="checkbox-box pointer-default">
                             <input
                               type="checkbox"
                               required
@@ -83,7 +83,7 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                           key={index}
                           className="container-checkbox list-filter-item"
                         >
-                          <label className="checkbox-box">
+                          <label className="checkbox-box pointer-default">
                             <input
                               type="checkbox"
                               required
@@ -109,7 +109,7 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                           key={index}
                           className="container-checkbox list-filter-item"
                         >
-                          <label className="checkbox-box">
+                          <label className="checkbox-box pointer-default">
                             <input
                               type="checkbox"
                               required
