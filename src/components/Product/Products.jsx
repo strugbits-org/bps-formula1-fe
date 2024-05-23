@@ -7,14 +7,11 @@ import {
   getCategoriesData,
   getProductSnapShots,
   getProductVariants,
-  getSelectedProductDetails,
 } from "@/services/apiServices";
 import { useRouter } from "next/router";
 import { pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { parseArrayFromParams } from "@/utils/utils";
-import { BestSeller } from "@/utils/BestSeller";
 import useUserData from "@/hooks/useUserData";
-import { getUserAuth } from "@/utils/GetUser";
 import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
@@ -29,22 +26,24 @@ const Products = ({
   totalCount,
   pageSize,
   handleLoadMore,
-  setSelectedColors,
-  setSelectedCollections,
+  setFilterColors,
+  setfilterCollections,
+  setfilterCategory
 }) => {
+
   const router = useRouter();
   const { memberId } = useUserData();
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
-  const [mainCategories, setMainCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] = useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [categoryTitle, setCategoryTitle] = useState("");
+  const [filterCategories, setFilterCategories] = useState([]);
+
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -117,53 +116,58 @@ const Products = ({
         setSelectedVariantData(combinedVariantData);
       }
     }
-    resetSlideIndex();
-  };
-  const handleFilter = (id) => {
-    pageLoadStart();
-    const queryParams = new URLSearchParams(router.query);
-    const categories = parseArrayFromParams(router.query.subCategories);
-    if (categories.includes(id)) {
-      queryParams.set(
-        "subCategories",
-        JSON.stringify(categories.filter((el) => el !== id))
-      );
-      router.push({ pathname: router.pathname, query: queryParams.toString() });
-    } else {
-      queryParams.set("subCategories", JSON.stringify([...categories, id]));
-      router.push({ pathname: router.pathname, query: queryParams.toString() });
-    }
   };
 
   const handleImageHover = (variantData) => {
     setSelectedVariant(variantData.variant);
   };
 
-  const changeCategory = (id) => {
+  const changeQuery = (key, value) => {
     pageLoadStart();
-    router.query.category = id;
+    router.query[key] = value;
     router.push(router);
   };
 
-  useEffect(() => {
-    const getMainCategories = async () => {
-      if (selectedCategory === undefined || selectedCategory === null) {
-        const categories = await getCategoriesData(
-          collectionsData.map((x) => x._id)
-        );
-        setMainCategories(categories);
+  const getCategoriesList = async () => {
+    let categories;
+    if (router.query.category === undefined) {
+      let collectionIds = collectionsData.map((x) => x._id);
+      if (selectedCollection.length !== 0) {
+        collectionIds = selectedCollection.map((x) => x._id);
       }
-    };
-    getMainCategories();
-    const _selectedCategories = parseArrayFromParams(
-      router.query.subCategories
-    );
-    setSelectedCategories(_selectedCategories);
-  }, [router]);
+      const response = await getCategoriesData(collectionIds);
+      categories = response.map((x) => { return { ...x.parentCollection, type: "category" } });
+    } else {
+      categories = selectedCategory[0]?.level2Collections.filter((x) => x._id !== undefined).map((x) => { return { ...x, type: "subCategory" } });
+    }
+    setFilterCategories(categories);
+  };
 
-  const handleFilterChange = (collections, colors) => {
-    setSelectedColors(colors);
-    setSelectedCollections(collections);
+  useEffect(() => {
+    if (router.query.category === undefined || (selectedCategory && selectedCategory.length !== 0)) {
+      getCategoriesList();
+    }
+  }, [router, selectedCollection, collectionsData, selectedCategory]);
+
+  useEffect(() => {
+    if (router.query.subCategory && selectedCategory.length !== 0) {
+      const name = selectedCategory[0]?.level2Collections.find(x => x._id === router.query.subCategory).name;
+      setCategoryTitle(name);
+    } else {
+      setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
+    }
+  }, [router, selectedCategory]);
+
+  const handleFilterChange = ({ collections = null, categories = null, colors = null }) => {
+    if (collections) {
+      setfilterCollections(collections);
+    }
+    if (categories) {
+      setfilterCategory(categories);
+    }
+    if (colors) {
+      setFilterColors(colors);
+    }
   };
 
   return (
@@ -176,52 +180,35 @@ const Products = ({
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
                 data-aos="d:loop"
               >
-                {selectedCategory?.parentCollection?.name}
+                {categoryTitle}
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
-              <ul
-                className="list-tags"
-                data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-              >
-                {selectedCategory?.level2Collections !== undefined
-                  ? selectedCategory?.level2Collections?.map((data, index) => {
-                    const { name, _id } = data;
-                    if (name) {
-                      return (
-                        <li key={index} className="list-item">
-                          <button
-                            className={`btn-tag js-running ${selectedCategories.includes(_id) ? "active" : ""
-                              }`}
-                            onClick={() => {
-                              handleFilter(_id);
-                            }}
-                          >
-                            <span>{name}</span>
-                          </button>
-                        </li>
-                      );
-                    }
-                  })
-                  : mainCategories.map((data, index) => {
+              {router.query.subCategory === undefined && (
+                <ul
+                  className="list-tags"
+                  data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                >
+                  {filterCategories.map((data, index) => {
+                    const { name, _id, type } = data;
                     return (
                       <li key={index} className="list-item">
                         <button
-                          className="btn-tag"
-                          onClick={() =>
-                            changeCategory(data.parentCollection._id)
-                          }
+                          className="btn-tag js-running"
+                          onClick={() => { changeQuery(type, _id) }}
                         >
-                          <span>{data.parentCollection.name}</span>
+                          <span>{name}</span>
                         </button>
                       </li>
                     );
                   })}
-              </ul>
+                </ul>
+              )}
             </div>
 
             <FilterButton
               collections={collectionsData}
+              categories={filterCategories}
               colors={colors}
               handleFilterChange={handleFilterChange}
             />
@@ -229,7 +216,7 @@ const Products = ({
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
             <div className="col-lg-10 offset-lg-1 column-1">
-              {selectedCollection.length === 1 && (
+              {selectedCollection.length !== 0 && (
                 <div className="container-title">
                   <h2 className="fs-lg-24 white-1 text-center text-uppercase">
                     <span

@@ -89,12 +89,7 @@ App.getInitialProps = async (context) => {
   const page_name = pathname.split("/")[0].trim();
 
   const collectionsData = await getCollectionsData();
-  const selectedCollections =
-    page_name === "collections" && router.query?.slug
-      ? collectionsData
-          .filter((x) => x.collectionSlug === router.query.slug)
-          .map((x) => x._id)
-      : collectionsData.map((x) => x._id);
+  const selectedCollections = router.query?.collection ? collectionsData.filter((x) => x.collectionSlug === router.query.collection).map((x) => x._id) : collectionsData.map((x) => x._id);
 
   const [
     homePageData,

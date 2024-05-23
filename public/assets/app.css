@@ -16307,3 +16307,8 @@ html.with-fancybox body.hide-scrollbar {
 .events-disabled {
   pointer-events: none;
 }
+
+.pointer-default {
+  cursor: default!important;
+  user-select: none;
+}

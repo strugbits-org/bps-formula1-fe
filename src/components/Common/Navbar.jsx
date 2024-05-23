@@ -12,17 +12,17 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState("All");
+  const [selectedCollection, setSelectedCollection] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState(router.query.for || "");
-  const [selectedCategory, setSelectedCategory] = useState("Categories");
   // Function to handle selection of a collection
 
   useEffect(() => {
     if (router) {
-      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName || "Collections";
-      setSelectedCollection(_selectedCollection);
-      const _selectedCategory = categoriesData.find(x => x.parentCollection._id === router.query.category)?.parentCollection?.name || "Categories";
-      setSelectedCategory(_selectedCategory);
+      const _selectedCollection = collectionsData.find(x => x.collectionSlug === router.query.slug || x.collectionSlug === router.query.collection)?.collectionName;
+      if (_selectedCollection) setSelectedCollection(_selectedCollection);
+      const _selectedCategory = categoriesData.find(x => x.parentCollection._id === router.query.category)?.parentCollection?.name;
+      if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
       if (
         pathname === "/" &&
@@ -38,21 +38,32 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    router.push(`/collections/` + collectionSlug);
+    if (router.pathname === "/products") {
+      const queryParams = new URLSearchParams(router.query);
+      queryParams.set("collection", collectionSlug);
+      queryParams.delete("category");
+      queryParams.delete("subCategory");
+      router.push({ pathname: router.pathname, query: queryParams.toString() });
+    } else {
+      router.push(`/collections/${collectionSlug}`)
+    }
   };
   const handleCategorySelection = (name, id) => {
-    const _selectedCollection = collectionsData.find(x => x.collectionName === selectedCollection)?.collectionSlug || (selectedCollection === "Collections" ? "all" : selectedCollection);
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    if (id === "all") {
+    if (id === "all" && router.query.collection === undefined) {
       router.push(`/products`);
+    } else if (id === "all" && router.query.collection !== undefined) {
+      const queryParams = new URLSearchParams(router.query);
+      queryParams.delete("category");
+      queryParams.delete("subCategory");
+      router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     } else {
-      router.push(`/products?collection=${_selectedCollection}&category=${id}`);
-
-      // if (router.pathname === "/products") {
-      //   pageLoadEnd();
-      // }
+      const queryParams = new URLSearchParams(router.query);
+      queryParams.set("category", id);
+      queryParams.delete("subCategory");
+      router.push({ pathname: router.pathname === "/products" ? router.pathname : `/products`, query: queryParams.toString() });
     }
   };
 
@@ -111,13 +122,13 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               // onClick={signIn}
               className="btn-small btn-red btn-hover-white btn-sign-in"
-              // data-href="index.html#sign-in"
+            // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">
@@ -150,13 +161,12 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               className="btn-dropdown"
               data-set-submenu="collections"
             >
-              <span>{selectedCollection}</span>
+              <span>{selectedCollection || "COLLECTIONS"}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -165,8 +175,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                     setSelectedCollection("All");
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
-
-                    router.push("/collections");
+                    router.push("/products");
                   }}
                 >
                   <span className="link-dropdown cursor-pointer">
@@ -203,24 +212,15 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               className="btn-dropdown"
               data-set-submenu="category"
             >
-              <span>{selectedCategory}</span>
+              <span>{selectedCategory || "CATEGORIES"}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"}`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
-                <li
-                  onClick={() => {
-                    handleCategorySelection("All", "all");
-                    setCategoryDropdownOpen(false);
-                    pageLoadStart();
-                    router.push("/products");
-                  }}
-                >
+                <li onClick={() => handleCategorySelection("All", "all")}>
                   <span className="link-dropdown cursor-pointer">
                     <span>All</span>
                   </span>
@@ -266,9 +266,8 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               data-search-form
             >
               <div
-                className={`container-input input-header ${
-                  searchTerm !== "" ? "preenchido" : ""
-                }`}
+                className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""
+                  }`}
               >
                 <label htmlFor="search" className="split-chars">
                   Search

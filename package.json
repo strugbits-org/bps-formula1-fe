@@ -13,6 +13,7 @@
     "@wix/ecom": "^1.0.549",
     "@wix/members": "^1.0.74",
     "@wix/sdk": "^1.9.1",
+    "lodash": "^4.17.21",
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18"
