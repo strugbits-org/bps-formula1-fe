@@ -18122,7 +18122,7 @@ var require_app2 = __commonJS({
     });
     // Products Post page Cuctom JS
     const addToCartSlider = () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      // window.scrollTo({ top: 0, behavior: "instant" });
 
       new Swiper("#slider-match-with .swiper-container", {
         modules: [Navigation, Pagination],
@@ -18164,7 +18164,7 @@ var require_app2 = __commonJS({
     };
 
     document.querySelector(".addToCart").addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
+      // window.scrollTo({ top: 0, behavior: "instant" });
       productLinkColor();
       formCart();
 
