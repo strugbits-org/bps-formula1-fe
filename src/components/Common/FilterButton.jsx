@@ -1,21 +1,16 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const FilterButton = ({ collections, parentCategories, level2Categories, colors, handleFilterChange }) => {
+const FilterButton = ({ collections, categories, colors, handleFilterChange }) => {
   const router = useRouter();
 
   const [collectionsArray, setCollectionsArray] = useState([]);
   const [colorsArray, setColorsArray] = useState([]);
-  const [parentCategoriesArray, setParentCategoriesArray] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
 
   const handleCategoryChange = (id) => {
-    console.log("categoriesArray", categoriesArray);
-    console.log("id", id);
-    const _categories = categoriesArray.map(item => item.parentCollection._id === id ? { ...item, checked: !item.checked } : item);
-    console.log("_categories", _categories);
-    const updatedCategories = _categories.filter((x) => x.checked).map((x) => x.parentCollection._id);
-    console.log("updatedCategories", updatedCategories);
+    const _categories = categoriesArray.map(item => item._id === id ? { ...item, checked: !item.checked } : item);
+    const updatedCategories = _categories.filter((x) => x.checked).map((x) => x._id);
     setCategoriesArray(_categories);
     handleFilterChange({ categories: updatedCategories });
   };
@@ -37,9 +32,8 @@ const FilterButton = ({ collections, parentCategories, level2Categories, colors,
   useEffect(() => {
     if (collections.length !== 0) setCollectionsArray(collections.map((x) => { return { ...x, checked: false } }));
     if (colors.length !== 0) setColorsArray(colors.map((x) => { return { name: x, checked: false } }));
-    if (parentCategories.length !== 0) setParentCategoriesArray(parentCategories.map((x) => { return { ...x, checked: false } }));
-    if (level2Categories !== undefined && level2Categories.length !== 0) setCategoriesArray(level2Categories.map((x) => { return { ...x, checked: false } }));
-  }, [router, collections, colors, parentCategories, level2Categories]);
+    if (categories && categories.length !== 0) setCategoriesArray(categories.map((x) => { return { ...x, checked: false } }));
+  }, [router, collections, categories, colors]);
 
   return (
     <div
@@ -79,12 +73,11 @@ const FilterButton = ({ collections, parentCategories, level2Categories, colors,
                   </div>
                 </div>
               )}
-              {/* {parentCategories.length !== 0 && (
+              {router.query.subCategory === undefined && categories && categories.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Categories</h3>
                   <div className="list-filter">
-                    {parentCategories.map((data, index) => {
-                      // console.log(data);
+                    {categoriesArray.map((data, index) => {
                       return (
                         <div
                           key={index}
@@ -95,17 +88,17 @@ const FilterButton = ({ collections, parentCategories, level2Categories, colors,
                               type="checkbox"
                               required
                               checked={data.checked || false}
-                              onChange={() => handleCategoryChange(data.parentCollection._id)}
+                              onChange={() => handleCategoryChange(data._id)}
                             />
                             <span className="checkmark"></span>
-                            <span className="filter-tag">{data.parentCollection.name}</span>
+                            <span className="filter-tag">{data.name}</span>
                           </label>
                         </div>
                       );
                     })}
                   </div>
                 </div>
-              )} */}
+              )}
               {colors.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Colors</h3>

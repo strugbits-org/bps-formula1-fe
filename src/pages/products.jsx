@@ -2,6 +2,7 @@ import Products from "@/components/Product/Products";
 import { fetchProducts, getCollectionColors, getCollectionColorsArray, getCollectionsData, getSelectedCategoryData, getSelectedCollectionData } from "@/services/apiServices";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
 import { extractUniqueColors, parseArrayFromParams } from "@/utils/utils";
+import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
@@ -26,6 +27,7 @@ export default function Page({ collectionsData }) {
   const [filtersReady, setFiltersReady] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
+
   const handleLoadMore = async () => {
     const response = await fetchProducts(filterCollections, filterCategory, pageSize, filterColors, productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
@@ -35,7 +37,6 @@ export default function Page({ collectionsData }) {
 
   const handleProductsFilter = async (firstLoad = false, disableLoader = false) => {
     try {
-      console.log("handleProductsFilter called");
       if (!firstLoad && !disableLoader) pageLoadStart();
       const response = await fetchProducts(filterCollections, filterCategory, pageSize, filterColors);
       setProductsCollection(response._items.map((item) => item.data));
@@ -96,8 +97,8 @@ export default function Page({ collectionsData }) {
     let colors;
     if (subCategory) {
       const colorData = await getCollectionColors(subCategory);
-      setfilterCategory([router.query.subCategory]);
       colors = colorData.colors;
+      setfilterCategory([router.query.subCategory]);
     } else if (category) {
       const colorData = await getCollectionColors(category);
       colors = colorData.colors;
@@ -138,9 +139,14 @@ export default function Page({ collectionsData }) {
     }
   }
 
+  const listProducts = debounce(() => { 
+    handleProductsFilter(true, false);
+   }, 500);
+
   useEffect(() => {
     if (filtersReady) {
-      handleProductsFilter(true, false);
+      listProducts();
+      return () => listProducts.cancel();
     }
   }, [filtersReady, reloadTrigger]);
 
@@ -150,10 +156,18 @@ export default function Page({ collectionsData }) {
 
   useEffect(() => {
     if (filtersReady) {
-      console.log("data", filterColors, filterCollections);
-      // handleProductsFilter(true, false);
-    }
-  }, [filterColors, filterCollections, filterCollections])
+      if (filterCategory.length === 0 && selectedCategoryData.length !== 0) {
+        let filterCategories;
+        if (selectedCategoryData[0]?.level2Collections.length !== 0) {
+          filterCategories = selectedCategoryData[0].level2Collections.filter((x) => x._id).map((x) => x._id);
+        } else {
+          filterCategories = [selectedCategoryData[0].parentCollection._id]
+        }
+        setfilterCategory(filterCategories);
+      }
+      setReloadTrigger(prev => !prev);
+    };
+  }, [filterColors, filterCategory, filterCollections])
 
   return (
     <Products

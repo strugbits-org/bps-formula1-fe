@@ -36,13 +36,13 @@ const Products = ({
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
-  const [parentCategories, setParentCategories] = useState([]);
   const [productSnapshots, setProductSnapshots] = useState();
   const [productFilteredVariantData, setProductFilteredVariantData] = useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [categoryTitle, setCategoryTitle] = useState("");
+  const [filterCategories, setFilterCategories] = useState([]);
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
@@ -127,19 +127,25 @@ const Products = ({
   };
 
   const getCategoriesList = async () => {
-    let collectionIds = collectionsData.map((x) => x._id);
-    if (selectedCollection.length !== 0) {
-      collectionIds = selectedCollection.map((x) => x._id);
+    let categories;
+    if (router.query.category === undefined) {
+      let collectionIds = collectionsData.map((x) => x._id);
+      if (selectedCollection.length !== 0) {
+        collectionIds = selectedCollection.map((x) => x._id);
+      }
+      const response = await getCategoriesData(collectionIds);
+      categories = response.map((x) => { return { ...x.parentCollection, type: "category" } });
+    } else {
+      categories = selectedCategory[0]?.level2Collections.filter((x) => x._id !== undefined).map((x) => { return { ...x, type: "subCategory" } });
     }
-    const categories = await getCategoriesData(collectionIds);
-    setParentCategories(categories);
+    setFilterCategories(categories);
   };
 
   useEffect(() => {
-    if (router.query.category === undefined) {
+    if (router.query.category === undefined || (selectedCategory && selectedCategory.length !== 0)) {
       getCategoriesList();
     }
-  }, [router, selectedCollection, collectionsData]);
+  }, [router, selectedCollection, collectionsData, selectedCategory]);
 
   useEffect(() => {
     if (router.query.subCategory && selectedCategory.length !== 0) {
@@ -151,20 +157,14 @@ const Products = ({
   }, [router, selectedCategory]);
 
   const handleFilterChange = ({ collections = null, categories = null, colors = null }) => {
-    console.log("collections", collections);
-    console.log("categories", categories);
-    console.log("colors", colors);
     if (collections) {
-      console.log("true");
-      setFilterColors(colors);
+      setfilterCollections(collections);
     }
     if (categories) {
-      console.log("true");
       setfilterCategory(categories);
     }
     if (colors) {
-      console.log("true");
-      setfilterCollections(collections);
+      setFilterColors(colors);
     }
   };
 
@@ -187,44 +187,26 @@ const Products = ({
                   className="list-tags"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
-                  {router.query.category !== undefined
-                    ? selectedCategory[0]?.level2Collections.map((data, index) => {
-                      const { name, _id } = data;
-                      if (name) {
-                        return (
-                          <li key={index} className="list-item">
-                            <button
-                              className="btn-tag js-running"
-                              onClick={() => { changeQuery("subCategory", _id) }}
-                            >
-                              <span>{name}</span>
-                            </button>
-                          </li>
-                        );
-                      }
-                    })
-                    : parentCategories.map((data, index) => {
-                      return (
-                        <li key={index} className="list-item">
-                          <button
-                            className="btn-tag js-running"
-                            onClick={() =>
-                              changeQuery("category", data.parentCollection._id)
-                            }
-                          >
-                            <span>{data.parentCollection.name}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
+                  {filterCategories.map((data, index) => {
+                    const { name, _id, type } = data;
+                    return (
+                      <li key={index} className="list-item">
+                        <button
+                          className="btn-tag js-running"
+                          onClick={() => { changeQuery(type, _id) }}
+                        >
+                          <span>{name}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
 
             <FilterButton
               collections={collectionsData}
-              parentCategories={parentCategories}
-              level2Categories={selectedCategory[0]?.level2Collections}
+              categories={filterCategories}
               colors={colors}
               handleFilterChange={handleFilterChange}
             />
