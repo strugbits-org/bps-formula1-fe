@@ -14,10 +14,9 @@ export default function Page({
   homeBottomLeftLink,
 }) {
   markPageLoaded();
-
   return (
     <Gallery
-      galleryPageData={galleryPageData[0]}
+      galleryPageData={galleryPageData}
       collectionsData={collectionsData}
       bottomLinks={homeBottomLeftLink}
       bottomSocialLinks={homeBottomRightSocialLinks}

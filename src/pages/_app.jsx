@@ -40,7 +40,6 @@ export default function App({
       document.body.setAttribute("data-login-state", "logged");
     }
   }
-
   // const handleNavigationChange = (event) => {
   //   pageLoadStart();
 
@@ -57,7 +56,7 @@ export default function App({
       <Loader />
 
       <Navbar
-        homePageData={homePageData[0]}
+        homePageData={homePageData}
         collectionsData={collectionsData}
         categoriesData={categoriesData}
       />
@@ -74,7 +73,7 @@ export default function App({
         </div>
       </div>
       <Footer
-        footerData={footerData[0]}
+        footerData={footerData}
         footerLinksData={footerLinksData}
         socialLinks={footerBottomRightSocialLinks}
       />
@@ -92,10 +91,9 @@ App.getInitialProps = async (context) => {
   const selectedCollections =
     page_name === "collections" && router.query?.slug
       ? collectionsData
-          .filter((x) => x.collectionSlug === router.query.slug)
-          .map((x) => x._id)
+          .filter((x) => x.data.collectionSlug === router.query.slug)
+          .map((x) => x.data._id)
       : collectionsData.map((x) => x._id);
-
   const [
     homePageData,
     categoriesData,
@@ -109,7 +107,6 @@ App.getInitialProps = async (context) => {
     getFooterLinksData(),
     getHomeBottomRightSocialLinks(),
   ]);
-
   return {
     homePageData,
     collectionsData,

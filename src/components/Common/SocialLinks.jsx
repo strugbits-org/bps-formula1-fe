@@ -5,9 +5,9 @@ const SocialLinks = ({ data }) => {
     <ul className="list-social-media">
       {data &&
         data
-          .sort((a, b) => a.order - b.order)
+          .sort((a, b) => a.data.order - b.data.order)
           .map((linkData, index) => {
-            const { link, iconClass } = linkData;
+            const { link, iconClass } = linkData.data;
             return (
               <li key={index}>
                 <Link href={link || ""} className="link-social-media">

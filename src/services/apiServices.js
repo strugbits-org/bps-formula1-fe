@@ -3,7 +3,6 @@ import fetchData, {
   fetchCategoriesReferenceData,
   fetchCategoriesReferenceDataa,
   selectedCategoryData,
-  selectedCollectionData,
   fetchCollectionColors,
   fetchProductDetails,
   fetchSelectedProductId,
@@ -13,49 +12,144 @@ import fetchData, {
   fetchProductVariants,
   listProducts,
   fetchCollectionColorsArray,
+  fetchMultipleData,
+  fetchSingleItemData,
 } from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 // HOME PAGE APIS
-export const getHomePageData = () => fetchData("HomePageContentF1");
+// export const getHomePageData = () => fetchData("HomePageContentF1");
+export const getHomePageData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "HomePageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+
+// export const getHomeBottomRightSocialLinks = () =>
+//   fetchData("SocialMediaLinksF1");
 export const getHomeBottomRightSocialLinks = () =>
-  fetchData("SocialMediaLinksF1");
+  fetchMultipleData({
+    dataCollectionId: "SocialMediaLinksF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+
+// export const getHomeBottomLeftLink = () =>
+//   fetchData("HomePageBottomLeftLinksF1");
 export const getHomeBottomLeftLink = () =>
-  fetchData("HomePageBottomLeftLinksF1");
-
-export const fetchCartProducts = (
-  collections,
-  categories,
-  pageSize,
-  colors,
-  skip
-) => listProducts(collections, categories, pageSize, colors, skip);
-
-export const fetchProducts = (
-  collections,
-  categories,
-  pageSize,
-  colors,
-  skip
-) => listProducts(collections, categories, pageSize, colors, skip);
-
-export const getSearchProducts = (collections, colors, searchTerm) =>
-  fetchSearchData(collections, colors, searchTerm);
+  fetchMultipleData({
+    dataCollectionId: "HomePageBottomLeftLinksF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // REGISTRATION PAGE APIS
-export const getSignInPage = () => fetchData("SignInPageF1");
-export const getCreateAccountForm = () => fetchData("CreateAccountPageF11");
+export const getSignInPage = () =>
+  fetchSingleItemData({
+    dataCollectionId: "SignInPageF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+
+export const getCreateAccountForm = () =>
+  fetchSingleItemData({
+    dataCollectionId: "CreateAccountPageF11",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 export const getCreateAccountDropdown = () =>
-  fetchData("HospitalitySpaceLocatedOptionsF1");
+  fetchMultipleData({
+    dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // GALLERY PAGE APIS
-export const getGalleryPageData = () => fetchData("GalleryPageF1");
+export const getGalleryPageData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "GalleryPageF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // COLLECTIONS DATA
-export const getCollectionsData = () => fetchData("CollectionsF1");
+export const getCollectionsData = () =>
+  fetchMultipleData({
+    dataCollectionId: "CollectionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+
+// export const getSelectedCollectionData = (slug) =>
+//   selectedCollectionData("CollectionsF1", slug);
+
 export const getSelectedCollectionData = (slug) =>
-  selectedCollectionData("CollectionsF1", slug);
+  fetchMultipleData({
+    dataCollectionId: "CollectionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: [
+      {
+        key: "collectionSlug",
+        value: slug,
+      },
+    ],
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
@@ -80,19 +174,57 @@ export const getCollectionColorsArray = (categories) =>
 
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
+// export const getFilterCategory = (selectedCollectionId) =>
+//   fetchCategoriesReferenceData(
+//     "BPSCatalogStructure",
+//     ["parentCollection"],
+//     [selectedCollectionId]
+//   );
 export const getFilterCategory = (selectedCollectionId) =>
-  fetchCategoriesReferenceData(
-    "BPSCatalogStructure",
-    ["parentCollection"],
-    [selectedCollectionId]
-  );
+  fetchMultipleData({
+    dataCollectionId: "BPSCatalogStructure",
+    includeReferencedItems: ["parentCollection"],
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: [
+      {
+        key: "f1Collections",
+        values: [selectedCollectionId],
+      },
+    ],
+    skip: null,
+  });
 
 // COLLECTIONS PAGE API
-export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
+export const getCollectionsPageData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "CollectionsPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // COLLECTIONS POST PAGE DATA
 export const getCollectionsPostPageData = () =>
-  fetchData("CollectionsPostPageDataF1");
+  fetchSingleItemData({
+    dataCollectionId: "CollectionsPostPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
@@ -138,41 +270,122 @@ export const getProductSnapShots = (imageVariationId) =>
 
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = () =>
-  fetchData("TermsandConditionsPageContentF1");
+  fetchSingleItemData({
+    dataCollectionId: "TermsandConditionsPageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // PRIVACY AND POLICY APIS
 export const getPrivacyAndPolicyPageData = () =>
-  fetchData("PrivacyandPolicyPageContentF1");
+  fetchSingleItemData({
+    dataCollectionId: "PrivacyandPolicyPageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // FOOTER APIS
-export const getFooterData = () => fetchData("FooterDataF1");
-export const getFooterLinksData = () => fetchData("FooterLinksDataF1");
+export const getFooterData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "FooterDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+export const getFooterLinksData = () =>
+  fetchMultipleData({
+    dataCollectionId: "FooterLinksDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // USER ACCOUNT APIS
-export const getMyAccountPageData = () => fetchData("MyAccountPageDataF1");
+export const getMyAccountPageData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "MyAccountPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 export const getChangePasswordPageData = () =>
-  fetchData("ChangePasswordPageDataF1");
+  fetchSingleItemData({
+    dataCollectionId: "ChangePasswordPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 export const getQuoteHistoryPageData = () =>
-  fetchData("QuotesHistoryPageDataF1");
+  fetchSingleItemData({
+    dataCollectionId: "QuotesHistoryPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
-export const getSavedProductPageData = () => fetchData("SavedProductPageData");
+export const getSavedProductPageData = () =>
+  fetchSingleItemData({
+    dataCollectionId: "SavedProductPageData",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
 // SAVED PRODUCT PAGE APIS
 export const getSavedProductData = async (payload, authToken) => {
   try {
-    const response = await fetch(
-      `${base_url}formula1/wix/getSavedProducts`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify(payload),
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -184,3 +397,22 @@ export const getSavedProductData = async (payload, authToken) => {
     return [];
   }
 };
+
+export const fetchCartProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
+
+export const fetchProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
+
+export const getSearchProducts = (collections, colors, searchTerm) =>
+  fetchSearchData(collections, colors, searchTerm);

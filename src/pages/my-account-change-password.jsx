@@ -5,7 +5,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 export default function Page({ changePasswordPageData }) {
   markPageLoaded();
 
-  return <ChangePassword changePasswordPageData={changePasswordPageData[0]} />;
+  return <ChangePassword changePasswordPageData={changePasswordPageData} />;
 }
 
 export const getServerSideProps = async () => {

@@ -10,7 +10,6 @@ const CreateAccount = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -21,6 +20,7 @@ const CreateAccount = ({
     confirm_password: "",
     hospitality_space: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -44,16 +44,13 @@ const CreateAccount = ({
       };
       const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-      const response = await fetch(
-        `${base_url}formula1/auth/signup`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const response = await fetch(`${base_url}formula1/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
 
       if (!response.ok) {
         const data = await response.json();
@@ -236,7 +233,7 @@ const CreateAccount = ({
                     {dropdown
                       ?.sort((a, b) => a.order - b.order)
                       .map((data, index) => {
-                        const { title, value } = data;
+                        const { title, value } = data.data;
                         return (
                           <option key={index} value={value}>
                             {title}

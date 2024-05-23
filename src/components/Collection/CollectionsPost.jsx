@@ -7,16 +7,9 @@ const CollectionsPost = ({
   collectionsPostPageData,
   collectionsData,
 }) => {
-  // usePageInitialization(
-  //   "pg-collections",
-  //   ".initScript",
-  //   ".galleryLightBox"
-  // );
-
   const filteredCollectionData = collectionsData.find(
-    (data) => data.collectionSlug === slug
+    (data) => data.data.collectionSlug === slug
   );
-
   return (
     <div>
       <section className="collections-intro pt-lg-205">
@@ -34,10 +27,10 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.collectionName}
+                  filteredCollectionData.data.collectionName}
               </h1>
               <AnimateLink
-                to={filteredCollectionData.shopButtonRedirection}
+                to={`/collections-category/${slug}`}
                 className="btn-medium btn-red btn-hover-white mt-lg-35 mt-tablet-25 mt-phone-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
@@ -62,7 +55,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.gallery.map((data, index) => {
+                  filteredCollectionData.data.gallery.map((data, index) => {
                     const { src } = data;
                     return (
                       <li key={index}>
@@ -99,7 +92,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.collectionName}
+                  filteredCollectionData.data.collectionName}
               </h3>
               <div
                 className="container-text fs--14 fs-mobile-12 white-1 collection-text text-center mt-lg-20 mt-tablet-30 mt-phone-25"
@@ -108,13 +101,13 @@ const CollectionsPost = ({
                 {filteredCollectionData && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: filteredCollectionData.paragraphContent,
+                      __html: filteredCollectionData.data.description,
                     }}
                   />
                 )}
               </div>
               <AnimateLink
-                to={filteredCollectionData.shopButtonRedirection}
+                to={`/collections-category/${slug}`}
                 className="btn-medium btn-red btn-hover-white mt-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >

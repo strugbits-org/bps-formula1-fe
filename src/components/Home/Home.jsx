@@ -21,27 +21,7 @@ const HomePage = ({
 }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
-  const [message, setMessage] = useState("Mes");
-
-  // const {
-  //   homeStatus,
-  //   successMessage,
-  //   loginError,
-  //   errorMessage,
-  //   createAccountStatus,
-  //   createAccountError,
-  // } = useAppSelector((state) => state.data);
-
-  // const dispatch = useAppDispatch();
-  // useEffect(() => {
-  //   dispatch(homePageData());
-  //   dispatch(homeBottomRightSocialLinks());
-  //   dispatch(homeBottomLeftLink());
-  //   dispatch(signInForm());
-  //   dispatch(createAccountForm());
-  //   dispatch(createAccountDropdown());
-  // }, [dispatch]);
-  // usePageInitialization("pg-home", ".initScript", ".home");
+  const [message, setMessage] = useState("Message");
 
   return (
     <section
@@ -68,7 +48,7 @@ const HomePage = ({
               <div className="container-logos mb-lg-40 mb-mobile-45">
                 <div className="container-img logo-formula-1">
                   <img
-                    src={RenderImage(signInPage?.f1Logo)}
+                    src={RenderImage(signInPage.f1Logo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -76,7 +56,7 @@ const HomePage = ({
                 </div>
                 <div className="container-img logo-blueprint-rentals">
                   <img
-                    src={RenderImage(signInPage?.bluePrintLogo)}
+                    src={RenderImage(signInPage.bluePrintLogo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -131,11 +111,11 @@ const HomePage = ({
         <div className="row row-1">
           <div className="col-lg-3 col-md-6 offset-lg-1 column-1">
             {leftSectionLinks?.map((data, index) => {
-              const { links, title } = data;
+              const { links, title } = data.data;
               return (
                 <Link
                   key={index}
-                  href={links}
+                  href={links || ""}
                   className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
                 >
                   <span>{title}</span>
@@ -167,7 +147,7 @@ const HomePage = ({
         </div>
         <div className="container-img bg-img">
           <img
-            src={RenderImage(signInPage?.backgroundImage)}
+            src={RenderImage(signInPage.backgroundImage)}
             data-preload
             className="media"
             alt="product"

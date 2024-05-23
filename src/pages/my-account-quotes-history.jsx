@@ -8,7 +8,7 @@ export default function Page({ quoteHistoryPageData, quotesData }) {
 
   return (
     <QuotesHistory
-      quoteHistoryPageData={quoteHistoryPageData[0]}
+      quoteHistoryPageData={quoteHistoryPageData}
       quotesData={quotesData}
     />
   );

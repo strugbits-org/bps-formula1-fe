@@ -55,9 +55,9 @@ const Footer = ({ footerData, footerLinksData, socialLinks }) => {
             <ul className="list-menu-footer">
               {footerLinksData &&
                 footerLinksData
-                  .sort((a, b) => a.order - b.order)
+                  .sort((a, b) => a.data.order - b.data.order)
                   .map((data, index) => {
-                    const { title, link } = data;
+                    const { title, link } = data.data;
                     return (
                       <li key={index}>
                         <AnimateLink to={link || ""} className="link-footer">

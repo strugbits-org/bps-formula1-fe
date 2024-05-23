@@ -1,19 +1,18 @@
-import CollectionCategory from "@/components/Collection/CollectionsCategory";
 import {
-  getCollectionsData,
-  getCollectionsPostPageData,
   getFilterCategory,
   getSelectedCollectionData,
 } from "@/services/apiServices";
+import CollectionCategory from "@/components/Collection/CollectionsCategory";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 
-export default function Page({ collectionsPostPageData, collectionsData,filteredCategories ,selectedCollectionData}) {
+export default function Page({ filteredCategories, selectedCollectionData }) {
   const router = useRouter();
   markPageLoaded();
+
   return (
     <CollectionCategory
-    selectedCollectionData={selectedCollectionData[0]}
+      selectedCollectionData={selectedCollectionData}
       filteredCategories={filteredCategories}
       collection={router.query.slug}
     />
@@ -21,21 +20,22 @@ export default function Page({ collectionsPostPageData, collectionsData,filtered
 }
 
 export const getServerSideProps = async (context) => {
-    const slug = context.query.slug
-    const res = await getSelectedCollectionData(slug)
-    const selectedCollectionId  = res[0]._id
+  const slug = context.query.slug;
+  const res = await getSelectedCollectionData(slug);
+  const selectedCollectionId = res[0]._id;
 
-  const [collectionsPostPageData, collectionsData,filteredCategories] = await Promise.all([
-    getCollectionsPostPageData(),
-    getCollectionsData(),
+  const [filteredCategories] = await Promise.all([
     getFilterCategory(selectedCollectionId),
   ]);
+
+  const filteredData = filteredCategories
+    .filter((x) => x.data.parentCollection.slug !== "all-products")
+    .map((item) => item.data);
+
   return {
     props: {
-      collectionsPostPageData,
-      collectionsData,
-      filteredCategories,
-      selectedCollectionData:res
+      filteredCategories: filteredData || [],
+      selectedCollectionData: res[0].data,
     },
   };
 };

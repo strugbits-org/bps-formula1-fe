@@ -28,7 +28,7 @@ export default function Page({ savedProductPageData, savedProductData }) {
   }, []);
   return (
     <SavedProducts
-      savedProductPageData={savedProductPageData[0]}
+      savedProductPageData={savedProductPageData}
       savedProductData={productsData._items}
       totalCount={productsData._totalCount}
       pageSize={pageSize}

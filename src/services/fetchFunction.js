@@ -1,8 +1,8 @@
 import createWixClient from "@/config/WixConfig";
+import { getUserAuth } from "@/utils/GetUser";
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 const WixClient = createWixClient();
-
 const fetchData = async (dataCollectionId) => {
   try {
     const options = { dataCollectionId };
@@ -13,6 +13,89 @@ const fetchData = async (dataCollectionId) => {
   }
 };
 
+export const fetchSingleItemData = async (bodyData) => {
+  const authToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDU3NDkwfQ.NxcFUFbmhwjvvl4QfZjNrXWASaJpwvKjmpjyta0HF-k";
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDUwMDAxfQ.CJ8HduOJ99dJyDuBPUChlr3mqBwCI2dWUpXJZSxSZxI";
+  try {
+    // const {
+    //   dataCollectionId,
+    //   includeReferencedItems,
+    //   returnTotalCount,
+    //   contains,
+    //   limit,
+    //   eq,
+    //   ne,
+    //   hasSome,
+    //   skip,
+    // } = req.body;
+    // const bodyData = {
+    //   dataCollectionId: "HomePageContentF1",
+    // };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (authToken) {
+      headers.authorization = authToken;
+    }
+    const response = await fetch(`${base_url}formula1/wix/queryDataItems`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(bodyData),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch single Items data");
+    }
+    const data = await response.json();
+    return data.data._items[0].data;
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
+export const fetchMultipleData = async (bodyData) => {
+  const authToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDU3NDkwfQ.NxcFUFbmhwjvvl4QfZjNrXWASaJpwvKjmpjyta0HF-k";
+  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDUwMDAxfQ.CJ8HduOJ99dJyDuBPUChlr3mqBwCI2dWUpXJZSxSZxI";
+  // console.log(bodyData, "bodyData>>");
+  try {
+    // const {
+    //   dataCollectionId,
+    //   includeReferencedItems,
+    //   returnTotalCount,
+    //   contains,
+    //   limit,
+    //   eq,
+    //   ne,
+    //   hasSome,
+    //   skip,
+    // } = req.body;
+    // const bodyData = {
+    //   dataCollectionId: "HomePageContentF1",
+    // };
+
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    if (authToken) {
+      headers.authorization = authToken;
+    }
+    const response = await fetch(`${base_url}formula1/wix/queryDataItems`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify(bodyData),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch multiple items data");
+    }
+    const data = await response.json();
+    return data.data._items;
+  } catch (error) {
+    console.log("Error:", error);
+  }
+};
 export const selectedCollectionData = async (dataCollectionId, slug) => {
   try {
     const options = { dataCollectionId };
@@ -20,6 +103,7 @@ export const selectedCollectionData = async (dataCollectionId, slug) => {
       .queryDataItems(options)
       .eq("collectionSlug", slug)
       .find();
+    console.log(items, "items>>");
     return items.map((item) => item.data);
   } catch (error) {
     throw new Error(error.message);

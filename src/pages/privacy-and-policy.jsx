@@ -4,7 +4,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ privacyAndPolicy }) {
   markPageLoaded();
-  return <PrivacyAndPolicy data={privacyAndPolicy[0]} pages={privacyAndPolicy[0].content.nodes} />;
+  return <PrivacyAndPolicy data={privacyAndPolicy} />;
 }
 
 export const getServerSideProps = async () => {
