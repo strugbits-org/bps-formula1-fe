@@ -8,7 +8,7 @@ export default function Page({ collections, colors, searchTerm }) {
     const router = useRouter();
     const [searchResults, setSearchResults] = useState([]);
 
-    const handleSearchResults = async ({ collections, colors, firstLoad = false }) => {
+    const handleSearchResults = async ({ collections = [], colors = [], firstLoad = false }) => {
         const result = await getSearchProducts(collections, colors, searchTerm);
         setSearchResults(result.items.map(x => x.data));
         if (firstLoad) {

@@ -52,7 +52,6 @@ const Search = ({
       }
       setProductFilteredVariantData(filteredVariantData);
       if (filteredVariantData && filteredVariantData.length > 0) {
-        console.log("filteredVariantData[0]", filteredVariantData[0]);
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
