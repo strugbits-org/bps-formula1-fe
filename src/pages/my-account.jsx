@@ -16,7 +16,7 @@ export default function Page({
   return (
     <MyAccount
       myAccountPageData={myAccountPageData}
-      createAccountForm={createAccountForm[0]}
+      createAccountForm={createAccountForm}
       dropdown={createAccountDropdown}
     />
   );

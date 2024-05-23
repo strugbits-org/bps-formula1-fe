@@ -47,7 +47,6 @@ export const getServerSideProps = async () => {
     getCreateAccountForm(),
     getCreateAccountDropdown(),
   ]);
-
   return {
     props: {
       homePageData,

@@ -1,4 +1,3 @@
-import Gallery from "@/components/Gallery";
 import {
   getCollectionsData,
   getGalleryPageData,
@@ -6,6 +5,7 @@ import {
   getHomeBottomRightSocialLinks,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import Gallery from "@/components/Gallery";
 
 export default function Page({
   galleryPageData,

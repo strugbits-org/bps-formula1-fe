@@ -233,7 +233,7 @@ const CreateAccount = ({
                     {dropdown
                       ?.sort((a, b) => a.order - b.order)
                       .map((data, index) => {
-                        const { title, value } = data.data;
+                        const { title, value } = data;
                         return (
                           <option key={index} value={value}>
                             {title}

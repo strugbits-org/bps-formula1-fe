@@ -176,7 +176,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
                 {collectionsData
                   .sort((a, b) => a.order - b.order)
                   .map((data, index) => {
-                    const { collectionName, collectionSlug } = data.data;
+                    const { collectionName, collectionSlug } = data;
                     return (
                       <li
                         key={index}

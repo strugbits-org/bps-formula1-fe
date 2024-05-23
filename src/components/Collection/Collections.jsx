@@ -18,10 +18,9 @@ const Collections = ({ collectionsPageData, collectionsData }) => {
               data-aos="d:loop"
             >
               {collectionsData
-                .sort((a, b) => a.data.order - b.data.order)
+                .sort((a, b) => a.order - b.order)
                 .map((data, index) => {
-                  const { collectionName, mainImage, collectionSlug } =
-                    data.data;
+                  const { collectionName, mainImage, collectionSlug } = data;
                   return (
                     <li key={index} className="grid-item">
                       <AnimateLink

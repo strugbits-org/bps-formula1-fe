@@ -8,7 +8,7 @@ const CollectionsPost = ({
   collectionsData,
 }) => {
   const filteredCollectionData = collectionsData.find(
-    (data) => data.data.collectionSlug === slug
+    (data) => data.collectionSlug === slug
   );
   return (
     <div>
@@ -27,7 +27,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.data.collectionName}
+                  filteredCollectionData.collectionName}
               </h1>
               <AnimateLink
                 to={`/collections-category/${slug}`}
@@ -55,7 +55,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.data.gallery.map((data, index) => {
+                  filteredCollectionData.gallery.map((data, index) => {
                     const { src } = data;
                     return (
                       <li key={index}>
@@ -92,7 +92,7 @@ const CollectionsPost = ({
                 data-aos="d:loop"
               >
                 {filteredCollectionData &&
-                  filteredCollectionData.data.collectionName}
+                  filteredCollectionData.collectionName}
               </h3>
               <div
                 className="container-text fs--14 fs-mobile-12 white-1 collection-text text-center mt-lg-20 mt-tablet-30 mt-phone-25"
@@ -101,7 +101,7 @@ const CollectionsPost = ({
                 {filteredCollectionData && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: filteredCollectionData.data.description,
+                      __html: filteredCollectionData.description,
                     }}
                   />
                 )}

@@ -12,16 +12,15 @@ import fetchData, {
   fetchProductVariants,
   listProducts,
   fetchCollectionColorsArray,
-  fetchMultipleData,
-  fetchSingleItemData,
+  fetchDataa,
 } from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 // HOME PAGE APIS
 // export const getHomePageData = () => fetchData("HomePageContentF1");
-export const getHomePageData = () =>
-  fetchSingleItemData({
+export const getHomePageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "HomePageContentF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -32,11 +31,12 @@ export const getHomePageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // export const getHomeBottomRightSocialLinks = () =>
 //   fetchData("SocialMediaLinksF1");
-export const getHomeBottomRightSocialLinks = () =>
-  fetchMultipleData({
+export const getHomeBottomRightSocialLinks = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "SocialMediaLinksF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -47,11 +47,12 @@ export const getHomeBottomRightSocialLinks = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data);
+};
 // export const getHomeBottomLeftLink = () =>
 //   fetchData("HomePageBottomLeftLinksF1");
-export const getHomeBottomLeftLink = () =>
-  fetchMultipleData({
+export const getHomeBottomLeftLink = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "HomePageBottomLeftLinksF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -63,9 +64,11 @@ export const getHomeBottomLeftLink = () =>
     skip: null,
   });
 
+  return response._items.map((x) => x.data);
+};
 // REGISTRATION PAGE APIS
-export const getSignInPage = () =>
-  fetchSingleItemData({
+export const getSignInPage = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "SignInPageF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -76,9 +79,11 @@ export const getSignInPage = () =>
     hasSome: null,
     skip: null,
   });
+  return response._items.map((x) => x.data)[0];
+};
 
-export const getCreateAccountForm = () =>
-  fetchSingleItemData({
+export const getCreateAccountForm = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "CreateAccountPageF11",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -89,8 +94,11 @@ export const getCreateAccountForm = () =>
     hasSome: null,
     skip: null,
   });
-export const getCreateAccountDropdown = () =>
-  fetchMultipleData({
+  return response._items.map((x) => x.data)[0];
+};
+
+export const getCreateAccountDropdown = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -101,10 +109,11 @@ export const getCreateAccountDropdown = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data);
+};
 // GALLERY PAGE APIS
-export const getGalleryPageData = () =>
-  fetchSingleItemData({
+export const getGalleryPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "GalleryPageF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -115,10 +124,11 @@ export const getGalleryPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // COLLECTIONS DATA
-export const getCollectionsData = () =>
-  fetchMultipleData({
+export const getCollectionsData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "CollectionsF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -129,12 +139,13 @@ export const getCollectionsData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data);
+};
 // export const getSelectedCollectionData = (slug) =>
 //   selectedCollectionData("CollectionsF1", slug);
 
-export const getSelectedCollectionData = (slug) =>
-  fetchMultipleData({
+export const getSelectedCollectionData = async (slug) => {
+  const response = await fetchDataa({
     dataCollectionId: "CollectionsF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -150,7 +161,8 @@ export const getSelectedCollectionData = (slug) =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
   fetchCategoriesReferenceData(
@@ -180,8 +192,8 @@ export const getCollectionColorsArray = (categories) =>
 //     ["parentCollection"],
 //     [selectedCollectionId]
 //   );
-export const getFilterCategory = (selectedCollectionId) =>
-  fetchMultipleData({
+export const getFilterCategory = async (selectedCollectionId) => {
+  const response = await fetchDataa({
     dataCollectionId: "BPSCatalogStructure",
     includeReferencedItems: ["parentCollection"],
     returnTotalCount: null,
@@ -197,10 +209,11 @@ export const getFilterCategory = (selectedCollectionId) =>
     ],
     skip: null,
   });
-
+  return response._items.map((x) => x.data);
+};
 // COLLECTIONS PAGE API
-export const getCollectionsPageData = () =>
-  fetchSingleItemData({
+export const getCollectionsPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "CollectionsPageDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -211,10 +224,11 @@ export const getCollectionsPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // COLLECTIONS POST PAGE DATA
-export const getCollectionsPostPageData = () =>
-  fetchSingleItemData({
+export const getCollectionsPostPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "CollectionsPostPageDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -225,7 +239,8 @@ export const getCollectionsPostPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
   listProducts(
@@ -269,8 +284,8 @@ export const getProductSnapShots = (imageVariationId) =>
   fetchProductSnapshots("BPSProductImages", imageVariationId);
 
 // TERMS AND CONDITIONS APIS
-export const getTermsAndConditionsPageData = () =>
-  fetchSingleItemData({
+export const getTermsAndConditionsPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "TermsandConditionsPageContentF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -281,10 +296,11 @@ export const getTermsAndConditionsPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // PRIVACY AND POLICY APIS
-export const getPrivacyAndPolicyPageData = () =>
-  fetchSingleItemData({
+export const getPrivacyAndPolicyPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "PrivacyandPolicyPageContentF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -295,10 +311,11 @@ export const getPrivacyAndPolicyPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // FOOTER APIS
-export const getFooterData = () =>
-  fetchSingleItemData({
+export const getFooterData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "FooterDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -309,8 +326,11 @@ export const getFooterData = () =>
     hasSome: null,
     skip: null,
   });
-export const getFooterLinksData = () =>
-  fetchMultipleData({
+  return response._items.map((x) => x.data)[0];
+};
+
+export const getFooterLinksData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "FooterLinksDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -321,10 +341,11 @@ export const getFooterLinksData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data);
+};
 // USER ACCOUNT APIS
-export const getMyAccountPageData = () =>
-  fetchSingleItemData({
+export const getMyAccountPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "MyAccountPageDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -335,9 +356,10 @@ export const getMyAccountPageData = () =>
     hasSome: null,
     skip: null,
   });
-
-export const getChangePasswordPageData = () =>
-  fetchSingleItemData({
+  return response._items.map((x) => x.data)[0];
+};
+export const getChangePasswordPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "ChangePasswordPageDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -348,9 +370,10 @@ export const getChangePasswordPageData = () =>
     hasSome: null,
     skip: null,
   });
-
-export const getQuoteHistoryPageData = () =>
-  fetchSingleItemData({
+  return response._items.map((x) => x.data)[0];
+};
+export const getQuoteHistoryPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "QuotesHistoryPageDataF1",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -361,9 +384,10 @@ export const getQuoteHistoryPageData = () =>
     hasSome: null,
     skip: null,
   });
-
-export const getSavedProductPageData = () =>
-  fetchSingleItemData({
+  return response._items.map((x) => x.data)[0];
+};
+export const getSavedProductPageData = async () => {
+  const response = await fetchDataa({
     dataCollectionId: "SavedProductPageData",
     includeReferencedItems: null,
     returnTotalCount: null,
@@ -374,7 +398,8 @@ export const getSavedProductPageData = () =>
     hasSome: null,
     skip: null,
   });
-
+  return response._items.map((x) => x.data)[0];
+};
 // SAVED PRODUCT PAGE APIS
 export const getSavedProductData = async (payload, authToken) => {
   try {

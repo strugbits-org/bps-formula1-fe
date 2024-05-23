@@ -91,8 +91,8 @@ App.getInitialProps = async (context) => {
   const selectedCollections =
     page_name === "collections" && router.query?.slug
       ? collectionsData
-          .filter((x) => x.data.collectionSlug === router.query.slug)
-          .map((x) => x.data._id)
+          .filter((x) => x.collectionSlug === router.query.slug)
+          .map((x) => x._id)
       : collectionsData.map((x) => x._id);
   const [
     homePageData,

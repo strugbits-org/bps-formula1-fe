@@ -48,7 +48,7 @@ const Gallery = ({
         collectionFilter === "all" ||
         data.collectionSlug === collectionFilter
       ) {
-        totalItemsCount += data.data.gallery.length;
+        totalItemsCount += data.gallery.length;
       }
     });
     if (visibleItems >= totalItemsCount) {
@@ -58,7 +58,7 @@ const Gallery = ({
     }
   }, [visibleItems, collectionsData, collectionFilter]);
 
-  collectionsData.sort((a, b) => a.data.order - b.data.order);
+  collectionsData.sort((a, b) => a.order - b.order);
 
   return (
     <section className="gallery pt-lg-145 pb-90" ref={selectRef}>
@@ -99,7 +99,7 @@ const Gallery = ({
                     </li>
                     {/* )} */}
                     {collectionsData?.map((data, index) => {
-                      const { collectionName, collectionSlug } = data.data;
+                      const { collectionName, collectionSlug } = data;
                       return (
                         <li key={index}>
                           <button
@@ -126,7 +126,7 @@ const Gallery = ({
                 data-get-collections="legacy"
               >
                 {collectionsData.map((data, index) => {
-                  const { gallery, collectionSlug } = data.data;
+                  const { gallery, collectionSlug } = data;
                   const isVisibleCollection =
                     collectionFilter === collectionSlug ||
                     collectionFilter === "all";
@@ -195,7 +195,7 @@ const Gallery = ({
             <div className="footer-gallery mt-40">
               <div className="column-text mb-20">
                 {bottomLinks?.map((data, index) => {
-                  const { links, title } = data.data;
+                  const { links, title } = data;
                   return (
                     <AnimateLink
                       key={index}

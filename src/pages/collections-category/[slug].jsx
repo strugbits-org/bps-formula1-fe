@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 export default function Page({ filteredCategories, selectedCollectionData }) {
   const router = useRouter();
   markPageLoaded();
-
   return (
     <CollectionCategory
       selectedCollectionData={selectedCollectionData}
@@ -22,20 +21,20 @@ export default function Page({ filteredCategories, selectedCollectionData }) {
 export const getServerSideProps = async (context) => {
   const slug = context.query.slug;
   const res = await getSelectedCollectionData(slug);
-  const selectedCollectionId = res[0]._id;
+  const selectedCollectionId = res._id;
 
   const [filteredCategories] = await Promise.all([
     getFilterCategory(selectedCollectionId),
   ]);
 
-  const filteredData = filteredCategories
-    .filter((x) => x.data.parentCollection.slug !== "all-products")
-    .map((item) => item.data);
+  const filteredData = filteredCategories.filter(
+    (x) => x.parentCollection.slug !== "all-products"
+  );
 
   return {
     props: {
       filteredCategories: filteredData || [],
-      selectedCollectionData: res[0].data,
+      selectedCollectionData: res,
     },
   };
 };

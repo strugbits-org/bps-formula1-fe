@@ -111,7 +111,7 @@ const HomePage = ({
         <div className="row row-1">
           <div className="col-lg-3 col-md-6 offset-lg-1 column-1">
             {leftSectionLinks?.map((data, index) => {
-              const { links, title } = data.data;
+              const { links, title } = data;
               return (
                 <Link
                   key={index}
