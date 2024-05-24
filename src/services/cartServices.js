@@ -87,6 +87,8 @@ export const getProductsCart = async () => {
             throw new Error(`API request failed with status ${response.status}`);
         }
         const data = await response.json();
+        const total = calculateTotalCartQuantity(data.data.lineItems)
+        setCookie("cartQuantity", total)
         return data.data;
     } catch (error) {
         throw new Error(error);
@@ -107,6 +109,7 @@ export const createPriceQuote = async (payload) => {
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
         }
+        setCookie("cartQuantity", 0)
         const data = await response.json();
         return data.data;
     } catch (error) {

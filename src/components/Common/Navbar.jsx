@@ -12,7 +12,7 @@ import { calculateTotalCartQuantity } from "@/utils/utils";
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const pathname = usePathname();
   const router = useRouter();
-  const [cookies, setCookie] = useCookies(['cartQuantity']);
+  const [cookies, setCookie] = useCookies(['cartQuantity', 'authToken']);
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
@@ -89,7 +89,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
 
   useEffect(() => {
-    if (cookies?.cartQuantity === undefined) getCartTotalQuantity();
+    if (cookies?.cartQuantity === undefined && cookies?.authToken !== undefined) getCartTotalQuantity();
     setCartQuantity(cookies.cartQuantity);
   }, [cookies]);
 
@@ -99,7 +99,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setCookie("cartQuantity", total);
   }
   useEffect(() => {
-    getCartTotalQuantity();
+    if (cookies?.authToken !== undefined) getCartTotalQuantity();
   }, []);
 
   // const signIn = () => {
