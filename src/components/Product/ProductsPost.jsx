@@ -13,6 +13,7 @@ import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { getSubCategory } from "@/services/apiServices";
 
 const ProductPost = ({
   productPostPageData,
@@ -83,15 +84,18 @@ const ProductPost = ({
     }
   }, [productSnapshots, selectedProductDetails]);
 
-  const productFoundRedirection = (subCategoryId) => {
+  const productFoundRedirection = async (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
-
-    const categoryId = selectedProductDetails.category._id;
-    queryParams.set("category", categoryId);
-    queryParams.set("subCategories", JSON.stringify([subCategoryId]));
+    const subCategory = await getSubCategory(subCategoryId);
+    if (subCategory) {
+      queryParams.set("category", subCategory.parentCollection._id);
+      queryParams.set("subCategory", subCategoryId);
+    } else {
+      queryParams.set("category", subCategoryId);
+    }
     queryParams.delete("slug");
-    router.push({ pathname: "/products", query: queryParams.toString() });
     pageLoadStart();
+    router.push({ pathname: "/products", query: queryParams.toString() });
   };
 
   useEffect(() => {
@@ -224,11 +228,10 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${
-                                    index === selectedVariantIndex
-                                      ? "active"
-                                      : ""
-                                  }`}
+                                  className={`swiper-slide  ${index === selectedVariantIndex
+                                    ? "active"
+                                    : ""
+                                    }`}
                                 >
                                   <div className="wrapper-img">
                                     <div className="container-img">
@@ -449,7 +452,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                      0 && (
+                    0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
