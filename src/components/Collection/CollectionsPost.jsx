@@ -1,4 +1,4 @@
-import { generateImageURL } from "@/utils/GenerateImageURL";
+import { generateImageURL, generateImageUrl2 } from "@/utils/GenerateImageURL";
 import AnimateLink from "../Common/AnimateLink";
 
 const CollectionsPost = ({
@@ -9,6 +9,8 @@ const CollectionsPost = ({
   const filteredCollectionData = collectionsData.find(
     (data) => data.collectionSlug === slug
   );
+
+  console.log(filteredCollectionData, "filteredCollectionData>>");
   return (
     <div>
       <section className="collections-intro pt-lg-205">
@@ -133,18 +135,26 @@ const CollectionsPost = ({
           </div>
         </div>
       </section>
-      <div className="bg-fixed no-mobile" data-aos="d:loop">
-        <div className="container-img">
-          <img
-            src="/images/img-03.jpg"
-            data-preload
-            className="no-mobile media"
-            data-parallax-top
-            data-translate-y="-20%"
-            alt="background-image"
-          />
+      {filteredCollectionData && filteredCollectionData.backgroundImage && (
+        <div className="bg-fixed no-mobile" data-aos="d:loop">
+          <div className="container-img">
+            <img
+              src={generateImageURL({
+                wix_url: filteredCollectionData.backgroundImage,
+                w: "2126",
+                h: "909",
+                fit: "fit",
+                q: "95",
+              })}
+              data-preload
+              className="no-mobile media"
+              data-parallax-top
+              data-translate-y="-20%"
+              alt="background-image"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 import { AddProductToCart, createPriceQuote, getProductsCart, getProductsCartTotal, removeProductFromCart, updateCartItem, updateProductsCart } from "@/services/cartServices";
 import { extractSlugFromUrl, findColor, formatPrice } from "@/utils/utils";
+import BackgroundImages from "./Common/BackgroundImages";
 
 const Cart = () => {
   const [cart, setCart] = useState(null);
@@ -22,7 +23,7 @@ const Cart = () => {
       console.log("error", error);
       markPageLoaded();
     }
-  }
+  };
   const removeProduct = async (id) => {
     try {
       const response = await removeProductFromCart([id]);
@@ -31,16 +32,16 @@ const Cart = () => {
     } catch (error) {
       console.log("error", error);
     }
-  }
+  };
   const updateProducts = async (id, quantity) => {
     try {
-      const lineItems = [{ id, quantity }]
+      const lineItems = [{ id, quantity }];
       const response = await updateProductsCart(lineItems);
       setCart(response.cart);
     } catch (error) {
       console.log("error", error);
     }
-  }
+  };
   const handleQuantityChange = async (id, quantity, disabled) => {
     if (quantity < 10000 && quantity > 0) {
       const updatedLineItems = cartItems.map((x) => {
@@ -52,19 +53,19 @@ const Cart = () => {
       setCartItems(updatedLineItems);
       if (!disabled) updateProducts(id, quantity);
     }
-  }
+  };
   const handleSubmitQuote = async () => {
     try {
       setCartProcessing(true);
       updatedWatched();
       const lineItems = cartItems.map((x) => {
         return {
-          "id": x._id,
-          "name": x.physicalProperties.sku,
-          "description": x.productName.original,
-          "price": x.price.amount,
-          "quantity": x.quantity,
-          "fullItem": x
+          id: x._id,
+          name: x.physicalProperties.sku,
+          description: x.productName.original,
+          price: x.price.amount,
+          quantity: x.quantity,
+          fullItem: x,
         };
       });
       await createPriceQuote(lineItems);
@@ -75,11 +76,11 @@ const Cart = () => {
       updatedWatched();
       setCartProcessing(false);
     }
-  }
+  };
 
   useEffect(() => {
     getCart();
-  }, [])
+  }, []);
 
   useEffect(() => {
     updatedWatched();
@@ -118,16 +119,31 @@ const Cart = () => {
                     data-aos="d:loop"
                   >
                     {cartItems.map((item, index) => {
-                      const { _id, quantity, productName, url, image, price, physicalProperties, descriptionLines, catalogReference } = item;
+                      const {
+                        _id,
+                        quantity,
+                        productName,
+                        url,
+                        image,
+                        price,
+                        physicalProperties,
+                        descriptionLines,
+                        catalogReference,
+                      } = item;
                       const colors = findColor(descriptionLines).join("-");
-                      const customTextFields = catalogReference.options.customTextFields;
+                      const customTextFields =
+                        catalogReference.options.customTextFields;
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
                           <div className="cart-product">
                             <div className="container-img">
                               <img
-                                src={generateImageURL({ wix_url: image, h: "150", w: "150" })}
+                                src={generateImageURL({
+                                  wix_url: image,
+                                  h: "150",
+                                  w: "150",
+                                })}
                                 data-preload
                                 className="media"
                                 alt="product"
@@ -149,8 +165,14 @@ const Cart = () => {
                                   </AnimateLink>
                                 </div>
                                 <div className="container-price">
-                                  <div className="price">{formatPrice(price, quantity)}</div>
-                                  <button onClick={() => removeProduct(_id)} type="button" className="btn-cancel">
+                                  <div className="price">
+                                    {formatPrice(price, quantity)}
+                                  </div>
+                                  <button
+                                    onClick={() => removeProduct(_id)}
+                                    type="button"
+                                    className="btn-cancel"
+                                  >
                                     <i className="icon-close"></i>
                                   </button>
                                 </div>
@@ -159,19 +181,21 @@ const Cart = () => {
                                 <ul className="list-specs">
                                   <li className="sku">
                                     <span className="specs-title">SKU</span>
-                                    <span className="specs-text">{physicalProperties.sku}</span>
+                                    <span className="specs-text">
+                                      {physicalProperties.sku}
+                                    </span>
                                   </li>
                                   <li className="collection">
                                     <span className="specs-title">
                                       Collection
                                     </span>
-                                    <span className="specs-text">{customTextFields.collection}</span>
+                                    <span className="specs-text">
+                                      {customTextFields.collection}
+                                    </span>
                                   </li>
                                   <li className="color">
                                     <span className="specs-title">Color</span>
-                                    <span className="specs-text">
-                                      {colors}
-                                    </span>
+                                    <span className="specs-text">{colors}</span>
                                   </li>
                                   {/* <li className="additional-note">
                                     <span className="specs-title">
@@ -191,7 +215,13 @@ const Cart = () => {
                                     Quantity
                                   </span>
                                   <div className="container-input container-input-quantity js-running">
-                                    <button onClick={() => handleQuantityChange(_id, quantity - 1)} type="button" className="minus">
+                                    <button
+                                      onClick={() =>
+                                        handleQuantityChange(_id, quantity - 1)
+                                      }
+                                      type="button"
+                                      className="minus"
+                                    >
                                       <i className="icon-minus no-mobile"></i>
                                       <i className="icon-minus-2 no-desktop"></i>
                                     </button>
@@ -201,10 +231,24 @@ const Cart = () => {
                                       value={quantity}
                                       placeholder="1"
                                       className="input-number"
-                                      onInput={(e) => handleQuantityChange(_id, e.target.value, true)}
-                                      onBlur={(e) => updateProducts(_id, e.target.value)}
+                                      onInput={(e) =>
+                                        handleQuantityChange(
+                                          _id,
+                                          e.target.value,
+                                          true
+                                        )
+                                      }
+                                      onBlur={(e) =>
+                                        updateProducts(_id, e.target.value)
+                                      }
                                     />
-                                    <button onClick={() => handleQuantityChange(_id, quantity + 1)} type="button" className="plus">
+                                    <button
+                                      onClick={() =>
+                                        handleQuantityChange(_id, quantity + 1)
+                                      }
+                                      type="button"
+                                      className="plus"
+                                    >
                                       <i className="icon-plus no-mobile"></i>
                                       <i className="icon-plus-2 no-desktop"></i>
                                     </button>
@@ -230,11 +274,17 @@ const Cart = () => {
                     {cartItems.length !== 0 && (
                       <button
                         onClick={handleSubmitQuote}
-                        className={`btn-medium-wide btn-red btn-hover-white ${cartProcessing ? "events-disabled" : ""}`}
+                        className={`btn-medium-wide btn-red btn-hover-white ${
+                          cartProcessing ? "events-disabled" : ""
+                        }`}
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
-                          <span>{cartProcessing ? "Requesting for quote..." : "Request for quote"}</span>
+                          <span>
+                            {cartProcessing
+                              ? "Requesting for quote..."
+                              : "Request for quote"}
+                          </span>
                         </div>
                       </button>
                     )}
@@ -254,22 +304,7 @@ const Cart = () => {
           </div>
         </div>
         <div className="bg-fixed" data-aos="d:loop">
-          <div className="container-img">
-            <img
-              src="images/img-01.jpg"
-              data-preload
-              className="no-mobile media"
-              data-parallax-top
-              data-translate-y="-20%"
-              alt="asd"
-            />
-            <img
-              src="images/img-02.jpg"
-              data-preload
-              className="no-desktop media"
-              alt="asd"
-            />
-          </div>
+          <BackgroundImages pageSlug="cart" />
         </div>
       </section>
       {quouteStatus === "success" && <RequestForQuote />}

@@ -16,6 +16,7 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import BackgroundImages from "../Common/BackgroundImages";
 
 const Products = ({
   filteredProducts,
@@ -477,22 +478,7 @@ const Products = ({
           </div>
         </div>
         <div className="bg-fixed no-tablet" data-aos="d:loop">
-          <div className="container-img">
-            <img
-              src="/images/img-01.jpg"
-              data-preload
-              className="no-mobile media"
-              data-parallax-top
-              data-translate-y="-20%"
-              alt="product"
-            />
-            <img
-              src="/images/img-02.jpg"
-              data-preload
-              className="no-desktop media"
-              alt="product"
-            />
-          </div>
+          <BackgroundImages pageSlug="products" />
         </div>
       </section>
       <OtherCollections data={collectionsData} />
