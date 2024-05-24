@@ -1,28 +1,6 @@
 import RenderImage from '@/utils/RenderImage';
 import AnimateLink from './AnimateLink';
 
-const CollectionData = [
-  {
-    name: 'Legacy collection',
-    image: '/images/gallery/img-09.jpg',
-    link: '/collections',
-  },
-  {
-    name: 'Legacy collection',
-    image: '/images/gallery/img-09.jpg',
-    link: '/collections',
-  },
-  {
-    name: 'Legacy collection',
-    image: '/images/gallery/img-09.jpg',
-    link: '/collections',
-  },
-  {
-    name: 'Legacy collection',
-    image: '/images/gallery/img-09.jpg',
-    link: '/collections',
-  },
-];
 const OtherCollections = ({ data }) => {
   return (
     <section className="section-other-collections pos-relative mt-tablet-100 mt-phone-65 pb-lg-90 pb-tablet-40 pb-phone-165">
@@ -39,7 +17,8 @@ const OtherCollections = ({ data }) => {
               className="list-other-collections grid-md-50 mt-35"
               data-aos="d:loop"
             >
-              {data?.sort((a, b) => a.order - b.order)
+              {data
+                ?.sort((a, b) => a.order - b.order)
                 .map((data, index) => {
                   const { collectionName, mainImage, collectionSlug } = data;
 

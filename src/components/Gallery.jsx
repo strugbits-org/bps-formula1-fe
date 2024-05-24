@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useRef, useState } from "react";
 import AnimateLink from "@/components/Common/AnimateLink";
 import RenderImage from "../utils/RenderImage";
@@ -11,16 +10,17 @@ const Gallery = ({
   bottomSocialLinks,
 }) => {
   const selectRef = useRef(null);
+
   const [collectionFilter, setCollectionFilter] = useState("all");
-  const [option, setOption] = useState(false);
   const [allItemsLoaded, setAllItemsLoaded] = useState(false);
   const [visibleItems, setVisibleItems] = useState(15);
+  const [option, setOption] = useState(false);
 
   const loadMore = () => {
     setVisibleItems((prev) => prev + 15);
   };
-  let totalVisibleItems = 0;
 
+  let totalVisibleItems = 0;
   const filterCollection = (data) => {
     setOption(false);
     setVisibleItems(5);
@@ -60,7 +60,6 @@ const Gallery = ({
 
   collectionsData.sort((a, b) => a.order - b.order);
 
-  let allItems = 0;
   return (
     <section className="gallery pt-lg-145 pb-90" ref={selectRef}>
       <div className="container-fluid">
@@ -89,7 +88,6 @@ const Gallery = ({
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
-                    {/* {collectionFilter !== "all" && ( */}
                     <li>
                       <button
                         onClick={() => filterCollection("all")}
@@ -184,8 +182,6 @@ const Gallery = ({
                 <button
                   onClick={loadMore}
                   className="btn-medium btn-red btn-hover-white"
-                  // style={allItemsLoaded ? { cursor: "not-allowed" } : {}}
-                  // disabled={allItemsLoaded}
                 >
                   <div className="split-chars">
                     <span>

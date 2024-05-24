@@ -1,10 +1,10 @@
-import MyAccount from "@/components/Account/MyAccount";
 import {
   getCreateAccountDropdown,
   getCreateAccountForm,
   getMyAccountPageData,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import MyAccount from "@/components/Account/MyAccount";
 
 export default function Page({
   myAccountPageData,
@@ -12,10 +12,11 @@ export default function Page({
   createAccountDropdown,
 }) {
   markPageLoaded();
+
   return (
     <MyAccount
-      myAccountPageData={myAccountPageData[0]}
-      createAccountForm={createAccountForm[0]}
+      myAccountPageData={myAccountPageData}
+      createAccountForm={createAccountForm}
       dropdown={createAccountDropdown}
     />
   );

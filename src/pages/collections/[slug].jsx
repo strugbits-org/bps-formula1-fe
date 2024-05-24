@@ -9,11 +9,10 @@ import { useRouter } from "next/router";
 export default function Page({ collectionsPostPageData, collectionsData }) {
   const router = useRouter();
   markPageLoaded();
-
   return (
     <CollectionsPost
       slug={router.query.slug}
-      collectionsPostPageData={collectionsPostPageData[0]}
+      collectionsPostPageData={collectionsPostPageData}
       collectionsData={collectionsData}
     />
   );

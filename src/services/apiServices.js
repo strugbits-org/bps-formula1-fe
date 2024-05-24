@@ -3,7 +3,6 @@ import fetchData, {
   fetchCategoriesReferenceData,
   fetchCategoriesReferenceDataa,
   selectedCategoryData,
-  selectedCollectionData,
   fetchCollectionColors,
   fetchProductDetails,
   fetchSelectedProductId,
@@ -13,50 +12,157 @@ import fetchData, {
   fetchProductVariants,
   listProducts,
   fetchCollectionColorsArray,
+  fetchDataa,
 } from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 // HOME PAGE APIS
-export const getHomePageData = () => fetchData("HomePageContentF1");
-export const getHomeBottomRightSocialLinks = () =>
-  fetchData("SocialMediaLinksF1");
-export const getHomeBottomLeftLink = () =>
-  fetchData("HomePageBottomLeftLinksF1");
+// export const getHomePageData = () => fetchData("HomePageContentF1");
+export const getHomePageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "HomePageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
+// export const getHomeBottomRightSocialLinks = () =>
+//   fetchData("SocialMediaLinksF1");
+export const getHomeBottomRightSocialLinks = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "SocialMediaLinksF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
+// export const getHomeBottomLeftLink = () =>
+//   fetchData("HomePageBottomLeftLinksF1");
+export const getHomeBottomLeftLink = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "HomePageBottomLeftLinksF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
 
-export const fetchCartProducts = (
-  collections,
-  categories,
-  pageSize,
-  colors,
-  skip
-) => listProducts(collections, categories, pageSize, colors, skip);
-
-export const fetchProducts = (
-  collections,
-  categories,
-  pageSize,
-  colors,
-  skip
-) => listProducts(collections, categories, pageSize, colors, skip);
-
-export const getSearchProducts = (collections, colors, searchTerm) =>
-  fetchSearchData(collections, colors, searchTerm);
-
+  return response._items.map((x) => x.data);
+};
 // REGISTRATION PAGE APIS
-export const getSignInPage = () => fetchData("SignInPageF1");
-export const getCreateAccountForm = () => fetchData("CreateAccountPageF11");
-export const getCreateAccountDropdown = () =>
-  fetchData("HospitalitySpaceLocatedOptionsF1");
+export const getSignInPage = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "SignInPageF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 
+export const getCreateAccountForm = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "CreateAccountPageF11",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
+
+export const getCreateAccountDropdown = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
 // GALLERY PAGE APIS
-export const getGalleryPageData = () => fetchData("GalleryPageF1");
-
+export const getGalleryPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "GalleryPageF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // COLLECTIONS DATA
-export const getCollectionsData = () => fetchData("CollectionsF1");
-export const getSelectedCollectionData = (slug) =>
-  selectedCollectionData("CollectionsF1", slug);
+export const getCollectionsData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "CollectionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
+// export const getSelectedCollectionData = (slug) =>
+//   selectedCollectionData("CollectionsF1", slug);
 
+export const getSelectedCollectionData = async (slug) => {
+  const response = await fetchDataa({
+    dataCollectionId: "CollectionsF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: [
+      {
+        key: "collectionSlug",
+        value: slug,
+      },
+    ],
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
   fetchCategoriesReferenceData(
@@ -80,20 +186,61 @@ export const getCollectionColorsArray = (categories) =>
 
 // fetchReferenceData("BPSCatalogStructure",["f1Collections", "parentCollection"]);
 
-export const getFilterCategory = (selectedCollectionId) =>
-  fetchCategoriesReferenceData(
-    "BPSCatalogStructure",
-    ["parentCollection"],
-    [selectedCollectionId]
-  );
-
+// export const getFilterCategory = (selectedCollectionId) =>
+//   fetchCategoriesReferenceData(
+//     "BPSCatalogStructure",
+//     ["parentCollection"],
+//     [selectedCollectionId]
+//   );
+export const getFilterCategory = async (selectedCollectionId) => {
+  const response = await fetchDataa({
+    dataCollectionId: "BPSCatalogStructure",
+    includeReferencedItems: ["parentCollection"],
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: [
+      {
+        key: "f1Collections",
+        values: [selectedCollectionId],
+      },
+    ],
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
 // COLLECTIONS PAGE API
-export const getCollectionsPageData = () => fetchData("CollectionsPageDataF1");
-
+export const getCollectionsPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "CollectionsPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // COLLECTIONS POST PAGE DATA
-export const getCollectionsPostPageData = () =>
-  fetchData("CollectionsPostPageDataF1");
-
+export const getCollectionsPostPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "CollectionsPostPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // PRODUCTS PAGE APIS
 export const getFilteredProducts = (collection, category, pageSize, colors) =>
   listProducts(
@@ -137,42 +284,133 @@ export const getProductSnapShots = (imageVariationId) =>
   fetchProductSnapshots("BPSProductImages", imageVariationId);
 
 // TERMS AND CONDITIONS APIS
-export const getTermsAndConditionsPageData = () =>
-  fetchData("TermsandConditionsPageContentF1");
-
+export const getTermsAndConditionsPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "TermsandConditionsPageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // PRIVACY AND POLICY APIS
-export const getPrivacyAndPolicyPageData = () =>
-  fetchData("PrivacyandPolicyPageContentF1");
-
+export const getPrivacyAndPolicyPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "PrivacyandPolicyPageContentF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // FOOTER APIS
-export const getFooterData = () => fetchData("FooterDataF1");
-export const getFooterLinksData = () => fetchData("FooterLinksDataF1");
+export const getFooterData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "FooterDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 
+export const getFooterLinksData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "FooterLinksDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data);
+};
 // USER ACCOUNT APIS
-export const getMyAccountPageData = () => fetchData("MyAccountPageDataF1");
-
-export const getChangePasswordPageData = () =>
-  fetchData("ChangePasswordPageDataF1");
-
-export const getQuoteHistoryPageData = () =>
-  fetchData("QuotesHistoryPageDataF1");
-
-export const getSavedProductPageData = () => fetchData("SavedProductPageData");
-
+export const getMyAccountPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "MyAccountPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
+export const getChangePasswordPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "ChangePasswordPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
+export const getQuoteHistoryPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "QuotesHistoryPageDataF1",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
+export const getSavedProductPageData = async () => {
+  const response = await fetchDataa({
+    dataCollectionId: "SavedProductPageData",
+    includeReferencedItems: null,
+    returnTotalCount: null,
+    contains: null,
+    limit: null,
+    eq: null,
+    ne: null,
+    hasSome: null,
+    skip: null,
+  });
+  return response._items.map((x) => x.data)[0];
+};
 // SAVED PRODUCT PAGE APIS
 export const getSavedProductData = async (payload, authToken) => {
   try {
-    const response = await fetch(
-      `${base_url}formula1/wix/getSavedProducts`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        },
-        body: JSON.stringify(payload),
-      }
-    );
+    const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify(payload),
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -184,3 +422,22 @@ export const getSavedProductData = async (payload, authToken) => {
     return [];
   }
 };
+
+export const fetchCartProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
+
+export const fetchProducts = (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => listProducts(collections, categories, pageSize, colors, skip);
+
+export const getSearchProducts = (collections, colors, searchTerm) =>
+  fetchSearchData(collections, colors, searchTerm);

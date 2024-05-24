@@ -4,9 +4,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ termsAndConditionsPageData }) {
   markPageLoaded();
-  return (
-    <TermsAndCondition data={termsAndConditionsPageData[0]} />
-  );
+  return <TermsAndCondition data={termsAndConditionsPageData} />;
 }
 
 export const getServerSideProps = async () => {

@@ -1,9 +1,9 @@
 import HomePage from "@/components/Home/Home";
 import {
-  getCreateAccountDropdown,
-  getCreateAccountForm,
-  getHomeBottomLeftLink,
   getHomeBottomRightSocialLinks,
+  getCreateAccountDropdown,
+  getHomeBottomLeftLink,
+  getCreateAccountForm,
   getHomePageData,
   getSignInPage,
 } from "@/services/apiServices";
@@ -17,15 +17,15 @@ export default function Page({
   createAccountPage,
   createAccountDropdown,
 }) {
-
   markPageLoaded();
+
   return (
     <HomePage
-      homePageData={homePageData[0]}
+      homePageData={homePageData}
       leftSectionLinks={homeBottomLeftLink}
       rightSectionIcons={homeBottomRightSocialLinks}
-      signInPage={signInPage[0]}
-      createAccountPage={createAccountPage[0]}
+      signInPage={signInPage}
+      createAccountPage={createAccountPage}
       createAccountDropdown={createAccountDropdown}
     />
   );
@@ -47,7 +47,6 @@ export const getServerSideProps = async () => {
     getCreateAccountForm(),
     getCreateAccountDropdown(),
   ]);
-
   return {
     props: {
       homePageData,
