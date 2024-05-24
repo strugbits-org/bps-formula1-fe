@@ -1,4 +1,4 @@
-import RenderImage from "@/utils/RenderImage";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const ProductSnapshots = ({ data }) => {
   return (
@@ -17,7 +17,13 @@ const ProductSnapshots = ({ data }) => {
                 <div className="container-img">
                   <img
                     style={{ maxHeight: "80rem" }}
-                    src={RenderImage(data[0].src)}
+                    src={generateImageURL({
+                      wix_url: data[0].src,
+                      w: "1747",
+                      h: "889",
+                      fit: "fill",
+                      q: "95",
+                    })}
                     data-preload
                     className="media"
                     alt="pro-product"
@@ -37,7 +43,13 @@ const ProductSnapshots = ({ data }) => {
                     >
                       <div className="container-img">
                         <img
-                          src={RenderImage(src)}
+                          src={generateImageURL({
+                            wix_url: src,
+                            w: "867",
+                            h: "578",
+                            fit: "fill",
+                            q: "95",
+                          })}
                           data-preload
                           className="media"
                           alt="product-njk"

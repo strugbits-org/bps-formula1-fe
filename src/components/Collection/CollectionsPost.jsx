@@ -1,6 +1,5 @@
-// import usePageInitialization from "@/hooks/usePageInitialization";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 import AnimateLink from "../Common/AnimateLink";
-import RenderImage from "@/utils/RenderImage";
 
 const CollectionsPost = ({
   slug,
@@ -60,13 +59,25 @@ const CollectionsPost = ({
                     return (
                       <li key={index}>
                         <button
-                          href={RenderImage(src)}
+                          href={generateImageURL({
+                            wix_url: src,
+                            w: "1059",
+                            h: "1059",
+                            fit: "fill",
+                            q: "95",
+                          })}
                           className="gallery-link no-pjax"
                           data-fancybox="gallery-classic-vegas"
                         >
                           <div className="container-img">
                             <img
-                              src={RenderImage(src)}
+                              src={generateImageURL({
+                                wix_url: src,
+                                w: "1280",
+                                h: "1280",
+                                fit: "fill",
+                                q: "95",
+                              })}
                               data-preload
                               className="media"
                               data-parallax

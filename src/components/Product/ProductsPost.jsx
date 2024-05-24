@@ -11,8 +11,8 @@ import Breadcrumb from "../Common/BreadCrumbData";
 import { pageLoadEnd, pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
-import RenderImage from "@/utils/RenderImage";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const ProductPost = ({
   productPostPageData,
@@ -27,7 +27,6 @@ const ProductPost = ({
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
-
 
   const handleImageChange = ({ index, selectedVariantData, modalUrl }) => {
     const selectedVariantFilteredData = productSnapshots.find(
@@ -182,7 +181,13 @@ const ProductPost = ({
                                 <div className="container-img">
                                   <img
                                     style={{ padding: "100px" }}
-                                    src={RenderImage(imageData.src)}
+                                    src={generateImageURL({
+                                      wix_url: imageData.src,
+                                      w: "671",
+                                      h: "671",
+                                      fit: "fill",
+                                      q: "95",
+                                    })}
                                     data-preload
                                     className="media"
                                     alt={`product-${index}`}
@@ -219,16 +224,23 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${index === selectedVariantIndex
-                                    ? "active"
-                                    : ""
-                                    }`}
+                                  className={`swiper-slide  ${
+                                    index === selectedVariantIndex
+                                      ? "active"
+                                      : ""
+                                  }`}
                                 >
                                   <div className="wrapper-img">
                                     <div className="container-img">
                                       <img
                                         style={{ padding: "20px" }}
-                                        src={RenderImage(src)}
+                                        src={generateImageURL({
+                                          wix_url: src,
+                                          w: "168",
+                                          h: "168",
+                                          fit: "fill",
+                                          q: "95",
+                                        })}
                                         data-preload
                                         className="media"
                                         alt={`product-thumb-${index}`}
@@ -372,7 +384,14 @@ const ProductPost = ({
                                 />
                                 <div className="container-img">
                                   <img
-                                    src={variantData.variant.imageSrc}
+                                    // src={variantData.variant.imageSrc}
+                                    src={generateImageURL({
+                                      wix_url: variantData.variant.imageSrc,
+                                      w: "49",
+                                      h: "49",
+                                      fit: "fill",
+                                      q: "95",
+                                    })}
                                     data-preload
                                     className="media"
                                     alt="pro-product"
@@ -430,7 +449,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                    0 && (
+                      0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "
@@ -545,7 +564,8 @@ const ProductPost = ({
                     >
                       {selectedProductDetails.subCategory.map((data, index) => {
                         const { name, _id } = data;
-                        const allProductsId = "00000000-000000-000000-000000000001";
+                        const allProductsId =
+                          "00000000-000000-000000-000000000001";
                         if (allProductsId == _id) return;
                         return (
                           <button
