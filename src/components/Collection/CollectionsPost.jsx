@@ -7,16 +7,9 @@ const CollectionsPost = ({
   collectionsPostPageData,
   collectionsData,
 }) => {
-  // usePageInitialization(
-  //   "pg-collections",
-  //   ".initScript",
-  //   ".galleryLightBox"
-  // );
-
   const filteredCollectionData = collectionsData.find(
     (data) => data.collectionSlug === slug
   );
-
   return (
     <div>
       <section className="collections-intro pt-lg-205">
@@ -37,7 +30,7 @@ const CollectionsPost = ({
                   filteredCollectionData.collectionName}
               </h1>
               <AnimateLink
-                to={filteredCollectionData.shopButtonRedirection}
+                to={`/collections-category/${slug}`}
                 className="btn-medium btn-red btn-hover-white mt-lg-35 mt-tablet-25 mt-phone-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
@@ -108,13 +101,13 @@ const CollectionsPost = ({
                 {filteredCollectionData && (
                   <div
                     dangerouslySetInnerHTML={{
-                      __html: filteredCollectionData.paragraphContent,
+                      __html: filteredCollectionData.description,
                     }}
                   />
                 )}
               </div>
               <AnimateLink
-                to={filteredCollectionData.shopButtonRedirection}
+                to={`/collections-category/${slug}`}
                 className="btn-medium btn-red btn-hover-white mt-30"
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >

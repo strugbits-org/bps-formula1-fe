@@ -1,4 +1,3 @@
-import Gallery from "@/components/Gallery";
 import {
   getCollectionsData,
   getGalleryPageData,
@@ -6,6 +5,7 @@ import {
   getHomeBottomRightSocialLinks,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import Gallery from "@/components/Gallery";
 
 export default function Page({
   galleryPageData,
@@ -14,10 +14,9 @@ export default function Page({
   homeBottomLeftLink,
 }) {
   markPageLoaded();
-
   return (
     <Gallery
-      galleryPageData={galleryPageData[0]}
+      galleryPageData={galleryPageData}
       collectionsData={collectionsData}
       bottomLinks={homeBottomLeftLink}
       bottomSocialLinks={homeBottomRightSocialLinks}

@@ -1,9 +1,7 @@
-"use client";
 import AnimateLink from "@/components/Common/AnimateLink";
 import RenderImage from "@/utils/RenderImage";
 
 const Collections = ({ collectionsPageData, collectionsData }) => {
-
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
       <div className="container-fluid">

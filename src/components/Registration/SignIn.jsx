@@ -1,15 +1,16 @@
 import { useState } from "react";
-import Disclaimer from "./Disclaimer";
 import { useRouter } from "next/router";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
+import Disclaimer from "./Disclaimer";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const router = useRouter();
+
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [showPassword, setShowPassword] = useState(false);
 
   const LoginUser = async (e) => {
     e.preventDefault();
@@ -55,7 +56,6 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
           document.body.setAttribute("data-login-state", "logged");
         }, 1000);
       }
-
     } catch (error) {
       console.log("Error during login:", error);
       setMessage("Invalid Credentials!");

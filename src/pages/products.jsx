@@ -27,7 +27,6 @@ export default function Page({ collectionsData }) {
   const [filtersReady, setFiltersReady] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
-
   const handleLoadMore = async () => {
     const response = await fetchProducts(filterCollections, filterCategory, pageSize, filterColors, productsCollection.length);
     setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);

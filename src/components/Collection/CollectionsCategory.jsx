@@ -1,8 +1,11 @@
 import RenderImage from "@/utils/RenderImage";
 import AnimateLink from "../Common/AnimateLink";
 
-const CollectionCategory = ({ selectedCollectionData, filteredCategories,collection }) => {
-
+const CollectionCategory = ({
+  selectedCollectionData,
+  filteredCategories,
+  collection,
+}) => {
   return (
     <>
       <section className="collections-category-intro pt-lg-165 pb-lg-90 pb-tablet-50 pb-phone-130">
