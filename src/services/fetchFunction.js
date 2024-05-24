@@ -1,25 +1,11 @@
+import { getToken } from "@/utils/GetUser";
+
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const fetchData = async (bodyData) => {
-  const authToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDU3NDkwfQ.NxcFUFbmhwjvvl4QfZjNrXWASaJpwvKjmpjyta0HF-k";
-  // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImF0dGFAZ21haWwuY29tIiwiaWF0IjoxNzE2NDUwMDAxfQ.CJ8HduOJ99dJyDuBPUChlr3mqBwCI2dWUpXJZSxSZxI";
-  try {
-    // const {
-    //   dataCollectionId,
-    //   includeReferencedItems,
-    //   returnTotalCount,
-    //   contains,
-    //   limit,
-    //   eq,
-    //   ne,
-    //   hasSome,
-    //   skip,
-    // } = req.body;
-    // const bodyData = {
-    //   dataCollectionId: "HomePageContentF1",
-    // };
+  const authToken = getToken();
 
+  try {
     const headers = {
       "Content-Type": "application/json",
     };

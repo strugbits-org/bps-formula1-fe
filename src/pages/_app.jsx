@@ -13,7 +13,7 @@ import Account from "@/components/Account/Index";
 import Navbar from "@/components/Common/Navbar";
 import Loader from "@/components/Common/Loader";
 import Footer from "@/components/Common/Footer";
-import { getUserAuth } from "@/utils/GetUser";
+import { getUserAuth, setAuthToken } from "@/utils/GetUser";
 
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
@@ -82,13 +82,17 @@ export default function App({
 }
 
 App.getInitialProps = async (context) => {
+  const { authToken } = context.ctx.req.cookies;
   const router = context.router;
-  const pathname =
-    router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
-  const page_name = pathname.split("/")[0].trim();
+
+  setAuthToken(authToken);
 
   const collectionsData = await getCollectionsData();
-  const selectedCollections = router.query?.collection ? collectionsData.filter((x) => x.collectionSlug === router.query.collection).map((x) => x._id) : collectionsData.map((x) => x._id);
+  const selectedCollections = router.query?.collection
+    ? collectionsData
+        .filter((x) => x.collectionSlug === router.query.collection)
+        .map((x) => x._id)
+    : collectionsData.map((x) => x._id);
 
   const [
     homePageData,

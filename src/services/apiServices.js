@@ -50,8 +50,8 @@ export const getModalLogos = async () => {
     return [];
   }
 };
+
 // HOME PAGE APIS
-// export const getHomePageData = () => fetchData("HomePageContentF1");
 export const getHomePageData = async () => {
   try {
     const response = await fetchData({
@@ -75,8 +75,7 @@ export const getHomePageData = async () => {
     return [];
   }
 };
-// export const getHomeBottomRightSocialLinks = () =>
-//   fetchData("SocialMediaLinksF1");
+
 export const getHomeBottomRightSocialLinks = async () => {
   try {
     const response = await fetchData({
@@ -100,8 +99,7 @@ export const getHomeBottomRightSocialLinks = async () => {
     return [];
   }
 };
-// export const getHomeBottomLeftLink = () =>
-//   fetchData("HomePageBottomLeftLinksF1");
+
 export const getHomeBottomLeftLink = async () => {
   try {
     const response = await fetchData({
@@ -125,6 +123,7 @@ export const getHomeBottomLeftLink = async () => {
     return [];
   }
 };
+
 // REGISTRATION PAGE APIS
 export const getSignInPage = async () => {
   try {
@@ -196,6 +195,7 @@ export const getCreateAccountDropdown = async () => {
     console.error("Error fetching filter category:", error);
     return [];
   }
+  
 };
 // GALLERY PAGE APIS
 export const getGalleryPageData = async () => {
