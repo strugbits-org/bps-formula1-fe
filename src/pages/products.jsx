@@ -26,7 +26,6 @@ export default function Page({
   const [selectedCollections, setSelectedCollections] = useState(selectedCollection.map((x) => x._id));
   const pageSize = 9;
 
-
   const handleLoadMore = async () => {
     let subCategories = parseArrayFromParams(router.query.subCategories);
     if ((selectedCategory !== undefined || selectedCategory !== null) && subCategories.length === 0) {

@@ -18,10 +18,9 @@ const OtherCollections = ({ data }) => {
               data-aos="d:loop"
             >
               {data
-                ?.sort((a, b) => a.data.order - b.data.order)
+                ?.sort((a, b) => a.order - b.order)
                 .map((data, index) => {
-                  const { collectionName, mainImage, collectionSlug } =
-                    data.data;
+                  const { collectionName, mainImage, collectionSlug } = data;
 
                   return (
                     <li key={index} className="grid-item">

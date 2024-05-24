@@ -161,7 +161,7 @@ export const getSelectedCollectionData = async (slug) => {
     hasSome: null,
     skip: null,
   });
-  return response._items.map((x) => x.data)[0];
+  return response._items.map((x) => x.data);
 };
 // CATEGORY DATA
 export const getCategoriesData = (collectionsIds) =>
