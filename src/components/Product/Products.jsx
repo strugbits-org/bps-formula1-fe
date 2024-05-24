@@ -9,8 +9,7 @@ import {
   getProductVariants,
 } from "@/services/apiServices";
 import { useRouter } from "next/router";
-import { pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
-import { parseArrayFromParams } from "@/utils/utils";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import useUserData from "@/hooks/useUserData";
 import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";

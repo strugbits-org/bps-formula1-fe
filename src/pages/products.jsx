@@ -1,7 +1,6 @@
 import Products from "@/components/Product/Products";
-import { fetchProducts, getCollectionColors, getCollectionColorsArray, getCollectionsData, getSelectedCategoryData, getSelectedCollectionData } from "@/services/apiServices";
+import { fetchProducts, getCollectionColors, getCollectionsData, getSelectedCategoryData, getSelectedCollectionData } from "@/services/apiServices";
 import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
-import { extractUniqueColors, parseArrayFromParams } from "@/utils/utils";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
