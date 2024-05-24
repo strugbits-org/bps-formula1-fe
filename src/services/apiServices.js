@@ -1,24 +1,10 @@
-import fetchData, {
-  fetchSearchData,
-  fetchCategoriesReferenceData,
-  fetchCategoriesReferenceDataa,
-  selectedCategoryData,
-  fetchCollectionColors,
-  fetchProductDetails,
-  fetchSelectedProductId,
-  fetchPairItWithProducts,
-  fetchPairItWithProductsIds,
-  fetchProductSnapshots,
-  fetchProductVariants,
-  listProducts,
-  fetchCollectionColorsArray,
-  fetchDataa,
-} from "./fetchFunction";
+import fetchData from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+
 export const getBackgroundImages = async () => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "BackgroundImagesF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -43,7 +29,7 @@ export const getBackgroundImages = async () => {
 
 export const getModalLogos = async () => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "ModalLogos",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -67,116 +53,178 @@ export const getModalLogos = async () => {
 // HOME PAGE APIS
 // export const getHomePageData = () => fetchData("HomePageContentF1");
 export const getHomePageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "HomePageContentF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "HomePageContentF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // export const getHomeBottomRightSocialLinks = () =>
 //   fetchData("SocialMediaLinksF1");
 export const getHomeBottomRightSocialLinks = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "SocialMediaLinksF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data);
+  try {
+    const response = await fetchData({
+      dataCollectionId: "SocialMediaLinksF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // export const getHomeBottomLeftLink = () =>
 //   fetchData("HomePageBottomLeftLinksF1");
 export const getHomeBottomLeftLink = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "HomePageBottomLeftLinksF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-
-  return response._items.map((x) => x.data);
+  try {
+    const response = await fetchData({
+      dataCollectionId: "HomePageBottomLeftLinksF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // REGISTRATION PAGE APIS
 export const getSignInPage = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "SignInPageF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "SignInPageF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 
 export const getCreateAccountForm = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "CreateAccountPageF11",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "CreateAccountPageF11",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 
 export const getCreateAccountDropdown = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data);
+  try {
+    const response = await fetchData({
+      dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // GALLERY PAGE APIS
 export const getGalleryPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "GalleryPageF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "GalleryPageF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // COLLECTIONS DATA
 export const getCollectionsData = async () => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "CollectionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -201,7 +249,7 @@ export const getCollectionsData = async () => {
 
 export const getProductsListing = async (selectedCollectionId) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection"],
       returnTotalCount: null,
@@ -229,12 +277,9 @@ export const getProductsListing = async (selectedCollectionId) => {
   }
 };
 
-// export const getSelectedCollectionData = (slug) =>
-//   selectedCollectionData("CollectionsF1", slug);
-
 export const getSelectedCollectionData = async (slug) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "CollectionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -265,7 +310,7 @@ export const getSelectedCollectionData = async (slug) => {
 // CATEGORY DATA
 export const getCategoriesData = async (collectionsIds) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["f1Collections", "parentCollection"],
       returnTotalCount: null,
@@ -277,7 +322,7 @@ export const getCategoriesData = async (collectionsIds) => {
         {
           key: "f1Collections",
           values: collectionsIds,
-        }
+        },
       ],
       skip: null,
     });
@@ -295,7 +340,7 @@ export const getCategoriesData = async (collectionsIds) => {
 
 export const getSelectedCategoryData = async (slug) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection", "level2Collections"],
       returnTotalCount: null,
@@ -307,7 +352,7 @@ export const getSelectedCategoryData = async (slug) => {
         {
           key: "parentCollection",
           values: [slug],
-        }
+        },
       ],
       skip: null,
     });
@@ -325,7 +370,7 @@ export const getSelectedCategoryData = async (slug) => {
 
 export const getCollectionColors = async (category) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "colorFilterCache",
       returnTotalCount: null,
       contains: null,
@@ -351,103 +396,252 @@ export const getCollectionColors = async (category) => {
   }
 };
 
-// fetchReferenceData("F1CategoriesStructure",["f1Collections", "parentCollection"]);
-
-// export const getFilterCategory = (selectedCollectionId) =>
-//   fetchCategoriesReferenceData(
-//     "F1CategoriesStructure",
-//     ["parentCollection"],
-//     [selectedCollectionId]
-//   );
 export const getFilterCategory = async (selectedCollectionId) => {
-  const response = await fetchDataa({
-    dataCollectionId: "F1CategoriesStructure",
-    includeReferencedItems: ["parentCollection"],
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: [
-      {
-        key: "f1Collections",
-        values: [selectedCollectionId],
-      },
-    ],
-    skip: null,
-  });
-  return response._items.map((x) => x.data);
+  try {
+    const response = await fetchData({
+      dataCollectionId: "F1CategoriesStructure",
+      includeReferencedItems: ["parentCollection"],
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: [
+        {
+          key: "f1Collections",
+          values: [selectedCollectionId],
+        },
+      ],
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
 };
 // COLLECTIONS PAGE API
 export const getCollectionsPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "CollectionsPageDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "CollectionsPageDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
 };
 // COLLECTIONS POST PAGE DATA
 export const getCollectionsPostPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "CollectionsPostPageDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "CollectionsPostPageDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
 };
-// PRODUCTS PAGE APIS
-export const getFilteredProducts = (collection, category, pageSize, colors) =>
-  listProducts(
-    "locationFilteredVariant",
-    ["category", "product", "subCategory"],
-    slug
-  );
-
-export const getFilterProducts = (slug) =>
-  fetchCategoriesReferenceDataa(
-    "locationFilteredVariant",
-    ["category", "product", "subCategory"],
-    slug
-  );
 
 // PRODUCT POST PAGE APIS
-export const getProductPostPageData = () => fetchData("ProductPostPageF1");
+export const getProductPostPageData = async () => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "ProductPostPageF1",
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
 
-export const getSelectedProductId = (slug) =>
-  fetchSelectedProductId("Stores/Products", slug);
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
 
-export const getSelectedProductDetails = (slug) =>
-  fetchProductDetails(
-    "locationFilteredVariant",
-    ["category", "product", "subCategory", "f1Collection"],
-    slug
-  );
-export const getPairItWithProductsId = (slug) =>
-  fetchPairItWithProductsIds("BPSPairItWith", slug);
+export const getSelectedProductId = async (slug) => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "Stores/Products",
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: [
+        {
+          key: "slug",
+          value: slug,
+        },
+      ],
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
 
-export const getPairItWithProducts = (productId) =>
-  fetchPairItWithProducts(
-    "locationFilteredVariant",
-    ["category", "product", "subCategory", "f1Collection"],
-    productId
-  );
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
+
+export const getSelectedProductDetails = async (slug) => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "f1Collection",
+      ],
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: [
+        {
+          key: "isF1",
+          value: true,
+        },
+        {
+          key: "product",
+          value: slug,
+        },
+      ],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
+
+export const getPairItWithProductsId = async (slug) => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "BPSPairItWith",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: [
+        {
+          key: "productId",
+          value: slug,
+        },
+      ],
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
+
+export const getPairItWithProducts = async (productIds) => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "f1Collection",
+      ],
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: [
+        {
+          key: "isF1",
+          value: true,
+        },
+      ],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
+      hasSome: [
+        {
+          key: "product",
+          values: productIds,
+        },
+      ],
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
 
 export const getProductVariants = async (id) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "Stores/Variants",
       returnTotalCount: null,
       contains: null,
@@ -458,7 +652,7 @@ export const getProductVariants = async (id) => {
         {
           key: "productId",
           value: id,
-        }
+        },
       ],
       skip: null,
     });
@@ -472,11 +666,11 @@ export const getProductVariants = async (id) => {
     console.error("Error fetching filter category:", error);
     return [];
   }
-}
+};
 
 export const getProductSnapShots = async (id) => {
   try {
-    const response = await fetchDataa({
+    const response = await fetchData({
       dataCollectionId: "BPSProductImages",
       returnTotalCount: null,
       contains: null,
@@ -487,7 +681,7 @@ export const getProductSnapShots = async (id) => {
         {
           key: "productId",
           value: id,
-        }
+        },
       ],
       skip: null,
     });
@@ -501,124 +695,204 @@ export const getProductSnapShots = async (id) => {
     console.error("Error fetching filter category:", error);
     return [];
   }
-}
+};
 
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "TermsandConditionsPageContentF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "TermsandConditionsPageContentF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // PRIVACY AND POLICY APIS
 export const getPrivacyAndPolicyPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "PrivacyandPolicyPageContentF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "PrivacyandPolicyPageContentF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // FOOTER APIS
 export const getFooterData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "FooterDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "FooterDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 
 export const getFooterLinksData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "FooterLinksDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data);
+  try {
+    const response = await fetchData({
+      dataCollectionId: "FooterLinksDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // USER ACCOUNT APIS
 export const getMyAccountPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "MyAccountPageDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "MyAccountPageDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 export const getChangePasswordPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "ChangePasswordPageDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "ChangePasswordPageDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 export const getQuoteHistoryPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "QuotesHistoryPageDataF1",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "QuotesHistoryPageDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 export const getSavedProductPageData = async () => {
-  const response = await fetchDataa({
-    dataCollectionId: "SavedProductPageData",
-    includeReferencedItems: null,
-    returnTotalCount: null,
-    contains: null,
-    limit: null,
-    eq: null,
-    ne: null,
-    hasSome: null,
-    skip: null,
-  });
-  return response._items.map((x) => x.data)[0];
+  try {
+    const response = await fetchData({
+      dataCollectionId: "SavedProductPageData",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
 };
 // SAVED PRODUCT PAGE APIS
 export const getSavedProductData = async (payload, authToken) => {
@@ -643,11 +917,23 @@ export const getSavedProductData = async (payload, authToken) => {
   }
 };
 
-export const fetchProducts = async (collections, categories, pageSize, colors, skip) => {
+export const fetchProducts = async (
+  collections,
+  categories,
+  pageSize,
+  colors,
+  skip
+) => {
   try {
     const payload = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", "subCategory", "members", "f1Collection"],
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "members",
+        "f1Collection",
+      ],
       returnTotalCount: true,
       contains: null,
       limit: pageSize,
@@ -657,13 +943,15 @@ export const fetchProducts = async (collections, categories, pageSize, colors, s
           value: true,
         },
       ],
-      ne: [{
-        key: "hidden",
-        value: true,
-      }],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
       hasSome: [],
       skip: skip,
-    }
+    };
 
     if (collections.length !== 0) {
       payload.hasSome.push({
@@ -685,10 +973,7 @@ export const fetchProducts = async (collections, categories, pageSize, colors, s
         values: categories,
       });
     }
-    const response = await fetchDataa(payload);
-
-    console.log("response", response._items.map((x) => x.data));
-
+    const response = await fetchData(payload);
 
     if (response) {
       return response;
@@ -704,7 +989,13 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
   try {
     const payload = {
       dataCollectionId: "locationFilteredVariant",
-      includeReferencedItems: ["category", "product", "subCategory", "members", "f1Collection"],
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "members",
+        "f1Collection",
+      ],
       returnTotalCount: true,
       contains: ["search", searchTerm],
       limit: null,
@@ -714,13 +1005,15 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
           value: true,
         },
       ],
-      ne: [{
-        key: "hidden",
-        value: true,
-      }],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
       hasSome: [],
       skip: null,
-    }
+    };
 
     if (collections.length !== 0) {
       payload.hasSome.push({
@@ -736,7 +1029,7 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
       });
     }
 
-    const response = await fetchDataa(payload);
+    const response = await fetchData(payload);
 
     if (response) {
       return response;
@@ -745,5 +1038,24 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
     }
   } catch (error) {
     console.error("Error fetching filter category:", error);
+  }
+};
+
+export const getQuotes = async (authToken) => {
+  try {
+    const response = await fetch(`${base_url}formula1/wix/getAllPriceQuote`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: authToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch quotes");
+    }
+    const data = await response.json();
+    return data.data._items;
+  } catch (error) {
+    console.log("Error:", error);
   }
 };

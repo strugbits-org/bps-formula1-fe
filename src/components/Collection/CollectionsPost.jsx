@@ -1,4 +1,4 @@
-import { generateImageURL, generateImageUrl2 } from "@/utils/GenerateImageURL";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 import AnimateLink from "../Common/AnimateLink";
 
 const CollectionsPost = ({
@@ -10,7 +10,6 @@ const CollectionsPost = ({
     (data) => data.collectionSlug === slug
   );
 
-  console.log(filteredCollectionData, "filteredCollectionData>>");
   return (
     <div>
       <section className="collections-intro pt-lg-205">

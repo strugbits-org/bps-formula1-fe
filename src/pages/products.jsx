@@ -1,6 +1,17 @@
 import Products from "@/components/Product/Products";
-import { fetchProducts, getCollectionColors, getCollectionsData, getSelectedCategoryData, getSelectedCollectionData } from "@/services/apiServices";
-import { markPageLoaded, pageLoadEnd, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
+import {
+  fetchProducts,
+  getCollectionColors,
+  getCollectionsData,
+  getSelectedCategoryData,
+  getSelectedCollectionData,
+} from "@/services/apiServices";
+import {
+  markPageLoaded,
+  pageLoadEnd,
+  pageLoadStart,
+  updatedWatched,
+} from "@/utils/AnimationFunctions";
 import { debounce } from "lodash";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -27,16 +38,33 @@ export default function Page({ collectionsData }) {
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
   const handleLoadMore = async () => {
-    const response = await fetchProducts(filterCollections, filterCategory, pageSize, filterColors, productsCollection.length);
-    setProductsCollection(prev => [...prev, ...response._items.map(item => item.data)]);
+    const response = await fetchProducts(
+      filterCollections,
+      filterCategory,
+      pageSize,
+      filterColors,
+      productsCollection.length
+    );
+    setProductsCollection((prev) => [
+      ...prev,
+      ...response._items.map((item) => item.data),
+    ]);
     setProductsResponse(response);
     updatedWatched();
-  }
+  };
 
-  const handleProductsFilter = async (firstLoad = false, disableLoader = false) => {
+  const handleProductsFilter = async (
+    firstLoad = false,
+    disableLoader = false
+  ) => {
     try {
       if (!firstLoad && !disableLoader) pageLoadStart();
-      const response = await fetchProducts(filterCollections, filterCategory, pageSize, filterColors);
+      const response = await fetchProducts(
+        filterCollections,
+        filterCategory,
+        pageSize,
+        filterColors
+      );
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
       if (firstLoad) {
@@ -59,20 +87,26 @@ export default function Page({ collectionsData }) {
     if (collection === undefined) {
       setSelectedCollectionData([]);
       setfilterCollections([]);
-    };
+    }
     if (category === undefined) {
       setSelectedCategoryData([]);
       setfilterCategory([]);
-    };
+    }
     if (subCategory === undefined) setfilterCategory([]);
 
-    const collectionChanged = collection !== selectedCollection && collection !== undefined && collection !== null;
-    const categoryChanged = category !== selectedCategory && category !== undefined && category !== null;
+    const collectionChanged =
+      collection !== selectedCollection &&
+      collection !== undefined &&
+      collection !== null;
+    const categoryChanged =
+      category !== selectedCategory &&
+      category !== undefined &&
+      category !== null;
 
     if (collectionChanged && categoryChanged) {
       const [collectionsResponse, categoryResponse] = await Promise.all([
         getSelectedCollectionData(collection),
-        getSelectedCategoryData(category)
+        getSelectedCategoryData(category),
       ]);
       setSelectedCollectionData(collectionsResponse);
       setFilterCollectionsData(collectionsResponse);
@@ -107,7 +141,7 @@ export default function Page({ collectionsData }) {
     }
 
     setColors(colors);
-    setReloadTrigger(prev => !prev);
+    setReloadTrigger((prev) => !prev);
     setFiltersReady(true);
   };
 
@@ -121,25 +155,27 @@ export default function Page({ collectionsData }) {
     } else {
       setfilterCollections([]);
     }
-  }
+  };
 
   const setFilterCategoryData = (data) => {
     if (data.length !== 0) {
       let filterCategories;
       if (data[0].level2Collections.length !== 0) {
-        filterCategories = data[0].level2Collections.filter((x) => x._id).map((x) => x._id);
+        filterCategories = data[0].level2Collections
+          .filter((x) => x._id)
+          .map((x) => x._id);
       } else {
-        filterCategories = [data[0].parentCollection._id]
+        filterCategories = [data[0].parentCollection._id];
       }
       setfilterCategory(filterCategories);
     } else {
       setfilterCategory([]);
     }
-  }
+  };
 
-  const listProducts = debounce(() => { 
+  const listProducts = debounce(() => {
     handleProductsFilter(true, false);
-   }, 500);
+  }, 500);
 
   useEffect(() => {
     if (filtersReady) {
@@ -157,15 +193,17 @@ export default function Page({ collectionsData }) {
       if (filterCategory.length === 0 && selectedCategoryData.length !== 0) {
         let filterCategories;
         if (selectedCategoryData[0]?.level2Collections.length !== 0) {
-          filterCategories = selectedCategoryData[0].level2Collections.filter((x) => x._id).map((x) => x._id);
+          filterCategories = selectedCategoryData[0].level2Collections
+            .filter((x) => x._id)
+            .map((x) => x._id);
         } else {
-          filterCategories = [selectedCategoryData[0].parentCollection._id]
+          filterCategories = [selectedCategoryData[0].parentCollection._id];
         }
         setfilterCategory(filterCategories);
       }
-      setReloadTrigger(prev => !prev);
-    };
-  }, [filterColors, filterCategory, filterCollections])
+      setReloadTrigger((prev) => !prev);
+    }
+  }, [filterColors, filterCategory, filterCollections]);
 
   return (
     <Products
@@ -188,7 +226,7 @@ export const getServerSideProps = async () => {
   const collectionsData = await getCollectionsData();
   return {
     props: {
-      collectionsData
+      collectionsData,
     },
   };
 };

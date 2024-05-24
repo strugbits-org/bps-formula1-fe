@@ -1,6 +1,5 @@
+import { getQuoteHistoryPageData, getQuotes } from "@/services/apiServices";
 import QuotesHistory from "@/components/Account/QuotesHistory";
-import { getQuoteHistoryPageData } from "@/services/apiServices";
-import { fetchQuotes } from "@/services/fetchFunction";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 export default function Page({ quoteHistoryPageData, quotesData }) {
@@ -18,7 +17,7 @@ export const getServerSideProps = async (context) => {
   const { authToken } = context.req.cookies;
   const [quoteHistoryPageData, quotesData] = await Promise.all([
     getQuoteHistoryPageData(),
-    fetchQuotes(authToken),
+    getQuotes(authToken),
   ]);
 
   return {
