@@ -1,6 +1,7 @@
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import ModalLogos from "./ModalLogos";
 
 const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
   const router = useRouter();
@@ -29,30 +30,8 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
                 <div className="row">
                   <div className="col-lg-6 offset-lg-3">
                     <div className="content" data-feedback-area>
-                      <div className="container-logos">
-                        <div
-                          className="container-img logo-formula-1"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="/images/logo-formula-1-red.svg"
-                            data-preload
-                            className="media"
-                            alt="product"
-                          />
-                        </div>
-                        <div
-                          className="container-img logo-blueprint"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="/images/logo-blueprint-rentals-black.svg"
-                            data-preload
-                            className="media"
-                            alt="product"
-                          />
-                        </div>
-                      </div>
+                      <ModalLogos />
+
                       <h2
                         className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
                         data-aos="d:loop"

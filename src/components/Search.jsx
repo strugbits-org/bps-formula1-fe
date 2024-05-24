@@ -29,12 +29,16 @@ const Search = ({
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
-      const res = await getProductSnapShots(productData.product._id);
-      setProductSnapshots(res);
 
-      const productVariantsData = await getProductVariants(
-        productData.product._id
-      );
+      const product_id = productData.product._id;
+      const [
+        productSnapshotData,
+        productVariantsData,
+      ] = await Promise.all([
+        getProductSnapShots(product_id),
+        getProductVariants(product_id)
+      ]);
+
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku, item])
       );
@@ -51,11 +55,12 @@ const Search = ({
           });
       }
       setProductFilteredVariantData(filteredVariantData);
+      setProductSnapshots(productSnapshotData);
       if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
-          productSnapshots: res,
+          productSnapshots: productSnapshotData,
           modalUrl: filteredVariantData[0].zipUrl
         });
       }
@@ -265,6 +270,8 @@ const Search = ({
         setSelectedVariantData={setSelectedVariantData}
         handleImageChange={handleImageChange}
         selectedVariantIndex={selectedVariantIndex}
+        setProductSnapshots={setProductSnapshots}
+        setProductFilteredVariantData={setProductFilteredVariantData}
       />
     </>
   );

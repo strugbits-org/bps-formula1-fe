@@ -30,12 +30,15 @@ const MatchedProducts = ({ matchedProductsData }) => {
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
-      const res = await getProductSnapShots(productData.product._id);
-      setProductSnapshots(res);
+      const product_id = productData.product._id;
+      const [
+        productSnapshotData,
+        productVariantsData,
+      ] = await Promise.all([
+        getProductSnapShots(product_id),
+        getProductVariants(product_id)
+      ]);
 
-      const productVariantsData = await getProductVariants(
-        productData.product._id
-      );
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku, item])
       );
@@ -52,11 +55,12 @@ const MatchedProducts = ({ matchedProductsData }) => {
           });
       }
       setProductFilteredVariantData(filteredVariantData);
+      setProductSnapshots(productSnapshotData);
       if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
-          productSnapshots: res,
+          productSnapshots: productSnapshotData,
           modalUrl: filteredVariantData[0].zipUrl
         });
       }
@@ -325,6 +329,8 @@ const MatchedProducts = ({ matchedProductsData }) => {
         setSelectedVariantData={setSelectedVariantData}
         handleImageChange={handleImageChange}
         selectedVariantIndex={selectedVariantIndex}
+        setProductSnapshots={setProductSnapshots}
+        setProductFilteredVariantData={setProductFilteredVariantData}
       />
     </>
   );

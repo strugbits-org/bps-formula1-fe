@@ -2,6 +2,7 @@ import AnimateLink from "./AnimateLink";
 import { extractSlugFromUrl, findColor } from "@/utils/utils";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 import { formatCustomDate } from "../Account/QuotesHistory";
+import ModalLogos from "./ModalLogos";
 
 const CartModal = ({ data, handleAddToCart }) => {
   const totalPrice = data?.lineItems?.reduce((total, item) => {
@@ -225,30 +226,7 @@ const CartModal = ({ data, handleAddToCart }) => {
                 <div class="row">
                   <div class="col-lg-6 offset-lg-3">
                     <div class="content" data-feedback-area>
-                      <div class="container-logos">
-                        <div
-                          class="container-img logo-formula-1"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="images/logo-formula-1-red.svg"
-                            data-preload
-                            class="media"
-                            alt="product"
-                          />
-                        </div>
-                        <div
-                          class="container-img logo-blueprint"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="images/logo-blueprint-rentals-black.svg"
-                            data-preload
-                            class="media"
-                            alt="product"
-                          />
-                        </div>
-                      </div>
+                      <ModalLogos />
                       <h2
                         class="fs--70 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
                         data-aos="d:loop"

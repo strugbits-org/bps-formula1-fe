@@ -1,6 +1,5 @@
-// import usePageInitialization from "@/hooks/usePageInitialization";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 import AnimateLink from "../Common/AnimateLink";
-import RenderImage from "@/utils/RenderImage";
 
 const CollectionsPost = ({
   slug,
@@ -10,6 +9,7 @@ const CollectionsPost = ({
   const filteredCollectionData = collectionsData.find(
     (data) => data.collectionSlug === slug
   );
+
   return (
     <div>
       <section className="collections-intro pt-lg-205">
@@ -60,13 +60,25 @@ const CollectionsPost = ({
                     return (
                       <li key={index}>
                         <button
-                          href={RenderImage(src)}
+                          href={generateImageURL({
+                            wix_url: src,
+                            w: "1059",
+                            h: "1059",
+                            fit: "fill",
+                            q: "95",
+                          })}
                           className="gallery-link no-pjax"
                           data-fancybox="gallery-classic-vegas"
                         >
                           <div className="container-img">
                             <img
-                              src={RenderImage(src)}
+                              src={generateImageURL({
+                                wix_url: src,
+                                w: "1280",
+                                h: "1280",
+                                fit: "fill",
+                                q: "95",
+                              })}
                               data-preload
                               className="media"
                               data-parallax
@@ -122,18 +134,26 @@ const CollectionsPost = ({
           </div>
         </div>
       </section>
-      <div className="bg-fixed no-mobile" data-aos="d:loop">
-        <div className="container-img">
-          <img
-            src="/images/img-03.jpg"
-            data-preload
-            className="no-mobile media"
-            data-parallax-top
-            data-translate-y="-20%"
-            alt="background-image"
-          />
+      {filteredCollectionData && filteredCollectionData.backgroundImage && (
+        <div className="bg-fixed no-mobile" data-aos="d:loop">
+          <div className="container-img">
+            <img
+              src={generateImageURL({
+                wix_url: filteredCollectionData.backgroundImage,
+                w: "2126",
+                h: "909",
+                fit: "fit",
+                q: "95",
+              })}
+              data-preload
+              className="no-mobile media"
+              data-parallax-top
+              data-translate-y="-20%"
+              alt="background-image"
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -9,13 +9,14 @@ import {
   getProductVariants,
 } from "@/services/apiServices";
 import { useRouter } from "next/router";
-import { pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
-import { parseArrayFromParams } from "@/utils/utils";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import useUserData from "@/hooks/useUserData";
 import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
+import { generateImageURL } from "@/utils/GenerateImageURL";
+import BackgroundImages from "../Common/BackgroundImages";
 
 const Products = ({
   filteredProducts,
@@ -28,16 +29,16 @@ const Products = ({
   handleLoadMore,
   setFilterColors,
   setfilterCollections,
-  setfilterCategory
+  setfilterCategory,
 }) => {
-
   const router = useRouter();
   const { memberId } = useUserData();
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] = useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -47,12 +48,14 @@ const Products = ({
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
-      const res = await getProductSnapShots(productData.product._id);
-      setProductSnapshots(res);
-
-      const productVariantsData = await getProductVariants(
-        productData.product._id
-      );
+      const product_id = productData.product._id;
+      const [
+        productSnapshotData,
+        productVariantsData,
+      ] = await Promise.all([
+        getProductSnapShots(product_id),
+        getProductVariants(product_id)
+      ]);
 
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku.toLowerCase(), item])
@@ -70,14 +73,14 @@ const Products = ({
           return false;
         });
       }
+      setProductSnapshots(productSnapshotData);
       setProductFilteredVariantData(filteredVariantData);
-
       if (filteredVariantData && filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
-          productSnapshots: res,
-          modalUrl: filteredVariantData[0].zipUrl
+          productSnapshots: productSnapshotData,
+          modalUrl: filteredVariantData[0].zipUrl,
         });
       }
     } catch (error) {
@@ -89,7 +92,7 @@ const Products = ({
     index,
     selectedVariantData,
     productSnapshots,
-    modalUrl
+    modalUrl,
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -136,29 +139,44 @@ const Products = ({
         collectionIds = selectedCollection.map((x) => x._id);
       }
       const response = await getCategoriesData(collectionIds);
-      categories = response.map((x) => { return { ...x.parentCollection, type: "category" } });
+      categories = response.map((x) => {
+        return { ...x.parentCollection, type: "category" };
+      });
     } else {
-      categories = selectedCategory[0]?.level2Collections.filter((x) => x._id !== undefined).map((x) => { return { ...x, type: "subCategory" } });
+      categories = selectedCategory[0]?.level2Collections
+        .filter((x) => x._id !== undefined)
+        .map((x) => {
+          return { ...x, type: "subCategory" };
+        });
     }
     setFilterCategories(categories);
   };
 
   useEffect(() => {
-    if (router.query.category === undefined || (selectedCategory && selectedCategory.length !== 0)) {
+    if (
+      router.query.category === undefined ||
+      (selectedCategory && selectedCategory.length !== 0)
+    ) {
       getCategoriesList();
     }
   }, [router, selectedCollection, collectionsData, selectedCategory]);
 
   useEffect(() => {
     if (router.query.subCategory && selectedCategory.length !== 0) {
-      const name = selectedCategory[0]?.level2Collections.find(x => x._id === router.query.subCategory).name;
+      const name = selectedCategory[0]?.level2Collections.find(
+        (x) => x._id === router.query.subCategory
+      ).name;
       setCategoryTitle(name);
     } else {
       setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
     }
   }, [router, selectedCategory]);
 
-  const handleFilterChange = ({ collections = null, categories = null, colors = null }) => {
+  const handleFilterChange = ({
+    collections = null,
+    categories = null,
+    colors = null,
+  }) => {
     if (collections) {
       setfilterCollections(collections);
     }
@@ -195,7 +213,9 @@ const Products = ({
                       <li key={index} className="list-item">
                         <button
                           className="btn-tag js-running"
-                          onClick={() => { changeQuery(type, _id) }}
+                          onClick={() => {
+                            changeQuery(type, _id);
+                          }}
                         >
                           <span>{name}</span>
                         </button>
@@ -350,8 +370,14 @@ const Products = ({
                                         style={{
                                           padding: "100px",
                                         }}
-                                        width={100}
-                                        src={variantData.variant.imageSrc}
+                                        src={generateImageURL({
+                                          wix_url: variantData.variant.imageSrc,
+                                          w: "373",
+                                          h: "373",
+                                          fit: "fill",
+                                          q: "95",
+                                        })}
+                                        // src={variantData.variant.imageSrc}
                                         className="media"
                                         alt="product"
                                       />
@@ -387,7 +413,15 @@ const Products = ({
                                     >
                                       <div className="container-img">
                                         <img
-                                          src={variantData.variant.imageSrc}
+                                          // src={variantData.variant.imageSrc}
+                                          src={generateImageURL({
+                                            wix_url:
+                                              variantData.variant.imageSrc,
+                                            w: "39",
+                                            h: "39",
+                                            fit: "fill",
+                                            q: "95",
+                                          })}
                                           data-preload
                                           className="media"
                                           alt="product"
@@ -446,22 +480,7 @@ const Products = ({
           </div>
         </div>
         <div className="bg-fixed no-tablet" data-aos="d:loop">
-          <div className="container-img">
-            <img
-              src="/images/img-01.jpg"
-              data-preload
-              className="no-mobile media"
-              data-parallax-top
-              data-translate-y="-20%"
-              alt="product"
-            />
-            <img
-              src="/images/img-02.jpg"
-              data-preload
-              className="no-desktop media"
-              alt="product"
-            />
-          </div>
+          <BackgroundImages pageSlug="products" />
         </div>
       </section>
       <OtherCollections data={collectionsData} />
@@ -490,6 +509,8 @@ const Products = ({
         setSelectedVariantData={setSelectedVariantData}
         handleImageChange={handleImageChange}
         selectedVariantIndex={selectedVariantIndex}
+        setProductSnapshots={setProductSnapshots}
+        setProductFilteredVariantData={setProductFilteredVariantData}
       />
     </>
   );

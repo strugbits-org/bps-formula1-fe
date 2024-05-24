@@ -1,5 +1,5 @@
-import RenderImage from "@/utils/RenderImage";
 import AnimateLink from "../Common/AnimateLink";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const CollectionCategory = ({
   selectedCollectionData,
@@ -39,7 +39,13 @@ const CollectionCategory = ({
                         </h3>
                         <div className="container-img">
                           <img
-                            src={RenderImage(parentCollection.mainMedia)}
+                            src={generateImageURL({
+                              wix_url: parentCollection.mainMedia,
+                              w: "536",
+                              h: "401",
+                              fit: "fill",
+                              q: "95",
+                            })}
                             data-preload
                             className="media"
                             alt="product"

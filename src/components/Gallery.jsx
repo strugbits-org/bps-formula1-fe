@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import AnimateLink from "@/components/Common/AnimateLink";
-import RenderImage from "../utils/RenderImage";
 import SocialLinks from "./Common/SocialLinks";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const Gallery = ({
   galleryPageData,
@@ -145,17 +145,28 @@ const Gallery = ({
                             .slice(0, visibleItemsFromCollection)
                             .map((galleryData, galleryIndex) => {
                               const { src } = galleryData;
-
                               return (
                                 <li key={galleryIndex}>
                                   <a
-                                    href={RenderImage(src)}
+                                    href={generateImageURL({
+                                      wix_url: src,
+                                      w: "1059",
+                                      h: "1059",
+                                      fit: "fill",
+                                      q: "95",
+                                    })}
                                     className="gallery-link no-pjax"
                                     data-fancybox="gallery-legacy"
                                   >
                                     <div className="container-img">
                                       <img
-                                        src={RenderImage(src)}
+                                        src={generateImageURL({
+                                          wix_url: src,
+                                          w: "1280",
+                                          h: "1280",
+                                          fit: "fill",
+                                          q: "95",
+                                        })}
                                         data-preload
                                         className="media"
                                         data-parallax

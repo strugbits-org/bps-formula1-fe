@@ -10,7 +10,7 @@ export default function Page({ collections, colors, searchTerm }) {
 
     const handleSearchResults = async ({ collections = [], colors = [], firstLoad = false }) => {
         const result = await getSearchProducts(collections, colors, searchTerm);
-        setSearchResults(result.items.map(x => x.data));
+        setSearchResults(result._items.map(x => x.data));
         if (firstLoad) {
             markPageLoaded(false);
         } else {
