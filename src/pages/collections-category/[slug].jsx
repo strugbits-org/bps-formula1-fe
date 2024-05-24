@@ -21,7 +21,7 @@ export default function Page({ filteredCategories, selectedCollectionData }) {
 export const getServerSideProps = async (context) => {
   const slug = context.query.slug;
   const res = await getSelectedCollectionData(slug);
-  const selectedCollectionId = res._id;
+  const selectedCollectionId = res[0]._id;
 
   const [filteredCategories] = await Promise.all([
     getFilterCategory(selectedCollectionId),
@@ -34,7 +34,7 @@ export const getServerSideProps = async (context) => {
   return {
     props: {
       filteredCategories: filteredData || [],
-      selectedCollectionData: res,
+      selectedCollectionData: res[0],
     },
   };
 };
