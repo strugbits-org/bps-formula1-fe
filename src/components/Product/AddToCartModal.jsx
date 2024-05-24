@@ -1,9 +1,10 @@
-import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
+
 import { SaveProductButton } from "../Common/SaveProductButton";
-import { AddProductToCart } from "@/services/cartServices";
-import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { AddProductToCart } from "@/services/cartServices";
+import { BestSellerTag } from "../Common/BestSellerTag";
+import ModalCanvas3d from "../Common/ModalCanvas3d";
 
 const AddToCartModal = ({
   productData,
@@ -17,7 +18,7 @@ const AddToCartModal = ({
   handleImageChange,
   selectedVariantIndex,
   setProductSnapshots,
-  setProductFilteredVariantData
+  setProductFilteredVariantData,
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
 
@@ -106,12 +107,13 @@ const AddToCartModal = ({
                             data-default-active
                           >
                             <div class="slider-product">
-                              {productData &&
-                                BestSeller[productData.category._id] && (
-                                  <div class="best-seller-tag">
-                                    <span>Best Seller</span>
-                                  </div>
-                                )}
+                              {productData && (
+                                <BestSellerTag
+                                  subCategory={productData.subCategory}
+                                  className="best-seller-tag"
+                                />
+                              )}
+
                               <div class="swiper-container reset-slide-enabled">
                                 <div class="swiper-wrapper">
                                   {selectedVariantData &&
@@ -391,7 +393,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                              0 && (
+                                0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "

@@ -16,8 +16,6 @@ export const getUserData = () => {
     } catch (error) {
       console.error("Error parsing user data from cookie", error);
     }
-  } else {
-    console.log("User data cookie not found");
   }
   return null;
 };
@@ -26,8 +24,6 @@ export const getUserAuth = () => {
   const authToken = getCookie("authToken");
   if (authToken) {
     return authToken;
-  } else {
-    console.log("User auth token not found");
   }
   return null;
 };
