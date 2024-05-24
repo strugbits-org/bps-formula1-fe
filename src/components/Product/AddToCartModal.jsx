@@ -107,12 +107,12 @@ const AddToCartModal = ({
                             data-default-active
                           >
                             <div class="slider-product">
-                              {productData && (
+                              {/* {productData && (
                                 <BestSellerTag
                                   subCategory={productData.subCategory}
                                   className="best-seller-tag"
                                 />
-                              )}
+                              )} */}
 
                               <div class="swiper-container reset-slide-enabled">
                                 <div class="swiper-wrapper">
