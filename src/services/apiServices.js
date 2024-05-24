@@ -640,9 +640,6 @@ export const fetchProducts = async (collections, categories, pageSize, colors, s
     }
     const response = await fetchDataa(payload);
 
-    console.log("response", response._items.map((x) => x.data));
-
-
     if (response) {
       return response;
     } else {

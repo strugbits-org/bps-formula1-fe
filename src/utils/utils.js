@@ -34,3 +34,11 @@ export const extractSlugFromUrl = (url) => {
     }
     return "";
 }
+
+export const calculateTotalCartQuantity = (lineItems) => {
+    return lineItems.reduce((total, currentItem) => total + currentItem.quantity, 0);
+}
+
+export const setCookie = (key, value) => {
+    document.cookie = key + "=" + value + ";";
+}

@@ -594,6 +594,26 @@ html {
     font-size: 1rem;
   }
 }
+.fs--10, .product-link .container-color-options .colors-number, .product-link .container-top .container-info .dimensions, .product-link .container-copy .btn-copy, .container-header-logged .container-h-3 .link-cart .item-number {
+  line-height: 1.4em;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+@media only screen and (min-width: 1025.1px) {
+  .fs--10, .product-link .container-color-options .colors-number, .product-link .container-top .container-info .dimensions, .product-link .container-copy .btn-copy, .container-header-logged .container-h-3 .link-cart .item-number {
+    font-size: clamp(9px,1rem,1rem);
+  }
+}
+@media only screen and (min-width: 767.98px) and (max-width: 1025px) {
+  .fs--10, .product-link .container-color-options .colors-number, .product-link .container-top .container-info .dimensions, .product-link .container-copy .btn-copy, .container-header-logged .container-h-3 .link-cart .item-number {
+    font-size: 1rem;
+  }
+}
+@media only screen and (max-width: 767.98px) {
+  .fs--10, .product-link .container-color-options .colors-number, .product-link .container-top .container-info .dimensions, .product-link .container-copy .btn-copy, .container-header-logged .container-h-3 .link-cart .item-number {
+    font-size: 1rem;
+  }
+}
 .fs--12, #pg-my-account-quotes-history .section-quotes-history .list-quotes-history .content .container-btn .btn-small, #pg-my-account-quotes-history .section-quotes-history .list-quotes-history .content .date, .product-link .modal-add-to-cart, .product-link .container-tags .best-seller, #pg-product .product-post-intro .column-2 .list-breadcrumb .breadcrumb, #pg-products .products-intro .row-1 .column-2 .list-tags .list-item .btn-tag, #pg-home .home-intro .wrapper-form .text-agree {
   line-height: 1.33em;
   letter-spacing: 0;
@@ -4341,6 +4361,22 @@ nav.menu {
     margin-right: 1.9rem;
   }
 }
+
+.container-header-logged .container-h-3 .link-cart {
+  position: relative;
+}
+.container-header-logged .container-h-3 .link-cart .item-number {
+  position: absolute;
+  top: -1.7rem;
+  right: -2.7rem;
+  bottom: auto;
+  left: auto;
+  background: var(--red-1);
+  color: var(--white-1);
+  padding: 0.3rem 1rem;
+  border-radius: 2rem;
+}
+
 .container-header-logged .container-h-3 .link-account,
 .container-header-logged .container-h-3 .link-cart {
   -webkit-transition: all 0.2s cubic-bezier(0.42, 0, 0.58, 1);

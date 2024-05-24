@@ -5,16 +5,21 @@ import { useRouter } from "next/router";
 
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
+import { useCookies } from 'react-cookie';
+import { getProductsCart } from "@/services/cartServices";
+import { calculateTotalCartQuantity } from "@/utils/utils";
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const [cookies, setCookie] = useCookies(['cartQuantity']);
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState(router.query.for || "");
+  const [cartQuantity, setCartQuantity] = useState(0);
   // Function to handle selection of a collection
 
   useEffect(() => {
@@ -81,6 +86,21 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       }, 1000);
     } catch (error) { }
   };
+
+
+  useEffect(() => {
+    if (cookies?.cartQuantity === undefined) getCartTotalQuantity();
+    setCartQuantity(cookies.cartQuantity);
+  }, [cookies]);
+
+  const getCartTotalQuantity = async () => {
+    const response = await getProductsCart();
+    const total = calculateTotalCartQuantity(response.lineItems);
+    setCookie("cartQuantity", total);
+  }
+  useEffect(() => {
+    getCartTotalQuantity();
+  }, []);
 
   // const signIn = () => {
   //   try {
@@ -299,8 +319,11 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
           <AnimateLink to="/my-account" className="link-account">
             <i className="icon-profile"></i>
           </AnimateLink>
-          <AnimateLink to="/cart" className="link-account">
+          <AnimateLink to="/cart" className="link-cart">
             <i className="icon-cart"></i>
+            <span class="item-number">
+              {cartQuantity < 100 ? cartQuantity : "99+"}
+            </span>
           </AnimateLink>
         </div>
       </div>

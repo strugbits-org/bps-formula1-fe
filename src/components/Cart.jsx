@@ -3,7 +3,7 @@ import AnimateLink from "./Common/AnimateLink";
 import { useEffect, useState } from "react";
 import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { generateImageURL } from "@/utils/GenerateImageURL";
-import { AddProductToCart, createPriceQuote, getProductsCart, getProductsCartTotal, removeProductFromCart, updateCartItem, updateProductsCart } from "@/services/cartServices";
+import { createPriceQuote, getProductsCart, removeProductFromCart, updateProductsCart } from "@/services/cartServices";
 import { extractSlugFromUrl, findColor, formatPrice } from "@/utils/utils";
 
 const Cart = () => {

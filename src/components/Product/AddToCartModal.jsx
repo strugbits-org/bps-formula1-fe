@@ -16,6 +16,8 @@ const AddToCartModal = ({
   setSelectedVariantData,
   handleImageChange,
   selectedVariantIndex,
+  setProductSnapshots,
+  setProductFilteredVariantData
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
 
@@ -23,6 +25,8 @@ const AddToCartModal = ({
     setTimeout(() => {
       setProductData(null);
       setSelectedVariantData(null);
+      setProductSnapshots(null);
+      setProductFilteredVariantData(null);
       setCartQuantity(1);
     }, 1000);
   };
@@ -387,7 +391,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                                0 && (
+                              0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "

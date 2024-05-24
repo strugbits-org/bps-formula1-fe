@@ -17,6 +17,7 @@ import { getUserAuth } from "@/utils/GetUser";
 
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
+import { CookiesProvider } from 'react-cookie';
 
 export default function App({
   Component,
@@ -40,16 +41,6 @@ export default function App({
       document.body.setAttribute("data-login-state", "logged");
     }
   }
-  // const handleNavigationChange = (event) => {
-  //   pageLoadStart();
-
-  //   console.log("Navigated to:", window.location.pathname);
-  //   setTimeout(() => {
-  //     pageLoadEnd();
-  //   }, 900);
-  // };
-
-  // useNavigationDetection(handleNavigationChange);
 
   return (
     <div>
@@ -68,7 +59,9 @@ export default function App({
           data-scroll-container
         >
           <main>
-            <Component {...pageProps} />
+            <CookiesProvider>
+              <Component {...pageProps} />
+            </CookiesProvider>
           </main>
         </div>
       </div>
@@ -83,9 +76,6 @@ export default function App({
 
 App.getInitialProps = async (context) => {
   const router = context.router;
-  const pathname =
-    router.pathname.trim() === "/" ? "home" : router.pathname.substring(1);
-  const page_name = pathname.split("/")[0].trim();
 
   const collectionsData = await getCollectionsData();
   const selectedCollections = router.query?.collection ? collectionsData.filter((x) => x.collectionSlug === router.query.collection).map((x) => x._id) : collectionsData.map((x) => x._id);
