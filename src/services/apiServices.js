@@ -195,7 +195,7 @@ export const getCreateAccountDropdown = async () => {
     console.error("Error fetching filter category:", error);
     return [];
   }
-  
+
 };
 // GALLERY PAGE APIS
 export const getGalleryPageData = async () => {
@@ -244,6 +244,33 @@ export const getCollectionsData = async () => {
   } catch (error) {
     console.error("Error fetching filter category:", error);
     return [];
+  }
+};
+
+export const getSubCategory = async (id) => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "F1CategoriesStructure",
+      includeReferencedItems: ["parentCollection", "level2Collections"],
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      hasSome: [{
+        key: "level2Collections",
+        values: id
+      }],
+      ne: null,
+      eq: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
   }
 };
 
