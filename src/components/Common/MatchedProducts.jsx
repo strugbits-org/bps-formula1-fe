@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AddToCartModal from "../Product/AddToCartModal";
 import AnimateLink from "./AnimateLink";
-import { BestSeller } from "@/utils/BestSeller";
 import ErrorModal from "./ErrorModal";
 import SuccessModal from "./SuccessModal";
 import {
@@ -14,11 +13,9 @@ import { SaveProductButton } from "./SaveProductButton";
 import { resetSlideIndex } from "@/utils/AnimationFunctions";
 
 const MatchedProducts = ({ matchedProductsData }) => {
-  const { memberId } = useUserData();
-
-  const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   const [selectedVariantData, setSelectedVariantData] = useState(null);
@@ -31,12 +28,9 @@ const MatchedProducts = ({ matchedProductsData }) => {
     setSelectedProductData(productData);
     try {
       const product_id = productData.product._id;
-      const [
-        productSnapshotData,
-        productVariantsData,
-      ] = await Promise.all([
+      const [productSnapshotData, productVariantsData] = await Promise.all([
         getProductSnapShots(product_id),
-        getProductVariants(product_id)
+        getProductVariants(product_id),
       ]);
 
       let dataMap = new Map(
@@ -61,7 +55,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
           productSnapshots: productSnapshotData,
-          modalUrl: filteredVariantData[0].zipUrl
+          modalUrl: filteredVariantData[0].zipUrl,
         });
       }
     } catch (error) {
@@ -73,7 +67,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
     index,
     selectedVariantData,
     productSnapshots,
-    modalUrl
+    modalUrl,
   }) => {
     if (productSnapshots) {
       const selectedVariantFilteredData = productSnapshots.find(
@@ -151,7 +145,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               data-product-colors
                             >
                               <div className="container-tags">
-                                <BestSellerTag subCategory={subCategory} />
+                                {/* <BestSellerTag subCategory={subCategory} /> */}
                                 <SaveProductButton
                                   productId={product._id}
                                   members={members}

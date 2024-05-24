@@ -168,13 +168,13 @@ const ProductPost = ({
                   data-get-color={selectedVariant && selectedVariant.color}
                 >
                   <div className="slider-product">
-                    <BestSellerTag
+                    {/* <BestSellerTag
                       subCategory={
                         selectedProductDetails &&
                         selectedProductDetails.subCategory
                       }
                       className="best-seller-tag"
-                    />
+                    /> */}
 
                     <div className="swiper-container reset-slide-enabled">
                       <div className="swiper-wrapper">
@@ -228,10 +228,11 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  className={`swiper-slide  ${index === selectedVariantIndex
-                                    ? "active"
-                                    : ""
-                                    }`}
+                                  className={`swiper-slide  ${
+                                    index === selectedVariantIndex
+                                      ? "active"
+                                      : ""
+                                  }`}
                                 >
                                   <div className="wrapper-img">
                                     <div className="container-img">
@@ -452,7 +453,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                    0 && (
+                      0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         className="container-product-notes container-info-text "

@@ -285,7 +285,7 @@ const Products = ({
                         data-product-colors
                       >
                         <div className="container-tags">
-                          <BestSellerTag subCategory={subCategory} />
+                          {/* <BestSellerTag subCategory={subCategory} /> */}
                           <SaveProductButton
                             productId={product._id}
                             members={members}
