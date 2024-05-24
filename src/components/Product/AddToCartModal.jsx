@@ -2,8 +2,8 @@ import { BestSeller } from "@/utils/BestSeller";
 import React, { useEffect, useState } from "react";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import { AddProductToCart } from "@/services/cartServices";
-import RenderImage from "@/utils/RenderImage";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
+import { generateImageURL } from "@/utils/GenerateImageURL";
 
 const AddToCartModal = ({
   productData,
@@ -48,8 +48,12 @@ const AddToCartModal = ({
 
     try {
       const product_id = productData.product._id;
-      const variant_id = selectedVariantData.variantId.replace(product_id, "").substring(1);
-      const collection = productData.f1Collection.map(x => x.collectionName).join(" - ");
+      const variant_id = selectedVariantData.variantId
+        .replace(product_id, "")
+        .substring(1);
+      const collection = productData.f1Collection
+        .map((x) => x.collectionName)
+        .join(" - ");
 
       const product = {
         catalogReference: {
@@ -116,7 +120,13 @@ const AddToCartModal = ({
                                                 style={{
                                                   padding: "100px",
                                                 }}
-                                                src={RenderImage(imageData.src)}
+                                                src={generateImageURL({
+                                                  wix_url: imageData.src,
+                                                  w: "671",
+                                                  h: "671",
+                                                  fit: "fill",
+                                                  q: "95",
+                                                })}
                                                 data-preload
                                                 class="media"
                                                 alt="product"
@@ -130,7 +140,9 @@ const AddToCartModal = ({
                                     <div className="swiper-slide slide-360 ">
                                       <i className="icon-360"></i>
                                       <div className="container-img">
-                                        <ModalCanvas3d path={selectedVariantData?.modalUrl} />
+                                        <ModalCanvas3d
+                                          path={selectedVariantData?.modalUrl}
+                                        />
                                       </div>
                                     </div>
                                   )}
@@ -162,7 +174,13 @@ const AddToCartModal = ({
                                                     style={{
                                                       padding: "20px",
                                                     }}
-                                                    src={RenderImage(src)}
+                                                    src={generateImageURL({
+                                                      wix_url: src,
+                                                      w: "168",
+                                                      h: "168",
+                                                      fit: "fill",
+                                                      q: "95",
+                                                    })}
                                                     data-preload
                                                     class="media"
                                                     alt="product"
@@ -288,8 +306,10 @@ const AddToCartModal = ({
                                           onClick={() =>
                                             handleImageChange({
                                               index: index,
-                                              selectedVariantData: variantData.variant,
-                                              productSnapshots: productSnapshots,
+                                              selectedVariantData:
+                                                variantData.variant,
+                                              productSnapshots:
+                                                productSnapshots,
                                               modalUrl: variantData.zipUrl,
                                             })
                                           }
@@ -367,7 +387,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                              0 && (
+                                0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "

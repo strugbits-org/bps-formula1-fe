@@ -1,15 +1,13 @@
-"use client";
-
+import { useState } from "react";
 import Link from "next/link";
-// import usePageInitialization from "@/hooks/usePageInitialization";
+
+import { generateImageURL, getFullSvgURL } from "@/utils/GenerateImageURL";
 import CreateAccount from "../Registration/CreateAccount";
-import RenderVideo from "@/utils/RenderVideo";
-import RenderImage from "@/utils/RenderImage";
-import SignIn from "../Registration/SignIn";
 import SocialLinks from "@/components/Common/SocialLinks";
 import SuccessModal from "../Common/SuccessModal";
-import { useState } from "react";
+import RenderVideo from "@/utils/RenderVideo";
 import ErrorModal from "../Common/ErrorModal";
+import SignIn from "../Registration/SignIn";
 
 const HomePage = ({
   homePageData,
@@ -48,7 +46,7 @@ const HomePage = ({
               <div className="container-logos mb-lg-40 mb-mobile-45">
                 <div className="container-img logo-formula-1">
                   <img
-                    src={RenderImage(signInPage.f1Logo)}
+                    src={getFullSvgURL(signInPage.f1Logo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -56,7 +54,7 @@ const HomePage = ({
                 </div>
                 <div className="container-img logo-blueprint-rentals">
                   <img
-                    src={RenderImage(signInPage.bluePrintLogo)}
+                    src={getFullSvgURL(signInPage.bluePrintLogo)}
                     data-preload
                     className="media"
                     alt="product"
@@ -90,7 +88,7 @@ const HomePage = ({
         <div className="logo-bottom">
           <div className="container-img">
             <img
-              src={RenderImage(homePageData?.logo)}
+              src={getFullSvgURL(homePageData?.logo)}
               data-preload
               className="media"
               alt="logo"
@@ -147,7 +145,13 @@ const HomePage = ({
         </div>
         <div className="container-img bg-img">
           <img
-            src={RenderImage(signInPage.backgroundImage)}
+            src={generateImageURL({
+              wix_url: signInPage.backgroundImage,
+              w: "	2133",
+              h: "1182",
+              fit: "fill",
+              q: "95",
+            })}
             data-preload
             className="media"
             alt="product"

@@ -1,6 +1,6 @@
 import SocialLinks from "@/components/Common/SocialLinks";
-import RenderImage from "@/utils/RenderImage";
 import AnimateLink from "./AnimateLink";
+import { getFullSvgURL } from "@/utils/GenerateImageURL";
 
 const Footer = ({ footerData, footerLinksData, socialLinks }) => {
   return (
@@ -15,7 +15,7 @@ const Footer = ({ footerData, footerLinksData, socialLinks }) => {
               className="container-img"
             >
               <img
-                src={RenderImage(footerData?.bpsLogo)}
+                src={getFullSvgURL(footerData?.bpsLogo)}
                 data-preload
                 className="media"
                 alt="product"
