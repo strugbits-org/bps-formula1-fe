@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import AnimateLink from "./AnimateLink";
+import ModalLogos from "./ModalLogos";
 
 const RequestForQuote = () => {
   useEffect(() => {
     document.body.setAttribute("data-form-cart-state", "success");
   }, []);
-  
+
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -16,30 +17,8 @@ const RequestForQuote = () => {
                 <div className="row">
                   <div className="col-lg-6 offset-lg-3">
                     <div className="content" data-feedback-area>
-                      <div className="container-logos">
-                        <div
-                          className="container-img logo-formula-1"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="images/logo-formula-1-red.svg"
-                            data-preload
-                            className="media"
-                            alt="product"
-                          />
-                        </div>
-                        <div
-                          className="container-img logo-blueprint"
-                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                        >
-                          <img
-                            src="images/logo-blueprint-rentals-black.svg"
-                            data-preload
-                            className="media"
-                            alt="product"
-                          />
-                        </div>
-                      </div>
+                      <ModalLogos />
+
                       <h2
                         className="fs--70 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
                         data-aos="d:loop"

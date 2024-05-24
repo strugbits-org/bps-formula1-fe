@@ -1,5 +1,6 @@
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/router";
+import BackgroundImages from "./Common/BackgroundImages";
 
 const PrivacyAndPolicy = ({ data }) => {
   const router = useRouter();
@@ -170,22 +171,7 @@ const PrivacyAndPolicy = ({ data }) => {
         </div>
       </div>
       <div className="bg-fixed no-tablet" data-aos="d:loop">
-        <div className="container-img">
-          <img
-            src="images/img-01.jpg"
-            data-preload
-            className="no-mobile media"
-            data-parallax-top
-            data-translate-y="-20%"
-            alt="terms-1"
-          />
-          <img
-            src="images/img-02.jpg"
-            data-preload
-            className="no-desktop media"
-            alt="terms-2"
-          />
-        </div>
+        <BackgroundImages pageSlug="privacy-and-policy" />
       </div>
     </section>
   );

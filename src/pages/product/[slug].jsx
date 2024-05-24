@@ -1,7 +1,6 @@
 import ProductPost from '@/components/Product/ProductsPost';
 import {
   getCollectionsData,
-  getCollectionsPostPageData,
   getPairItWithProducts,
   getPairItWithProductsId,
   getProductPostPageData,
@@ -11,7 +10,6 @@ import {
   getSelectedProductId,
 } from "@/services/apiServices";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
-import { redirect } from 'next/navigation';
 
 export default function Page({
   productPostPageData,
@@ -24,7 +22,7 @@ export default function Page({
 
   return (
     <ProductPost
-      productPostPageData={productPostPageData[0]}
+      productPostPageData={productPostPageData}
       selectedProductDetails={selectedProductDetails[0]}
       matchedProductsData={matchedProductsData}
       collectionsData={collectionsData}
@@ -67,9 +65,9 @@ export const getServerSideProps = async (context) => {
     return {
       redirect: {
         permanent: false,
-        destination: "/404"
-      }
-    }
+        destination: "/404",
+      },
+    };
   }
 
   let filteredVariantData;
@@ -85,14 +83,11 @@ export const getServerSideProps = async (context) => {
       });
   }
 
-  const filteredMatchedProductsData = matchedProductsData.filter(
-    (item) => item.isF1
-  );
   return {
     props: {
       productPostPageData,
       selectedProductDetails,
-      matchedProductsData: filteredMatchedProductsData,
+      matchedProductsData,
       collectionsData,
       productSnapshots,
     },
