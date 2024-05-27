@@ -82,3 +82,13 @@ export const blogGalleryImageURL = ({
   w = "1920",
 }) =>
   `https://static.wixstatic.com/media/${wix_url}/v1/${fit}/w_${w},h_${h},al_c,q_${q},usm_0.66_1.00_0.01,enc_auto/compress.webp`;
+
+
+  export const productImageURL = ({
+    wix_url,
+    fit = "fill",
+    q = "90",
+    h = "1080",
+    w = "1920",
+  }) =>
+    `${wix_url}/v1/${fit}/w_${w},h_${h},al_c,q_${q},usm_0.66_1.00_0.01,enc_auto/compress.webp`;
