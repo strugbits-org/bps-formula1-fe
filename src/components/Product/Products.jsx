@@ -257,11 +257,11 @@ const Products = ({
               )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData, members, subCategory } = data;
+                  const { product, variantData, f1Members, subCategory } = data;
 
                   let productIsSaved = false;
-                  if (members && members.length > 0) {
-                    productIsSaved = members.includes(memberId);
+                  if (f1Members && f1Members.length > 0) {
+                    productIsSaved = f1Members.includes(memberId);
                   }
                   let defaultVariantSku;
                   if (selectedVariant === null) {
@@ -288,7 +288,7 @@ const Products = ({
                           {/* <BestSellerTag subCategory={subCategory} /> */}
                           <SaveProductButton
                             productId={product._id}
-                            members={members}
+                            members={f1Members}
                           />
                           {/* {productIsSaved || productSaved[product._id] ? (
                             <button
@@ -310,28 +310,28 @@ const Products = ({
                             </button>
                           )} */}
                         </div>
-                        <div className="container-copy">
-                          <button className="btn-copy copy-link">
-                            <span>{defaultVariantSku}</span>
-                            <i className="icon-copy"></i>
-                          </button>
-                          <input
-                            type="text"
-                            className="copy-link-url"
-                            value={defaultVariantSku}
-                            style={{
-                              position: "absolute",
-                              opacity: 0,
-                              pointerEvents: "none",
-                            }}
-                          />
-                        </div>
                         <AnimateLink
                           to={`product/${product.slug}`}
                           className="link"
                         >
                           <div className="container-top">
                             <h2 className="product-title">{product.name}</h2>
+                            <div className="container-copy">
+                              <button className="btn-copy copy-link">
+                                <span>{defaultVariantSku}</span>
+                                <i className="icon-copy"></i>
+                              </button>
+                              <input
+                                type="text"
+                                className="copy-link-url"
+                                value={defaultVariantSku}
+                                style={{
+                                  position: "absolute",
+                                  opacity: 0,
+                                  pointerEvents: "none",
+                                }}
+                              />
+                            </div>
                             <div className="container-info">
                               <div className="dimensions">
                                 {product.additionalInfoSections?.map(

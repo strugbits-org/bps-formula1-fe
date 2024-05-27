@@ -126,7 +126,7 @@ const Search = ({
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {searchedProducts.map((item, index) => {
-                  const { product, members, variantData } = item;
+                  const { product, f1Members, variantData } = item;
 
                   return (
                     <li key={item._id} className="grid-item">
@@ -140,7 +140,7 @@ const Search = ({
                         <div className="container-tags">
                           <SaveProductButton
                             productId={product._id}
-                            members={members}
+                            members={f1Members}
                           />
                         </div>
                         <AnimateLink
