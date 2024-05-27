@@ -241,7 +241,7 @@ const AddToCartModal = ({
                                 productId={
                                   productData && productData.product._id
                                 }
-                                members={productData && productData.members}
+                                members={productData && productData.f1Members}
                                 dataAos="fadeIn .8s ease-in-out .2s, d:loop"
                               />
                             </div>

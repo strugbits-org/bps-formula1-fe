@@ -144,7 +144,7 @@ const SavedProducts = ({
                     </div>
                   ) : (
                     savedProductsData?.map((productData, index) => {
-                      const { product, variantData, members } =
+                      const { product, variantData, f1Members } =
                         productData.data;
                       return (
                         <li key={index} className="grid-item">
@@ -157,7 +157,7 @@ const SavedProducts = ({
                             <div className="container-tags">
                               <SaveProductButton
                                 productId={product._id}
-                                members={members}
+                                members={f1Members}
                                 onUnSave={() =>
                                   handleUnSaveProduct(product._id)
                                 }

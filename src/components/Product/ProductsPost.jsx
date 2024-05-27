@@ -28,7 +28,6 @@ const ProductPost = ({
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
-
   const handleImageChange = ({ index, selectedVariantData, modalUrl }) => {
     const selectedVariantFilteredData = productSnapshots.find(
       (variant) => variant.colorVariation === selectedVariantData.variantId
@@ -303,7 +302,7 @@ const ProductPost = ({
 
                     <SaveProductButton
                       productId={selectedProductDetails.product._id}
-                      members={selectedProductDetails.members}
+                      members={selectedProductDetails.f1Members}
                       dataAos="fadeIn .8s ease-in-out .2s, d:loop"
                     />
                   </div>

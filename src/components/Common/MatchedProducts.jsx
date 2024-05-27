@@ -117,7 +117,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                   <div className="swiper-wrapper">
                     {matchedProductsData &&
                       matchedProductsData.map((data, index) => {
-                        const { product, variantData, members, subCategory } =
+                        const { product, variantData, f1Members, subCategory } =
                           data;
 
                         let defaultVariantSku;
@@ -148,7 +148,7 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                 {/* <BestSellerTag subCategory={subCategory} /> */}
                                 <SaveProductButton
                                   productId={product._id}
-                                  members={members}
+                                  members={f1Members}
                                 />
                               </div>
                               <div className="container-copy">
