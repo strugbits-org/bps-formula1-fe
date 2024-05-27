@@ -15,7 +15,7 @@ import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
-import { generateImageURL } from "@/utils/GenerateImageURL";
+import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
 import BackgroundImages from "../Common/BackgroundImages";
 
 const Products = ({
@@ -49,12 +49,9 @@ const Products = ({
     setSelectedProductData(productData);
     try {
       const product_id = productData.product._id;
-      const [
-        productSnapshotData,
-        productVariantsData,
-      ] = await Promise.all([
+      const [productSnapshotData, productVariantsData] = await Promise.all([
         getProductSnapShots(product_id),
-        getProductVariants(product_id)
+        getProductVariants(product_id),
       ]);
 
       let dataMap = new Map(
@@ -374,14 +371,13 @@ const Products = ({
                                         style={{
                                           padding: "100px",
                                         }}
-                                        src={generateImageURL({
+                                        src={productImageURL({
                                           wix_url: variantData.variant.imageSrc,
                                           w: "373",
                                           h: "373",
                                           fit: "fill",
                                           q: "95",
                                         })}
-                                        // src={variantData.variant.imageSrc}
                                         className="media"
                                         alt="product"
                                       />
