@@ -13,106 +13,94 @@ const ProductCard = ({
   product,
   f1Members,
   variantData,
-  fullProductData,
-  getSelectedProductSnapShots,
-
-  setProductData,
-  setErrorMessageVisible,
-  setSuccessMessageVisible,
-  productSnapshots,
-  productFilteredVariantData,
-  selectedVariantData,
-  setSelectedVariantData,
-  handleImageChange,
-  selectedVariantIndex,
-  setProductSnapshots,
-  setProductFilteredVariantData,
+  searchedProducts,
 }) => {
-  //   const [selectedProductData, setSelectedProductData] = useState(null);
-  //   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  //   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
-  //   const [selectedVariantData, setSelectedVariantData] = useState(null);
-  //   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  //   const [productFilteredVariantData, setProductFilteredVariantData] =
-  //     useState();
-  //   const [productSnapshots, setProductSnapshots] = useState();
+  const [selectedProductData, setSelectedProductData] = useState(null);
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [productSnapshots, setProductSnapshots] = useState();
 
-  //   const getSelectedProductSnapShots = async () => {
-  //     setSelectedProductData(fullProductData);
-  //     try {
-  //       const product_id = fullProductData.product._id;
-  //       const [productSnapshotData, productVariantsData] = await Promise.all([
-  //         getProductSnapShots(product_id),
-  //         getProductVariants(product_id),
-  //       ]);
+  const getSelectedProductSnapShots = async (productData) => {
+    console.log(productData, "productData>>");
+    console.log(productSnapshots, "productSnapshots>>");
+    setSelectedProductData(productData);
+    try {
+      const product_id = productData.product._id;
+      const [productSnapshotData, productVariantsData] = await Promise.all([
+        getProductSnapShots(product_id),
+        getProductVariants(product_id),
+      ]);
 
-  //       let dataMap = new Map(
-  //         productVariantsData.map((item) => [item.sku, item])
-  //       );
-  //       let filteredVariantData;
-  //       if (productVariantsData && fullProductData) {
-  //         filteredVariantData = fullProductData.variantData =
-  //           fullProductData.variantData.filter((variant) => {
-  //             if (dataMap.has(variant.sku)) {
-  //               const dataItem = dataMap.get(variant.sku);
-  //               variant.variant.variantId = dataItem._id;
-  //               return true;
-  //             }
-  //             return false;
-  //           });
-  //       }
-  //       setProductFilteredVariantData(filteredVariantData);
-  //       setProductSnapshots(productSnapshotData);
-  //       if (filteredVariantData && filteredVariantData.length > 0) {
-  //         handleImageChange({
-  //           index: 0,
-  //           selectedVariantData: filteredVariantData[0].variant,
-  //           productSnapshots: productSnapshotData,
-  //           modalUrl: filteredVariantData[0].zipUrl,
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.log("Error:", error);
-  //     }
-  //   };
+      let dataMap = new Map(
+        productVariantsData.map((item) => [item.sku, item])
+      );
+      let filteredVariantData;
+      if (productVariantsData && productData) {
+        filteredVariantData = productData.variantData =
+          productData.variantData.filter((variant) => {
+            if (dataMap.has(variant.sku)) {
+              const dataItem = dataMap.get(variant.sku);
+              variant.variant.variantId = dataItem._id;
+              return true;
+            }
+            return false;
+          });
+      }
+      setProductFilteredVariantData(filteredVariantData);
+      setProductSnapshots(productSnapshotData);
+      if (filteredVariantData && filteredVariantData.length > 0) {
+        handleImageChange({
+          index: 0,
+          selectedVariantData: filteredVariantData[0].variant,
+          productSnapshots: productSnapshotData,
+          modalUrl: filteredVariantData[0].zipUrl,
+        });
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  };
 
-  //   const handleImageChange = ({
-  //     index,
-  //     selectedVariantData,
-  //     productSnapshots,
-  //     modalUrl,
-  //   }) => {
-  //     if (productSnapshots) {
-  //       const selectedVariantFilteredData = productSnapshots.find(
-  //         (variant) => variant.colorVariation === selectedVariantData.variantId
-  //       );
+  const handleImageChange = ({
+    index,
+    selectedVariantData,
+    productSnapshots,
+    modalUrl,
+  }) => {
+    if (productSnapshots) {
+      const selectedVariantFilteredData = productSnapshots.find(
+        (variant) => variant.colorVariation === selectedVariantData.variantId
+      );
 
-  //       if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
-  //         const combinedVariantData = {
-  //           ...selectedVariantData,
-  //           ...selectedVariantFilteredData,
-  //           modalUrl: modalUrl,
-  //         };
+      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
+        };
 
-  //         setSelectedVariantIndex(index);
-  //         setSelectedVariantData(combinedVariantData);
-  //       } else {
-  //         const combinedVariantData = {
-  //           ...selectedVariantData,
-  //           ...selectedVariantFilteredData,
-  //           modalUrl: modalUrl,
-  //           images: [{ src: selectedVariantData.imageSrc }],
-  //         };
-  //         setSelectedVariantIndex(index);
-  //         setSelectedVariantData(combinedVariantData);
-  //       }
-  //     }
-  //     resetSlideIndex();
-  //   };
-
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      } else {
+        const combinedVariantData = {
+          ...selectedVariantData,
+          ...selectedVariantFilteredData,
+          modalUrl: modalUrl,
+          images: [{ src: selectedVariantData.imageSrc }],
+        };
+        setSelectedVariantIndex(index);
+        setSelectedVariantData(combinedVariantData);
+      }
+    }
+    resetSlideIndex();
+  };
   return (
     <>
-      <li key={index} className="grid-item">
+      <li className="grid-item">
         <div
           className="product-link small saved-products landscape-fix active"
           data-product-category
@@ -182,7 +170,11 @@ const ProductCard = ({
             )}
           </div>
           <btn-modal-open
-            onClick={() => getSelectedProductSnapShots(fullProductData)}
+            onClick={() => {
+              setTimeout(() => {
+                getSelectedProductSnapShots(searchedProducts);
+              }, 2000);
+            }}
             group="modal-product"
             class="modal-add-to-cart"
           >
@@ -192,8 +184,8 @@ const ProductCard = ({
         </div>
       </li>
 
-      {/* <AddToCartModal
-        productData={fullProductData}
+      <AddToCartModal
+        productData={selectedProductData}
         setProductData={setSelectedProductData}
         setErrorMessageVisible={setErrorMessageVisible}
         setSuccessMessageVisible={setSuccessMessageVisible}
@@ -205,21 +197,7 @@ const ProductCard = ({
         selectedVariantIndex={selectedVariantIndex}
         setProductSnapshots={setProductSnapshots}
         setProductFilteredVariantData={setProductFilteredVariantData}
-      /> */}
-      {/* {successMessageVisible && (
-        <SuccessModal
-          buttonLabel={"Ok"}
-          message={"Product Successfully Added to Cart!"}
-          setSuccessMessageVisible={setSuccessMessageVisible}
-        />
-      )}
-      {errorMessageVisible && (
-        <ErrorModal
-          buttonLabel={"Try Again!"}
-          message={"Something went wrong, please try again"}
-          setErrorMessageVisible={setErrorMessageVisible}
-        />
-      )} */}
+      />
     </>
   );
 };

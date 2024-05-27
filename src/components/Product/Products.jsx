@@ -15,7 +15,12 @@ import { BestSellerTag } from "../Common/BestSellerTag";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
-import { generateImageURL } from "@/utils/GenerateImageURL";
+import {
+  blogGalleryImageURL,
+  generateImageURL,
+  generateImageUrl2,
+  productImageURL,
+} from "@/utils/GenerateImageURL";
 import BackgroundImages from "../Common/BackgroundImages";
 
 const Products = ({
@@ -49,12 +54,9 @@ const Products = ({
     setSelectedProductData(productData);
     try {
       const product_id = productData.product._id;
-      const [
-        productSnapshotData,
-        productVariantsData,
-      ] = await Promise.all([
+      const [productSnapshotData, productVariantsData] = await Promise.all([
         getProductSnapShots(product_id),
-        getProductVariants(product_id)
+        getProductVariants(product_id),
       ]);
 
       let dataMap = new Map(
@@ -192,7 +194,7 @@ const Products = ({
     <>
       <section className="products-intro">
         <div className="container-fluid pos-relative z-5">
-          <div class="row row-1">
+          <div className="row row-1">
             <div className="col-lg-1 col-mobile-9 offset-lg-1 column-1 order-mobile-1">
               <h1
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
@@ -358,6 +360,17 @@ const Products = ({
                           </div>
                           <div className="wrapper-product-img">
                             {variantData.map((variantData, index) => {
+                              console.log(
+                                variantData.variant.imageSrc,
+                                ">>>>>>>>",
+                                productImageURL({
+                                  wix_url: variantData.variant.imageSrc,
+                                  w: "373",
+                                  h: "373",
+                                  fit: "fill",
+                                  q: "95",
+                                })
+                              );
                               return (
                                 <React.Fragment key={index}>
                                   {index < 4 && (
@@ -374,7 +387,7 @@ const Products = ({
                                         style={{
                                           padding: "100px",
                                         }}
-                                        src={generateImageURL({
+                                        src={productImageURL({
                                           wix_url: variantData.variant.imageSrc,
                                           w: "373",
                                           h: "373",

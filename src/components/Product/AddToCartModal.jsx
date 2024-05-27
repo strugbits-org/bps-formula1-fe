@@ -33,6 +33,7 @@ const AddToCartModal = ({
   };
 
   useEffect(() => {
+    console.log("useEffec");
     document.querySelector(".addToCart").click();
   }, [productData]);
 
@@ -82,7 +83,7 @@ const AddToCartModal = ({
       setErrorMessageVisible(true);
     }
   };
-
+  console.log(productData, "productData>>");
   return (
     <div id="reloading-area">
       <modal-group name="modal-product" class="modal-product">
@@ -117,7 +118,7 @@ const AddToCartModal = ({
                               <div class="swiper-container reset-slide-enabled">
                                 <div class="swiper-wrapper">
                                   {selectedVariantData &&
-                                    selectedVariantData.images?.map(
+                                    selectedVariantData.images.map(
                                       (imageData, index) => {
                                         return (
                                           <div key={index} class="swiper-slide">
