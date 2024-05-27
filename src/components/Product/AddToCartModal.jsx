@@ -174,6 +174,9 @@ const AddToCartModal = ({
                                               <div class="wrapper-img">
                                                 <div class="container-img">
                                                   <img
+                                                    style={{
+                                                      padding: "20px",
+                                                    }}
                                                     src={generateImageURL({
                                                       wix_url: src,
                                                       w: "168",
