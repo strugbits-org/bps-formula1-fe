@@ -36,18 +36,16 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
   }, [router, collections, categories, colors]);
 
   return (
-    <div
-      className="pos-relative filterButtonIndex"
-      data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-    >
-      <div className="container-filter-products">
-        <button className="btn-filter">
-          <i className="icon-filter"></i>
-        </button>
-        <div className="wrapper-content" data-filter-area>
-          <div className="wrapper-overflow">
-            <form action="" className="form-filter wrapper-list-filter">
-              {(router.query.collection === undefined || router.query.collection === "all") && collections.length !== 0 && (
+    <div className="container-filter-products">
+      <button className="btn-filter">
+        <i className="icon-filter"></i>
+      </button>
+      <div className="wrapper-content" data-filter-area>
+        <div className="wrapper-overflow">
+          <form action="" className="form-filter wrapper-list-filter">
+            {(router.query.collection === undefined ||
+              router.query.collection === "all") &&
+              collections.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Collections</h3>
                   <div className="list-filter">
@@ -65,7 +63,9 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                               onChange={() => handleCollectionChange(data._id)}
                             />
                             <span className="checkmark"></span>
-                            <span className="filter-tag">{data.collectionName}</span>
+                            <span className="filter-tag">
+                              {data.collectionName}
+                            </span>
                           </label>
                         </div>
                       );
@@ -73,7 +73,9 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                   </div>
                 </div>
               )}
-              {router.query.subCategory === undefined && categories && categories.length !== 0 && (
+            {router.query.subCategory === undefined &&
+              categories &&
+              categories.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Categories</h3>
                   <div className="list-filter">
@@ -99,34 +101,33 @@ const FilterButton = ({ collections, categories, colors, handleFilterChange }) =
                   </div>
                 </div>
               )}
-              {colors.length !== 0 && (
-                <div className="container-list">
-                  <h3 className="filter-title">Colors</h3>
-                  <div className="list-filter">
-                    {colorsArray.map((color, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="container-checkbox list-filter-item"
-                        >
-                          <label className="checkbox-box pointer-default">
-                            <input
-                              type="checkbox"
-                              required
-                              checked={color.checked || false}
-                              onChange={() => handleColorChange(color.name)}
-                            />
-                            <span className="checkmark"></span>
-                            <span className="filter-tag">{color.name}</span>
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
+            {colors.length !== 0 && (
+              <div className="container-list">
+                <h3 className="filter-title">Colors</h3>
+                <div className="list-filter">
+                  {colorsArray.map((color, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="container-checkbox list-filter-item"
+                      >
+                        <label className="checkbox-box pointer-default">
+                          <input
+                            type="checkbox"
+                            required
+                            checked={color.checked || false}
+                            onChange={() => handleColorChange(color.name)}
+                          />
+                          <span className="checkmark"></span>
+                          <span className="filter-tag">{color.name}</span>
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
-            </form>
-          </div>
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </div>
