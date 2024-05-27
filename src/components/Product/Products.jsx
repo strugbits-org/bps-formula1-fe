@@ -192,7 +192,7 @@ const Products = ({
     <>
       <section className="products-intro">
         <div className="container-fluid pos-relative z-5">
-          <div className="row row-1">
+          <div class="row row-1">
             <div className="col-lg-1 col-mobile-9 offset-lg-1 column-1 order-mobile-1">
               <h1
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
@@ -225,13 +225,17 @@ const Products = ({
                 </ul>
               )}
             </div>
-
-            <FilterButton
-              collections={collectionsData}
-              categories={filterCategories}
-              colors={colors}
-              handleFilterChange={handleFilterChange}
-            />
+            <div
+              class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
+              data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+            >
+              <FilterButton
+                collections={collectionsData}
+                categories={filterCategories}
+                colors={colors}
+                handleFilterChange={handleFilterChange}
+              />
+            </div>
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
