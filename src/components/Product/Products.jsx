@@ -414,7 +414,7 @@ const Products = ({
                                       <div className="container-img">
                                         <img
                                           // src={variantData.variant.imageSrc}
-                                          src={generateImageURL({
+                                          src={productImageURL({
                                             wix_url:
                                               variantData.variant.imageSrc,
                                             w: "39",
