@@ -79,7 +79,6 @@ const CartModal = ({ data, handleAddToCart }) => {
                                     <div class="cart-product">
                                       <div class="container-img">
                                         <img
-                                          style={{ padding: "20px" }}
                                           src={generateImageURL({
                                             wix_url: image,
                                             h: "150",

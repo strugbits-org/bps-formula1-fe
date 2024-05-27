@@ -367,9 +367,6 @@ const Products = ({
                                       }
                                     >
                                       <img
-                                        style={{
-                                          padding: "100px",
-                                        }}
                                         src={generateImageURL({
                                           wix_url: variantData.variant.imageSrc,
                                           w: "373",
@@ -377,7 +374,6 @@ const Products = ({
                                           fit: "fill",
                                           q: "95",
                                         })}
-                                        // src={variantData.variant.imageSrc}
                                         className="media"
                                         alt="product"
                                       />

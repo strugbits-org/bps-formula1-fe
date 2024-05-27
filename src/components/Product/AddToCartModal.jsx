@@ -123,9 +123,6 @@ const AddToCartModal = ({
                                           <div key={index} class="swiper-slide">
                                             <div class="container-img">
                                               <img
-                                                style={{
-                                                  padding: "100px",
-                                                }}
                                                 src={generateImageURL({
                                                   wix_url: imageData.src,
                                                   w: "671",
@@ -177,9 +174,6 @@ const AddToCartModal = ({
                                               <div class="wrapper-img">
                                                 <div class="container-img">
                                                   <img
-                                                    style={{
-                                                      padding: "20px",
-                                                    }}
                                                     src={generateImageURL({
                                                       wix_url: src,
                                                       w: "168",
