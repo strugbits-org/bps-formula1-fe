@@ -189,9 +189,6 @@ const SavedProducts = ({
                                       >
                                         <img
                                           src={variant.variant.imageSrc}
-                                          style={{
-                                            padding: "70px",
-                                          }}
                                           data-preload
                                           className="media"
                                           alt="search-1"

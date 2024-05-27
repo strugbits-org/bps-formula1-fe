@@ -147,7 +147,6 @@ const Cart = () => {
                                 data-preload
                                 className="media"
                                 alt="product"
-                                style={{ padding: "8px" }}
                               />
                             </div>
                             <div className="wrapper-product-info">
