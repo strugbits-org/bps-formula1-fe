@@ -151,7 +151,22 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                   members={f1Members}
                                 />
                               </div>
-
+                              <div className="container-copy">
+                                <button className="btn-copy copy-link">
+                                  <span>{defaultVariantSku}</span>
+                                  <i className="icon-copy"></i>
+                                </button>
+                                <input
+                                  type="text"
+                                  className="copy-link-url"
+                                  value={defaultVariantSku}
+                                  style={{
+                                    position: "absolute",
+                                    opacity: 0,
+                                    pointerEvents: "none",
+                                  }}
+                                />
+                              </div>
                               <AnimateLink
                                 to={`/product/${product.slug}`}
                                 className="link"
@@ -160,22 +175,6 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                   <h2 className="product-title">
                                     {product.name}
                                   </h2>
-                                  <div className="container-copy">
-                                    <button className="btn-copy copy-link">
-                                      <span>{defaultVariantSku}</span>
-                                      <i className="icon-copy"></i>
-                                    </button>
-                                    <input
-                                      type="text"
-                                      className="copy-link-url"
-                                      value={defaultVariantSku}
-                                      style={{
-                                        position: "absolute",
-                                        opacity: 0,
-                                        pointerEvents: "none",
-                                      }}
-                                    />
-                                  </div>
                                   <div className="container-info">
                                     <div className="dimensions">
                                       {product.additionalInfoSections?.map(
@@ -212,6 +211,9 @@ const MatchedProducts = ({ matchedProductsData }) => {
                                         >
                                           <img
                                             src={variantData.variant.imageSrc}
+                                            style={{
+                                              padding: "100px",
+                                            }}
                                             data-preload
                                             className="media"
                                             alt="product"
