@@ -4,15 +4,18 @@ import { useRouter } from "next/router";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import ProductSnapshots from "../Common/productSnapshots";
 import OtherCollections from "../Common/OtherCollections";
-import { BestSellerTag } from "../Common/BestSellerTag";
 import MatchedProducts from "../Common/MatchedProducts";
 import Breadcrumb from "../Common/BreadCrumbData";
 
-import { pageLoadEnd, pageLoadStart, resetSlideIndex } from "@/utils/AnimationFunctions";
+import {
+  pageLoadEnd,
+  pageLoadStart,
+  resetSlideIndex,
+} from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
 import { productData } from "@/utils/ProductData";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
-import { generateImageURL } from "@/utils/GenerateImageURL";
+import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
 import { getSubCategory } from "@/services/apiServices";
 
 const ProductPost = ({
@@ -387,8 +390,7 @@ const ProductPost = ({
                                 />
                                 <div className="container-img">
                                   <img
-                                    // src={variantData.variant.imageSrc}
-                                    src={generateImageURL({
+                                    src={productImageURL({
                                       wix_url: variantData.variant.imageSrc,
                                       w: "49",
                                       h: "49",
