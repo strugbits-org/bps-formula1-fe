@@ -147,7 +147,7 @@ const HomePage = ({
           <img
             src={generateImageURL({
               wix_url: signInPage.backgroundImage,
-              w: "	2133",
+              w: "2133",
               h: "1182",
               fit: "fill",
               q: "95",
