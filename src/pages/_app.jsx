@@ -18,7 +18,7 @@ import { getUserAuth, setAuthToken } from "@/utils/GetUser";
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
 import { CookiesProvider } from 'react-cookie';
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
 export default function App({
   Component,
   pageProps,
@@ -64,6 +64,7 @@ export default function App({
             <CookiesProvider>
               <Component {...pageProps} />
             </CookiesProvider>
+            <SpeedInsights />
           </main>
         </div>
       </div>
