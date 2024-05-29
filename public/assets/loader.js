@@ -245,9 +245,9 @@ function videoLoad(vidEl) {
   };
   req.send();
 }
-window.loader = loader;
-loader.registerEvents();
-if (document.readyState != "loading") {
-  htmlParsed = true;
-  loader.init("body", "[data-load-progress]");
-}
+// window.loader = loader;
+// loader.registerEvents();
+// if (document.readyState != "loading") {
+//   htmlParsed = true;
+//   loader.init("body", "[data-load-progress]");
+// }

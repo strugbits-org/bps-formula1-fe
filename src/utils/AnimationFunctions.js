@@ -1,3 +1,4 @@
+"use client";
 export const AnimationFunction = () => {
   if (typeof window !== "undefined") {
     document.body.classList.add("page-leave-active");
@@ -19,49 +20,100 @@ if (typeof window !== "undefined") {
 }
 
 export const initAnimations = () => {
-  setTimeout(() => {
-    document.querySelector(".initScript").click();
-  }, 200);
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      document.querySelector(".initScript").click();
+    }, 200);
+  }
+};
+
+export const initializeCanvasTrigger = () => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      const customEvent = new Event("customInit");
+      document.querySelector(".initializeCanvas").dispatchEvent(customEvent);
+    }, 200);
+  }
+};
+
+export const resetSlideIndex = () => {
+  if (typeof window !== "undefined") {
+    document
+      .querySelectorAll(".swiper-container.reset-slide-enabled")
+      .forEach((x) => x.swiper.slideTo(0));
+  }
 };
 
 export const updatedWatched = () => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      document.querySelector(".updateWatched").click();
+    }, 200);
+  }
+};
+
+export const markPageLoaded = (watched = true) => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => window.scrollTo({ top: 0 }), 200);
+    initAnimations();
+    if (watched) updatedWatched();
+    const isFirstLoadDone = document.body.classList.contains("first-load-done");
+    if (isFirstLoadDone) {
+      pageLoadEnd();
+    } else {
+      firstLoadAnimation();
+    }
+  }
+};
+
+export const firstLoadAnimation = async () => {
+  for (let i = 0; i <= 100; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 1));
+    if (i === 25 || i === 50 || i === 75 || i === 100) {
+      changeProgress(i);
+    }
+  }
+  document.body.dataset.load = "first-leaving";
   setTimeout(() => {
-    document.querySelector(".updateWatched").click();
-  }, 200);
+    document.body.dataset.load = "first-done";
+  }, 1200);
+  document.body.classList.add("first-load-done");
+  document.body.classList.remove("overflow-hidden");
+  document.getElementById("loader").classList.add("hidden");
 };
 
 export const pageLoadStart = () => {
-  // closeModals();
-  document.body.classList.add("page-leave-active");
-};
-
-export const pageLoadFinished = () => {
   if (typeof window !== "undefined") {
-    const body = document.body;
-    if (body.classList.contains("menu-active"))
-      body.classList.remove("menu-active");
+    closeFiltersModal();
+    document.body.classList.add("page-leave-active");
+  }
+};
+export const pageLoadEnd = () => {
+  if (typeof window !== "undefined") {
     window.scrollTo({ top: 0 });
-    body.classList.add("page-enter-active");
-    body.classList.remove("page-leave-active");
+    const body = document.body;
+    body.classList.replace("page-leave-active", "page-enter-active");
     setTimeout(() => {
       body.classList.remove("page-enter-active");
     }, 900);
   }
 };
 
-export const startLoading = (disableLoader) => {
-  if (disableLoader) return;
-
-  const isDataLoaded = document.body.classList.contains(cleanPage + "-loaded");
-  if (isDataLoaded) pageLoadStart();
+export const changeProgress = (percent) => {
+  if (typeof window !== "undefined") {
+    document.body.style.setProperty("--percentage", percent / 100);
+    document.body.style.setProperty("--percentage2", `${percent}%`);
+    const elProg = document.querySelector("[data-load-progress]");
+    if (elProg) elProg.dataset.loadProgress = percent;
+  }
 };
 
-export const endLoading = (disableLoader) => {
-  if (disableLoader) return;
-
-  const isDataLoaded = document.body.classList.contains(cleanPage + "-loaded");
-  if (isDataLoaded) {
-    pageLoadFinished();
-    updatedWatched();
+export const closeFiltersModal = () => {
+  if (typeof window !== "undefined") {
+    document.body.setAttribute("data-form-cart-state", "");
+    const filterModal = document.querySelector(".container-filter-products");
+    if (filterModal) {
+      filterModal?.classList.remove("active");
+    }
   }
 };
