@@ -100,10 +100,15 @@ App.getInitialProps = async (context) => {
     getFooterLinksData(),
     getHomeBottomRightSocialLinks(),
   ]);
+
+  const filteredData = categoriesData.filter(
+    (x) => x.parentCollection.slug !== "all-products"
+  );
+
   return {
     homePageData,
     collectionsData,
-    categoriesData,
+    categoriesData: filteredData,
     footerData,
     footerLinksData,
     footerBottomRightSocialLinks,
