@@ -222,17 +222,24 @@ const Products = ({
                 </ul>
               )}
             </div>
-            <div
-              class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
-              data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-            >
-              <FilterButton
-                collections={collectionsData}
-                categories={filterCategories}
-                colors={colors}
-                handleFilterChange={handleFilterChange}
-              />
-            </div>
+            {collectionsData &&
+              collectionsData.length > 0 &&
+              filterCategories &&
+              filterCategories.length > 0 &&
+              colors &&
+              colors.length > 0 && (
+                <div
+                  class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
+                  data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                >
+                  <FilterButton
+                    collections={collectionsData}
+                    categories={filterCategories}
+                    colors={colors}
+                    handleFilterChange={handleFilterChange}
+                  />
+                </div>
+              )}
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
