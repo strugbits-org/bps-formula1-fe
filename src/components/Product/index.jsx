@@ -3,7 +3,6 @@ import Products from "@/components/Product/Products";
 import {
   fetchProducts,
   getCollectionColors,
-  getCollectionsData,
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
@@ -82,10 +81,9 @@ export default function ProductIndex({ router, collectionsData }) {
   //   const router = useRouter();
   const searchParams = useSearchParams();
   const handleRouterChange = async () => {
-    const slug = searchParams.get("slug");
+    const slug = searchParams.get("collection");
     const category = searchParams.get("category");
     const subCategory = searchParams.get("subCategory");
-
     setSelectedCategory(category);
     setSelectedCollection(slug);
 
@@ -189,7 +187,7 @@ export default function ProductIndex({ router, collectionsData }) {
 
   useEffect(() => {
     handleRouterChange();
-  }, [router]);
+  }, [searchParams]);
 
   useEffect(() => {
     if (filtersReady) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
 
 const FilterButton = ({
   collections,
@@ -7,11 +7,14 @@ const FilterButton = ({
   colors,
   handleFilterChange,
 }) => {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const collection = searchParams.get("collection");
+  const category = searchParams.get("category");
+  const subCategory = searchParams.get("subCategory");
 
   const [collectionsArray, setCollectionsArray] = useState([]);
-  const [colorsArray, setColorsArray] = useState([]);
   const [categoriesArray, setCategoriesArray] = useState([]);
+  const [colorsArray, setColorsArray] = useState([]);
 
   const handleCategoryChange = (id) => {
     const _categories = categoriesArray.map((item) =>
@@ -63,7 +66,7 @@ const FilterButton = ({
           return { ...x, checked: false };
         })
       );
-  }, [router, collections, categories, colors]);
+  }, [searchParams, collections, categories, colors]);
 
   return (
     <div className="container-filter-products">
@@ -73,8 +76,7 @@ const FilterButton = ({
       <div className="wrapper-content" data-filter-area>
         <div className="wrapper-overflow">
           <form action="" className="form-filter wrapper-list-filter">
-            {(router.query.collection === undefined ||
-              router.query.collection === "all") &&
+            {(collection === undefined || collection === "all") &&
               collections.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Collections</h3>
@@ -103,7 +105,7 @@ const FilterButton = ({
                   </div>
                 </div>
               )}
-            {router.query.subCategory === undefined &&
+            {subCategory === undefined &&
               categories &&
               categories.length !== 0 && (
                 <div className="container-list">

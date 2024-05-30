@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-// import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
@@ -10,50 +9,53 @@ import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
+  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  // const router = useSearchParams();
+  const collection = searchParams.get("collection");
+  const category = searchParams.get("category");
+  const subCategory = searchParams.get("subCategory");
+
   const [cookies, setCookie] = useCookies(["cartQuantity", "authToken"]);
+
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchTerm, setSearchTerm] = useState(router.query || "");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [cartQuantity, setCartQuantity] = useState(0);
-  // Function to handle selection of a collection
-  useEffect(() => {
-    if (router.isReady) {
-      const _selectedCollection = collectionsData.find(
-        (x) =>
-          x.collectionSlug === router.query.slug ||
-          x.collectionSlug === router.query.collection
-      )?.collectionName;
-      if (_selectedCollection) setSelectedCollection(_selectedCollection);
-      const _selectedCategory = categoriesData.find(
-        (x) => x.parentCollection._id === router.query.category
-      )?.parentCollection?.name;
-      if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
-      if (
-        pathname === "/" &&
-        router.asPath !== "#sign-in" &&
-        router.asPath !== "#create-account"
-      ) {
-        document.body.setAttribute("data-home-state", "");
-      }
+  useEffect(() => {
+    const _selectedCollection = collectionsData.find(
+      (x) => x.collectionSlug === collection
+    )?.collectionName;
+
+    if (_selectedCollection) setSelectedCollection(_selectedCollection);
+    const _selectedCategory = categoriesData.find(
+      (x) => x.parentCollection._id === category
+    )?.parentCollection?.name;
+    if (_selectedCategory) setSelectedCategory(_selectedCategory);
+
+    if (
+      pathname === "/" &&
+      router.asPath !== "#sign-in" &&
+      router.asPath !== "#create-account"
+    ) {
+      document.body.setAttribute("data-home-state", "");
     }
-  }, [pathname, router]);
+  }, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
     setSelectedCollection(name);
     setCollectionDropdownOpen(false);
     pageLoadStart();
-    if (router.pathname === "/products") {
-      const queryParams = new URLSearchParams(router.query);
+    if (pathname === "/products") {
+      const queryParams = new URLSearchParams(searchParams);
       queryParams.set("collection", collectionSlug);
       queryParams.delete("category");
       queryParams.delete("subCategory");
-      router.push({ pathname: router.pathname, query: queryParams.toString() });
+
+      router.push(`${pathname}?${queryParams.toString()}`);
     } else {
       router.push(`/collections/${collectionSlug}`);
     }
@@ -62,26 +64,21 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    if (id === "all" && router.query.collection === undefined) {
+    if (id === "all" && collection === undefined) {
       router.push(`/products`);
-    } else if (id === "all" && router.query.collection !== undefined) {
-      const queryParams = new URLSearchParams(router.query);
+    } else if (id === "all" && collection !== undefined) {
+      const queryParams = new URLSearchParams(searchParams);
       queryParams.delete("category");
       queryParams.delete("subCategory");
-      router.push({
-        pathname:
-          router.pathname === "/products" ? router.pathname : `/products`,
-        query: queryParams.toString(),
-      });
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
     } else {
-      const queryParams = new URLSearchParams(router.query);
+      const queryParams = new URLSearchParams(searchParams);
       queryParams.set("category", id);
       queryParams.delete("subCategory");
-      router.push({
-        pathname:
-          router.pathname === "/products" ? router.pathname : `/products`,
-        query: queryParams.toString(),
-      });
+
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
     }
   };
 
@@ -115,25 +112,10 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     if (cookies?.authToken !== undefined) getCartTotalQuantity();
   }, []);
 
-  // const signIn = () => {
-  //   try {
-  //     // AnimationFunction();
-  //     navigate("/#sign-in");
-  //     document.body.setAttribute("data-home-state", "sign-in");
-  //   } catch (error) {}
-  // };
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
         <div className="container-h-1 order-phone-2 mr-phone-10">
-          {/* <a
-            href="gallery.html"
-            className="btn-small btn-dark btn-hover-white-black"
-          >
-            <div className="split-chars">
-              <span>Gallery</span>
-            </div>
-          </a> */}
           <AnimateLink
             to={homePageData?.galleryButtonRedirection || "/gallery"}
             className="btn-small btn-dark btn-hover-white-black"
@@ -159,9 +141,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
           pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
-              // onClick={signIn}
               className="btn-small btn-red btn-hover-white btn-sign-in"
-              // data-href="index.html#sign-in"
             >
               <i className="icon-profile"></i>
               <div className="split-chars">

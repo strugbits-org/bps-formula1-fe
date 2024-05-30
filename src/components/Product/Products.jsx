@@ -1,22 +1,21 @@
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+
+import { SaveProductButton } from "../Common/SaveProductButton";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { productImageURL } from "@/utils/GenerateImageURL";
 import OtherCollections from "../Common/OtherCollections";
+import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
+import SuccessModal from "../Common/SuccessModal";
 import AnimateLink from "../Common/AnimateLink";
 import AddToCartModal from "./AddToCartModal";
-import React, { useEffect, useState } from "react";
+import ErrorModal from "../Common/ErrorModal";
 import {
   getCategoriesData,
   getProductSnapShots,
   getProductVariants,
 } from "@/services/apiServices";
-import { useRouter, useSearchParams } from "next/navigation";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
-import useUserData from "@/hooks/useUserData";
-import { BestSellerTag } from "../Common/BestSellerTag";
-import { SaveProductButton } from "../Common/SaveProductButton";
-import SuccessModal from "../Common/SuccessModal";
-import ErrorModal from "../Common/ErrorModal";
-import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
-import BackgroundImages from "../Common/BackgroundImages";
 
 const Products = ({
   filteredProducts,
@@ -31,19 +30,23 @@ const Products = ({
   setfilterCollections,
   setfilterCategory,
 }) => {
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const { memberId } = useUserData();
+
+  const category = searchParams.get("category");
+  const subCategory = searchParams.get("subCategory");
+
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
-  const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
-  const [selectedVariant, setSelectedVariant] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [categoryTitle, setCategoryTitle] = useState("");
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [filterCategories, setFilterCategories] = useState([]);
+  const [productSnapshots, setProductSnapshots] = useState();
+  const [categoryTitle, setCategoryTitle] = useState("");
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
@@ -121,19 +124,16 @@ const Products = ({
   const handleImageHover = (variantData) => {
     setSelectedVariant(variantData.variant);
   };
-  const searchParams = useSearchParams();
   const changeQuery = (key, value) => {
     pageLoadStart();
-
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams);
     newParams.set(key, value);
-
     router.push(`?${newParams.toString()}`);
   };
 
   const getCategoriesList = async () => {
     let categories;
-    if ("77f8aa7c-38c7-ac49-ef1e-fea401cdc075" === undefined) {
+    if (category === undefined) {
       let collectionIds = collectionsData.map((x) => x._id);
       if (selectedCollection.length !== 0) {
         collectionIds = selectedCollection.map((x) => x._id);
@@ -154,23 +154,23 @@ const Products = ({
 
   useEffect(() => {
     if (
-      "77f8aa7c-38c7-ac49-ef1e-fea401cdc075" === undefined ||
+      category === undefined ||
       (selectedCategory && selectedCategory.length !== 0)
     ) {
       getCategoriesList();
     }
-  }, [router, selectedCollection, collectionsData, selectedCategory]);
+  }, [searchParams, selectedCollection, collectionsData, selectedCategory]);
 
-  // useEffect(() => {
-  //   if ("router.query.subCategory" && selectedCategory.length !== 0) {
-  //     const name = selectedCategory[0]?.level2Collections.find(
-  //       (x) => x._id === "77f8aa7c-38c7-ac49-ef1e-fea401cdc075"
-  //     ).name;
-  //     setCategoryTitle(name);
-  //   } else {
-  //     setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
-  //   }
-  // }, [router, selectedCategory]);
+  useEffect(() => {
+    if (subCategory && selectedCategory.length !== 0) {
+      const name = selectedCategory[0]?.level2Collections.find(
+        (x) => x._id === subCategory
+      ).name;
+      setCategoryTitle(name);
+    } else {
+      setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
+    }
+  }, [searchParams, selectedCategory]);
 
   const handleFilterChange = ({
     collections = null,
@@ -202,7 +202,7 @@ const Products = ({
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
-              {router.query === undefined && (
+              {subCategory === null && (
                 <ul
                   className="list-tags"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
@@ -229,12 +229,12 @@ const Products = ({
               class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              {/* <FilterButton
+              <FilterButton
                 collections={collectionsData}
                 categories={filterCategories}
                 colors={colors}
                 handleFilterChange={handleFilterChange}
-              /> */}
+              />
             </div>
           </div>
 
@@ -261,19 +261,15 @@ const Products = ({
               )}
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData, f1Members, subCategory } = data;
+                  const { product, variantData, f1Members } = data;
 
-                  let productIsSaved = false;
-                  if (f1Members && f1Members.length > 0) {
-                    productIsSaved = f1Members.includes(memberId);
-                  }
                   let defaultVariantSku;
                   if (selectedVariant === null) {
                     setSelectedVariant(variantData);
                   }
                   if (selectedVariant) {
                     const defaultVariant = variantData.find(
-                      (variant) => variant.sku === selectedVariant.sku // Replace 'MODCH39' with the SKU you want to use as default
+                      (variant) => variant.sku === selectedVariant.sku
                     );
                     defaultVariantSku = defaultVariant
                       ? defaultVariant.sku
@@ -294,25 +290,6 @@ const Products = ({
                             productId={product._id}
                             members={f1Members}
                           />
-                          {/* {productIsSaved || productSaved[product._id] ? (
-                            <button
-                              className="btn-bookmark productSavedColor"
-                              onClick={() =>
-                                handleUnSaveProduct(product._id, index)
-                              }
-                            >
-                              <i className="icon-bookmark"></i>
-                            </button>
-                          ) : (
-                            <button
-                              className="btn-bookmark"
-                              onClick={() =>
-                                handleSaveProduct(product._id, index)
-                              }
-                            >
-                              <i className="icon-bookmark"></i>
-                            </button>
-                          )} */}
                         </div>
                         <AnimateLink
                           to={`product/${product.slug}`}
@@ -416,7 +393,6 @@ const Products = ({
                                     >
                                       <div className="container-img">
                                         <img
-                                          // src={variantData.variant.imageSrc}
                                           src={productImageURL({
                                             wix_url:
                                               variantData.variant.imageSrc,

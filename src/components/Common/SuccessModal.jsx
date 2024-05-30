@@ -1,5 +1,5 @@
 import { markPageLoaded } from "@/utils/AnimationFunctions";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ModalLogos from "./ModalLogos";
 

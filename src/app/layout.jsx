@@ -105,6 +105,7 @@ export default async function RootLayout({ children }) {
           <span className="changePassword d-none"></span>
           <span className="galleryImages d-none"></span>
           <span className="addToCart d-none"></span>
+          <span className="modalLoad d-none"></span>
 
           <Loader />
           <Navbar

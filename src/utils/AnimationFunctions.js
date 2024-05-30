@@ -36,11 +36,20 @@ export const initializeCanvasTrigger = () => {
   }
 };
 
+export const initializeCanvasAddToCart = () => {
+  if (typeof window !== "undefined") {
+    setTimeout(() => {
+      const customEvent = new Event("reloadModal");
+      document.querySelector(".addToCart").dispatchEvent(customEvent);
+    }, 200);
+  }
+};
+
 export const resetSlideIndex = () => {
   if (typeof window !== "undefined") {
     document
       .querySelectorAll(".swiper-container.reset-slide-enabled")
-      .forEach((x) => x.swiper.slideTo(0));
+      .forEach((x) => x.swiper?.slideTo(0));
   }
 };
 
