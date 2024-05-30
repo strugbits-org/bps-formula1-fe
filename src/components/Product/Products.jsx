@@ -16,6 +16,7 @@ import {
   getProductSnapShots,
   getProductVariants,
 } from "@/services/apiServices";
+import { ProductListItemMain } from "../Common/ProductListItem";
 
 const Products = ({
   filteredProducts,
@@ -263,173 +264,167 @@ const Products = ({
                 {filteredProducts.map((data, index) => {
                   const { product, variantData, f1Members } = data;
 
-                  let defaultVariantSku;
-                  if (selectedVariant === null) {
-                    setSelectedVariant(variantData);
-                  }
-                  if (selectedVariant) {
-                    const defaultVariant = variantData.find(
-                      (variant) => variant.sku === selectedVariant.sku
-                    );
-                    defaultVariantSku = defaultVariant
-                      ? defaultVariant.sku
-                      : variantData[0].sku;
-                  }
-
                   return (
-                    <li key={index} className="grid-item" data-aos="d:loop">
-                      <div
-                        className="product-link large active"
-                        data-product-category
-                        data-product-location
-                        data-product-colors
-                      >
-                        <div className="container-tags">
-                          {/* <BestSellerTag subCategory={subCategory} /> */}
-                          <SaveProductButton
-                            productId={product._id}
-                            members={f1Members}
-                          />
-                        </div>
-                        <AnimateLink
-                          to={`product/${product.slug}`}
-                          className="link"
-                        >
-                          <div className="container-top">
-                            <h2 className="product-title">{product.name}</h2>
-                            <div className="container-copy">
-                              <button className="btn-copy copy-link">
-                                <span>{defaultVariantSku}</span>
-                                <i className="icon-copy"></i>
-                              </button>
-                              <input
-                                type="text"
-                                className="copy-link-url"
-                                value={defaultVariantSku}
-                                style={{
-                                  position: "absolute",
-                                  opacity: 0,
-                                  pointerEvents: "none",
-                                }}
-                              />
-                            </div>
-                            <div className="container-info">
-                              <div className="dimensions">
-                                {product.additionalInfoSections?.map(
-                                  (data, index) => {
-                                    const { title, description } = data;
-                                    if (title == "Size") {
-                                      return (
-                                        <span
-                                          key={index}
-                                          dangerouslySetInnerHTML={{
-                                            __html: description,
-                                          }}
-                                        ></span>
-                                      );
-                                    }
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="wrapper-product-img">
-                            {variantData.map((variantData, index) => {
-                              return (
-                                <React.Fragment key={index}>
-                                  {index < 4 && (
-                                    <div
-                                      className="container-img product-img"
-                                      data-get-product-link-color={
-                                        variantData.color[0]
-                                      }
-                                      data-default-product-link-active={
-                                        index === 0
-                                      }
-                                    >
-                                      <img
-                                        style={{
-                                          padding: "100px",
-                                        }}
-                                        src={productImageURL({
-                                          wix_url: variantData.variant.imageSrc,
-                                          w: "373",
-                                          h: "373",
-                                          fit: "fill",
-                                          q: "95",
-                                        })}
-                                        className="media"
-                                        alt="product"
-                                      />
-                                    </div>
-                                  )}
-                                </React.Fragment>
-                              );
-                            })}
-                          </div>
-                          <div className="container-bottom">
-                            <div className="price">
-                              {product.formattedPrice}
-                            </div>
-                          </div>
-                        </AnimateLink>
-                        <div className="container-color-options">
-                          <ul className="list-color-options">
-                            {variantData.map((variantData, index) => {
-                              return (
-                                <React.Fragment key={index}>
-                                  {index < 4 && (
-                                    <li
-                                      className="list-item"
-                                      data-set-product-link-color={
-                                        variantData.color[0]
-                                      }
-                                      onMouseEnter={() =>
-                                        handleImageHover(variantData)
-                                      }
-                                      data-default-product-link-active={
-                                        index === 0
-                                      }
-                                    >
-                                      <div className="container-img">
-                                        <img
-                                          src={productImageURL({
-                                            wix_url:
-                                              variantData.variant.imageSrc,
-                                            w: "39",
-                                            h: "39",
-                                            fit: "fill",
-                                            q: "95",
-                                          })}
-                                          data-preload
-                                          className="media"
-                                          alt="product"
-                                        />
-                                      </div>
-                                    </li>
-                                  )}
-                                </React.Fragment>
-                              );
-                            })}
-                          </ul>
-                          {variantData.length > 4 && (
-                            <div className="colors-number">
-                              <span>+{variantData.length - 4}</span>
-                            </div>
-                          )}
-                        </div>
-                        <btn-modal-open
-                          onClick={() =>
-                            getSelectedProductSnapShots(filteredProducts[index])
-                          }
-                          group="modal-product"
-                          class="modal-add-to-cart"
-                        >
-                          <span>Add to cart</span>
-                          <i class="icon-cart"></i>
-                        </btn-modal-open>
-                      </div>
-                    </li>
+                    <ProductListItemMain
+                      index={index}
+                      product={{ ...product, preview: false }}
+                      variantData={variantData}
+                      f1Members={f1Members}
+                      searchResults={filteredProducts}
+                    />
+                    // <li key={index} className="grid-item" data-aos="d:loop">
+                    //   <div
+                    //     className="product-link large active"
+                    //     data-product-category
+                    //     data-product-location
+                    //     data-product-colors
+                    //   >
+                    //     <div className="container-tags">
+                    //       {/* <BestSellerTag subCategory={subCategory} /> */}
+                    //       <SaveProductButton
+                    //         productId={product._id}
+                    //         members={f1Members}
+                    //       />
+                    //     </div>
+                    //     <AnimateLink
+                    //       to={`product/${product.slug}`}
+                    //       className="link"
+                    //     >
+                    //       <div className="container-top">
+                    //         <h2 className="product-title">{product.name}</h2>
+                    //         <div className="container-copy">
+                    //           <button className="btn-copy copy-link">
+                    //             <span>{"defaultVariantSku"}</span>
+                    //             <i className="icon-copy"></i>
+                    //           </button>
+                    //           <input
+                    //             type="text"
+                    //             className="copy-link-url"
+                    //             value={"defaultVariantSku"}
+                    //             style={{
+                    //               position: "absolute",
+                    //               opacity: 0,
+                    //               pointerEvents: "none",
+                    //             }}
+                    //           />
+                    //         </div>
+                    //         <div className="container-info">
+                    //           <div className="dimensions">
+                    //             {product.additionalInfoSections?.map(
+                    //               (data, index) => {
+                    //                 const { title, description } = data;
+                    //                 if (title == "Size") {
+                    //                   return (
+                    //                     <span
+                    //                       key={index}
+                    //                       dangerouslySetInnerHTML={{
+                    //                         __html: description,
+                    //                       }}
+                    //                     ></span>
+                    //                   );
+                    //                 }
+                    //               }
+                    //             )}
+                    //           </div>
+                    //         </div>
+                    //       </div>
+                    //       <div className="wrapper-product-img">
+                    //         {variantData.map((variantData, index) => {
+                    //           return (
+                    //             <React.Fragment key={index}>
+                    //               {index < 4 && (
+                    //                 <div
+                    //                   className="container-img product-img"
+                    //                   data-get-product-link-color={
+                    //                     variantData.color[0]
+                    //                   }
+                    //                   data-default-product-link-active={
+                    //                     index === 0
+                    //                   }
+                    //                 >
+                    //                   <img
+                    //                     style={{
+                    //                       padding: "100px",
+                    //                     }}
+                    //                     src={productImageURL({
+                    //                       wix_url: variantData.variant.imageSrc,
+                    //                       w: "373",
+                    //                       h: "373",
+                    //                       fit: "fill",
+                    //                       q: "95",
+                    //                     })}
+                    //                     className="media"
+                    //                     alt="product"
+                    //                   />
+                    //                 </div>
+                    //               )}
+                    //             </React.Fragment>
+                    //           );
+                    //         })}
+                    //       </div>
+                    //       <div className="container-bottom">
+                    //         <div className="price">
+                    //           {product.formattedPrice}
+                    //         </div>
+                    //       </div>
+                    //     </AnimateLink>
+                    //     <div className="container-color-options">
+                    //       <ul className="list-color-options">
+                    //         {variantData.map((variantData, index) => {
+                    //           return (
+                    //             <React.Fragment key={index}>
+                    //               {index < 4 && (
+                    //                 <li
+                    //                   className="list-item"
+                    //                   data-set-product-link-color={
+                    //                     variantData.color[0]
+                    //                   }
+                    //                   onMouseEnter={() =>
+                    //                     handleImageHover(variantData)
+                    //                   }
+                    //                   data-default-product-link-active={
+                    //                     index === 0
+                    //                   }
+                    //                 >
+                    //                   <div className="container-img">
+                    //                     <img
+                    //                       src={productImageURL({
+                    //                         wix_url:
+                    //                           variantData.variant.imageSrc,
+                    //                         w: "39",
+                    //                         h: "39",
+                    //                         fit: "fill",
+                    //                         q: "95",
+                    //                       })}
+                    //                       data-preload
+                    //                       className="media"
+                    //                       alt="product"
+                    //                     />
+                    //                   </div>
+                    //                 </li>
+                    //               )}
+                    //             </React.Fragment>
+                    //           );
+                    //         })}
+                    //       </ul>
+                    //       {variantData.length > 4 && (
+                    //         <div className="colors-number">
+                    //           <span>+{variantData.length - 4}</span>
+                    //         </div>
+                    //       )}
+                    //     </div>
+                    //     <btn-modal-open
+                    //       onClick={() =>
+                    //         getSelectedProductSnapShots(filteredProducts[index])
+                    //       }
+                    //       group="modal-product"
+                    //       class="modal-add-to-cart"
+                    //     >
+                    //       <span>Add to cart</span>
+                    //       <i class="icon-cart"></i>
+                    //     </btn-modal-open>
+                    //   </div>
+                    // </li>
                   );
                 })}
               </ul>

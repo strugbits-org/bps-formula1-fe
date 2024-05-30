@@ -1,118 +1,40 @@
-import React, { useState } from "react";
-import { SaveProductButton } from "../Common/SaveProductButton";
-import AnimateLink from "../Common/AnimateLink";
-import SuccessModal from "../Common/SuccessModal";
-import ErrorModal from "../Common/ErrorModal";
-import {
-  getProductSnapShots,
-  getProductVariants,
-} from "@/services/apiServices";
-import { resetSlideIndex } from "@/utils/AnimationFunctions";
-import AddToCartModal from "../Product/AddToCartModal";
+import React from "react";
 
-const ProductListItem = ({
+import { SaveProductButton } from "../Common/SaveProductButton";
+import useProductFunctions from "@/hooks/useProductFunction";
+import { productImageURL } from "@/utils/GenerateImageURL";
+import AddToCartModal from "../Product/AddToCartModal";
+import SuccessModal from "../Common/SuccessModal";
+import AnimateLink from "../Common/AnimateLink";
+import ErrorModal from "../Common/ErrorModal";
+
+export const ProductListItem = ({
   index,
   product,
   variantData,
   f1Members,
   searchResults,
 }) => {
-  const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [selectedVariantData, setSelectedVariantData] = useState(null);
-  const [productSnapshots, setProductSnapshots] = useState([]);
-  const [successMessageVisible, setSuccessMessageVisible] = useState(false);
-  const [errorMessageVisible, setErrorMessageVisible] = useState(false);
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
-
-  console.log(product, "product<<>>");
-  const getSelectedProductSnapShots = async () => {
-    setSelectedVariantIndex(index);
-
-    try {
-      const product_id = product._id;
-      const [productSnapshotData, productVariantsData] = await Promise.all([
-        getProductSnapShots(product_id),
-        getProductVariants(product_id),
-      ]);
-
-      let dataMap = new Map(
-        productVariantsData.map((item) => [item.sku, item])
-      );
-
-      let filteredVariantData = variantData.filter((variant) => {
-        if (dataMap.has(variant.sku)) {
-          const dataItem = dataMap.get(variant.sku);
-          variant.variant.variantId = dataItem._id;
-          return true;
-        }
-        return false;
-      });
-      setProductFilteredVariantData(filteredVariantData);
-
-      setProductSnapshots(productSnapshotData);
-
-      if (filteredVariantData.length > 0) {
-        handleImageChange({
-          index: index,
-          selectedVariantData: filteredVariantData[0].variant,
-          productSnapshots: productSnapshotData,
-          modalUrl: filteredVariantData[0].zipUrl,
-        });
-      }
-      product.preview = true;
-      console.log(product._id, "product._id>>>>>>>>>>>>");
-      setTimeout(() => {
-        const modal_group = document.querySelector(
-          `modal-group[name='${product._id}']`
-        );
-        modal_group.open();
-      }, 10);
-      console.log(modal_group, "modal_group>>");
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
-
-  const handleImageChange = ({
-    index,
+  const {
+    selectedVariantIndex,
     selectedVariantData,
     productSnapshots,
-    modalUrl,
-  }) => {
-    if (productSnapshots) {
-      const selectedVariantFilteredData = productSnapshots.find(
-        (variant) => variant.colorVariation === selectedVariantData.variantId
-      );
-
-      if (selectedVariantFilteredData && selectedVariantFilteredData?.images) {
-        const combinedVariantData = {
-          ...selectedVariantData,
-          ...selectedVariantFilteredData,
-          modalUrl: modalUrl,
-        };
-
-        setSelectedVariantIndex(index);
-        setSelectedVariantData(combinedVariantData);
-      } else {
-        const combinedVariantData = {
-          ...selectedVariantData,
-          ...selectedVariantFilteredData,
-          modalUrl: modalUrl,
-          images: [{ src: selectedVariantData.imageSrc }],
-        };
-        setSelectedVariantIndex(index);
-        setSelectedVariantData(combinedVariantData);
-      }
-    }
-    resetSlideIndex();
-  };
-  console.log(product, "product2222222222222<<>>");
+    successMessageVisible,
+    errorMessageVisible,
+    productFilteredVariantData,
+    getSelectedProductSnapShots,
+    handleImageChange,
+    setSuccessMessageVisible,
+    setErrorMessageVisible,
+    setSelectedVariantData,
+    setProductFilteredVariantData,
+    setProductSnapshots,
+  } = useProductFunctions(index, product, variantData);
 
   const handleAddToCart = () => {
-    // Your logic to handle adding the product to the cart
-    setSuccessMessageVisible(true); // Example: show success modal
+    setSuccessMessageVisible(true);
   };
+
   return (
     <li key={product._id} className="grid-item">
       <div className="product-link small saved-products active">
@@ -174,7 +96,7 @@ const ProductListItem = ({
           </div>
         </div>
         <button
-          //   group="modal-product"
+          // group="modal-product"
           class="modal-add-to-cart"
           onClick={() => {
             getSelectedProductSnapShots();
@@ -219,4 +141,194 @@ const ProductListItem = ({
   );
 };
 
-export default ProductListItem;
+export const ProductListItemMain = ({
+  index,
+  product,
+  variantData,
+  f1Members,
+  searchResults,
+}) => {
+  const {
+    selectedVariantIndex,
+    selectedVariantData,
+    productSnapshots,
+    successMessageVisible,
+    errorMessageVisible,
+    productFilteredVariantData,
+    getSelectedProductSnapShots,
+    handleImageChange,
+    setSuccessMessageVisible,
+    setErrorMessageVisible,
+    setSelectedVariantData,
+    setProductFilteredVariantData,
+    setProductSnapshots,
+  } = useProductFunctions(index, product, variantData);
+
+  const handleAddToCart = () => {
+    setSuccessMessageVisible(true);
+  };
+
+  return (
+    <li key={product._id} className="grid-item" data-aos="d:loop">
+      <div
+        className="product-link large active"
+        data-product-category
+        data-product-location
+        data-product-colors
+      >
+        <div className="container-tags">
+          {/* <BestSellerTag subCategory={subCategory} /> */}
+          <SaveProductButton productId={product._id} members={f1Members} />
+        </div>
+        <AnimateLink to={`product/${product.slug}`} className="link">
+          <div className="container-top">
+            <h2 className="product-title">{product.name}</h2>
+            <div className="container-copy">
+              <button className="btn-copy copy-link">
+                <span>{"defaultVariantSku"}</span>
+                <i className="icon-copy"></i>
+              </button>
+              <input
+                type="text"
+                className="copy-link-url"
+                value={"defaultVariantSku"}
+                style={{
+                  position: "absolute",
+                  opacity: 0,
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
+            <div className="container-info">
+              <div className="dimensions">
+                {product.additionalInfoSections?.map((data, index) => {
+                  const { title, description } = data;
+                  if (title == "Size") {
+                    return (
+                      <span
+                        key={index}
+                        dangerouslySetInnerHTML={{
+                          __html: description,
+                        }}
+                      ></span>
+                    );
+                  }
+                })}
+              </div>
+            </div>
+          </div>
+          <div className="wrapper-product-img">
+            {variantData.map((variantData, index) => {
+              return (
+                <React.Fragment key={index}>
+                  {index < 4 && (
+                    <div
+                      className="container-img product-img"
+                      data-get-product-link-color={variantData.color[0]}
+                      data-default-product-link-active={index === 0}
+                    >
+                      <img
+                        style={{
+                          padding: "100px",
+                        }}
+                        src={productImageURL({
+                          wix_url: variantData.variant.imageSrc,
+                          w: "373",
+                          h: "373",
+                          fit: "fill",
+                          q: "95",
+                        })}
+                        className="media"
+                        alt="product"
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </div>
+          <div className="container-bottom">
+            <div className="price">{product.formattedPrice}</div>
+          </div>
+        </AnimateLink>
+        <div className="container-color-options">
+          <ul className="list-color-options">
+            {variantData.map((variantData, index) => {
+              return (
+                <React.Fragment key={index}>
+                  {index < 4 && (
+                    <li
+                      className="list-item"
+                      data-set-product-link-color={variantData.color[0]}
+                      onMouseEnter={() => handleImageHover(variantData)}
+                      data-default-product-link-active={index === 0}
+                    >
+                      <div className="container-img">
+                        <img
+                          src={productImageURL({
+                            wix_url: variantData.variant.imageSrc,
+                            w: "39",
+                            h: "39",
+                            fit: "fill",
+                            q: "95",
+                          })}
+                          data-preload
+                          className="media"
+                          alt="product"
+                        />
+                      </div>
+                    </li>
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </ul>
+          {variantData.length > 4 && (
+            <div className="colors-number">
+              <span>+{variantData.length - 4}</span>
+            </div>
+          )}
+        </div>
+        <btn-modal-open
+          onClick={() => getSelectedProductSnapShots()}
+          group="modal-product"
+          class="modal-add-to-cart"
+        >
+          <span>Add to cart</span>
+          <i class="icon-cart"></i>
+        </btn-modal-open>
+      </div>
+      {successMessageVisible && (
+        <SuccessModal
+          buttonLabel={"Ok"}
+          message={"Product Successfully Added to Cart!"}
+          setSuccessMessageVisible={setSuccessMessageVisible}
+        />
+      )}
+      {errorMessageVisible && (
+        <ErrorModal
+          buttonLabel={"Try Again!"}
+          message={"Something went wrong, please try again"}
+          setErrorMessageVisible={setErrorMessageVisible}
+        />
+      )}
+      {product.preview && (
+        <AddToCartModal
+          productData={searchResults[index]}
+          errorMessageVisible={errorMessageVisible} // Corrected prop name
+          setErrorMessageVisible={setErrorMessageVisible}
+          successMessageVisible={successMessageVisible} // Corrected prop name
+          setSuccessMessageVisible={setSuccessMessageVisible}
+          productSnapshots={productSnapshots}
+          productFilteredVariantData={productFilteredVariantData}
+          selectedVariantData={selectedVariantData}
+          setSelectedVariantData={setSelectedVariantData}
+          handleImageChange={handleImageChange}
+          selectedVariantIndex={selectedVariantIndex}
+          setProductSnapshots={setProductSnapshots}
+          setProductFilteredVariantData={setProductFilteredVariantData}
+        />
+      )}
+    </li>
+  );
+};

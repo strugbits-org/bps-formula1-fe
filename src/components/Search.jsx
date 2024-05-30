@@ -17,7 +17,7 @@ import {
   resetSlideIndex,
   updatedWatched,
 } from "@/utils/AnimationFunctions";
-import ProductListItem from "./Common/ProductListItem";
+import { ProductListItem } from "./Common/ProductListItem";
 
 const Search = ({ collections, colors, searchTerm }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -154,9 +154,9 @@ const Search = ({ collections, colors, searchTerm }) => {
                   return (
                     <ProductListItem
                       index={index}
-                      product={{ ...item.product, preview: false }}
-                      variantData={item.variantData}
-                      f1Members={item.f1Members}
+                      product={{ ...product, preview: false }}
+                      variantData={variantData}
+                      f1Members={f1Members}
                       searchResults={searchResults}
                     />
                   );

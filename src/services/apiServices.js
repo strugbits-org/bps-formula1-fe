@@ -936,9 +936,13 @@ export const getSavedProductData = async (payload, authToken) => {
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
-
     const data = await response.json();
-    return data.data;
+    const itemData = data.data;
+    if (itemData && itemData._items) {
+      return itemData._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
   } catch (error) {
     console.error("Error fetching saved products:", error);
     return [];
