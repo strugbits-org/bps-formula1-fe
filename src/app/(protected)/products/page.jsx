@@ -5,7 +5,5 @@ export default async function Page({ searchParams }) {
   const { slug, category } = searchParams;
 
   const [collectionsData] = await Promise.all([getCollectionsData()]);
-  return (
-    <ProductIndex router={searchParams} collectionsData={collectionsData} />
-  );
+  return <ProductIndex collectionsData={collectionsData} />;
 }

@@ -1,26 +1,23 @@
 "use client";
 import { pageLoadEnd, pageLoadStart } from "../../utils/AnimationFunctions";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const AnimateLink = ({ to, children, className, target, attributes }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
-  const [hashh, setHashh] = useState();
-  // const hash = useHashState();
-  // console.log(pathname, "pathname>>");
 
   const delayedRedirect = (e) => {
     e.preventDefault();
-    if (pathname !== "") {
+    if (router.asPath !== "") {
       router.push(to);
     }
 
     if (to === undefined) return;
 
     if (pathname === to) {
+      console.log(">>>>>>>>>>>");
+
       pageLoadStart();
       setTimeout(() => pageLoadEnd(), 900);
       return;

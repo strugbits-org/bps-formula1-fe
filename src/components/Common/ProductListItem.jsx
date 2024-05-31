@@ -45,7 +45,7 @@ export const ProductListItem = ({
             // onUnSave={() => handleUnSaveProduct(product._id)}
           />
         </div>
-        <AnimateLink to={`product/${product.slug}`} className="link">
+        <AnimateLink to={`/product/${product.slug}`} className="link">
           <div className="container-top">
             <h2 className="product-title">{product.name}</h2>
           </div>
@@ -167,7 +167,7 @@ export const ProductListItemMain = ({
   const handleAddToCart = () => {
     setSuccessMessageVisible(true);
   };
-
+  console.log(product, "product>>");
   return (
     <li key={product._id} className="grid-item" data-aos="d:loop">
       <div
@@ -180,7 +180,7 @@ export const ProductListItemMain = ({
           {/* <BestSellerTag subCategory={subCategory} /> */}
           <SaveProductButton productId={product._id} members={f1Members} />
         </div>
-        <AnimateLink to={`product/${product.slug}`} className="link">
+        <AnimateLink to={`/product/${product.slug}`} className="link">
           <div className="container-top">
             <h2 className="product-title">{product.name}</h2>
             <div className="container-copy">

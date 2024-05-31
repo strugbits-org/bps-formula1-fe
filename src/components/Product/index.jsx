@@ -16,7 +16,7 @@ import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ router, collectionsData }) {
+export default function ProductIndex({ collectionsData }) {
   const pageSize = 9;
 
   const [selectedCategory, setSelectedCategory] = useState(null); //router params
@@ -127,18 +127,24 @@ export default function ProductIndex({ router, collectionsData }) {
       }
     }
 
-    let colors;
+    let colors = [];
     if (subCategory) {
       const colorData = await getCollectionColors(subCategory);
-      colors = colorData.colors;
-      setfilterCategory([subCategory]);
+      if (colorData && colorData.colors) {
+        colors = colorData.colors;
+      }
+      setfilterCategory([router.query.subCategory]);
     } else if (category) {
       const colorData = await getCollectionColors(category);
-      colors = colorData.colors;
+      if (colorData && colorData.colors) {
+        colors = colorData.colors;
+      }
     } else {
       const allProducts = "00000000-000000-000000-000000000001";
       const colorData = await getCollectionColors(allProducts);
-      colors = colorData.colors;
+      if (colorData && colorData.colors) {
+        colors = colorData.colors;
+      }
     }
 
     setColors(colors);
@@ -205,6 +211,7 @@ export default function ProductIndex({ router, collectionsData }) {
       setReloadTrigger((prev) => !prev);
     }
   }, [filterColors, filterCategory, filterCollections]);
+  console.log(productsCollection, "productsCollection>>");
 
   return (
     <Products
@@ -212,7 +219,7 @@ export default function ProductIndex({ router, collectionsData }) {
       collectionsData={collectionsData}
       selectedCollection={selectedCollectionData}
       selectedCategory={selectedCategoryData}
-      colors={colors}
+      colors={colors || []}
       totalCount={productsResponse?._totalCount}
       handleLoadMore={handleLoadMore}
       pageSize={pageSize}

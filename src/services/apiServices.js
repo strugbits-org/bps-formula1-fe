@@ -356,7 +356,11 @@ export const getCategoriesData = async (collectionsIds) => {
     });
 
     if (response && response._items) {
-      return response._items.map((x) => x.data);
+      const categoriesData = response._items.map((x) => x.data);
+      const filteredData = categoriesData.filter(
+        (x) => x.parentCollection.slug !== "all-products"
+      );
+      return filteredData;
     } else {
       throw new Error("Response does not contain _items");
     }
