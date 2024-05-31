@@ -2,35 +2,55 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 import { useCookies } from "react-cookie";
 import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
+import { getCategoriesData } from "@/services/apiServices";
 
-const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
+const Navbar = ({ homePageData, collectionsData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const collection = searchParams.get("collection");
   const category = searchParams.get("category");
-  const subCategory = searchParams.get("subCategory");
 
   const [cookies, setCookie] = useCookies(["cartQuantity", "authToken"]);
 
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("");
+  const [categoriesData, setCategoriesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [cartQuantity, setCartQuantity] = useState(0);
+  const getCate = async () => {
+    try {
+      const selectedCollections = collectionsData
+        .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
+        .map((x) => x._id);
+
+      const res = await getCategoriesData(selectedCollections);
+      setCategoriesData(res);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getCate();
+  }, []);
 
   useEffect(() => {
     const _selectedCollection = collectionsData.find(
       (x) => x.collectionSlug === collection
     )?.collectionName;
 
-    if (_selectedCollection) setSelectedCollection(_selectedCollection);
+    if (_selectedCollection)
+      setSelectedCollection({
+        collectionName: _selectedCollection,
+        collectionSlug: null,
+      });
     const _selectedCategory = categoriesData.find(
       (x) => x.parentCollection._id === category
     )?.parentCollection?.name;
@@ -46,39 +66,69 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   }, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
-    setSelectedCollection(name);
-    setCollectionDropdownOpen(false);
     pageLoadStart();
+    setSelectedCollection({
+      collectionName: name,
+      collectionSlug: collectionSlug,
+    });
+    setCollectionDropdownOpen(false);
     if (pathname === "/products") {
       const queryParams = new URLSearchParams(searchParams);
       queryParams.set("collection", collectionSlug);
       queryParams.delete("category");
       queryParams.delete("subCategory");
-
       router.push(`${pathname}?${queryParams.toString()}`);
+      setSelectedCategory(null);
     } else {
       router.push(`/collections/${collectionSlug}`);
     }
+    getCate();
   };
+
   const handleCategorySelection = (name, id) => {
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
     pageLoadStart();
-    if (id === "all" && collection === undefined) {
+
+    if (
+      id === "all" &&
+      (selectedCategory === "" || selectedCategory === "All")
+    ) {
+      pageLoadEnd();
+      return;
+    }
+    if (id === "all" && collection === null) {
+      console.log("if");
+
       router.push(`/products`);
-    } else if (id === "all" && collection !== undefined) {
+      pageLoadEnd();
+    } else if (id === "all" && collection !== null) {
+      console.log("else if");
+
       const queryParams = new URLSearchParams(searchParams);
       queryParams.delete("category");
       queryParams.delete("subCategory");
       const newPathname = pathname === "/products" ? pathname : "/products";
       router.push(`${newPathname}?${queryParams.toString()}`);
     } else {
+      console.log("else");
       const queryParams = new URLSearchParams(searchParams);
+      if (
+        pathname === "/products" &&
+        (selectedCategory === "" || selectedCategory === "All")
+      ) {
+        queryParams.delete("collection");
+      } else if (pathname === "/products") {
+        queryParams.set("collection", collection);
+      } else {
+        queryParams.set("collection", selectedCollection.collectionSlug);
+      }
+
       queryParams.set("category", id);
       queryParams.delete("subCategory");
-
       const newPathname = pathname === "/products" ? pathname : "/products";
       router.push(`${newPathname}?${queryParams.toString()}`);
+      pageLoadEnd();
     }
   };
 
@@ -174,7 +224,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               className="btn-dropdown"
               data-set-submenu="collections"
             >
-              <span>{selectedCollection || "COLLECTIONS"}</span>
+              <span>{selectedCollection.collectionName || "COLLECTIONS"}</span>
               <i className="icon-arrow-down"></i>
             </button>
             <div
@@ -186,7 +236,10 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
               <ul className="list-dropdown ">
                 <li
                   onClick={() => {
-                    setSelectedCollection("All");
+                    setSelectedCollection({
+                      collectionName: "All",
+                      collectionSlug: "all",
+                    });
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
                     router.push("/products");

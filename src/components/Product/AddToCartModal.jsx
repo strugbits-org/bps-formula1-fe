@@ -24,9 +24,7 @@ const AddToCartModal = ({
   setProductFilteredVariantData,
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
-  console.log(selectedVariantData, "selectedVariantData>>");
   const handleClose = () => {
-    console.log("called");
     setTimeout(() => {
       setSelectedVariantData(null);
       setProductSnapshots(null);
@@ -36,7 +34,6 @@ const AddToCartModal = ({
   };
 
   useEffect(() => {
-    console.log("useEffect >>>>>>");
     if (selectedVariantData) {
       initializeCanvasAddToCart();
     }

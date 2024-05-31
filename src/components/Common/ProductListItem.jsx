@@ -260,7 +260,6 @@ export const ProductListItemMain = ({
                     <li
                       className="list-item"
                       data-set-product-link-color={variantData.color[0]}
-                      onMouseEnter={() => handleImageHover(variantData)}
                       data-default-product-link-active={index === 0}
                     >
                       <div className="container-img">
