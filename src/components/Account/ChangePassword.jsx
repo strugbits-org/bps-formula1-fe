@@ -2,6 +2,8 @@
 import { getUserAuth } from "@/utils/GetUser";
 import React, { useEffect, useState } from "react";
 import ErrorModal from "../Common/ErrorModal";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 
 const ChangePassword = ({ changePasswordPageData }) => {
   const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -66,7 +68,12 @@ const ChangePassword = ({ changePasswordPageData }) => {
       return () => clearTimeout(timer);
     }
   }, [successMessageVisible]);
-
+  useEffect(() => {
+    const params = [changePasswordPageData];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [changePasswordPageData]);
   return (
     <>
       {errorMessageVisible && (

@@ -1,11 +1,21 @@
+"use client";
+import { useEffect } from "react";
 import AnimateLink from "../Common/AnimateLink";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { checkParameters } from "@/utils/CheckParams";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 
 const CollectionCategory = ({
   selectedCollectionData,
   filteredCategories,
   collection,
 }) => {
+  useEffect(() => {
+    const params = [selectedCollectionData, filteredCategories, collection];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [selectedCollectionData, filteredCategories, collection]);
   return (
     <>
       <section className="collections-category-intro pt-lg-165 pb-lg-90 pb-tablet-50 pb-phone-130">

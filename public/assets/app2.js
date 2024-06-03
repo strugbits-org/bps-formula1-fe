@@ -3,7 +3,7 @@ var __commonJS = (cb, mod) =>
   function __require() {
     return (
       mod ||
-      (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
+        (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod),
       mod.exports
     );
   };
@@ -18166,13 +18166,11 @@ var require_app2 = __commonJS({
       .querySelector(".initializeCanvas")
       .addEventListener("customInit", initializeCanvas);
     document.querySelector(".addToCart").addEventListener("reloadModal", () => {
-      console.log("yes");
       productLinkColor();
       formCart();
       filterProducts();
       addToCartSlider();
       productContent();
-      
     });
 
     // document.querySelector(".addToCart").addEventListener("click", () => {
@@ -18852,20 +18850,26 @@ var require_app2 = __commonJS({
     function main$5() {
       filterProducts();
       productContent();
-
       let description = document.querySelector(
-        ".container-info-text.description"
+        ".container-info-text.description:not(.js-running)"
       );
-      let btnReadMore = document.querySelector(".btn-read-more");
+      let btnReadMore = document.querySelector(
+        ".btn-read-more:not(.js-running)"
+      );
       let height = document.querySelector(".text").clientHeight;
-      description.style.setProperty("--h", height + "px");
-      btnReadMore.addEventListener("click", function () {
-        if (description.classList.contains("active")) {
-          description.removeActive();
-        } else {
-          description.addActive();
-        }
-      });
+      if (btnReadMore && description) {
+        description.style.setProperty("--h", height + "px");
+
+        btnReadMore.addEventListener("click", function () {
+          if (description.classList.contains("active")) {
+            description.removeActive();
+          } else {
+            description.addActive();
+          }
+        });
+        btnReadMore.classList.add("js-running");
+        description.classList.add("js-running");
+      }
       new Swiper("#slider-match-with .swiper-container", {
         modules: [Navigation, Pagination],
         slidesPerView: 1,

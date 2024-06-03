@@ -1,7 +1,18 @@
+"use client";
 import AnimateLink from "@/components/Common/AnimateLink";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { useEffect } from "react";
 
 const Collections = ({ collectionsPageData, collectionsData }) => {
+  useEffect(() => {
+    const params = [collectionsPageData, collectionsData];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [collectionsPageData, collectionsData]);
+
   return (
     <section className="collections-intro pt-lg-170 pb-lg-90 pb-tablet-40 pb-phone-170">
       <div className="container-fluid">

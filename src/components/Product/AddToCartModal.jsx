@@ -26,7 +26,6 @@ const AddToCartModal = ({
   const [cartQuantity, setCartQuantity] = useState(1);
   const handleClose = () => {
     setTimeout(() => {
-      setSelectedVariantData(null);
       setProductSnapshots(null);
       setProductFilteredVariantData(null);
       setCartQuantity(1);
@@ -86,6 +85,7 @@ const AddToCartModal = ({
       setErrorMessageVisible(true);
     }
   };
+
   return (
     <div id="reloading-area">
       <modal-group
@@ -146,10 +146,6 @@ const AddToCartModal = ({
                                   {selectedVariantData &&
                                     selectedVariantData.images.map(
                                       (imageData, index) => {
-                                        console.log(
-                                          imageData,
-                                          "img>>>>>>>>>>>>>>>>"
-                                        );
                                         return (
                                           <div key={index} class="swiper-slide">
                                             <div class="container-img">

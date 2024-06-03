@@ -18,7 +18,10 @@ import { useEffect, useState } from "react";
 
 export default function ProductIndex({ collectionsData }) {
   const pageSize = 9;
+  const searchParams = useSearchParams();
 
+  const category = searchParams.get("category");
+  const subCategory = searchParams.get("subCategory");
   const [selectedCategory, setSelectedCategory] = useState(null); //router params
   const [selectedCollection, setSelectedCollection] = useState(null); //router params
 
@@ -79,7 +82,6 @@ export default function ProductIndex({ collectionsData }) {
   };
 
   //   const router = useRouter();
-  const searchParams = useSearchParams();
   const handleRouterChange = async () => {
     const slug = searchParams.get("collection");
     const category = searchParams.get("category");
@@ -133,7 +135,7 @@ export default function ProductIndex({ collectionsData }) {
       if (colorData && colorData.colors) {
         colors = colorData.colors;
       }
-      setfilterCategory([router.query.subCategory]);
+      setfilterCategory([subCategory]);
     } else if (category) {
       const colorData = await getCollectionColors(category);
       if (colorData && colorData.colors) {
@@ -211,7 +213,7 @@ export default function ProductIndex({ collectionsData }) {
       setReloadTrigger((prev) => !prev);
     }
   }, [filterColors, filterCategory, filterCollections]);
-  console.log(productsCollection, "productsCollection>>");
+
 
   return (
     <Products

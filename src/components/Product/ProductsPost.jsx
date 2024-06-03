@@ -9,15 +9,16 @@ import MatchedProducts from "../Common/MatchedProducts";
 import Breadcrumb from "../Common/BreadCrumbData";
 
 import {
+  markPageLoaded,
   pageLoadEnd,
   pageLoadStart,
   resetSlideIndex,
 } from "@/utils/AnimationFunctions";
 import { AddProductToCart } from "@/services/cartServices";
-import { productData } from "@/utils/ProductData";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
 import { getSubCategory } from "@/services/apiServices";
+import { checkParameters } from "@/utils/CheckParams";
 
 const ProductPost = ({
   productPostPageData,
@@ -100,16 +101,6 @@ const ProductPost = ({
     router.push({ pathname: "/products", query: queryParams.toString() });
   };
 
-  useEffect(() => {
-    const descriptionElement = descriptionRef.current;
-    if (descriptionElement) {
-      descriptionElement.innerHTML = descriptionElement.innerHTML.replace(
-        /<span style="color:#000000;">/g,
-        '<span style="color:#ffffff;">'
-      );
-    }
-  }, [selectedProductDetails]);
-
   const seatHeightData =
     selectedProductDetails.product.additionalInfoSections.find(
       (data) => data.title.toLowerCase() === "seat height".toLowerCase()
@@ -153,6 +144,29 @@ const ProductPost = ({
       console.log("Error:", error);
     }
   };
+  useEffect(() => {
+    const params = [
+      productPostPageData,
+      selectedProductDetails,
+      matchedProductsData,
+      collectionsData,
+      productSnapshots,
+    ];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [
+    productPostPageData,
+    selectedProductDetails,
+    matchedProductsData,
+    collectionsData,
+    productSnapshots,
+  ]);
+
+  const updatedDescription = selectedProductDetails.product.description.replace(
+    /color:#000000;/g,
+    "color:#ffffff"
+  );
 
   return (
     <>
@@ -512,7 +526,7 @@ const ProductPost = ({
                     ref={descriptionRef}
                     className="text"
                     dangerouslySetInnerHTML={{
-                      __html: productData.product.description,
+                      __html: updatedDescription,
                     }}
                   ></div>
                 </div>

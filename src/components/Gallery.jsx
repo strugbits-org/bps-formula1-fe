@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import AnimateLink from "@/components/Common/AnimateLink";
 import SocialLinks from "./Common/SocialLinks";
 import { generateImageURL } from "@/utils/GenerateImageURL";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 
 const Gallery = ({
   galleryPageData,
@@ -60,7 +62,17 @@ const Gallery = ({
   }, [visibleItems, collectionsData, collectionFilter]);
 
   collectionsData.sort((a, b) => a.order - b.order);
-
+  useEffect(() => {
+    const params = [
+      galleryPageData,
+      collectionsData,
+      bottomLinks,
+      bottomSocialLinks,
+    ];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [galleryPageData, collectionsData, bottomLinks, bottomSocialLinks]);
   return (
     <section className="gallery pt-lg-145 pb-90" ref={selectRef}>
       <div className="container-fluid">

@@ -10,9 +10,14 @@ import {
   getProductVariants,
   getSavedProductData,
 } from "@/services/apiServices";
-import { resetSlideIndex, updatedWatched } from "@/utils/AnimationFunctions";
+import {
+  markPageLoaded,
+  resetSlideIndex,
+  updatedWatched,
+} from "@/utils/AnimationFunctions";
 import { getUserAuth } from "@/utils/GetUser";
 import { ProductListItem } from "../Common/ProductListItem";
+import { checkParameters } from "@/utils/CheckParams";
 
 const SavedProducts = ({ savedProductPageData, savedProductData }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -54,6 +59,12 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
     setSavedProductsData(savedProductData);
   }, [savedProductData]);
 
+  useEffect(() => {
+    const params = [savedProductPageData, savedProductData];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [savedProductPageData, savedProductData]);
   // const getSelectedProductSnapShots = async (productData) => {
   //   setSelectedProductData(productData);
   //   try {

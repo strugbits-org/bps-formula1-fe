@@ -18,6 +18,7 @@ import {
   updatedWatched,
 } from "@/utils/AnimationFunctions";
 import { ProductListItem } from "./Common/ProductListItem";
+import { checkParameters } from "@/utils/CheckParams";
 
 const Search = ({ collections, colors, searchTerm }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -126,6 +127,13 @@ const Search = ({ collections, colors, searchTerm }) => {
     }
     resetSlideIndex();
   };
+
+  useEffect(() => {
+    const params = [collections, colors, searchTerm];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [collections, colors, searchTerm]);
   return (
     <>
       <section className="search pt-lg-150 pb-95">

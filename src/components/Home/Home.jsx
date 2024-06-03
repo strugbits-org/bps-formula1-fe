@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import { generateImageURL, getFullSvgURL } from "@/utils/GenerateImageURL";
@@ -10,6 +10,7 @@ import RenderVideo from "@/utils/RenderVideo";
 import ErrorModal from "../Common/ErrorModal";
 import SignIn from "../Registration/SignIn";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 
 const HomePage = ({
   homePageData,
@@ -22,7 +23,26 @@ const HomePage = ({
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("Message");
-  markPageLoaded();
+  useEffect(() => {
+    const params = [
+      homePageData,
+      leftSectionLinks,
+      rightSectionIcons,
+      signInPage,
+      createAccountPage,
+      createAccountDropdown,
+    ];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [
+    homePageData,
+    leftSectionLinks,
+    rightSectionIcons,
+    signInPage,
+    createAccountPage,
+    createAccountDropdown,
+  ]);
 
   return (
     <section

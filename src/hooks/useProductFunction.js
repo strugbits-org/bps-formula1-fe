@@ -8,6 +8,8 @@ import { resetSlideIndex } from "@/utils/AnimationFunctions";
 const useProductFunctions = (index, product, variantData) => {
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState(variantData[0]);
+
   const [productSnapshots, setProductSnapshots] = useState([]);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
@@ -98,6 +100,7 @@ const useProductFunctions = (index, product, variantData) => {
     successMessageVisible,
     errorMessageVisible,
     productFilteredVariantData,
+    selectedVariant,
     getSelectedProductSnapShots,
     handleImageChange,
     setSuccessMessageVisible,
@@ -105,6 +108,7 @@ const useProductFunctions = (index, product, variantData) => {
     setSelectedVariantData,
     setProductFilteredVariantData,
     setProductSnapshots,
+    setSelectedVariant,
   };
 };
 

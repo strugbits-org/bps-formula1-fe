@@ -15,11 +15,14 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const router = useRouter();
   const collection = searchParams.get("collection");
   const category = searchParams.get("category");
-  const [cookies, setCookie] = useCookies(["cartQuantity", "authToken"]);
 
+  const [cookies, setCookie] = useCookies(["cartQuantity", "authToken"]);
   const [collectionDropdownOpen, setCollectionDropdownOpen] = useState(false);
   const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState("");
+  const [selectedCollection, setSelectedCollection] = useState({
+    collectionName: null,
+    collectionSlug: null,
+  });
   const [selectedCategory, setSelectedCategory] = useState();
   const [categoriesData, setCategoriesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState(router.query || "");
@@ -64,9 +67,10 @@ const Navbar = ({ homePageData, collectionsData }) => {
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
     if (
+      typeof window !== "undefined" &&
       pathname === "/" &&
-      router.asPath !== "#sign-in" &&
-      router.asPath !== "#create-account"
+      window.location.hash !== "#sign-in" &&
+      window.location.hash !== "#create-account"
     ) {
       document.body.setAttribute("data-home-state", "");
     }
@@ -96,40 +100,106 @@ const Navbar = ({ homePageData, collectionsData }) => {
     pageLoadStart();
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
-
+    const queryParams = new URLSearchParams(searchParams);
+    const collectionName = selectedCollection.collectionSlug;
     if (
+      pathname !== "/products" &&
       id === "all" &&
       (selectedCategory === "" || selectedCategory === "All")
     ) {
-      pageLoadEnd();
+      setTimeout(() => {
+        pageLoadEnd();
+      }, 1000);
       return;
     }
-    if (id === "all" && collection === null) {
+
+    if (pathname !== "/products" && id === "all" && collectionName === null) {
       router.push(`/products`);
-    } else if (id === "all" && collection !== null) {
-      const queryParams = new URLSearchParams(searchParams);
+    }
+
+    if (pathname !== "/products" && id === "all" && collectionName !== null) {
+      queryParams.set("collection", collectionName);
       queryParams.delete("category");
       queryParams.delete("subCategory");
       const newPathname = pathname === "/products" ? pathname : "/products";
       router.push(`${newPathname}?${queryParams.toString()}`);
-    } else {
-      const queryParams = new URLSearchParams(searchParams);
-      if (
-        pathname === "/products" &&
-        (selectedCategory === "" || selectedCategory === "All")
-      ) {
-        queryParams.delete("collection");
-      } else if (pathname === "/products") {
-        queryParams.set("collection", collection);
-      } else {
-        queryParams.set("collection", selectedCollection.collectionSlug);
-      }
+    }
 
+    if (
+      pathname !== "/products" &&
+      id !== null &&
+      id !== "all" &&
+      collectionName === null
+    ) {
       queryParams.set("category", id);
       queryParams.delete("subCategory");
       const newPathname = pathname === "/products" ? pathname : "/products";
       router.push(`${newPathname}?${queryParams.toString()}`);
     }
+
+    if (pathname !== "/products" && id !== null && collectionName !== null) {
+      queryParams.set("collection", collectionName);
+      queryParams.set("category", id);
+      queryParams.delete("subCategory");
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
+    }
+
+    // PRODUCTS PAGE LOGIC
+    if (pathname === "/products" && id === "all" && collection !== null) {
+      queryParams.delete("category");
+      queryParams.delete("subCategory");
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
+    }
+
+    if (
+      pathname === "/products" &&
+      id !== null &&
+      id !== "all" &&
+      collection !== null
+    ) {
+      queryParams.set("category", id);
+      queryParams.delete("subCategory");
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
+    }
+
+    if (pathname === "/products" && id !== null && id !== "all") {
+      queryParams.set("category", id);
+      queryParams.delete("subCategory");
+      const newPathname = pathname === "/products" ? pathname : "/products";
+      router.push(`${newPathname}?${queryParams.toString()}`);
+    }
+
+    const category = queryParams.get("category");
+    if ((pathname === "/products" && id === "all") || category === id) {
+      setTimeout(() => {
+        pageLoadEnd();
+      }, 1000);
+      return;
+    }
+
+    // if (
+    //   pathname === "/products" &&
+    //   (selectedCategory === "" || selectedCategory === "All")
+    // ) {
+    //   queryParams.delete("collection");
+    // }
+    // if (pathname === "/products") {
+    //   queryParams.set("collection", collection);
+    // }
+
+    // if (collectionName && collectionName !== "all") {
+    //   queryParams.set("collection", collectionName);
+    // } else {
+    //   queryParams.delete("collection");
+    // }
+
+    // queryParams.set("category", id);
+    // queryParams.delete("subCategory");
+    // const newPathname = pathname === "/products" ? pathname : "/products";
+    // router.push(`${newPathname}?${queryParams.toString()}`);
   };
 
   const handleInputChange = (e) => {

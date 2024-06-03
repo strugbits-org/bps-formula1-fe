@@ -1,6 +1,9 @@
 "use client";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
 import BackgroundImages from "./Common/BackgroundImages";
+import { checkParameters } from "@/utils/CheckParams";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const renderTextWithDecorations = (textData) => {
   if (!textData.decorations || textData.decorations.length === 0) {
@@ -86,7 +89,16 @@ const HeadingComponent = ({ level, children }) => {
   return <HeadingTag>{children}</HeadingTag>;
 };
 const PrivacyAndPolicy = ({ data }) => {
+  const router = useRouter();
+
   const nodes = data.content.nodes;
+
+  useEffect(() => {
+    const params = [data];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [data]);
   return (
     <div className="section-terms">
       <div className="container-fluid">
@@ -112,6 +124,7 @@ const PrivacyAndPolicy = ({ data }) => {
               <button
                 onClick={() => {
                   pageLoadStart();
+                  router.back();
                 }}
                 className="btn-small-wide btn-gray btn-hover-red"
               >

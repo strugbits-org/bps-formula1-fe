@@ -1,9 +1,10 @@
 "use client";
-import { useReducer, useState } from "react";
+import { useEffect, useState } from "react";
 import CartModal from "../Common/CartModal";
 import { AddProductToCart } from "@/services/cartServices";
 import { useRouter } from "next/navigation";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 
 export const formatCustomDate = (dateString) => {
   if (dateString) {
@@ -66,7 +67,12 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
       console.log("Error:", error);
     }
   };
-
+  useEffect(() => {
+    const params = [quoteHistoryPageData, quotesData];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [quoteHistoryPageData, quotesData]);
   return (
     <>
       <section className="my-account-intro section-quotes-history">

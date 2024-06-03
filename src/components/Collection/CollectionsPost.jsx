@@ -1,5 +1,9 @@
+"use client";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 import AnimateLink from "../Common/AnimateLink";
+import { useEffect } from "react";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 
 const CollectionsPost = ({
   slug,
@@ -9,7 +13,12 @@ const CollectionsPost = ({
   const filteredCollectionData = collectionsData.find(
     (data) => data.collectionSlug === slug
   );
-
+  useEffect(() => {
+    const params = [slug, collectionsPostPageData, collectionsData];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [slug, collectionsPostPageData, collectionsData]);
   return (
     <div>
       <section className="collections-intro pt-lg-205">

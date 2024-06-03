@@ -31,10 +31,6 @@ export const ProductListItem = ({
     setProductSnapshots,
   } = useProductFunctions(index, product, variantData);
 
-  const handleAddToCart = () => {
-    setSuccessMessageVisible(true);
-  };
-
   return (
     <li key={product._id} className="grid-item">
       <div className="product-link small saved-products active">
@@ -95,7 +91,7 @@ export const ProductListItem = ({
             <span>+3</span>
           </div>
         </div>
-        <button
+        <btn-modal-open
           // group="modal-product"
           class="modal-add-to-cart"
           onClick={() => {
@@ -104,7 +100,7 @@ export const ProductListItem = ({
         >
           <span>Add to cart</span>
           <i class="icon-cart"></i>
-        </button>
+        </btn-modal-open>
       </div>
       {successMessageVisible && (
         <SuccessModal
@@ -162,12 +158,10 @@ export const ProductListItemMain = ({
     setSelectedVariantData,
     setProductFilteredVariantData,
     setProductSnapshots,
+    selectedVariant,
+    setSelectedVariant,
   } = useProductFunctions(index, product, variantData);
 
-  const handleAddToCart = () => {
-    setSuccessMessageVisible(true);
-  };
-  console.log(product, "product>>");
   return (
     <li key={product._id} className="grid-item" data-aos="d:loop">
       <div
@@ -185,13 +179,13 @@ export const ProductListItemMain = ({
             <h2 className="product-title">{product.name}</h2>
             <div className="container-copy">
               <button className="btn-copy copy-link">
-                <span>{"defaultVariantSku"}</span>
+                <span>{selectedVariant.sku}</span>
                 <i className="icon-copy"></i>
               </button>
               <input
                 type="text"
                 className="copy-link-url"
-                value={"defaultVariantSku"}
+                value={selectedVariant.sku}
                 style={{
                   position: "absolute",
                   opacity: 0,
@@ -261,6 +255,7 @@ export const ProductListItemMain = ({
                       className="list-item"
                       data-set-product-link-color={variantData.color[0]}
                       data-default-product-link-active={index === 0}
+                      onMouseEnter={() => setSelectedVariant(variantData)}
                     >
                       <div className="container-img">
                         <img
@@ -314,9 +309,9 @@ export const ProductListItemMain = ({
       {product.preview && (
         <AddToCartModal
           productData={searchResults[index]}
-          errorMessageVisible={errorMessageVisible} // Corrected prop name
+          errorMessageVisible={errorMessageVisible}
           setErrorMessageVisible={setErrorMessageVisible}
-          successMessageVisible={successMessageVisible} // Corrected prop name
+          successMessageVisible={successMessageVisible}
           setSuccessMessageVisible={setSuccessMessageVisible}
           productSnapshots={productSnapshots}
           productFilteredVariantData={productFilteredVariantData}

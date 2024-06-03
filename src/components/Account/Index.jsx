@@ -28,6 +28,7 @@ const Account = () => {
   const { firstName, memberId, email } = useUserData();
 
   const handleLogOut = () => {
+    pageLoadStart();
     try {
       const loggedIn = document.cookie
         .split(";")
@@ -39,9 +40,8 @@ const Account = () => {
           "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie =
           "cartQuantity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        pageLoadStart();
-        router.push("/");
         setTimeout(() => {
+          router.push("/");
           document.body.setAttribute("data-login-state", "");
         }, 1000);
       }

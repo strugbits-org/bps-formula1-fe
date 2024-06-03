@@ -2,8 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { getUserAuth } from "@/utils/GetUser";
 import useUserData from "@/hooks/useUserData";
-import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
+import {
+  markPageLoaded,
+  pageLoadEnd,
+  pageLoadStart,
+} from "@/utils/AnimationFunctions";
 import ErrorModal from "../Common/ErrorModal";
+import { checkParameters } from "@/utils/CheckParams";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -120,6 +125,12 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
       pageLoadEnd();
     }, 900);
   };
+  useEffect(() => {
+    const params = [myAccountPageData, createAccountForm, dropdown];
+    if (checkParameters(params)) {
+      markPageLoaded();
+    }
+  }, [myAccountPageData, createAccountForm, dropdown]);
 
   return (
     <>
