@@ -142,6 +142,7 @@ const Cart = () => {
                       return (
                         <li key={index} className="list-item">
                           <input type="hidden" name="sku[]" value="MODCH09" />
+
                           <div className="cart-product">
                             <div className="container-img">
                               <img
@@ -153,7 +154,6 @@ const Cart = () => {
                                 data-preload
                                 className="media"
                                 alt="product"
-                                style={{ padding: "8px" }}
                               />
                             </div>
                             <div className="wrapper-product-info">

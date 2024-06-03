@@ -55,7 +55,6 @@ export const ProductListItem = ({
               >
                 <img
                   src={variant.variant.imageSrc}
-                  style={{ padding: "70px" }}
                   data-preload
                   className="media"
                   alt="search-1"
@@ -222,9 +221,6 @@ export const ProductListItemMain = ({
                       data-default-product-link-active={index === 0}
                     >
                       <img
-                        style={{
-                          padding: "100px",
-                        }}
                         src={productImageURL({
                           wix_url: variantData.variant.imageSrc,
                           w: "373",
