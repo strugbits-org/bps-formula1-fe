@@ -43,7 +43,7 @@ const Account = () => {
         setTimeout(() => {
           router.push("/");
           document.body.setAttribute("data-login-state", "");
-        }, 1000);
+        }, 2000);
       }
     } catch (error) {
       console.log("Error:", error);

@@ -54,7 +54,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         setTimeout(() => {
           router.replace("/collections");
           document.body.setAttribute("data-login-state", "logged");
-        }, 1000);
+        }, 2000);
       }
     } catch (error) {
       console.log("Error during login:", error);
