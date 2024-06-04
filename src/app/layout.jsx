@@ -17,6 +17,7 @@ import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
 import Account from "@/components/Account/Index";
 import Head from "@/head";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -41,6 +42,10 @@ export default async function RootLayout({ children, navbar }) {
     getFooterLinksData(),
     getHomeBottomRightSocialLinks(),
   ]);
+  function SearchBarFallback() {
+    return <>Loading</>;
+  }
+
   return (
     <>
       <Script type="module" rel="modulepreload" src="/assets/loader.js" />
@@ -108,11 +113,13 @@ export default async function RootLayout({ children, navbar }) {
           <span className="modalLoad d-none"></span>
 
           <Loader />
-          <Navbar
-            homePageData={homePageData}
-            collectionsData={collectionsData}
-            categoriesData={categoriesData}
-          />
+          <Suspense fallback={<SearchBarFallback />}>
+            <Navbar
+              homePageData={homePageData}
+              collectionsData={collectionsData}
+              categoriesData={categoriesData}
+            />
+          </Suspense>
           <Account />
           <Wrapper>
             <main>{children}</main>
