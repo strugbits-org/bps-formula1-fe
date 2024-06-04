@@ -22,8 +22,9 @@ if (typeof window !== "undefined") {
 export const initAnimations = () => {
   if (typeof window !== "undefined") {
     setTimeout(() => {
-      document.querySelector(".initScript").click();
-    }, 200);
+      const customEvent = new Event("customInitScript");
+      document.querySelector(".initScript").dispatchEvent(customEvent);
+    }, 400);
   }
 };
 

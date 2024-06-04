@@ -27180,10 +27180,12 @@ var require_app2 = __commonJS({
     // My Acocunt
 
     // Custom js
-    document.querySelector(".initScript").addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "instant" });
-      whenContainerReady();
-    });
+    document
+      .querySelector(".initScript")
+      .addEventListener("customInitScript", () => {
+        window.scrollTo({ top: 0, behavior: "instant" });
+        whenContainerReady();
+      });
 
     document.querySelector(".updateWatched").addEventListener("click", () => {
       updateWatched();
