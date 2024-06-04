@@ -49,11 +49,11 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       const loggedIn = document.cookie
         .split(";")
         .some((item) => item.trim().startsWith("authToken"));
-      if (loggedIn) {
+      if (data) {
         pageLoadStart();
         setTimeout(() => {
           router.replace("/collections");
-          document.body.setAttribute("data-login-state", "logged");
+          // document.body.setAttribute("data-login-state", "logged");
         }, 2000);
       }
     } catch (error) {

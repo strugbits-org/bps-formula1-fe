@@ -32,7 +32,6 @@ export default async function middleware(req) {
   // Check if user is authenticated
   const isAuthenticated = !!authTokenCookie;
   // Redirect to login page if the route is protected and user is not authenticated
-  console.log(req.nextUrl, ">>>>");
   if (isProtectedRoute && !isAuthenticated) {
     const url = req.nextUrl.clone();
     url.pathname = "/";

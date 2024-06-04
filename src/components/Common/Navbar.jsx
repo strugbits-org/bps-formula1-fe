@@ -236,7 +236,10 @@ useEffect(() => {
     setCookie("cartQuantity", total);
   };
   useEffect(() => {
-    if (cookies?.authToken !== undefined) getCartTotalQuantity();
+    if (cookies?.authToken !== undefined) {
+      getCartTotalQuantity();
+      document.body.setAttribute("data-login-state", "logged");
+    }
   }, []);
 
   return (
