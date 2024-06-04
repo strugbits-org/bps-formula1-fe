@@ -76,7 +76,7 @@ const FilterButton = ({
       <div className="wrapper-content" data-filter-area>
         <div className="wrapper-overflow">
           <form action="" className="form-filter wrapper-list-filter">
-            {(collection === undefined || collection === "all") &&
+            {(collection === null || collection === "all") &&
               collections.length !== 0 && (
                 <div className="container-list">
                   <h3 className="filter-title">Collections</h3>
@@ -105,34 +105,32 @@ const FilterButton = ({
                   </div>
                 </div>
               )}
-            {subCategory === undefined &&
-              categories &&
-              categories.length !== 0 && (
-                <div className="container-list">
-                  <h3 className="filter-title">Categories</h3>
-                  <div className="list-filter">
-                    {categoriesArray.map((data, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="container-checkbox list-filter-item"
-                        >
-                          <label className="checkbox-box pointer-default">
-                            <input
-                              type="checkbox"
-                              required
-                              checked={data.checked || false}
-                              onChange={() => handleCategoryChange(data._id)}
-                            />
-                            <span className="checkmark"></span>
-                            <span className="filter-tag">{data.name}</span>
-                          </label>
-                        </div>
-                      );
-                    })}
-                  </div>
+            {subCategory === null && categories && categories.length !== 0 && (
+              <div className="container-list">
+                <h3 className="filter-title">Categories</h3>
+                <div className="list-filter">
+                  {categoriesArray.map((data, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="container-checkbox list-filter-item"
+                      >
+                        <label className="checkbox-box pointer-default">
+                          <input
+                            type="checkbox"
+                            required
+                            checked={data.checked || false}
+                            onChange={() => handleCategoryChange(data._id)}
+                          />
+                          <span className="checkmark"></span>
+                          <span className="filter-tag">{data.name}</span>
+                        </label>
+                      </div>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
+            )}
             {colors.length !== 0 && (
               <div className="container-list">
                 <h3 className="filter-title">Colors</h3>

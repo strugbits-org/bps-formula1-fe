@@ -98,7 +98,7 @@ const ProductPost = ({
     }
     queryParams.delete("slug");
     pageLoadStart();
-    router.push({ pathname: "/products", query: queryParams.toString() });
+    router.push(`/products?${queryParams.toString()}`);
   };
 
   const seatHeightData =
@@ -509,40 +509,46 @@ const ProductPost = ({
               </div>
 
               {/* Description  */}
-              <div
-                className="container-info-text description mt-lg-25 mt-tablet-40 mt-mobile-30"
-                data-aos=""
-              >
-                <h3 className="title-info-text split-words" data-aos="">
-                  <span>
-                    {productPostPageData &&
-                      productPostPageData.descriptionLabel}
-                  </span>
-                </h3>
-                <div className="wrapper-text" data-aos="fadeIn .8s ease-in-out">
+              {selectedProductDetails &&
+                selectedProductDetails.product.description && (
                   <div
-                    ref={descriptionRef}
-                    className="text"
-                    dangerouslySetInnerHTML={{
-                      __html: updatedDescription,
-                    }}
-                  ></div>
-                </div>
-                <button
-                  className="btn-read-more"
-                  data-aos="fadeIn .8s ease-in-out"
-                >
-                  <span>
-                    {productPostPageData &&
-                      productPostPageData.readMoreButtonLabel}
-                  </span>
-                </button>
-              </div>
+                    className="container-info-text description mt-lg-25 mt-tablet-40 mt-mobile-30"
+                    data-aos=""
+                  >
+                    <h3 className="title-info-text split-words" data-aos="">
+                      <span>
+                        {productPostPageData &&
+                          productPostPageData.descriptionLabel}
+                      </span>
+                    </h3>
+                    <div
+                      className="wrapper-text"
+                      data-aos="fadeIn .8s ease-in-out"
+                    >
+                      <div
+                        ref={descriptionRef}
+                        className="text"
+                        dangerouslySetInnerHTML={{
+                          __html: updatedDescription,
+                        }}
+                      ></div>
+                    </div>
+                    <button
+                      className="btn-read-more"
+                      data-aos="fadeIn .8s ease-in-out"
+                    >
+                      <span>
+                        {productPostPageData &&
+                          productPostPageData.readMoreButtonLabel}
+                      </span>
+                    </button>
+                  </div>
+                )}
 
               {/* Downloads */}
               {selectedProductDetails &&
                 selectedProductDetails.productDocs?.length > 0 && (
-                  <div className="container-info-text" data-aos="">
+                  <div className="container-info-text " data-aos="">
                     <h3 className="title-info-text split-words" data-aos="">
                       {productPostPageData &&
                         productPostPageData.downloadsLabel}
@@ -570,7 +576,10 @@ const ProductPost = ({
               {/* PRODUCT FOUND */}
               {selectedProductDetails &&
                 selectedProductDetails.subCategory.length > 0 && (
-                  <div className="container-info-text" data-aos="">
+                  <div
+                    className="container-info-text mt-lg-25 mt-tablet-40 mt-mobile-30"
+                    data-aos=""
+                  >
                     <h3 className="title-info-text split-words" data-aos="">
                       {productPostPageData &&
                         productPostPageData.productFoundInLabel}
