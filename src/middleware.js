@@ -27,13 +27,12 @@ export default async function middleware(req) {
   const isProtectedRoute = protectedRoutes.some((route) => route.test(path));
   // Check if the current path matches any public route
   const isPublicRoute = publicRoutes.some((route) => route.test(path));
-
   // Get the cookie named 'authToken'
   const authTokenCookie = cookies(req.headers).get("authToken");
   // Check if user is authenticated
   const isAuthenticated = !!authTokenCookie;
   // Redirect to login page if the route is protected and user is not authenticated
-
+  console.log(req.nextUrl, ">>>>");
   if (isProtectedRoute && !isAuthenticated) {
     const url = req.nextUrl.clone();
     url.pathname = "/";

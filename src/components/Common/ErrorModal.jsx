@@ -9,10 +9,11 @@ const ErrorModal = ({ buttonLabel, message, setErrorMessageVisible }) => {
   }
 
   useEffect(() => {
-    document.body.setAttribute("data-form-cart-state", "success");
+    setTimeout(() => {
+      document.body.setAttribute("data-form-cart-state", "success");
+      markPageLoaded();
+    }, 500);
   }, []);
-
-  markPageLoaded();
   return (
     <div id="reloading-area">
       <div className="feedback-quote-request-confirmed" data-modal-area>
@@ -24,12 +25,14 @@ const ErrorModal = ({ buttonLabel, message, setErrorMessageVisible }) => {
                   <div className="col-lg-6 offset-lg-3">
                     <div className="content" data-feedback-area>
                       <ModalLogos />
-                      <h2
-                        className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
-                        data-aos="d:loop"
-                      >
-                        {message}
-                      </h2>
+                      {message && (
+                        <h2
+                          className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
+                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                        >
+                          {message}
+                        </h2>
+                      )}
                       <div className="container-btn">
                         <button
                           onClick={closeModal}

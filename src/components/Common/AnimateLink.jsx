@@ -9,9 +9,11 @@ const AnimateLink = ({ to, children, className, target, attributes }) => {
   const params = useParams();
   const delayedRedirect = (e) => {
     e.preventDefault();
-    if (pathname === "/") {
-      router.push(to);
-    }
+    // if (pathname === "/") {
+    //   console.log("1111 >>>>>>>>>>>>>>");
+
+    //   router.push(to);
+    // }
 
     if (to === undefined) return;
 

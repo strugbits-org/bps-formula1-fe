@@ -119,7 +119,9 @@ const TermsAndCondition = ({ data }) => {
               <button
                 onClick={() => {
                   pageLoadStart();
-                  router.back();
+                  setTimeout(() => {
+                    router.back();
+                  }, 1000);
                 }}
                 className="btn-small-wide btn-gray btn-hover-red"
               >

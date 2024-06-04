@@ -28,53 +28,60 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [cartQuantity, setCartQuantity] = useState(0);
 
-  const getCate = async (collectionSlug) => {
-    try {
-      let selectedCollections;
-      if (collectionSlug) {
-        selectedCollections = collectionsData
-          .filter((x) => x.collectionSlug === collectionSlug)
-          .map((x) => x._id);
-      } else {
-        selectedCollections = collectionsData
-          .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
-          .map((x) => x._id);
-      }
-
-      const res = await getCategoriesData(selectedCollections);
-      setCategoriesData(res);
-    } catch (error) {
-      console.error(error);
+  
+const getCate = async (collectionSlug) => {
+  try {
+    let selectedCollections;
+    if (collectionSlug) {
+      selectedCollections = collectionsData
+        .filter((x) => x.collectionSlug === collectionSlug)
+        .map((x) => x._id);
+    } else {
+      selectedCollections = collectionsData
+        .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
+        .map((x) => x._id);
     }
-  };
-  useEffect(() => {
-    getCate();
-  }, []);
 
-  useEffect(() => {
-    const _selectedCollection = collectionsData.find(
-      (x) => x.collectionSlug === collection
-    )?.collectionName;
+    const res = await getCategoriesData(selectedCollections);
 
-    if (_selectedCollection)
-      setSelectedCollection({
-        collectionName: _selectedCollection,
-        collectionSlug: null,
-      });
-    const _selectedCategory = categoriesData.find(
+    const _selectedCategory = res.find(
       (x) => x.parentCollection._id === category
     )?.parentCollection?.name;
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
+    setCategoriesData(res);
+    return res;
+  } catch (error) {
+    console.error(error);
+  }
+};
+useEffect(() => {
+  getCate();
+}, []);
 
-    if (
-      typeof window !== "undefined" &&
-      pathname === "/" &&
-      window.location.hash !== "#sign-in" &&
-      window.location.hash !== "#create-account"
-    ) {
-      document.body.setAttribute("data-home-state", "");
-    }
-  }, [pathname, router, searchParams]);
+useEffect(() => {
+  const _selectedCollection = collectionsData.find(
+    (x) => x.collectionSlug === collection
+  )?.collectionName;
+
+  if (_selectedCollection)
+    setSelectedCollection({
+      collectionName: _selectedCollection,
+      collectionSlug: null,
+    });
+  const _selectedCategory = categoriesData.find(
+    (x) => x.parentCollection._id === category
+  )?.parentCollection?.name;
+  if (_selectedCategory) setSelectedCategory(_selectedCategory);
+
+  if (
+    typeof window !== "undefined" &&
+    pathname === "/" &&
+    window.location.hash !== "#sign-in" &&
+    window.location.hash !== "#create-account"
+  ) {
+    document.body.setAttribute("data-home-state", "");
+  }
+}, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
     pageLoadStart();

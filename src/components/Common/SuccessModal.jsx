@@ -15,10 +15,11 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
   }
 
   useEffect(() => {
-    document.body.setAttribute("data-form-cart-state", "success");
+    setTimeout(() => {
+      document.body.setAttribute("data-form-cart-state", "success");
+      markPageLoaded();
+    }, 200);
   }, []);
-
-  markPageLoaded();
 
   return (
     <div id="reloading-area">
@@ -32,12 +33,14 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
                     <div className="content" data-feedback-area>
                       <ModalLogos />
 
-                      <h2
-                        className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
-                        data-aos="d:loop"
-                      >
-                        {message}
-                      </h2>
+                      {message && (
+                        <h2
+                          className="fs--20 mt-lg-105 mt-mobile-110 mb-lg-75 mb-mobile-90 text-center text-uppercase split-words"
+                          data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                        >
+                          {message}
+                        </h2>
+                      )}
                       <div className="container-btn">
                         <button
                           onClick={closeModal}
