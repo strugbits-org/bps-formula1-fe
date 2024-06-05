@@ -144,17 +144,19 @@ const Cart = () => {
                           <input type="hidden" name="sku[]" value="MODCH09" />
 
                           <div className="cart-product">
-                            <div className="container-img">
-                              <img
-                                src={generateImageURL({
-                                  wix_url: image,
-                                  h: "150",
-                                  w: "150",
-                                })}
-                                data-preload
-                                className="media"
-                                alt="product"
-                              />
+                            <div class="wrapper-img">
+                              <div className="container-img">
+                                <img
+                                  src={generateImageURL({
+                                    wix_url: image,
+                                    h: "150",
+                                    w: "150",
+                                  })}
+                                  data-preload
+                                  className="media"
+                                  alt="product"
+                                />
+                              </div>
                             </div>
                             <div className="wrapper-product-info">
                               <div className="container-top">
