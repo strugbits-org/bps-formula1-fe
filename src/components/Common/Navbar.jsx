@@ -70,7 +70,8 @@ const Navbar = ({ homePageData, collectionsData }) => {
       typeof window !== "undefined" &&
       pathname === "/" &&
       window.location.hash !== "#sign-in" &&
-      window.location.hash !== "#create-account"
+      window.location.hash !== "#create-account" &&
+      window.location.hash !== "#confirm-email"
     ) {
       document.body.setAttribute("data-home-state", "");
     }

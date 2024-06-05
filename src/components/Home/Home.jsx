@@ -11,6 +11,7 @@ import ErrorModal from "../Common/ErrorModal";
 import SignIn from "../Registration/SignIn";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
+import ConfirmEmail from "../ForgotPassword/ConfirmEmail";
 
 const HomePage = ({
   homePageData,
@@ -23,6 +24,9 @@ const HomePage = ({
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("Message");
+
+  const href = window?.location?.href;
+
   useEffect(() => {
     const params = [
       homePageData,
@@ -43,6 +47,19 @@ const HomePage = ({
     createAccountPage,
     createAccountDropdown,
   ]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     "href",
+  //     href,
+  //     href && href?.split("#")[1] === "forgot-password"
+  //   );
+  //   if (href && href?.split("#")[1] === "forgot-password") {
+  //     setIsForgotPasswordModal(true);
+  //   } else {
+  //     setIsForgotPasswordModal(false);
+  //   }
+  // }, [href]);
 
   return (
     <section
@@ -84,6 +101,7 @@ const HomePage = ({
                   />
                 </div>
               </div>
+
               {signInPage && (
                 <SignIn
                   data={signInPage}
@@ -102,6 +120,12 @@ const HomePage = ({
                   setMessage={setMessage}
                 />
               )}
+
+              <ConfirmEmail
+                setErrorMessageVisible={setErrorMessageVisible}
+                setSuccessMessageVisible={setSuccessMessageVisible}
+                setMessage={setMessage}
+              />
             </div>
           </div>
         </div>

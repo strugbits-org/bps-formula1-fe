@@ -16385,3 +16385,13 @@ html.with-fancybox body.hide-scrollbar {
   cursor: default!important;
   user-select: none;
 }
+
+.confirm-email{
+  height: auto;
+}
+
+@media only screen and (min-width: 1025.1px) {
+  .confirm-email{
+    min-height: auto !important;
+  }
+}
