@@ -384,6 +384,8 @@ var require_app2 = __commonJS({
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
+         
+          
           if (document.body.dataset.homeState == "sign-in") {
             if (wrapperForm.classList.contains("create-account")||wrapperForm.classList.contains("confirm-email")) {
               location.hash = "sign-in";
@@ -27149,6 +27151,9 @@ var require_app2 = __commonJS({
         case "home":
           main$8();
           break;
+        // case "reset-password":
+        //   main$8();
+        // break;
         case "gallery":
           main$gallery();
           break;

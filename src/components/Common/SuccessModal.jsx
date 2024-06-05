@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import ModalLogos from "./ModalLogos";
 
-const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
+const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible, onClose = ()=>{} }) => {
   const router = useRouter();
 
   function closeModal() {
@@ -12,6 +12,7 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible }) => {
       router.push("/");
     }
     setSuccessMessageVisible(false);
+    onClose()
   }
 
   useEffect(() => {

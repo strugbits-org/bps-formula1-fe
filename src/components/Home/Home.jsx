@@ -25,8 +25,6 @@ const HomePage = ({
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("Message");
 
-  const href = window?.location?.href;
-
   useEffect(() => {
     const params = [
       homePageData,
@@ -47,19 +45,6 @@ const HomePage = ({
     createAccountPage,
     createAccountDropdown,
   ]);
-
-  // useEffect(() => {
-  //   console.log(
-  //     "href",
-  //     href,
-  //     href && href?.split("#")[1] === "forgot-password"
-  //   );
-  //   if (href && href?.split("#")[1] === "forgot-password") {
-  //     setIsForgotPasswordModal(true);
-  //   } else {
-  //     setIsForgotPasswordModal(false);
-  //   }
-  // }, [href]);
 
   return (
     <section

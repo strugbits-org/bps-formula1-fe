@@ -259,6 +259,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
           pathname === "/privacy-and-policy" ||
+          pathname === "/reset-password" ||
           pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
