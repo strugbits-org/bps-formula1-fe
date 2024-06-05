@@ -67,12 +67,7 @@ export const markPageLoaded = (watched = true) => {
     setTimeout(() => window.scrollTo({ top: 0 }), 200);
     initAnimations();
     if (watched) updatedWatched();
-    const isFirstLoadDone = document.body.classList.contains("first-load-done");
-    if (isFirstLoadDone) {
-      pageLoadEnd();
-    } else {
-      firstLoadAnimation();
-    }
+    pageLoadEnd();
   }
 };
 

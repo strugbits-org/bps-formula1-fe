@@ -1,5 +1,4 @@
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import Loader from "@/components/Common/Loader";
 import Wrapper from "../components/layout/Wrapper";
 import {
@@ -16,8 +15,8 @@ import Footer from "@/components/Common/Footer";
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
 import Account from "@/components/Account/Index";
-import Head from "@/head";
 import { Suspense } from "react";
+import CustomScripts from "@/services/CustomScripts";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -48,47 +47,7 @@ export default async function RootLayout({ children, navbar }) {
 
   return (
     <>
-      <Script type="module" rel="modulepreload" src="/assets/loader.js" />
-      <Script type="module" rel="modulepreload" src="/assets/app2.js" />
-      <Script
-        type="module"
-        rel="modulepreload"
-        src="/assets/product-link-color.js"
-      />
-      <Script type="module" rel="modulepreload" src="/assets/pjax.js" />
-      <Script type="module" rel="modulepreload" src="/assets/data-set-get.js" />
-      <Script type="module" rel="modulepreload" src="/assets/screen-size.js" />
-      <Script type="module" rel="modulepreload" src="/assets/navigation.js" />
-      <Script
-        type="module"
-        rel="modulepreload"
-        src="/assets/product-content.js"
-      />
-      <Script
-        type="module"
-        rel="modulepreload"
-        src="/assets/cancel-product.js"
-      />
-      <Script type="module" rel="modulepreload" src="/assets/form-cart.js" />
-      <Script type="module" rel="modulepreload" src="/assets/form-sign-in.js" />
-      <Script type="module" rel="modulepreload" src="/assets/forms.js" />
-      <Script type="module" rel="modulepreload" src="/assets/collections.js" />
-      <Script
-        type="module"
-        rel="modulepreload"
-        src="/assets/filter-products.js"
-      />
-
-      <Script type="module" src="/assets/loader.js"></Script>
-      <Script type="module" src="/assets/app2.js"></Script>
-      <Script type="module" src="/assets/product-content.js"></Script>
-      <Script type="module" src="/assets/cancel-product.js"></Script>
-      <Script type="module" src="/assets/form-cart.js"></Script>
-      <Script type="module" src="/assets/form-sign-in.js"></Script>
-      <Script type="module" src="/assets/forms.js"></Script>
-      <Script type="module" src="/assets/collections.js"></Script>
-      <Script type="module" src="/assets/filter-products.js"></Script>
-
+      <CustomScripts />
       <html lang="en">
         <body
           data-scroll-direction="initial"
