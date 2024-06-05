@@ -212,7 +212,7 @@ export default function ProductIndex({ collectionsData }) {
       }
       setReloadTrigger((prev) => !prev);
     }
-  }, [filterColors, filterCategory, filterCollections]);
+  }, [filterColors, filterCollections]);
 
 
   return (

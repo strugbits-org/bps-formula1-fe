@@ -49,12 +49,12 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       const loggedIn = document.cookie
         .split(";")
         .some((item) => item.trim().startsWith("authToken"));
-      if (data) {
+      if (loggedIn) {
         pageLoadStart();
         setTimeout(() => {
           router.replace("/collections");
           // document.body.setAttribute("data-login-state", "logged");
-        }, 2000);
+        }, 4000);
       }
     } catch (error) {
       console.log("Error during login:", error);

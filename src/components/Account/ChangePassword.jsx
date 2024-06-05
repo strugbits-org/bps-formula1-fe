@@ -15,6 +15,11 @@ const ChangePassword = ({ changePasswordPageData }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState({
+    oldPassword: false,
+    newPassword: false,
+    confirmNewPassword: false,
+  });
 
   const authToken = getUserAuth();
 
@@ -68,12 +73,18 @@ const ChangePassword = ({ changePasswordPageData }) => {
       return () => clearTimeout(timer);
     }
   }, [successMessageVisible]);
+
   useEffect(() => {
     const params = [changePasswordPageData];
     if (checkParameters(params)) {
       markPageLoaded();
     }
   }, [changePasswordPageData]);
+
+  const togglePassword = (field) => {
+    setShowPassword((prev) => ({ ...prev, [field]: !prev[field] }));
+  };
+
   return (
     <>
       {errorMessageVisible && (
@@ -140,13 +151,18 @@ const ChangePassword = ({ changePasswordPageData }) => {
                           id={id}
                           className="password"
                           name={name}
-                          type="password"
+                          type={showPassword[name] ? "text" : "password"}
                           placeholder="* * * * * *"
                           required
                           value={formData[name]}
                           onChange={handleChange}
                         />
-                        <div className="toggle-password">
+                        <div
+                          onClick={() => togglePassword(name)}
+                          className={`toggle-password ${
+                            showPassword[name] ? "show" : ""
+                          }`}
+                        >
                           <i className="icon-password"></i>
                           <i className="icon-password-hide"></i>
                         </div>
