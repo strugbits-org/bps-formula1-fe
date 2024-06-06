@@ -3,16 +3,10 @@ import AnimateLink from "@/components/Common/AnimateLink";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
 import { generateImageURL } from "@/utils/GenerateImageURL";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useCookies } from "react-cookie";
 
 const Collections = ({ collectionsPageData, collectionsData }) => {
-  const router = useRouter();
-
-  const [cookies, setCookie] = useCookies(["authToken"]);
   useEffect(() => {
-    console.log("use effect");
     const params = [collectionsPageData, collectionsData];
     if (checkParameters(params)) {
       markPageLoaded();

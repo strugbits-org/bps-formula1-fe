@@ -1,7 +1,7 @@
 "use client";
 import { getUserAuth, setAuthToken } from "@/utils/GetUser";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
 const protectedRoutes = [
@@ -27,8 +27,9 @@ const publicRoutes = [
 const Wrapper = ({ children }) => {
   const pathname = usePathname();
   const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
+  const [isReady, setIsReady] = useState(false);
+  const [cookies] = useCookies(["authToken"]);
   const cleanPath = path.split("/")[0].trim();
-  const [cookies, setCookie] = useCookies(["authToken"]);
   const router = useRouter();
 
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -41,30 +42,35 @@ const Wrapper = ({ children }) => {
     if (typeof document !== "undefined") {
       setAuthToken(authToken);
       if (authToken) {
-        console.log(authToken, "authToken>>");
-        document.body.setAttribute("data-login-state", "logged");
+        setTimeout(() => {
+          document.body.setAttribute("data-login-state", "logged");
+        }, 1000);
       } else {
-        document.body.setAttribute("data-login-state", "");
+        setTimeout(() => {
+          document.body.setAttribute("data-login-state", "");
+        }, 1000);
       }
+      setIsReady(true);
     }
-  }, [authToken, pathname]);
+  }, [authToken]);
 
   useEffect(() => {
-    if (!authToken && isProtectedRoute) {
-      console.log("Not authenticated, redirecting to login...");
-      setTimeout(() => {
-        router.replace("/#sign-in");
-        document.body.setAttribute("data-login-state", "");
-      }, 1000);
-    } else if (authToken && isPublicRoute) {
-      console.log("Authenticated, redirecting to collections...");
-      setTimeout(() => {
-        router.replace("/collections");
-        document.body.setAttribute("data-login-state", "logged");
-      }, 1000);
+    if (isReady) {
+      if (!authToken && isProtectedRoute) {
+        setTimeout(() => {
+          router.replace("/#sign-in");
+        }, 500);
+      } else if (authToken && isPublicRoute) {
+        setTimeout(() => {
+          router.replace("/collections");
+        }, 500);
+      }
     }
-  }, [authToken, pathname, isProtectedRoute, isPublicRoute, router]);
+  }, [authToken, isProtectedRoute, isPublicRoute, router, isReady]);
 
+  if (!isReady) {
+    return null; // or a loading spinner if you prefer
+  }
   return (
     <div id="main-transition">
       <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>

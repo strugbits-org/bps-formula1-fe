@@ -245,7 +245,6 @@ useEffect(() => {
 
   const linkTo = cookies.authToken ? "/collections" : "/";
 
-  console.log(linkTo, "linkTo>>>>>>>");
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">

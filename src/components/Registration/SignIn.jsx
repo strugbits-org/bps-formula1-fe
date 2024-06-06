@@ -53,8 +53,8 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         pageLoadStart();
         // setTimeout(() => {
         //   console.log("Redirected");
-        //   // router.replace("/collections");
-        //   // document.body.setAttribute("data-login-state", "logged");
+        //   router.replace("/collections");
+        //   document.body.setAttribute("data-login-state", "logged");
         // }, 2000);
       }
     } catch (error) {
