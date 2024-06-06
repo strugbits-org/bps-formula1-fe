@@ -23,12 +23,15 @@ const publicRoutes = [
 
 export default async function middleware(req) {
   const path = req.nextUrl.pathname;
+  console.log("Middleware invoked for path:", path); // Debugging log
+
   // Check if the current path matches any protected route
   const isProtectedRoute = protectedRoutes.some((route) => route.test(path));
   // Check if the current path matches any public route
   const isPublicRoute = publicRoutes.some((route) => route.test(path));
   // Get the cookie named 'authToken'
   const authTokenCookie = cookies(req.headers).get("authToken");
+  console.log("Auth token cookie:", authTokenCookie); // Debugging log
   // Check if user is authenticated
   const isAuthenticated = !!authTokenCookie;
   // Redirect to login page if the route is protected and user is not authenticated
@@ -36,6 +39,7 @@ export default async function middleware(req) {
     const url = req.nextUrl.clone();
     url.pathname = "/";
     url.hash = "sign-in";
+    console.log("Redirecting to sign-in"); // Debugging log
     return NextResponse.redirect(url);
   }
 
@@ -44,6 +48,7 @@ export default async function middleware(req) {
   // if (path === "/" && isAuthenticated) {
   //   const url = req.nextUrl.clone();
   //   url.pathname = "/collections";
+  //   console.log("Redirecting to collections"); // Debugging log
   //   return NextResponse.redirect(url);
   // }
 

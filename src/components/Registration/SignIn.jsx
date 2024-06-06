@@ -52,9 +52,10 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       if (loggedIn) {
         pageLoadStart();
         setTimeout(() => {
-          router.replace("/collections");
+          console.log("Redirected");
+          router.push("/collections");
           // document.body.setAttribute("data-login-state", "logged");
-        }, 4000);
+        }, 2000);
       }
     } catch (error) {
       console.log("Error during login:", error);

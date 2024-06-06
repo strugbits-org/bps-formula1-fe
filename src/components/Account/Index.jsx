@@ -40,15 +40,16 @@ const Account = () => {
           "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie =
           "cartQuantity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        setTimeout(() => {
-          router.push("/");
-          document.body.setAttribute("data-login-state", "");
-        }, 4000);
+        // setTimeout(() => {
+        //   router.push("/");
+        //   document.body.setAttribute("data-login-state", "");
+        // }, 4000);
       }
     } catch (error) {
       console.log("Error:", error);
     }
   };
+
   return (
     <div className="menu-my-account">
       <div className="container-my-account">
