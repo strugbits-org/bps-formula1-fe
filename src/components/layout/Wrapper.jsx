@@ -4,6 +4,26 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 
+const protectedRoutes = [
+  /^\/cart$/,
+  /^\/collections$/,
+  /^\/collections-category$/,
+  /^\/products$/,
+  /^\/product(\/.*)?$/,
+  /^\/search$/,
+  /^\/my-account$/,
+  /^\/my-account-change-password$/,
+  /^\/my-account-quotes-history$/,
+  /^\/my-account-saved-products$/,
+];
+
+const publicRoutes = [
+  /^\/$/,
+  /^\/gallery$/,
+  /^\/terms-and-condition$/,
+  /^\/privacy-and-policy$/,
+];
+
 const Wrapper = ({ children }) => {
   const pathname = usePathname();
   const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
@@ -11,32 +31,39 @@ const Wrapper = ({ children }) => {
   const [cookies, setCookie] = useCookies(["authToken"]);
   const router = useRouter();
 
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    route.test(pathname)
+  );
+  const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
+  const authToken = cookies.authToken || getUserAuth();
+
   useEffect(() => {
     if (typeof document !== "undefined") {
-      const authToken = getUserAuth();
-
       setAuthToken(authToken);
       if (authToken) {
         console.log(authToken, "authToken>>");
         document.body.setAttribute("data-login-state", "logged");
+      } else {
+        document.body.setAttribute("data-login-state", "");
       }
     }
-  }, [pathname]);
+  }, [authToken, pathname]);
 
   useEffect(() => {
-    if (!cookies.authToken) {
-      console.log(cookies.authToken, "cookies>>>");
+    if (!authToken && isProtectedRoute) {
+      console.log("Not authenticated, redirecting to login...");
       setTimeout(() => {
-        router.push("/");
+        router.replace("/#sign-in");
         document.body.setAttribute("data-login-state", "");
       }, 1000);
-    } else {
+    } else if (authToken && isPublicRoute) {
+      console.log("Authenticated, redirecting to collections...");
       setTimeout(() => {
-        router.push("/collections");
+        router.replace("/collections");
         document.body.setAttribute("data-login-state", "logged");
       }, 1000);
     }
-  }, [cookies]);
+  }, [authToken, pathname, isProtectedRoute, isPublicRoute, router]);
 
   return (
     <div id="main-transition">

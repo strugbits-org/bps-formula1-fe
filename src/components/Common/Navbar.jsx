@@ -242,6 +242,10 @@ useEffect(() => {
     }
   }, []);
 
+
+  const linkTo = cookies.authToken ? "/collections" : "/";
+
+  console.log(linkTo, "linkTo>>>>>>>");
   return (
     <header id="header" data-parent-submenu>
       <div className="container-header-sign-in">
@@ -398,7 +402,7 @@ useEffect(() => {
         </div>
         <div className="container-h-2 mx-lg-45 order-mobile-1">
           <AnimateLink
-            to="/"
+            to={linkTo}
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"

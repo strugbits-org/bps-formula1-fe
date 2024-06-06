@@ -51,11 +51,11 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         .some((item) => item.trim().startsWith("authToken"));
       if (loggedIn) {
         pageLoadStart();
-        setTimeout(() => {
-          console.log("Redirected");
-          router.push("/collections");
-          // document.body.setAttribute("data-login-state", "logged");
-        }, 2000);
+        // setTimeout(() => {
+        //   console.log("Redirected");
+        //   // router.replace("/collections");
+        //   // document.body.setAttribute("data-login-state", "logged");
+        // }, 2000);
       }
     } catch (error) {
       console.log("Error during login:", error);

@@ -12,6 +12,7 @@ const Collections = ({ collectionsPageData, collectionsData }) => {
 
   const [cookies, setCookie] = useCookies(["authToken"]);
   useEffect(() => {
+    console.log("use effect");
     const params = [collectionsPageData, collectionsData];
     if (checkParameters(params)) {
       markPageLoaded();
