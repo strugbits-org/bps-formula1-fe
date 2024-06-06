@@ -2,6 +2,7 @@ import { useState } from "react";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import Disclaimer from "./Disclaimer";
 import { useRouter } from "next/navigation";
+import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const router = useRouter();
@@ -51,10 +52,11 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         .some((item) => item.trim().startsWith("authToken"));
       if (loggedIn) {
         pageLoadStart();
-        setTimeout(() => {
-          router.replace("/collections");
-          // document.body.setAttribute("data-login-state", "logged");
-        }, 4000);
+        // setTimeout(() => {
+        //   console.log("Redirected");
+        //   router.replace("/collections");
+        //   document.body.setAttribute("data-login-state", "logged");
+        // }, 2000);
       }
     } catch (error) {
       console.log("Error during login:", error);
@@ -89,6 +91,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               required
             />
           </div>
+          <ConfirmEmailRouter />
           <div className="container-input container-input-password col-12">
             <label htmlFor="login-password">{data?.passwordFieldLabel}</label>
             <input

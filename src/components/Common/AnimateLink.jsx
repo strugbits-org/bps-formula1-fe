@@ -1,4 +1,5 @@
 "use client";
+import { useHash } from "@/hooks/useHash";
 import { pageLoadEnd, pageLoadStart } from "../../utils/AnimationFunctions";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -6,14 +7,18 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 const AnimateLink = ({ to, children, className, target, attributes }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const params = useParams();
+  const [, setWindowHash] = useHash();
+
+  const handleLogoClick = () => {
+    setWindowHash("");
+  };
+
   const delayedRedirect = (e) => {
     e.preventDefault();
-    // if (pathname === "/") {
-    //   console.log("1111 >>>>>>>>>>>>>>");
-
-    //   router.push(to);
-    // }
+    if (pathname === "/") {
+      router.push(to);
+      handleLogoClick();
+    }
 
     if (to === undefined) return;
 
