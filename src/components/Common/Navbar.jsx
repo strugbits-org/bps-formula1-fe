@@ -8,6 +8,7 @@ import { useCookies } from "react-cookie";
 import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
 import { getCategoriesData } from "@/services/apiServices";
+import { useHash } from "@/hooks/useHash";
 
 const Navbar = ({ homePageData, collectionsData }) => {
   const searchParams = useSearchParams();
@@ -28,60 +29,59 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [cartQuantity, setCartQuantity] = useState(0);
 
-  
-const getCate = async (collectionSlug) => {
-  try {
-    let selectedCollections;
-    if (collectionSlug) {
-      selectedCollections = collectionsData
-        .filter((x) => x.collectionSlug === collectionSlug)
-        .map((x) => x._id);
-    } else {
-      selectedCollections = collectionsData
-        .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
-        .map((x) => x._id);
+  const getCate = async (collectionSlug) => {
+    try {
+      let selectedCollections;
+      if (collectionSlug) {
+        selectedCollections = collectionsData
+          .filter((x) => x.collectionSlug === collectionSlug)
+          .map((x) => x._id);
+      } else {
+        selectedCollections = collectionsData
+          .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
+          .map((x) => x._id);
+      }
+
+      const res = await getCategoriesData(selectedCollections);
+
+      const _selectedCategory = res.find(
+        (x) => x.parentCollection._id === category
+      )?.parentCollection?.name;
+      if (_selectedCategory) setSelectedCategory(_selectedCategory);
+      setCategoriesData(res);
+      return res;
+    } catch (error) {
+      console.error(error);
     }
+  };
+  useEffect(() => {
+    getCate();
+  }, []);
 
-    const res = await getCategoriesData(selectedCollections);
+  useEffect(() => {
+    const _selectedCollection = collectionsData.find(
+      (x) => x.collectionSlug === collection
+    )?.collectionName;
 
-    const _selectedCategory = res.find(
+    if (_selectedCollection)
+      setSelectedCollection({
+        collectionName: _selectedCollection,
+        collectionSlug: null,
+      });
+    const _selectedCategory = categoriesData.find(
       (x) => x.parentCollection._id === category
     )?.parentCollection?.name;
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
-    setCategoriesData(res);
-    return res;
-  } catch (error) {
-    console.error(error);
-  }
-};
-useEffect(() => {
-  getCate();
-}, []);
 
-useEffect(() => {
-  const _selectedCollection = collectionsData.find(
-    (x) => x.collectionSlug === collection
-  )?.collectionName;
-
-  if (_selectedCollection)
-    setSelectedCollection({
-      collectionName: _selectedCollection,
-      collectionSlug: null,
-    });
-  const _selectedCategory = categoriesData.find(
-    (x) => x.parentCollection._id === category
-  )?.parentCollection?.name;
-  if (_selectedCategory) setSelectedCategory(_selectedCategory);
-
-  if (
-    typeof window !== "undefined" &&
-    pathname === "/" &&
-    window.location.hash !== "#sign-in" &&
-    window.location.hash !== "#create-account"
-  ) {
-    document.body.setAttribute("data-home-state", "");
-  }
-}, [pathname, router, searchParams]);
+    if (
+      typeof window !== "undefined" &&
+      pathname === "/" &&
+      window.location.hash !== "#sign-in" &&
+      window.location.hash !== "#create-account"
+    ) {
+      document.body.setAttribute("data-home-state", "");
+    }
+  }, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
     pageLoadStart();
@@ -242,8 +242,13 @@ useEffect(() => {
     }
   }, []);
 
-
   const linkTo = cookies.authToken ? "/collections" : "/";
+  const [, setWindowHash] = useHash(); // Destructure the setWindowHash function
+
+  const handleLogoClick = () => {
+    console.log("setWindowHash called ");
+    setWindowHash(""); // Set an empty string to remove the hash
+  };
 
   return (
     <header id="header" data-parent-submenu>
@@ -264,6 +269,7 @@ useEffect(() => {
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
+            onClick={handleLogoClick}
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
           </AnimateLink>

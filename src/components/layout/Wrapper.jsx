@@ -1,6 +1,7 @@
 "use client";
+import { useHash } from "@/hooks/useHash";
 import { getUserAuth, setAuthToken } from "@/utils/GetUser";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -26,11 +27,13 @@ const publicRoutes = [
 
 const Wrapper = ({ children }) => {
   const pathname = usePathname();
+  const params = useParams();
   const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
   const [isReady, setIsReady] = useState(false);
   const [cookies] = useCookies(["authToken"]);
   const cleanPath = path.split("/")[0].trim();
   const router = useRouter();
+  const hash = useHash();
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     route.test(pathname)
@@ -68,8 +71,31 @@ const Wrapper = ({ children }) => {
     }
   }, [authToken, isProtectedRoute, isPublicRoute, router, isReady]);
 
+  const handleHashChange = () => {
+    if (
+      typeof window !== "undefined" &&
+      pathname === "/" &&
+      hash[0] !== "#sign-in" &&
+      hash[0] !== "#create-account"
+    ) {
+      document.body.setAttribute("data-home-state", "");
+    }
+  };
+  useEffect(() => {
+    // Run on initial load
+    handleHashChange();
+
+    // Add event listener for hash changes
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [pathname, hash]);
+
   if (!isReady) {
-    return null; // or a loading spinner if you prefer
+    return null;
   }
   return (
     <div id="main-transition">
