@@ -5,7 +5,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { getFullSvgURL } from "@/utils/GenerateImageURL";
 import ErrorModal from "../Common/ErrorModal";
 import SuccessModal from "../Common/SuccessModal";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const ResetPassword = ({ signInPage }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -19,6 +19,7 @@ const ResetPassword = ({ signInPage }) => {
   });
 
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   //   if (isError) {
   //     setMessage("Hello Error");
@@ -33,18 +34,41 @@ const ResetPassword = ({ signInPage }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e?.preventDefault();
     setMessage("");
 
     try {
       const { password, confirmPassword } = formData;
-      //   if (password !== confirmPassword) {
-      //     setMessage("Passwords should be matched.");
-      //     setErrorMessageVisible(true);
-      //     return;
-      //   }
-      setMessage("Hello Success");
+      const token = searchParams.get("token");
+      // console.log("params", params);
+      if (password !== confirmPassword) {
+        setMessage("Passwords should be matched.");
+        setErrorMessageVisible(true);
+        return;
+      }
+      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+      const response = await fetch(
+        `${base_url}formula1/auth/resetPassword?token=${token}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        }
+      );
+      if (!response.ok) {
+        const data = await response.json();
+
+        // console.log("!data", data);
+        setMessage(data.message);
+        setErrorMessageVisible(true);
+        return;
+      }
+      const data = await response.json();
+
+      setMessage("Your password has been reset successfully.");
       setSuccessMessageVisible(true);
     } catch (error) {
       console.log("Error during confirm email:", error);
@@ -58,7 +82,11 @@ const ResetPassword = ({ signInPage }) => {
   };
 
   useEffect(() => {
-    markPageLoaded();
+    if (searchParams.get("token")) {
+      markPageLoaded();
+    } else {
+      handleClose();
+    }
   }, [signInPage]);
 
   return (

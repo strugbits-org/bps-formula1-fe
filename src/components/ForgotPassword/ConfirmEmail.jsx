@@ -17,14 +17,15 @@ const ConfirmEmail = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage("");
 
     try {
       // setError(true);
       const input = { email: formData?.email };
-      console.log("input", input);
+      // console.log("input", input);
 
       const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-      const response = await fetch(`${base_url}auth/forgotPassword`, {
+      const response = await fetch(`${base_url}formula1/auth/forgotPassword`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -34,31 +35,15 @@ const ConfirmEmail = (props) => {
       if (!response.ok) {
         const data = await response.json();
 
-        console.log("!data", data);
+        // console.log("!data", data);
         setMessage(data.message);
         setErrorMessageVisible(true);
         return;
       }
       const data = await response.json();
-      console.log("data", data);
+      // console.log("data", data);
       setMessage("Reset password link has been sent to your email");
       setSuccessMessageVisible(true);
-      // const userToken = data.data.jwtToken;
-      // const userData = JSON.stringify(data.data.member);
-      // document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-      // document.cookie = `userData=${encodeURIComponent(
-      //   userData
-      // )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-      // const loggedIn = document.cookie
-      //   .split(";")
-      //   .some((item) => item.trim().startsWith("authToken"));
-      // if (loggedIn) {
-      //   pageLoadStart();
-      //   setTimeout(() => {
-      //     router.replace("/collections");
-      //     document.body.setAttribute("data-login-state", "logged");
-      //   }, 1000);
-      // }
     } catch (error) {
       console.log("Error during confirm email:", error);
       setErrorMessageVisible(true);
@@ -72,9 +57,6 @@ const ConfirmEmail = (props) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const togglePassword = () => {
-    setShowPassword(!showPassword);
-  };
   return (
     <div className="container-confirm-email d-none">
       <div>
