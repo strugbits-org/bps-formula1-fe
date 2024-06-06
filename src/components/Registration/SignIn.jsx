@@ -2,6 +2,7 @@ import { useState } from "react";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import Disclaimer from "./Disclaimer";
 import { useRouter } from "next/navigation";
+import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const router = useRouter();
@@ -90,6 +91,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               required
             />
           </div>
+          <ConfirmEmailRouter />
           <div className="container-input container-input-password col-12">
             <label htmlFor="login-password">{data?.passwordFieldLabel}</label>
             <input

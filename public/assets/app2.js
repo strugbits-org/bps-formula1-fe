@@ -302,10 +302,16 @@ var require_app2 = __commonJS({
       let wrapperForm = document.querySelector(".wrapper-form");
       let btnSignIn = document.querySelector(".btn-sign-in:not(.js-running)");
       let btnCreateAccount = document.querySelector(".btn-create-account");
+      let btnConfirmEmail = document.querySelector(".btn-confirm-email");
       let containerSignIn = document.querySelector(".container-sign-in");
       let containerCreateAccount = document.querySelector(
         ".container-create-account"
       );
+      let containerConfirmEmail = document.querySelector(
+        ".container-confirm-email"
+      );
+
+      
       recalcWrapperHeight();
       btnCreateAccount.addEventListener("click", function () {
         wrapperForm.classList.add("create-account");
@@ -318,14 +324,51 @@ var require_app2 = __commonJS({
           }
         }, 600);
       });
+
+      btnConfirmEmail.addEventListener("click", function () {
+        location.hash = "confirm-email";
+        wrapperForm.classList.add("confirm-email");
+        setTimeout(() => {
+          containerSignIn.classList.add("d-none");
+          containerCreateAccount.classList.add("d-none");
+          containerConfirmEmail.classList.remove("d-none");
+          if (!screen.isDesktop) {
+            recalcWrapperHeight();
+          }
+        }, 600);
+        // location.hash = "confirm-email";
+        // document.body.dataset.homeState = "sign-in";
+        // wrapperForm.classList.add("confirm-email");
+        // setTimeout(() => {
+        //   containerSignIn.classList.add("d-none");
+        //   containerCreateAccount.classList.add("d-none");
+        //   containerConfirmEmail.classList.remove("d-none");
+        //   if (!screen.isDesktop) {
+        //     recalcWrapperHeight();
+        //   }
+        // }, 600);
+      });
+
       if (location.hash && location.hash == "#sign-in") {
         document.body.dataset.homeState = "sign-in";
-      } else if (location.hash && location.hash == "#create-account") {
+      } else if (location.hash &&(location.hash == "#create-account")) {
         document.body.dataset.homeState = "sign-in";
         wrapperForm.classList.add("create-account");
         setTimeout(() => {
           containerSignIn.classList.add("d-none");
           containerCreateAccount.classList.remove("d-none");
+          containerConfirmEmail.classList.add("d-none");
+          if (!screen.isDesktop) {
+            recalcWrapperHeight();
+          }
+        }, 600);
+      }else if( location.hash == "#confirm-email"){
+        document.body.dataset.homeState = "sign-in";
+        wrapperForm.classList.add("confirm-email");
+        setTimeout(() => {
+          containerSignIn.classList.add("d-none");
+          containerCreateAccount.classList.add("d-none");
+          containerConfirmEmail.classList.remove("d-none");
           if (!screen.isDesktop) {
             recalcWrapperHeight();
           }
@@ -341,14 +384,18 @@ var require_app2 = __commonJS({
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
+         
+          
           if (document.body.dataset.homeState == "sign-in") {
-            if (wrapperForm.classList.contains("create-account")) {
+            if (wrapperForm.classList.contains("create-account")||wrapperForm.classList.contains("confirm-email")) {
               location.hash = "sign-in";
               wrapperForm.classList.remove("create-account");
+              wrapperForm.classList.remove("confirm-email");
               wrapperForm.classList.add("back-to-sign-in");
               setTimeout(() => {
                 containerSignIn.classList.remove("d-none");
                 containerCreateAccount.classList.add("d-none");
+                containerConfirmEmail.classList.add("d-none");
                 if (!screen.isDesktop) {
                   recalcWrapperHeight();
                 }
@@ -364,13 +411,15 @@ var require_app2 = __commonJS({
             location.hash = "sign-in";
             document.body.dataset.homeState = "sign-in";
 
-            if (wrapperForm.classList.contains("create-account")) {
+            if (wrapperForm.classList.contains("create-account")||wrapperForm.classList.contains("confirm-email")) {
               location.hash = "sign-in";
               wrapperForm.classList.remove("create-account");
+              wrapperForm.classList.remove("confirm-email");
               wrapperForm.classList.add("back-to-sign-in");
               setTimeout(() => {
                 containerSignIn.classList.remove("d-none");
                 containerCreateAccount.classList.add("d-none");
+                containerConfirmEmail.classList.add("d-none");
                 if (!screen.isDesktop) {
                   recalcWrapperHeight();
                 }
@@ -27102,6 +27151,9 @@ var require_app2 = __commonJS({
         case "home":
           main$8();
           break;
+        // case "reset-password":
+        //   main$8();
+        // break;
         case "gallery":
           main$gallery();
           break;

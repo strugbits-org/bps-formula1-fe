@@ -76,7 +76,8 @@ const Wrapper = ({ children }) => {
       typeof window !== "undefined" &&
       pathname === "/" &&
       hash[0] !== "#sign-in" &&
-      hash[0] !== "#create-account"
+      hash[0] !== "#create-account" &&
+      hash[0] !== "#confirm-email"
     ) {
       document.body.setAttribute("data-home-state", "");
     }
