@@ -67,7 +67,12 @@ export const markPageLoaded = (watched = true) => {
     setTimeout(() => window.scrollTo({ top: 0 }), 200);
     initAnimations();
     if (watched) updatedWatched();
-    pageLoadEnd();
+    const isFirstLoadDone = document.body.classList.contains("first-load-done");
+    if (isFirstLoadDone) {
+      pageLoadEnd();
+    } else {
+      firstLoadAnimation();
+    }
   }
 };
 
@@ -122,3 +127,13 @@ export const closeFiltersModal = () => {
     }
   }
 };
+
+export const getPageName = () => {
+  if (typeof window !== "undefined") {
+    const page =
+      window.location.pathname.trim() === "/"
+        ? "home"
+        : location.pathname.substring(1);
+    return page.split("/")[0].trim();
+  }
+}

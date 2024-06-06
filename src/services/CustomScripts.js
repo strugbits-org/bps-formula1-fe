@@ -1,12 +1,11 @@
 'use client'
-import { firstLoadAnimation, initAnimations } from '@/utils/AnimationFunctions';
+import { getPageName, initAnimations } from '@/utils/AnimationFunctions';
 import Script from 'next/script';
 import React from 'react'
 
 export const CustomScripts = () => {
     const onReadyScript = () => {
-        firstLoadAnimation();
-        initAnimations();
+        if (!document.body.classList.contains("first-load-done") && ['home'].includes(getPageName())) initAnimations();
     }
 
     return (

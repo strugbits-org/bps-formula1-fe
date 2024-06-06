@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams,useParams } from "next/navigation";
 
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
@@ -10,6 +10,7 @@ import { calculateTotalCartQuantity } from "@/utils/utils";
 import { getCategoriesData } from "@/services/apiServices";
 
 const Navbar = ({ homePageData, collectionsData }) => {
+  const params = useParams();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -28,60 +29,75 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [cartQuantity, setCartQuantity] = useState(0);
 
-  
-const getCate = async (collectionSlug) => {
-  try {
-    let selectedCollections;
-    if (collectionSlug) {
-      selectedCollections = collectionsData
-        .filter((x) => x.collectionSlug === collectionSlug)
-        .map((x) => x._id);
-    } else {
-      selectedCollections = collectionsData
-        .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
-        .map((x) => x._id);
+
+  const getCate = async (collectionSlug) => {
+    try {
+      let selectedCollections;
+      if (collectionSlug) {
+        selectedCollections = collectionsData
+          .filter((x) => x.collectionSlug === collectionSlug)
+          .map((x) => x._id);
+      } else {
+        selectedCollections = collectionsData
+          .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
+          .map((x) => x._id);
+      }
+
+      const res = await getCategoriesData(selectedCollections);
+
+      const _selectedCategory = res.find(
+        (x) => x.parentCollection._id === category
+      )?.parentCollection?.name;
+      if (_selectedCategory && !collectionSlug) setSelectedCategory(_selectedCategory);
+      setCategoriesData(res);
+      return res;
+    } catch (error) {
+      console.error(error);
     }
+  };
+  useEffect(() => {
+    getCate();
+  }, []);
 
-    const res = await getCategoriesData(selectedCollections);
+  useEffect(() => {
+    if (!category && !collection) {
+    setSelectedCategory(null);
+    setSelectedCollection({
+      collectionName: null,
+      collectionSlug: null,
+    });
+    }
+    const _selectedCollection = collectionsData.find(
+      (x) => x.collectionSlug === collection
+    )?.collectionName;
 
-    const _selectedCategory = res.find(
+    if (_selectedCollection)
+      setSelectedCollection({
+        collectionName: _selectedCollection,
+        collectionSlug: null,
+      });
+    const _selectedCategory = categoriesData.find(
       (x) => x.parentCollection._id === category
     )?.parentCollection?.name;
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
-    setCategoriesData(res);
-    return res;
-  } catch (error) {
-    console.error(error);
-  }
-};
-useEffect(() => {
-  getCate();
-}, []);
 
-useEffect(() => {
-  const _selectedCollection = collectionsData.find(
-    (x) => x.collectionSlug === collection
-  )?.collectionName;
-
-  if (_selectedCollection)
-    setSelectedCollection({
-      collectionName: _selectedCollection,
-      collectionSlug: null,
-    });
-  const _selectedCategory = categoriesData.find(
-    (x) => x.parentCollection._id === category
-  )?.parentCollection?.name;
-  if (_selectedCategory) setSelectedCategory(_selectedCategory);
-
-  if (
-    typeof window !== "undefined" &&
-    pathname === "/" &&
-    window.location.hash !== "#sign-in" &&
-    window.location.hash !== "#create-account"
-  ) {
-    document.body.setAttribute("data-home-state", "");
-  }
-}, [pathname, router, searchParams]);
+    if (
+      typeof window !== "undefined" &&
+      pathname === "/" &&
+      window.location.hash !== "#sign-in" &&
+      window.location.hash !== "#create-account"
+    ) {
+      document.body.setAttribute("data-home-state", "");
+    }
+    
+    if (params.slug) {
+      const paramsCollection = collectionsData.find((x) => x.collectionSlug === params.slug);
+      setSelectedCollection({
+        collectionName: paramsCollection?.collectionName,
+        collectionSlug: paramsCollection?.collectionSlug,
+      });
+    }
+  }, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
     pageLoadStart();
@@ -96,7 +112,7 @@ useEffect(() => {
       queryParams.delete("category");
       queryParams.delete("subCategory");
       router.push(`${pathname}?${queryParams.toString()}`);
-      setSelectedCategory(null);
+      setSelectedCategory("All");
     } else {
       router.push(`/collections/${collectionSlug}`);
     }
@@ -107,106 +123,54 @@ useEffect(() => {
     pageLoadStart();
     setSelectedCategory(name);
     setCategoryDropdownOpen(false);
+
     const queryParams = new URLSearchParams(searchParams);
     const collectionName = selectedCollection.collectionSlug;
-    if (
-      pathname !== "/products" &&
-      id === "all" &&
-      (selectedCategory === "" || selectedCategory === "All")
-    ) {
-      setTimeout(() => {
-        pageLoadEnd();
-      }, 1000);
-      return;
-    }
-
-    if (pathname !== "/products" && id === "all" && collectionName === null) {
-      router.push(`/products`);
-    }
-
-    if (pathname !== "/products" && id === "all" && collectionName !== null) {
-      queryParams.set("collection", collectionName);
-      queryParams.delete("category");
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
-
-    if (
-      pathname !== "/products" &&
-      id !== null &&
-      id !== "all" &&
-      collectionName === null
-    ) {
-      queryParams.set("category", id);
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
-
-    if (pathname !== "/products" && id !== null && collectionName !== null) {
-      queryParams.set("collection", collectionName);
-      queryParams.set("category", id);
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
-
-    // PRODUCTS PAGE LOGIC
-    if (pathname === "/products" && id === "all" && collection !== null) {
-      queryParams.delete("category");
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
-
-    if (
-      pathname === "/products" &&
-      id !== null &&
-      id !== "all" &&
-      collection !== null
-    ) {
-      queryParams.set("category", id);
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
-
-    if (pathname === "/products" && id !== null && id !== "all") {
-      queryParams.set("category", id);
-      queryParams.delete("subCategory");
-      const newPathname = pathname === "/products" ? pathname : "/products";
-      router.push(`${newPathname}?${queryParams.toString()}`);
-    }
 
     const category = queryParams.get("category");
-    if ((pathname === "/products" && id === "all") || category === id) {
-      setTimeout(() => {
-        pageLoadEnd();
-      }, 1000);
+
+    if (category === id) {
+      setTimeout(pageLoadEnd, 1000);
       return;
     }
 
-    // if (
-    //   pathname === "/products" &&
-    //   (selectedCategory === "" || selectedCategory === "All")
-    // ) {
-    //   queryParams.delete("collection");
-    // }
-    // if (pathname === "/products") {
-    //   queryParams.set("collection", collection);
-    // }
+    const isProductsPage = pathname === "/products";
+    const isAllCategory = id === "all";
 
-    // if (collectionName && collectionName !== "all") {
-    //   queryParams.set("collection", collectionName);
-    // } else {
-    //   queryParams.delete("collection");
-    // }
+    if (isProductsPage) {
+      if (isAllCategory) {
+        if (queryParams.has("category") || queryParams.has("subCategory")) {
+          queryParams.delete("category");
+          queryParams.delete("subCategory");
+          router.push(`${pathname}?${queryParams.toString()}`);
+        } else {
+          setTimeout(pageLoadEnd, 1000);
+        }
+      } else {
+        queryParams.set("category", id);
+        queryParams.delete("subCategory");
+        router.push(`${pathname}?${queryParams.toString()}`);
+      }
+      return;
+    }
 
-    // queryParams.set("category", id);
-    // queryParams.delete("subCategory");
-    // const newPathname = pathname === "/products" ? pathname : "/products";
-    // router.push(`${newPathname}?${queryParams.toString()}`);
+    if (!isProductsPage && isAllCategory) {
+      if (collectionName !== null) {
+        queryParams.set("collection", collectionName);
+      }
+      router.push(`/products?${queryParams.toString()}`);
+      return;
+    }
+
+    if (!isProductsPage && id !== null) {
+      if (collectionName !== null) {
+        queryParams.set("collection", collectionName);
+      }
+      queryParams.set("category", id);
+      queryParams.delete("subCategory");
+      router.push(`/products?${queryParams.toString()}`);
+      return;
+    }
   };
 
   const handleInputChange = (e) => {
@@ -221,7 +185,7 @@ useEffect(() => {
       setTimeout(() => {
         router.push("/search?for=" + searchTerm);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -267,8 +231,8 @@ useEffect(() => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               className="btn-small btn-red btn-hover-white btn-sign-in"
@@ -308,9 +272,8 @@ useEffect(() => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -322,6 +285,7 @@ useEffect(() => {
                     });
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
+                    if(pathname === "/products") setTimeout(pageLoadEnd, 1000);
                     router.push("/products");
                   }}
                 >
@@ -363,9 +327,8 @@ useEffect(() => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
@@ -415,9 +378,8 @@ useEffect(() => {
               data-search-form
             >
               <div
-                className={`container-input input-header ${
-                  searchTerm !== "" ? "preenchido" : ""
-                }`}
+                className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""
+                  }`}
               >
                 <label htmlFor="search" className="split-chars">
                   Search

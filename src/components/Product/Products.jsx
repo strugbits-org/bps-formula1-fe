@@ -28,6 +28,7 @@ const Products = ({
   setFilterColors,
   setfilterCollections,
   setfilterCategory,
+  handlePopupFilters
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -185,37 +186,38 @@ const Products = ({
     if (colors) {
       setFilterColors(colors);
     }
+    handlePopupFilters();
   };
-  useEffect(() => {
-    const params = [
-      filteredProducts,
-      collectionsData,
-      selectedCategory,
-      selectedCollection,
-      colors,
-      totalCount,
-      pageSize,
-      handleLoadMore,
-      setFilterColors,
-      setfilterCollections,
-      setfilterCategory,
-    ];
-    if (checkParameters(params)) {
-      markPageLoaded();
-    }
-  }, [
-    filteredProducts,
-    collectionsData,
-    selectedCategory,
-    selectedCollection,
-    colors,
-    totalCount,
-    pageSize,
-    handleLoadMore,
-    setFilterColors,
-    setfilterCollections,
-    setfilterCategory,
-  ]);
+  // useEffect(() => {
+  //   const params = [
+  //     filteredProducts,
+  //     collectionsData,
+  //     selectedCategory,
+  //     selectedCollection,
+  //     colors,
+  //     totalCount,
+  //     pageSize,
+  //     handleLoadMore,
+  //     setFilterColors,
+  //     setfilterCollections,
+  //     setfilterCategory,
+  //   ];
+  //   if (checkParameters(params)) {
+  //     markPageLoaded();
+  //   }
+  // }, [
+  //   filteredProducts,
+  //   collectionsData,
+  //   selectedCategory,
+  //   selectedCollection,
+  //   colors,
+  //   totalCount,
+  //   pageSize,
+  //   handleLoadMore,
+  //   setFilterColors,
+  //   setfilterCollections,
+  //   setfilterCategory,
+  // ]);
   return (
     <>
       <section className="products-intro">

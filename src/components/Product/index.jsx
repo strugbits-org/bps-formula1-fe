@@ -8,8 +8,6 @@ import {
 } from "@/services/apiServices";
 import {
   markPageLoaded,
-  pageLoadEnd,
-  pageLoadStart,
   updatedWatched,
 } from "@/utils/AnimationFunctions";
 import { debounce } from "lodash";
@@ -20,8 +18,6 @@ export default function ProductIndex({ collectionsData }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
 
-  const category = searchParams.get("category");
-  const subCategory = searchParams.get("subCategory");
   const [selectedCategory, setSelectedCategory] = useState(null); //router params
   const [selectedCollection, setSelectedCollection] = useState(null); //router params
 
@@ -55,33 +51,22 @@ export default function ProductIndex({ collectionsData }) {
     updatedWatched();
   };
 
-  const handleProductsFilter = async (
-    firstLoad = false,
-    disableLoader = false
-  ) => {
+  const handleProductsFilter = async () => {
     try {
-      if (!firstLoad && !disableLoader) pageLoadStart();
       const response = await fetchProducts(
         filterCollections,
         filterCategory,
         pageSize,
         filterColors
       );
-
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
-      if (firstLoad) {
-        markPageLoaded(false);
-      } else if (!disableLoader) {
-        pageLoadEnd();
-      }
-      updatedWatched();
+      markPageLoaded(false);
     } catch (error) {
       console.error(error);
     }
   };
 
-  //   const router = useRouter();
   const handleRouterChange = async () => {
     const slug = searchParams.get("collection");
     const category = searchParams.get("category");
@@ -183,7 +168,7 @@ export default function ProductIndex({ collectionsData }) {
   };
 
   const listProducts = debounce(() => {
-    handleProductsFilter(true, false);
+    handleProductsFilter();
   }, 500);
 
   useEffect(() => {
@@ -197,23 +182,20 @@ export default function ProductIndex({ collectionsData }) {
     handleRouterChange();
   }, [searchParams]);
 
-  useEffect(() => {
-    if (filtersReady) {
-      if (filterCategory.length === 0 && selectedCategoryData.length !== 0) {
-        let filterCategories;
-        if (selectedCategoryData[0]?.level2Collections.length !== 0) {
-          filterCategories = selectedCategoryData[0].level2Collections
-            .filter((x) => x._id)
-            .map((x) => x._id);
-        } else {
-          filterCategories = [selectedCategoryData[0].parentCollection._id];
-        }
-        setfilterCategory(filterCategories);
+  const handlePopupFilters = () => {
+    if (filterCategory.length === 0 && selectedCategoryData.length !== 0) {
+      let filterCategories;
+      if (selectedCategoryData[0]?.level2Collections.length !== 0) {
+        filterCategories = selectedCategoryData[0].level2Collections
+          .filter((x) => x._id)
+          .map((x) => x._id);
+      } else {
+        filterCategories = [selectedCategoryData[0].parentCollection._id];
       }
-      setReloadTrigger((prev) => !prev);
+      setfilterCategory(filterCategories);
     }
-  }, [filterColors, filterCollections]);
-
+    setReloadTrigger((prev) => !prev);
+  }
 
   return (
     <Products
@@ -228,6 +210,7 @@ export default function ProductIndex({ collectionsData }) {
       setFilterColors={setFilterColors}
       setfilterCollections={setfilterCollections}
       setfilterCategory={setfilterCategory}
+      handlePopupFilters={handlePopupFilters}
     />
   );
 }
