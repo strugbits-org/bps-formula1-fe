@@ -19,7 +19,7 @@ const SuccessModal = ({ message, buttonLabel, setSuccessMessageVisible, onClose 
     setTimeout(() => {
       document.body.setAttribute("data-form-cart-state", "success");
       markPageLoaded();
-    }, 200);
+    }, 500);
   }, []);
 
   return (
