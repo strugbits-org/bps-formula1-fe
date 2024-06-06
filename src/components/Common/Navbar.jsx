@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams,useParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams, useParams } from "next/navigation";
 
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
@@ -62,11 +62,11 @@ const Navbar = ({ homePageData, collectionsData }) => {
 
   useEffect(() => {
     if (!category && !collection) {
-    setSelectedCategory(null);
-    setSelectedCollection({
-      collectionName: null,
-      collectionSlug: null,
-    });
+      setSelectedCategory(null);
+      setSelectedCollection({
+        collectionName: null,
+        collectionSlug: null,
+      });
     }
     const _selectedCollection = collectionsData.find(
       (x) => x.collectionSlug === collection
@@ -82,16 +82,16 @@ const Navbar = ({ homePageData, collectionsData }) => {
     )?.parentCollection?.name;
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
-      if (
-        typeof window !== "undefined" &&
-        pathname === "/" &&
-        window.location.hash !== "#sign-in" &&
-        window.location.hash !== "#create-account" &&
+    if (
+      typeof window !== "undefined" &&
+      pathname === "/" &&
+      window.location.hash !== "#sign-in" &&
+      window.location.hash !== "#create-account" &&
       window.location.hash !== "#confirm-email"
-      ) {
-        document.body.setAttribute("data-home-state", "");
-      }
-      
+    ) {
+      document.body.setAttribute("data-home-state", "");
+    }
+
     if (params.slug) {
       const paramsCollection = collectionsData.find((x) => x.collectionSlug === params.slug);
       setSelectedCollection({
@@ -209,12 +209,6 @@ const Navbar = ({ homePageData, collectionsData }) => {
   }, []);
 
   const linkTo = cookies.authToken ? "/collections" : "/";
-  const [, setWindowHash] = useHash(); // Destructure the setWindowHash function
-
-  const handleLogoClick = () => {
-    console.log("setWindowHash called ");
-    setWindowHash(""); // Set an empty string to remove the hash
-  };
 
   return (
     <header id="header" data-parent-submenu>
@@ -235,16 +229,15 @@ const Navbar = ({ homePageData, collectionsData }) => {
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
-            onClick={handleLogoClick}
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
           </AnimateLink>
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/reset-password" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/privacy-and-policy" ||
+            pathname === "/reset-password" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               className="btn-small btn-red btn-hover-white btn-sign-in"
@@ -297,7 +290,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
                     });
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
-                    if(pathname === "/products") setTimeout(pageLoadEnd, 1000);
+                    if (pathname === "/products") setTimeout(pageLoadEnd, 1000);
                     router.push("/products");
                   }}
                 >
