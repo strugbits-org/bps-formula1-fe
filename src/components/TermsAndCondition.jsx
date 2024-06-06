@@ -120,7 +120,7 @@ const TermsAndCondition = ({ data }) => {
                 onClick={() => {
                   pageLoadStart();
                   setTimeout(() => {
-                    router.back();
+                    router.push("/");
                   }, 1000);
                 }}
                 className="btn-small-wide btn-gray btn-hover-red"
