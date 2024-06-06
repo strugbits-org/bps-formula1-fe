@@ -4,11 +4,15 @@ import { pageLoadStart } from "@/utils/AnimationFunctions";
 import { useRouter } from "next/navigation";
 
 const ConfirmEmail = (props) => {
-  const { setSuccessMessageVisible, setErrorMessageVisible, setMessage } =
-    props;
+  const {
+    setSuccessMessageVisible,
+    setErrorMessageVisible,
+    setMessage,
+    setRedirection,
+  } = props;
   const router = useRouter();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [isDisabled, setDisabled] = useState(false);
   // const [isError, setError] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -16,14 +20,13 @@ const ConfirmEmail = (props) => {
   });
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setMessage("");
-
+    setDisabled(true);
     try {
+      e.preventDefault();
+      setMessage("");
       // setError(true);
       const input = { email: formData?.email };
       // console.log("input", input);
-
       const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
       const response = await fetch(`${base_url}formula1/auth/forgotPassword`, {
         method: "POST",
@@ -44,11 +47,14 @@ const ConfirmEmail = (props) => {
       // console.log("data", data);
       setMessage("Reset password link has been sent to your email");
       setSuccessMessageVisible(true);
+      setRedirection("/");
     } catch (error) {
       console.log("Error during confirm email:", error);
       setErrorMessageVisible(true);
       // setMessage("Invalid Credentials!");
       setMessage(error?.message);
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -85,6 +91,7 @@ const ConfirmEmail = (props) => {
           </div>
           <div className="container-submit col-12 mt-mobile-10">
             <button
+              disabled={isDisabled}
               type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
             >

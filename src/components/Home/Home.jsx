@@ -12,6 +12,7 @@ import SignIn from "../Registration/SignIn";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
 import ConfirmEmail from "../ForgotPassword/ConfirmEmail";
+import { useRouter } from "next/navigation";
 
 const HomePage = ({
   homePageData,
@@ -22,8 +23,18 @@ const HomePage = ({
   createAccountDropdown,
 }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
+  const [redirection, setRedirection] = useState("");
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [message, setMessage] = useState("Message");
+
+  const router = useRouter();
+
+  const handleClose = () => {
+    if (redirection) {
+      router.push(redirection);
+      setRedirection("");
+    }
+  };
 
   useEffect(() => {
     const params = [
@@ -61,6 +72,7 @@ const HomePage = ({
         <SuccessModal
           message={message}
           setSuccessMessageVisible={setSuccessMessageVisible}
+          onClose={handleClose}
         />
       )}
 
@@ -110,6 +122,7 @@ const HomePage = ({
                 setErrorMessageVisible={setErrorMessageVisible}
                 setSuccessMessageVisible={setSuccessMessageVisible}
                 setMessage={setMessage}
+                setRedirection={setRedirection}
               />
             </div>
           </div>

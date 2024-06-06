@@ -12,6 +12,9 @@ const ResetPassword = ({ signInPage }) => {
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [isDisabled, setDisabled] = useState(false);
+
   const [message, setMessage] = useState("Message");
   const [formData, setFormData] = useState({
     password: "",
@@ -21,24 +24,17 @@ const ResetPassword = ({ signInPage }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  //   if (isError) {
-  //     setMessage("Hello Error");
-  //     setErrorMessageVisible(true);
-  //   } else {
-  //     setMessage("Hello Success");
-  //     setSuccessMessageVisible(true);
-  //   }
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
-    e?.preventDefault();
-    setMessage("");
+    setDisabled(true);
 
     try {
+      e?.preventDefault();
+      setMessage("");
       const { password, confirmPassword } = formData;
       const token = searchParams.get("token");
       // console.log("params", params);
@@ -55,7 +51,7 @@ const ResetPassword = ({ signInPage }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ password }),
+          body: JSON.stringify({ password, confirmPassword }),
         }
       );
       if (!response.ok) {
@@ -74,6 +70,8 @@ const ResetPassword = ({ signInPage }) => {
       console.log("Error during confirm email:", error);
       setErrorMessageVisible(true);
       setMessage(error?.message);
+    } finally {
+      setDisabled(false);
     }
   };
 
@@ -130,7 +128,7 @@ const ResetPassword = ({ signInPage }) => {
             color: "#fff",
           }}
         >
-          Enter your new password bellow
+          Enter your new password below
         </p>
         <form className="form-sign-in form-base" onSubmit={handleSubmit}>
           <div className="container-input container-input-password col-12">
@@ -176,6 +174,7 @@ const ResetPassword = ({ signInPage }) => {
 
           <div className="container-submit col-12 mt-mobile-10">
             <button
+              disabled={isDisabled}
               type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
             >
