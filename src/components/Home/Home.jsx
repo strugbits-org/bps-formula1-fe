@@ -45,9 +45,8 @@ const HomePage = ({
       createAccountPage,
       createAccountDropdown,
     ];
-    if (checkParameters(params)) {
-      markPageLoaded();
-    }
+    if (checkParameters(params) && document.body.classList.contains("first-load-done")) markPageLoaded();
+    
   }, [
     homePageData,
     leftSectionLinks,
