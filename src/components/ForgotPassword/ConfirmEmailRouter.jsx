@@ -1,15 +1,6 @@
-// "use client";
-import AnimateLink from "@/components/Common/AnimateLink";
-// import { useRouter } from "next/navigation";
-
-const ConfirmEmailRouter = () => {
-  //   const router = useRouter();
-
+const ConfirmEmailRouter = ({ data }) => {
   return (
-    <p
-      //   className="text-agree mt-lg-25 mt-mobile-30"
-      style={{ width: "100%", textAlign: "right" }}
-    >
+    <p style={{ width: "100%", textAlign: "right" }}>
       <span
         className="btn-underlined-white btn-confirm-email"
         style={{
@@ -19,7 +10,7 @@ const ConfirmEmailRouter = () => {
           cursor: "pointer",
         }}
       >
-        Forgot your password?
+        {data && data.forgotPasswordButtonLabel}
       </span>
     </p>
   );

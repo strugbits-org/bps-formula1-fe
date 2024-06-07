@@ -1,5 +1,6 @@
 import HomePage from "@/components/Home/Home";
 import {
+  getConfirmEmailPageData,
   getCreateAccountDropdown,
   getCreateAccountForm,
   getHomeBottomLeftLink,
@@ -16,6 +17,7 @@ export default async function Page() {
     signInPage,
     createAccountPage,
     createAccountDropdown,
+    confirmEmailPageData,
   ] = await Promise.all([
     getHomePageData(),
     getHomeBottomLeftLink(),
@@ -23,6 +25,7 @@ export default async function Page() {
     getSignInPage(),
     getCreateAccountForm(),
     getCreateAccountDropdown(),
+    getConfirmEmailPageData(),
   ]);
   return (
     <HomePage
@@ -32,6 +35,7 @@ export default async function Page() {
       signInPage={signInPage}
       createAccountPage={createAccountPage}
       createAccountDropdown={createAccountDropdown}
+      confirmEmailPageData={confirmEmailPageData}
     />
   );
 }

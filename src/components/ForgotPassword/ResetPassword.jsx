@@ -1,28 +1,26 @@
 "use client";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { getFullSvgURL } from "@/utils/GenerateImageURL";
-import ErrorModal from "../Common/ErrorModal";
 import SuccessModal from "../Common/SuccessModal";
-import { useRouter, useSearchParams } from "next/navigation";
+import ErrorModal from "../Common/ErrorModal";
 
-const ResetPassword = ({ signInPage }) => {
+const ResetPassword = ({ signInPage, resetPasswordPageData }) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
-
   const [message, setMessage] = useState("Message");
   const [formData, setFormData] = useState({
     password: "",
     confirmPassword: "",
   });
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -37,7 +35,6 @@ const ResetPassword = ({ signInPage }) => {
       setMessage("");
       const { password, confirmPassword } = formData;
       const token = searchParams.get("token");
-      // console.log("params", params);
       if (password !== confirmPassword) {
         setMessage("Passwords should be matched.");
         setErrorMessageVisible(true);
@@ -56,13 +53,10 @@ const ResetPassword = ({ signInPage }) => {
       );
       if (!response.ok) {
         const data = await response.json();
-
-        // console.log("!data", data);
         setMessage(data.message);
         setErrorMessageVisible(true);
         return;
       }
-      const data = await response.json();
 
       setMessage("Your password has been reset successfully.");
       setSuccessMessageVisible(true);
@@ -128,11 +122,13 @@ const ResetPassword = ({ signInPage }) => {
             color: "#fff",
           }}
         >
-          Enter your new password below
+          {resetPasswordPageData && resetPasswordPageData.description}
         </p>
         <form className="form-sign-in form-base" onSubmit={handleSubmit}>
           <div className="container-input container-input-password col-12">
-            <label htmlFor="login-password">Enter your new password</label>
+            <label htmlFor="login-password">
+              {resetPasswordPageData && resetPasswordPageData.newPasswordLabel}
+            </label>
             <input
               id="login-password"
               className="password"
@@ -152,7 +148,10 @@ const ResetPassword = ({ signInPage }) => {
             </div>
           </div>
           <div className="container-input container-input-password col-12">
-            <label htmlFor="confirmPassword">Confirm new password</label>
+            <label htmlFor="confirmPassword">
+              {resetPasswordPageData &&
+                resetPasswordPageData.confirmNewPasswordLabel}
+            </label>
             <input
               id="confirmPassword"
               className="password"
@@ -180,7 +179,10 @@ const ResetPassword = ({ signInPage }) => {
             >
               <i className="icon-profile"></i>
               <span className="submit-text split-chars">
-                <span>Reset Password</span>
+                <span>
+                  {resetPasswordPageData &&
+                    resetPasswordPageData.resetPasswordButtonLabel}
+                </span>
               </span>
             </button>
           </div>
