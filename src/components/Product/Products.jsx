@@ -50,6 +50,7 @@ const Products = ({
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
 
+    
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -268,7 +269,18 @@ const Products = ({
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData, f1Members } = data;
-
+                  let defaultVariantSku;
+                  if (selectedVariant === null) {
+                    setSelectedVariant(variantData);
+                  }
+                  if (selectedVariant) {
+                    const defaultVariant = variantData.find(
+                      (variant) => variant.sku === selectedVariant.sku
+                    );
+                    defaultVariantSku = defaultVariant
+                      ? defaultVariant.sku
+                      : variantData[0].sku;
+                  }
                   return (
                     // <ProductListItemMain
                     //   index={index}
@@ -299,7 +311,7 @@ const Products = ({
                             <h2 className="product-title">{product.name}</h2>
                             <div className="container-copy">
                               <button className="btn-copy copy-link">
-                                <span>{"defaultVariantSku"}</span>
+                                <span>{defaultVariantSku}</span>
                                 <i className="icon-copy"></i>
                               </button>
                               <input
