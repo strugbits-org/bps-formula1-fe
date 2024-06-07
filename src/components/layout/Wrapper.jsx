@@ -1,9 +1,10 @@
 "use client";
-import { useHash } from "@/hooks/useHash";
-import { getUserAuth, setAuthToken } from "@/utils/GetUser";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+
+import { getUserAuth, setAuthToken } from "@/utils/GetUser";
+import { useHash } from "@/hooks/useHash";
 
 const protectedRoutes = [
   /^\/cart$/,
@@ -26,18 +27,19 @@ const publicRoutes = [
 ];
 
 const Wrapper = ({ children }) => {
-  const pathname = usePathname();
-  const params = useParams();
-  const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
   const [isReady, setIsReady] = useState(false);
   const [cookies] = useCookies(["authToken"]);
-  const cleanPath = path.split("/")[0].trim();
+  const pathname = usePathname();
   const router = useRouter();
   const hash = useHash();
+
+  const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
+  const cleanPath = path.split("/")[0].trim();
 
   const isProtectedRoute = protectedRoutes.some((route) =>
     route.test(pathname)
   );
+
   const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
   const authToken = cookies.authToken || getUserAuth();
 
@@ -63,13 +65,22 @@ const Wrapper = ({ children }) => {
         setTimeout(() => {
           router.replace("/#sign-in");
         }, 500);
-      } else if (authToken && isProtectedRoute) {
-        setTimeout(() => {
-          router.replace(pathname);
-        }, 500);
+      } else if (authToken && isPublicRoute) {
+        if (
+          pathname === "/terms-and-condition" ||
+          pathname === "/privacy-and-policy"
+        ) {
+          setTimeout(() => {
+            router.replace(pathname);
+          }, 500);
+        } else {
+          router.replace("/collections");
+        }
+      } else if (authToken && pathname === "/") {
+        router.replace("/collections");
       }
     }
-  }, [authToken, isProtectedRoute, isPublicRoute, router, isReady]);
+  }, [authToken, isProtectedRoute, isPublicRoute, router, isReady, pathname]);
 
   const handleHashChange = () => {
     if (
@@ -82,6 +93,7 @@ const Wrapper = ({ children }) => {
       document.body.setAttribute("data-home-state", "");
     }
   };
+
   useEffect(() => {
     // Run on initial load
     handleHashChange();
