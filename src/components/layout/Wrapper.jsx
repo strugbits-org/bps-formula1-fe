@@ -35,13 +35,14 @@ const Wrapper = ({ children }) => {
 
   const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
   const cleanPath = path.split("/")[0].trim();
-
   const isProtectedRoute = protectedRoutes.some((route) =>
     route.test(pathname)
   );
 
   const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
   const authToken = cookies.authToken || getUserAuth();
+
+  
 
   useEffect(() => {
     if (typeof document !== "undefined") {
