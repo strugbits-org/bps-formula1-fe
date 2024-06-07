@@ -459,7 +459,7 @@ const Products = ({
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
                     <div className="split-chars">
-                      <span>Load more {JSON.stringify(loading)}</span>
+                      <span>Load more</span>
                     </div>
                   </button>
                 </div>

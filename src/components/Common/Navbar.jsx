@@ -118,7 +118,10 @@ const Navbar = ({ homePageData, collectionsData }) => {
       router.push(`${pathname}?${queryParams.toString()}`);
       setSelectedCategory("All");
     } else {
-      router.push(`/collections/${collectionSlug}`);
+      pageLoadStart();
+      setTimeout(() => {
+        router.push(`/collections/${collectionSlug}`);
+      }, 1000);
     }
     getCate(collectionSlug);
   };
@@ -135,7 +138,12 @@ const Navbar = ({ homePageData, collectionsData }) => {
     const category = queryParams.get("category");
 
     if (category === id) {
-      setTimeout(pageLoadEnd, 1000);
+      if (queryParams.has("subCategory")) {
+        queryParams.delete("subCategory");
+        router.push(`${pathname}?${queryParams.toString()}`);
+      } else {
+        setTimeout(pageLoadEnd, 1000);
+      }
       return;
     }
 

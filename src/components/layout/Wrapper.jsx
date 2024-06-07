@@ -75,7 +75,9 @@ const Wrapper = ({ children }) => {
             router.replace(pathname);
           }, 500);
         } else {
-          router.replace("/collections");
+          setTimeout(() => {
+            router.replace("/collections");
+          }, 500);
         }
       } else if (authToken && pathname === "/") {
         router.replace("/collections");

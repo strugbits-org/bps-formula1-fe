@@ -19043,6 +19043,8 @@ var require_app2 = __commonJS({
     function main$4() {
       filterProducts();
       productLinkColor();
+      productContent();
+
       // document.addEventListener(
       //   "pjax:switch",
       //   function () {
