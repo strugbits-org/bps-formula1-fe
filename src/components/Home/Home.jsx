@@ -45,9 +45,7 @@ const HomePage = ({
       createAccountPage,
       createAccountDropdown,
     ];
-    console.log("yessss",checkParameters(params));
     if (checkParameters(params)) markPageLoaded();
-
   }, [
     homePageData,
     leftSectionLinks,
@@ -56,9 +54,6 @@ const HomePage = ({
     createAccountPage,
     createAccountDropdown,
   ]);
-  useEffect(() => {
-    console.log("router",router);
-  },[router]);
 
   return (
     <>
