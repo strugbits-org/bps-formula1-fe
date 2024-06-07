@@ -40,6 +40,10 @@ const ConfirmEmail = (props) => {
       setMessage("Reset password link has been sent to your email");
       setSuccessMessageVisible(true);
       setRedirection("/");
+      setFormData({
+        email: "",
+        password: "",
+      });
     } catch (error) {
       console.log("Error during confirm email:", error);
       setErrorMessageVisible(true);
@@ -80,6 +84,7 @@ const ConfirmEmail = (props) => {
               value={formData.email}
               onChange={handleChange}
               required
+              autoComplete="off"
             />
           </div>
           <div className="container-submit col-12 mt-mobile-10">

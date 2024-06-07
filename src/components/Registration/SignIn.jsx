@@ -98,7 +98,9 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               required
             />
           </div>
-          <ConfirmEmailRouter data={data} />
+          <div className="col-12">
+            <ConfirmEmailRouter data={data} />
+          </div>
           <div className="container-input container-input-password col-12">
             <label htmlFor="login-password">{data?.passwordFieldLabel}</label>
             <input

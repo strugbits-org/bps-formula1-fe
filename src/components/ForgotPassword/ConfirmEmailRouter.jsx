@@ -8,6 +8,7 @@ const ConfirmEmailRouter = ({ data }) => {
           textDecoration: "underline",
           color: "#fff",
           cursor: "pointer",
+          "font-size": "12px"
         }}
       >
         {data && data.forgotPasswordButtonLabel}
