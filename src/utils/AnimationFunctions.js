@@ -118,15 +118,6 @@ export const changeProgress = (percent) => {
   }
 };
 
-export const closeFiltersModal = () => {
-  if (typeof window !== "undefined") {
-    document.body.setAttribute("data-form-cart-state", "");
-    const filterModal = document.querySelector(".container-filter-products");
-    if (filterModal) {
-      filterModal?.classList.remove("active");
-    }
-  }
-};
 export const closeModals = () => {
   if (typeof window !== 'undefined') {
     const modal_group = document.querySelectorAll("modal-group");
