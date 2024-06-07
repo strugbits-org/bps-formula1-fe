@@ -5,13 +5,10 @@ import { generateImageURL } from "@/utils/GenerateImageURL";
 import { AddProductToCart } from "@/services/cartServices";
 import { BestSellerTag } from "../Common/BestSellerTag";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
-import {
-  initializeCanvasAddToCart,
-  updatedWatched,
-} from "@/utils/AnimationFunctions";
 
 const AddToCartModal = ({
   productData,
+  setProductData,
   setErrorMessageVisible,
   setSuccessMessageVisible,
   productSnapshots,
@@ -24,8 +21,11 @@ const AddToCartModal = ({
   setProductFilteredVariantData,
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
+
   const handleClose = () => {
     setTimeout(() => {
+      setProductData(null);
+      setSelectedVariantData(null);
       setProductSnapshots(null);
       setProductFilteredVariantData(null);
       setCartQuantity(1);
@@ -33,11 +33,8 @@ const AddToCartModal = ({
   };
 
   useEffect(() => {
-    if (selectedVariantData) {
-      initializeCanvasAddToCart();
-    }
-    // document.querySelector(".modalLoad").click();
-  }, [selectedVariantData]);
+    document.querySelector(".addToCart").click();
+  }, [productData]);
 
   const seatHeightData =
     productData &&
@@ -88,10 +85,7 @@ const AddToCartModal = ({
 
   return (
     <div id="reloading-area">
-      <modal-group
-        name={productData && productData.product._id}
-        class="modal-product"
-      >
+      <modal-group name="modal-product" class="modal-product">
         <modal-container>
           <modal-item>
             <div class="wrapper-section">
@@ -119,32 +113,11 @@ const AddToCartModal = ({
                                   className="best-seller-tag"
                                 />
                               )} */}
-                              {/* {selectedVariantData?.images.map((x) => {
-                                return (
-                                  <span className="helo">
-                                    helloooo
-                                    <img
-                                      style={{
-                                        padding: "100px",
-                                      }}
-                                      src={generateImageURL({
-                                        wix_url: x.src,
-                                        w: "671",
-                                        h: "671",
-                                        fit: "fill",
-                                        q: "95",
-                                      })}
-                                      data-preload
-                                      class="media"
-                                      alt="product"
-                                    />
-                                  </span>
-                                );
-                              })} */}
+
                               <div class="swiper-container reset-slide-enabled">
                                 <div class="swiper-wrapper">
                                   {selectedVariantData &&
-                                    selectedVariantData.images.map(
+                                    selectedVariantData.images?.map(
                                       (imageData, index) => {
                                         return (
                                           <div key={index} class="swiper-slide">
