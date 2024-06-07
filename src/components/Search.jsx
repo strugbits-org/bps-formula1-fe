@@ -128,12 +128,6 @@ const Search = ({ collections, colors, searchTerm }) => {
     resetSlideIndex();
   };
 
-  useEffect(() => {
-    const params = [collections, colors, searchTerm];
-    if (checkParameters(params)) {
-      markPageLoaded();
-    }
-  }, [collections, colors, searchTerm]);
   return (
     <>
       <section className="search pt-lg-150 pb-95">

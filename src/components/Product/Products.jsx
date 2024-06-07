@@ -191,36 +191,7 @@ const Products = ({
     }
     handlePopupFilters();
   };
-  // useEffect(() => {
-  //   const params = [
-  //     filteredProducts,
-  //     collectionsData,
-  //     selectedCategory,
-  //     selectedCollection,
-  //     colors,
-  //     totalCount,
-  //     pageSize,
-  //     handleLoadMore,
-  //     setFilterColors,
-  //     setfilterCollections,
-  //     setfilterCategory,
-  //   ];
-  //   if (checkParameters(params)) {
-  //     markPageLoaded();
-  //   }
-  // }, [
-  //   filteredProducts,
-  //   collectionsData,
-  //   selectedCategory,
-  //   selectedCollection,
-  //   colors,
-  //   totalCount,
-  //   pageSize,
-  //   handleLoadMore,
-  //   setFilterColors,
-  //   setfilterCollections,
-  //   setfilterCategory,
-  // ]);
+
   return (
     <>
       <section className="products-intro">
