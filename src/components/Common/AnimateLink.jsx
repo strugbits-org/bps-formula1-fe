@@ -4,21 +4,14 @@ import { pageLoadEnd, pageLoadStart } from "../../utils/AnimationFunctions";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
-const AnimateLink = ({ to, children, className, target, attributes }) => {
+const AnimateLink = ({ to, children, className, target, attributes, deleteHash }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [, setWindowHash] = useHash();
 
-  const handleLogoClick = () => {
-    setWindowHash("");
-  };
-
   const delayedRedirect = (e) => {
     e.preventDefault();
-    if (pathname === "/") {
-      router.push(to);
-      handleLogoClick();
-    }
+    if (pathname === "/" && deleteHash) setWindowHash("");
 
     if (to === undefined) return;
 

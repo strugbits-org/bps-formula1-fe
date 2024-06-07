@@ -229,6 +229,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
             className="logo"
             data-pjax
             aria-label="Blueprint Studios | F1 Las Vegas Grand Prix"
+            deleteHash={true}
           >
             <span>Blueprint Studios | F1 Las Vegas Grand Prix</span>
           </AnimateLink>

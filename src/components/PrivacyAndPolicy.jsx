@@ -125,7 +125,7 @@ const PrivacyAndPolicy = ({ data }) => {
                 onClick={() => {
                   pageLoadStart();
                   setTimeout(() => {
-                    router.push("/");
+                    router.back();
                   }, 1000);
                 }}
                 className="btn-small-wide btn-gray btn-hover-red"

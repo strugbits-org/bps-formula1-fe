@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 
 import { generateImageURL, getFullSvgURL } from "@/utils/GenerateImageURL";
 import CreateAccount from "../Registration/CreateAccount";
@@ -13,6 +12,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
 import ConfirmEmail from "../ForgotPassword/ConfirmEmail";
 import { useRouter } from "next/navigation";
+import AnimateLink from "../Common/AnimateLink";
 
 const HomePage = ({
   homePageData,
@@ -45,8 +45,9 @@ const HomePage = ({
       createAccountPage,
       createAccountDropdown,
     ];
-    if (checkParameters(params) && document.body.classList.contains("first-load-done")) markPageLoaded();
-    
+    console.log("yessss",checkParameters(params));
+    if (checkParameters(params)) markPageLoaded();
+
   }, [
     homePageData,
     leftSectionLinks,
@@ -55,6 +56,9 @@ const HomePage = ({
     createAccountPage,
     createAccountDropdown,
   ]);
+  useEffect(() => {
+    console.log("router",router);
+  },[router]);
 
   return (
     <>
@@ -117,12 +121,12 @@ const HomePage = ({
                   />
                 )}
 
-              <ConfirmEmail
-                setErrorMessageVisible={setErrorMessageVisible}
-                setSuccessMessageVisible={setSuccessMessageVisible}
-                setMessage={setMessage}
-                setRedirection={setRedirection}
-              />
+                <ConfirmEmail
+                  setErrorMessageVisible={setErrorMessageVisible}
+                  setSuccessMessageVisible={setSuccessMessageVisible}
+                  setMessage={setMessage}
+                  setRedirection={setRedirection}
+                />
               </div>
             </div>
           </div>
@@ -155,13 +159,13 @@ const HomePage = ({
               {leftSectionLinks?.map((data, index) => {
                 const { links, title } = data;
                 return (
-                  <Link
+                  <AnimateLink
                     key={index}
-                    href={links || ""}
+                    to={links || ""}
                     className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
                   >
                     <span>{title}</span>
-                  </Link>
+                  </AnimateLink>
                 );
               })}
             </div>

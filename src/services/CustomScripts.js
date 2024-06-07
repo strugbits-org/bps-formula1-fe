@@ -1,12 +1,25 @@
 'use client'
-import { getPageName, markPageLoaded } from '@/utils/AnimationFunctions';
+import { getPageName, markPageLoaded, pageLoadEnd } from '@/utils/AnimationFunctions';
+import { useRouter } from 'next/navigation';
 import Script from 'next/script';
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export const CustomScripts = () => {
+    const router = useRouter();
     const onReadyScript = () => {
-        if (!document.body.classList.contains("first-load-done") && ['home'].includes(getPageName())) markPageLoaded();
+        if (['home'].includes(getPageName())) markPageLoaded();
     }
+    useEffect(() => {
+        const handleHashChange = () => {
+            if (['home'].includes(getPageName())) router.push(`/${window.location.hash}`);;
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        return () => {
+            window.removeEventListener('hashchange', handleHashChange);
+        };
+    }, []);
 
     return (
         <>
