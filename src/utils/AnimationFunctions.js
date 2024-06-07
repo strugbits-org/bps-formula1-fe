@@ -94,7 +94,7 @@ export const firstLoadAnimation = async () => {
 
 export const pageLoadStart = () => {
   if (typeof window !== "undefined") {
-    closeFiltersModal();
+    closeModals();
     document.body.classList.add("page-leave-active");
   }
 };
@@ -127,7 +127,22 @@ export const closeFiltersModal = () => {
     }
   }
 };
+export const closeModals = () => {
+  if (typeof window !== 'undefined') {
+    const modal_group = document.querySelectorAll("modal-group");
+    if (modal_group) modal_group.forEach(modal => {
+      if (modal.classList.contains("active")) {
+        modal.close();
+      }
+    });
 
+    document.body.setAttribute("data-form-cart-state", "");
+    const filterModal = document.querySelector(".container-filter-products");
+    if (filterModal) {
+      filterModal?.classList.remove("active");
+    }
+  }
+}
 export const getPageName = () => {
   if (typeof window !== "undefined") {
     const page =
