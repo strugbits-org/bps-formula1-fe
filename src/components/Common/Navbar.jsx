@@ -118,7 +118,10 @@ const Navbar = ({ homePageData, collectionsData }) => {
       router.push(`${pathname}?${queryParams.toString()}`);
       setSelectedCategory("All");
     } else {
-      router.push(`/collections/${collectionSlug}`);
+      pageLoadStart();
+      setTimeout(() => {
+        router.push(`/collections/${collectionSlug}`);
+      }, 1000);
     }
     getCate(collectionSlug);
   };
