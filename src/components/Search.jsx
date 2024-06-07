@@ -17,8 +17,7 @@ import {
   resetSlideIndex,
   updatedWatched,
 } from "@/utils/AnimationFunctions";
-import { ProductListItem } from "./Common/ProductListItem";
-import { checkParameters } from "@/utils/CheckParams";
+import { productImageURL } from "@/utils/GenerateImageURL";
 
 const Search = ({ collections, colors, searchTerm }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -192,7 +191,13 @@ const Search = ({ collections, colors, searchTerm }) => {
                                     }
                                   >
                                     <img
-                                      src={variant.variant.imageSrc}
+                                      src={productImageURL({
+                                        wix_url: variant.variant.imageSrc,
+                                        w: "518",
+                                        h: "518",
+                                        fit: "fill",
+                                        q: "95",
+                                      })}
                                       data-preload
                                       className="media"
                                       alt="search-1"
@@ -225,7 +230,13 @@ const Search = ({ collections, colors, searchTerm }) => {
                                   >
                                     <div className="container-img">
                                       <img
-                                        src={variant.variant.imageSrc}
+                                        src={productImageURL({
+                                          wix_url: variant.variant.imageSrc,
+                                          w: "518",
+                                          h: "518",
+                                          fit: "fill",
+                                          q: "95",
+                                        })}
                                         data-preload
                                         className="media"
                                         alt="search-4"

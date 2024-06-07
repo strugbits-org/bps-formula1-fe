@@ -63,9 +63,9 @@ const Wrapper = ({ children }) => {
         setTimeout(() => {
           router.replace("/#sign-in");
         }, 500);
-      } else if (authToken && isPublicRoute) {
+      } else if (authToken && isProtectedRoute) {
         setTimeout(() => {
-          router.replace("/collections");
+          router.replace(pathname);
         }, 500);
       }
     }
