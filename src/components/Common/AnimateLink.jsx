@@ -25,6 +25,7 @@ const AnimateLink = ({ to, children, className, target, attributes, deleteHash }
       pageLoadStart();
       setTimeout(() => {
         router.push(to);
+        router.refresh();
       }, 900);
     } else {
       window.open(to, target);
