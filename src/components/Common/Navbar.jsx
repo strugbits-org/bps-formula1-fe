@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams, useParams } from "next/navigation";
 
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
@@ -29,7 +29,8 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const [categoriesData, setCategoriesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [cartQuantity, setCartQuantity] = useState(0);
-
+  const categoryDropdownRef = useRef(null);
+  const collectionsDropdownRef = useRef(null);
 
   const getCate = async (collectionSlug) => {
     try {
@@ -107,6 +108,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
       collectionName: name,
       collectionSlug: collectionSlug,
     });
+    collectionsDropdownRef.current.removeActive();
     setCollectionDropdownOpen(false);
     if (pathname === "/products") {
       const queryParams = new URLSearchParams(searchParams);
@@ -124,6 +126,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
   const handleCategorySelection = (name, id) => {
     pageLoadStart();
     setSelectedCategory(name);
+    categoryDropdownRef.current.removeActive();
     setCategoryDropdownOpen(false);
 
     const queryParams = new URLSearchParams(searchParams);
@@ -273,6 +276,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
               onClick={() => setCollectionDropdownOpen(true)}
               className="btn-dropdown"
               data-set-submenu="collections"
+              ref={collectionsDropdownRef}
             >
               <span>{selectedCollection.collectionName || "COLLECTIONS"}</span>
               <i className="icon-arrow-down"></i>
@@ -328,6 +332,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
               onClick={() => setCategoryDropdownOpen(true)}
               className="btn-dropdown"
               data-set-submenu="category"
+              ref={categoryDropdownRef}
             >
               <span>{selectedCategory || "CATEGORIES"}</span>
               <i className="icon-arrow-down"></i>
