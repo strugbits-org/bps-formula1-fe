@@ -10,7 +10,8 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     email: "",
     password: "",
   });
-  const LoginUser = async () => {
+  const LoginUser = async (e) => {
+    e.preventDefault();
     if (submittingForm) return;
 
     setSubmittingForm(true);
@@ -81,9 +82,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       <div className="wrapper-form-sign-in">
         <form
           className="form-sign-in form-base"
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
+          onSubmit={LoginUser}
         >
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
@@ -123,7 +122,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
           </div>
           <div className="container-submit col-12 mt-mobile-10">
             <button
-              onClick={LoginUser}
+              type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
             >
               <i className="icon-profile"></i>

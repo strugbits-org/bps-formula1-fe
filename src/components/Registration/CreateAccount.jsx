@@ -28,7 +28,8 @@ const CreateAccount = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (submittingForm) return;
     setSubmittingForm(true);
     setErrorMessageVisible(false);
@@ -107,7 +108,7 @@ const CreateAccount = ({
       >
         <form
           className="form-account form-create-account"
-          onSubmit={(e) => { e.preventDefault() }}
+          onSubmit={handleSubmit}
         >
           <input type="hidden" name="subject" value="[account]" />
           <div className="container-input col-lg-3">
@@ -272,7 +273,7 @@ const CreateAccount = ({
 
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
-              onClick={handleSubmit}
+              type="submit"
               className="bt-submit btn-small-wide btn-red btn-hover-white mt-tablet-10 w-mobile-100"
             >
               <span className="submit-text split-chars">
