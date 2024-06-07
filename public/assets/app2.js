@@ -429,6 +429,7 @@ var require_app2 = __commonJS({
               }, 1200);
             }
           }
+          recalcWrapperHeight();
         });
       }
       document.querySelectorAll("form").forEach((element) => {
