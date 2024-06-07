@@ -135,7 +135,12 @@ const Navbar = ({ homePageData, collectionsData }) => {
     const category = queryParams.get("category");
 
     if (category === id) {
-      setTimeout(pageLoadEnd, 1000);
+      if (queryParams.has("subCategory")) {
+        queryParams.delete("subCategory");
+        router.push(`${pathname}?${queryParams.toString()}`);
+      } else {
+        setTimeout(pageLoadEnd, 1000);
+      }
       return;
     }
 
