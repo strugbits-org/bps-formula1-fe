@@ -8,15 +8,17 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submittingForm, setSubmittingForm] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const LoginUser = async (e) => {
-    e.preventDefault();
-    setErrorMessageVisible(false);
+  const LoginUser = async () => {
+    if (submittingForm) return;
 
+    setSubmittingForm(true);
+    setErrorMessageVisible(false);
     try {
       const signUserData = {
         email: formData.email,
@@ -62,6 +64,10 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
       console.log("Error during login:", error);
       setMessage("Invalid Credentials!");
       setErrorMessageVisible(true);
+    } finally {
+      setTimeout(() => {
+        setSubmittingForm(false);
+      }, 1500);
     }
   };
 
@@ -77,7 +83,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   return (
     <div className="container-sign-in">
       <div className="wrapper-form-sign-in">
-        <form className="form-sign-in form-base" onSubmit={LoginUser}>
+        <form className="form-sign-in form-base" onSubmit={(e) => { e.preventDefault() }}>
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
             <label htmlFor="login-email">{data?.emailFieldLabel}</label>
@@ -114,7 +120,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
           </div>
           <div className="container-submit col-12 mt-mobile-10">
             <button
-              type="submit"
+              onClick={LoginUser}
               className="bt-submit btn-small-wide btn-red btn-hover-white w-100"
             >
               <i className="icon-profile"></i>

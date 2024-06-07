@@ -10,6 +10,8 @@ const CreateAccount = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [submittingForm, setSubmittingForm] = useState(false);
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -26,8 +28,9 @@ const CreateAccount = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (submittingForm) return;
+    setSubmittingForm(true);
     setErrorMessageVisible(false);
     setSuccessMessageVisible(false);
 
@@ -82,6 +85,10 @@ const CreateAccount = ({
       setMessage("Something Went Wrong");
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
+    } finally {
+      setTimeout(() => {
+        setSubmittingForm(false);
+      }, 1500);
     }
   };
   const togglePassword = () => {
@@ -100,7 +107,7 @@ const CreateAccount = ({
       >
         <form
           className="form-account form-create-account"
-          onSubmit={handleSubmit}
+          onSubmit={(e) => { e.preventDefault() }}
         >
           <input type="hidden" name="subject" value="[account]" />
           <div className="container-input col-lg-3">
@@ -265,7 +272,7 @@ const CreateAccount = ({
 
           <div className="container-submit flex-center col-lg-12 mt-lg-5 mt-mobile-10">
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="bt-submit btn-small-wide btn-red btn-hover-white mt-tablet-10 w-mobile-100"
             >
               <span className="submit-text split-chars">

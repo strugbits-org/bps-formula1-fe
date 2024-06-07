@@ -32,6 +32,7 @@ const Products = ({
   setfilterCollections,
   setfilterCategory,
   handlePopupFilters,
+  loading
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -50,7 +51,7 @@ const Products = ({
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
 
-    
+
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -450,20 +451,19 @@ const Products = ({
                   No Products Found
                 </h6>
               )}
-              {totalCount > pageSize &&
-                filteredProducts.length !== totalCount && (
-                  <div className="flex-center mt-30">
-                    <button
-                      onClick={handleLoadMore}
-                      className="btn-medium btn-red btn-hover-white"
-                      data-aos="fadeIn .8s ease-in-out .2s, d:loop"
-                    >
-                      <div className="split-chars">
-                        <span>Load more</span>
-                      </div>
-                    </button>
-                  </div>
-                )}
+              {filteredProducts.length < totalCount && !loading && (
+                <div className="flex-center mt-30">
+                  <button
+                    onClick={handleLoadMore}
+                    className="btn-medium btn-red btn-hover-white"
+                    data-aos="fadeIn .8s ease-in-out .2s, d:loop"
+                  >
+                    <div className="split-chars">
+                      <span>Load more {JSON.stringify(loading)}</span>
+                    </div>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

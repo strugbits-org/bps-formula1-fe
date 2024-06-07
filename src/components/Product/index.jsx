@@ -35,24 +35,34 @@ export default function ProductIndex({ collectionsData }) {
   const [filtersReady, setFiltersReady] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
+  const [loadingData, setLoadingData] = useState(false);
+
   const handleLoadMore = async () => {
-    const response = await fetchProducts(
-      filterCollections,
-      filterCategory,
-      pageSize,
-      filterColors,
-      productsCollection.length
-    );
-    setProductsCollection((prev) => [
-      ...prev,
-      ...response._items.map((item) => item.data),
-    ]);
-    setProductsResponse(response);
-    updatedWatched();
+    try {
+      setLoadingData(true);
+      const response = await fetchProducts(
+        filterCollections,
+        filterCategory,
+        pageSize,
+        filterColors,
+        productsCollection.length
+      );
+      setProductsCollection((prev) => [
+        ...prev,
+        ...response._items.map((item) => item.data),
+      ]);
+      setProductsResponse(response);
+      updatedWatched();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoadingData(false);
+    }
   };
 
   const handleProductsFilter = async () => {
     try {
+      setLoadingData(true);
       const response = await fetchProducts(
         filterCollections,
         filterCategory,
@@ -64,6 +74,8 @@ export default function ProductIndex({ collectionsData }) {
       markPageLoaded(false);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoadingData(false);
     }
   };
 
@@ -211,6 +223,7 @@ export default function ProductIndex({ collectionsData }) {
       setfilterCollections={setfilterCollections}
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
+      loading={loadingData}
     />
   );
 }
