@@ -27242,7 +27242,7 @@ var require_app2 = __commonJS({
         whenContainerReady();
       });
 
-    document.querySelector(".updateWatched").addEventListener("update", () => {
+    document.querySelector(".updateWatched").addEventListener("click", () => {
       updateWatched();
       productLinkColor();
     });
