@@ -149,7 +149,6 @@ const Navbar = ({ homePageData, collectionsData }) => {
 
     const isProductsPage = pathname === "/products";
     const isAllCategory = id === "all";
-
     if (isProductsPage) {
       if (isAllCategory) {
         if (queryParams.has("category") || queryParams.has("subCategory")) {
@@ -168,7 +167,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
     }
 
     if (!isProductsPage && isAllCategory) {
-      if (collectionName !== null) {
+      if (collectionName) {
         queryParams.set("collection", collectionName);
       }
       router.push(`/products?${queryParams.toString()}`);
@@ -176,7 +175,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
     }
 
     if (!isProductsPage && id !== null) {
-      if (collectionName !== null) {
+      if (collectionName) {
         queryParams.set("collection", collectionName);
       }
       queryParams.set("category", id);

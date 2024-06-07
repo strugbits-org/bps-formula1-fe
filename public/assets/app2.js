@@ -18906,8 +18906,8 @@ var require_app2 = __commonJS({
       let btnReadMore = document.querySelector(
         ".btn-read-more:not(.js-running)"
       );
-      let height = document.querySelector(".text").clientHeight;
-      if (btnReadMore && description) {
+      let height = document.querySelector(".text")?.clientHeight;
+      if (btnReadMore && description && height) {
         description.style.setProperty("--h", height + "px");
 
         btnReadMore.addEventListener("click", function () {
