@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -8,12 +8,12 @@ import { useHash } from "@/hooks/useHash";
 
 const protectedRoutes = [
   /^\/cart$/,
-  /^\/collections$/,
-  /^\/collections-category$/,
-  /^\/products$/,
+  /^\/collections(\/.*)?$/,
+  /^\/collections-category(\/.*)?$/,
+  /^\/products(\/.*)?$/,
   /^\/product(\/.*)?$/,
-  /^\/search$/,
-  /^\/my-account$/,
+  /^\/search(\/.*)?$/,
+  /^\/my-account(\/.*)?$/,
   /^\/my-account-change-password$/,
   /^\/my-account-quotes-history$/,
   /^\/my-account-saved-products$/,
@@ -30,11 +30,13 @@ const Wrapper = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [cookies] = useCookies(["authToken"]);
   const pathname = usePathname();
+  const params = useParams();
   const router = useRouter();
   const hash = useHash();
 
   const path = pathname.trim() === "/" ? "home" : pathname.substring(1);
   const cleanPath = path.split("/")[0].trim();
+
   const isProtectedRoute = protectedRoutes.some((route) =>
     route.test(pathname)
   );
@@ -42,7 +44,7 @@ const Wrapper = ({ children }) => {
   const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
   const authToken = cookies.authToken || getUserAuth();
 
-  
+  console.log(params, isProtectedRoute, "params>>>");
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -115,7 +117,11 @@ const Wrapper = ({ children }) => {
   }
   return (
     <div id="main-transition">
-      <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
+      <div
+        id={`pg-${!isProtectedRoute && !isPublicRoute ? "error" : cleanPath}`}
+        className="wrapper"
+        data-scroll-container
+      >
         {children}
       </div>
     </div>

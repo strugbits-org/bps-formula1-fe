@@ -17,6 +17,7 @@ import "../../public/assets/app.css";
 import Account from "@/components/Account/Index";
 import { Suspense } from "react";
 import CustomScripts from "@/services/CustomScripts";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
