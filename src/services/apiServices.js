@@ -149,6 +149,55 @@ export const getSignInPage = async () => {
   }
 };
 
+
+export const getConfirmEmailPageData = async () => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "ConfirmEmailPageContentF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
+};
+
+export const getResetPasswordPageData = async () => {
+  try {
+    const response = await fetchData({
+      dataCollectionId: "ResetPasswordPageContentF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
+};
+
 export const getCreateAccountForm = async () => {
   try {
     const response = await fetchData({

@@ -21,6 +21,7 @@ const HomePage = ({
   signInPage,
   createAccountPage,
   createAccountDropdown,
+  confirmEmailPageData,
 }) => {
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [redirection, setRedirection] = useState("");
@@ -117,6 +118,7 @@ const HomePage = ({
                 )}
 
                 <ConfirmEmail
+                  confirmEmailPageData={confirmEmailPageData}
                   setErrorMessageVisible={setErrorMessageVisible}
                   setSuccessMessageVisible={setSuccessMessageVisible}
                   setMessage={setMessage}

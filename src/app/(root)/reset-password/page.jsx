@@ -1,7 +1,18 @@
 import ResetPassword from "@/components/ForgotPassword/ResetPassword";
-import { getSignInPage } from "@/services/apiServices";
+import {
+  getResetPasswordPageData,
+  getSignInPage,
+} from "@/services/apiServices";
 
 export default async function Page() {
-  const [signInPage] = await Promise.all([getSignInPage()]);
-  return <ResetPassword signInPage={signInPage} />;
+  const [signInPage, resetPasswordPageData] = await Promise.all([
+    getSignInPage(),
+    getResetPasswordPageData(),
+  ]);
+  return (
+    <ResetPassword
+      signInPage={signInPage}
+      resetPasswordPageData={resetPasswordPageData}
+    />
+  );
 }

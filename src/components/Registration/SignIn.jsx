@@ -1,19 +1,15 @@
 import { useState } from "react";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import Disclaimer from "./Disclaimer";
-import { useRouter } from "next/navigation";
 import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
-  const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
   const LoginUser = async () => {
     if (submittingForm) return;
 
@@ -83,7 +79,12 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   return (
     <div className="container-sign-in">
       <div className="wrapper-form-sign-in">
-        <form className="form-sign-in form-base" onSubmit={(e) => { e.preventDefault() }}>
+        <form
+          className="form-sign-in form-base"
+          onSubmit={(e) => {
+            e.preventDefault();
+          }}
+        >
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
             <label htmlFor="login-email">{data?.emailFieldLabel}</label>
@@ -97,7 +98,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               required
             />
           </div>
-          <ConfirmEmailRouter />
+          <ConfirmEmailRouter data={data} />
           <div className="container-input container-input-password col-12">
             <label htmlFor="login-password">{data?.passwordFieldLabel}</label>
             <input
