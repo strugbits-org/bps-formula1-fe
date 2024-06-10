@@ -1,10 +1,10 @@
-import fetchData from "./fetchFunction";
+import { getDataFetchFunction } from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
 export const getBackgroundImages = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BackgroundImagesF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -29,7 +29,7 @@ export const getBackgroundImages = async () => {
 
 export const getModalLogos = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ModalLogos",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -54,7 +54,7 @@ export const getModalLogos = async () => {
 // HOME PAGE APIS
 export const getHomePageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HomePageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -78,7 +78,7 @@ export const getHomePageData = async () => {
 
 export const getHomeBottomRightSocialLinks = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SocialMediaLinksF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -102,7 +102,7 @@ export const getHomeBottomRightSocialLinks = async () => {
 
 export const getHomeBottomLeftLink = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HomePageBottomLeftLinksF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -127,7 +127,7 @@ export const getHomeBottomLeftLink = async () => {
 // REGISTRATION PAGE APIS
 export const getSignInPage = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SignInPageF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -149,10 +149,9 @@ export const getSignInPage = async () => {
   }
 };
 
-
 export const getConfirmEmailPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ConfirmEmailPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -176,7 +175,7 @@ export const getConfirmEmailPageData = async () => {
 
 export const getResetPasswordPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ResetPasswordPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -200,7 +199,7 @@ export const getResetPasswordPageData = async () => {
 
 export const getCreateAccountForm = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CreateAccountPageF11",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -224,7 +223,7 @@ export const getCreateAccountForm = async () => {
 
 export const getCreateAccountDropdown = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -248,7 +247,7 @@ export const getCreateAccountDropdown = async () => {
 // GALLERY PAGE APIS
 export const getGalleryPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "GalleryPageF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -272,7 +271,7 @@ export const getGalleryPageData = async () => {
 // COLLECTIONS DATA
 export const getCollectionsData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -297,7 +296,7 @@ export const getCollectionsData = async () => {
 
 export const getSubCategory = async (id) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection", "level2Collections"],
       returnTotalCount: null,
@@ -326,7 +325,7 @@ export const getSubCategory = async (id) => {
 
 export const getProductsListing = async (selectedCollectionId) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection"],
       returnTotalCount: null,
@@ -356,7 +355,7 @@ export const getProductsListing = async (selectedCollectionId) => {
 
 export const getSelectedCollectionData = async (slug) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -387,7 +386,7 @@ export const getSelectedCollectionData = async (slug) => {
 // CATEGORY DATA
 export const getCategoriesData = async (collectionsIds) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["f1Collections", "parentCollection"],
       returnTotalCount: null,
@@ -421,7 +420,7 @@ export const getCategoriesData = async (collectionsIds) => {
 
 export const getSelectedCategoryData = async (slug) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection", "level2Collections"],
       returnTotalCount: null,
@@ -451,7 +450,7 @@ export const getSelectedCategoryData = async (slug) => {
 
 export const getCollectionColors = async (category) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "colorFilterCache",
       returnTotalCount: null,
       contains: null,
@@ -479,7 +478,7 @@ export const getCollectionColors = async (category) => {
 
 export const getFilterCategory = async (selectedCollectionId) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection"],
       returnTotalCount: null,
@@ -508,7 +507,7 @@ export const getFilterCategory = async (selectedCollectionId) => {
 // COLLECTIONS PAGE API
 export const getCollectionsPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -532,7 +531,7 @@ export const getCollectionsPageData = async () => {
 // COLLECTIONS POST PAGE DATA
 export const getCollectionsPostPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsPostPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -556,7 +555,7 @@ export const getCollectionsPostPageData = async () => {
 // PRODUCT POST PAGE APIS
 export const getProductPostPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ProductPostPageF1",
       returnTotalCount: null,
       contains: null,
@@ -579,7 +578,7 @@ export const getProductPostPageData = async () => {
 
 export const getSelectedProductId = async (slug) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "Stores/Products",
       returnTotalCount: null,
       contains: null,
@@ -607,7 +606,7 @@ export const getSelectedProductId = async (slug) => {
 
 export const getSelectedProductDetails = async (slug) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: [
         "category",
@@ -650,7 +649,7 @@ export const getSelectedProductDetails = async (slug) => {
 
 export const getPairItWithProductsId = async (slug) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BPSPairItWith",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -679,7 +678,7 @@ export const getPairItWithProductsId = async (slug) => {
 
 export const getPairItWithProducts = async (productIds) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: [
         "category",
@@ -722,7 +721,7 @@ export const getPairItWithProducts = async (productIds) => {
 
 export const getProductVariants = async (id) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "Stores/Variants",
       returnTotalCount: null,
       contains: null,
@@ -751,7 +750,7 @@ export const getProductVariants = async (id) => {
 
 export const getProductSnapShots = async (id) => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BPSProductImages",
       returnTotalCount: null,
       contains: null,
@@ -781,7 +780,7 @@ export const getProductSnapShots = async (id) => {
 // TERMS AND CONDITIONS APIS
 export const getTermsAndConditionsPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "TermsandConditionsPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -806,7 +805,7 @@ export const getTermsAndConditionsPageData = async () => {
 // PRIVACY AND POLICY APIS
 export const getPrivacyAndPolicyPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "PrivacyandPolicyPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -831,7 +830,7 @@ export const getPrivacyAndPolicyPageData = async () => {
 // FOOTER APIS
 export const getFooterData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "FooterDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -856,7 +855,7 @@ export const getFooterData = async () => {
 
 export const getFooterLinksData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "FooterLinksDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -881,7 +880,7 @@ export const getFooterLinksData = async () => {
 // USER ACCOUNT APIS
 export const getMyAccountPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "MyAccountPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -905,7 +904,7 @@ export const getMyAccountPageData = async () => {
 };
 export const getChangePasswordPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ChangePasswordPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -929,7 +928,7 @@ export const getChangePasswordPageData = async () => {
 };
 export const getQuoteHistoryPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "QuotesHistoryPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -953,7 +952,7 @@ export const getQuoteHistoryPageData = async () => {
 };
 export const getSavedProductPageData = async () => {
   try {
-    const response = await fetchData({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SavedProductPageData",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -1057,7 +1056,7 @@ export const fetchProducts = async (
       });
     }
 
-    const response = await fetchData(payload);
+    const response = await getDataFetchFunction(payload);
     if (response) {
       return response;
     } else {
@@ -1112,7 +1111,7 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
       });
     }
 
-    const response = await fetchData(payload);
+    const response = await getDataFetchFunction(payload);
 
     if (response) {
       return response;

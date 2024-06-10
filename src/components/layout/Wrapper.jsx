@@ -24,6 +24,7 @@ const publicRoutes = [
   /^\/gallery$/,
   /^\/terms-and-condition$/,
   /^\/privacy-and-policy$/,
+  /^\/reset-password$/,
 ];
 
 const Wrapper = ({ children }) => {
@@ -44,6 +45,7 @@ const Wrapper = ({ children }) => {
   const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
   const authToken = cookies.authToken || getUserAuth();
 
+  console.log(isPublicRoute, "isPublicRoute>>");
   useEffect(() => {
     if (!isProtectedRoute && !isPublicRoute) {
       router.push("/error");
