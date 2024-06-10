@@ -32,7 +32,8 @@ const Products = ({
   setfilterCollections,
   setfilterCategory,
   handlePopupFilters,
-  loading
+  loading,
+  savedProductsData,
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -50,7 +51,6 @@ const Products = ({
   const [categoryTitle, setCategoryTitle] = useState("");
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
@@ -302,6 +302,7 @@ const Products = ({
                           <SaveProductButton
                             productId={product._id}
                             members={f1Members}
+                            savedProductsData={savedProductsData}
                           />
                         </div>
                         <AnimateLink
