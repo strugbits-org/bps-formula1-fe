@@ -37,6 +37,7 @@ export default function ProductIndex({ collectionsData }) {
 
   const [loadingData, setLoadingData] = useState(false);
 
+  console.log(filterCategory, "filterCategory>>");
   const handleLoadMore = async () => {
     try {
       setLoadingData(true);
@@ -61,6 +62,7 @@ export default function ProductIndex({ collectionsData }) {
   };
 
   const handleProductsFilter = async () => {
+    console.log("sel?>>>>>>>>>>>>>>>>>>>>");
     try {
       setLoadingData(true);
       const response = await fetchProducts(
@@ -121,6 +123,7 @@ export default function ProductIndex({ collectionsData }) {
 
       if (categoryChanged) {
         const data = await getSelectedCategoryData(category);
+        console.log(data, "res data>?>?>?>?");
         setSelectedCategoryData(data);
         setFilterCategoryData(data);
       }
@@ -132,6 +135,8 @@ export default function ProductIndex({ collectionsData }) {
       if (colorData && colorData.colors) {
         colors = colorData.colors;
       }
+      console.log("handleRouterChange if subCategory>>>");
+
       setfilterCategory([subCategory]);
     } else if (category) {
       const colorData = await getCollectionColors(category);
@@ -165,16 +170,21 @@ export default function ProductIndex({ collectionsData }) {
 
   const setFilterCategoryData = (data) => {
     if (data.length !== 0) {
-      let filterCategories;
-      if (data[0].level2Collections.length !== 0) {
-        filterCategories = data[0].level2Collections
-          .filter((x) => x._id)
-          .map((x) => x._id);
-      } else {
-        filterCategories = [data[0].parentCollection._id];
-      }
+      // let filterCategories;
+      // if (data[0].level2Collections.length !== 0) {
+      //   filterCategories = data[0].level2Collections
+      //     .filter((x) => x._id)
+      //     .map((x) => x._id);
+      // } else {
+      //   filterCategories = [data[0].parentCollection._id];
+      // }
+
+      let filterCategories = [data[0].parentCollection._id];
+
       setfilterCategory(filterCategories);
     } else {
+      console.log("setFilterCategoryData else>>>");
+
       setfilterCategory([]);
     }
   };
@@ -204,10 +214,12 @@ export default function ProductIndex({ collectionsData }) {
       } else {
         filterCategories = [selectedCategoryData[0].parentCollection._id];
       }
+      console.log("handlePopupFilters if>>>");
+
       setfilterCategory(filterCategories);
     }
     setReloadTrigger((prev) => !prev);
-  }
+  };
 
   return (
     <Products

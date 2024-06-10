@@ -1056,6 +1056,7 @@ export const fetchProducts = async (
       });
     }
 
+
     const response = await getDataFetchFunction(payload);
     if (response) {
       return response;

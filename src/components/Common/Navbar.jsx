@@ -8,13 +8,13 @@ import { useCookies } from "react-cookie";
 import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
 import { getCategoriesData } from "@/services/apiServices";
-import { useHash } from "@/hooks/useHash";
 
 const Navbar = ({ homePageData, collectionsData }) => {
-  const params = useParams();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const params = useParams();
+
   const collection = searchParams.get("collection");
   const category = searchParams.get("category");
 
@@ -50,7 +50,9 @@ const Navbar = ({ homePageData, collectionsData }) => {
       const _selectedCategory = res.find(
         (x) => x.parentCollection._id === category
       )?.parentCollection?.name;
-      if (_selectedCategory && !collectionSlug) setSelectedCategory(_selectedCategory);
+
+      if (_selectedCategory && !collectionSlug)
+        setSelectedCategory(_selectedCategory);
       setCategoriesData(res);
       return res;
     } catch (error) {
@@ -94,7 +96,9 @@ const Navbar = ({ homePageData, collectionsData }) => {
     }
 
     if (params.slug) {
-      const paramsCollection = collectionsData.find((x) => x.collectionSlug === params.slug);
+      const paramsCollection = collectionsData.find(
+        (x) => x.collectionSlug === params.slug
+      );
       setSelectedCollection({
         collectionName: paramsCollection?.collectionName,
         collectionSlug: paramsCollection?.collectionSlug,
@@ -197,7 +201,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
       setTimeout(() => {
         router.push("/search?for=" + searchTerm);
       }, 1000);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {

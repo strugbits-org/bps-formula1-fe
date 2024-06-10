@@ -9,12 +9,17 @@ import {
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/apiServices";
+import { redirect } from "next/navigation";
 
 export default async function Page({ params }) {
   const slug = params.slug;
   const res = await getSelectedProductId(slug);
-  const selectedProductId = res[0]._id;
-
+  let selectedProductId;
+  if (!res) {
+    selectedProductId = res[0]._id;
+  } else {
+    redirect("/error");
+  }
   let pairedProductIds;
   let productVariantsData;
   let dataMap;

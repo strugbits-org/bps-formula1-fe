@@ -29,7 +29,6 @@ export const fetchData = async (bodyData) => {
 
 export const getDataFetchFunction = async (bodyData) => {
   const authToken = getToken();
-
   const paramsData = JSON.stringify(bodyData);
   try {
     const headers = {
