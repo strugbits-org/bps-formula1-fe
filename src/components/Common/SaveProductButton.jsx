@@ -7,6 +7,7 @@ export const SaveProductButton = ({
   members,
   dataAos,
   onUnSave,
+  savedProductsData,
 }) => {
   const [productSaved, setProductSaved] = useState(false);
   const [error, setError] = useState("");
@@ -14,10 +15,14 @@ export const SaveProductButton = ({
   const authToken = getUserAuth();
 
   useEffect(() => {
-    if (members && members.length > 0) {
-      setProductSaved(members.includes(memberId));
+    console.log("savedProductsData", productId, savedProductsData);
+    if ((members && members.length > 0) || savedProductsData?.length) {
+      setProductSaved(
+        members?.includes(memberId) ||
+          savedProductsData?.some((i) => i?.product?._id === productId)
+      );
     }
-  }, [members, memberId]);
+  }, [members, memberId, savedProductsData]);
 
   const handleProductSaveToggle = async (productId, isSaving) => {
     const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
