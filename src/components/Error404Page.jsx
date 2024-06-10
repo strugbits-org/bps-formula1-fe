@@ -1,4 +1,15 @@
-const Error404Page = () => {
+"use client";
+import { useEffect } from "react";
+import SocialLinks from "./Common/SocialLinks";
+import { checkParameters } from "@/utils/CheckParams";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
+import AnimateLink from "./Common/AnimateLink";
+
+const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
+  useEffect(() => {
+    const params = [leftSectionLinks, rightSectionIcons];
+    if (checkParameters(params)) markPageLoaded();
+  }, [leftSectionLinks, rightSectionIcons]);
   return (
     <>
       <section className="section-error section-intro" data-aos="d:loop">
@@ -45,44 +56,22 @@ const Error404Page = () => {
         <div className="container-fluid container-footer no-phone">
           <div className="row row-1">
             <div className="col-lg-3 col-md-6 offset-lg-1 column-1">
-              <a
-                href="privacy-policy.html"
-                className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
-              >
-                <span>Privacy Policy</span>
-              </a>
-              <a
-                href="https://www.blueprintstudios.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="fs--14 font-3 text-uppercase btn-underline-gray"
-              >
-                <span>© BLUEPRINT STUDIOS 2023</span>
-              </a>
+              {leftSectionLinks &&
+                leftSectionLinks.map((data, index) => {
+                  const { links, title } = data;
+                  return (
+                    <AnimateLink
+                      key={index}
+                      to={links || ""}
+                      className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
+                    >
+                      <span>{title}</span>
+                    </AnimateLink>
+                  );
+                })}
             </div>
             <div className="col-lg-2 col-md-6 offset-lg-5 column-2">
-              <ul className="list-social-media">
-                <li>
-                  <a href="index.html" className="link-social-media">
-                    <i className="icon-facebook"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="index.html" className="link-social-media">
-                    <i className="icon-instagram"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="index.html" className="link-social-media">
-                    <i className="icon-x"></i>
-                  </a>
-                </li>
-                <li>
-                  <a href="index.html" className="link-social-media">
-                    <i className="icon-linkedin"></i>
-                  </a>
-                </li>
-              </ul>
+              <SocialLinks data={rightSectionIcons} />
             </div>
           </div>
         </div>

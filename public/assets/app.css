@@ -8956,6 +8956,10 @@ html.with-fancybox body.hide-scrollbar {
 [data-pg=pg-error] #footer {
   display: none;
 }
+/* .section-error{
+  display: none;
+
+} */
 .section-terms {
   position: relative;
 }

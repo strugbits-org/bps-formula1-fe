@@ -44,8 +44,11 @@ const Wrapper = ({ children }) => {
   const isPublicRoute = publicRoutes.some((route) => route.test(pathname));
   const authToken = cookies.authToken || getUserAuth();
 
-  console.log(params, isProtectedRoute, "params>>>");
-
+  useEffect(() => {
+    if (!isProtectedRoute && !isPublicRoute) {
+      router.push("/error");
+    }
+  }, [isProtectedRoute, isPublicRoute, router]);
   useEffect(() => {
     if (typeof document !== "undefined") {
       setAuthToken(authToken);
@@ -117,11 +120,7 @@ const Wrapper = ({ children }) => {
   }
   return (
     <div id="main-transition">
-      <div
-        id={`pg-${!isProtectedRoute && !isPublicRoute ? "error" : cleanPath}`}
-        className="wrapper"
-        data-scroll-container
-      >
+      <div id={`pg-${cleanPath}`} className="wrapper" data-scroll-container>
         {children}
       </div>
     </div>
