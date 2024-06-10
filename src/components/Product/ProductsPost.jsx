@@ -207,6 +207,7 @@ const ProductPost = ({
                                       fit: "fill",
                                       q: "95",
                                     })}
+                                    style={{ padding: "80px" }}
                                     data-preload
                                     class="media"
                                     alt={`product-${index}`}
@@ -259,6 +260,7 @@ const ProductPost = ({
                                           fit: "fill",
                                           q: "95",
                                         })}
+                                        style={{ padding: "20px" }}
                                         data-preload
                                         class="media"
                                         alt={`product-thumb-${index}`}
