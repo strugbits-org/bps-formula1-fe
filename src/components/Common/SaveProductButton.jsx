@@ -2,11 +2,17 @@ import useUserData from "@/hooks/useUserData";
 import { getUserAuth } from "@/utils/GetUser";
 import { useState, useEffect } from "react";
 
-export const SaveProductButton = ({ productId, members, dataAos, onUnSave }) => {
-  const authToken = getUserAuth();
-  const { memberId } = useUserData();
+export const SaveProductButton = ({
+  productId,
+  members,
+  dataAos,
+  onUnSave,
+}) => {
   const [productSaved, setProductSaved] = useState(false);
   const [error, setError] = useState("");
+  const { memberId } = useUserData();
+  const authToken = getUserAuth();
+
   useEffect(() => {
     if (members && members.length > 0) {
       setProductSaved(members.includes(memberId));
@@ -33,13 +39,14 @@ export const SaveProductButton = ({ productId, members, dataAos, onUnSave }) => 
       }
 
       const dat = await response.json();
-      console.log(dat, "called");
       if (!isSaving && onUnSave) {
-        console.log("if>>>>>");
         onUnSave(productId);
       }
     } catch (error) {
-      console.error(`Error ${isSaving ? "saving" : "unsaving"} product:`, error);
+      console.error(
+        `Error ${isSaving ? "saving" : "unsaving"} product:`,
+        error
+      );
       if (isSaving) {
         setError("saving");
         setProductSaved(false);

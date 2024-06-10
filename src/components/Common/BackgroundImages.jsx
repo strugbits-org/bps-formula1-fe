@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { getBackgroundImages } from "@/services/apiServices";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 
-const BackgroundImages = ({ pageSlug }) => {
+const BackgroundImages = ({ pageSlug, extraClasses }) => {
   const [data, setData] = useState(null);
 
   const getData = async () => {
@@ -48,7 +48,7 @@ const BackgroundImages = ({ pageSlug }) => {
   }
 
   return (
-    <div className="container-img">
+    <div className={`container-img ${extraClasses}`}>
       <img
         src={firstImageUrl}
         data-preload

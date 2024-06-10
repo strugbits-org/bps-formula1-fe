@@ -2,7 +2,7 @@
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "../Common/AnimateLink";
 import useUserData from "@/hooks/useUserData";
-
+import { useCookies } from "react-cookie";
 
 const links = [
   { name: "My Account", icon: "icon-account", href: "/my-account" },
@@ -25,24 +25,19 @@ const links = [
 
 const Account = () => {
   const { firstName } = useUserData();
-
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "authToken",
+    "userData",
+    "cartQuantity",
+  ]);
   const handleLogOut = () => {
     pageLoadStart();
     try {
-      const loggedIn = document.cookie
-        .split(";")
-        .some((item) => item.trim().startsWith("authToken"));
+      const loggedIn = cookies.authToken !== undefined;
       if (loggedIn) {
-        document.cookie =
-          "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie =
-          "userData=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        document.cookie =
-          "cartQuantity=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        // setTimeout(() => {
-        //   router.push("/");
-        //   document.body.setAttribute("data-login-state", "");
-        // }, 4000);
+        removeCookie("authToken", { path: "/" });
+        removeCookie("userData", { path: "/" });
+        removeCookie("cartQuantity", { path: "/" });
       }
     } catch (error) {
       console.log("Error:", error);

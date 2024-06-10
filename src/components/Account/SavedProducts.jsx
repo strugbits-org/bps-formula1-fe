@@ -1,9 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AddToCartModal from "../Product/AddToCartModal";
+import { checkParameters } from "@/utils/CheckParams";
 import SuccessModal from "../Common/SuccessModal";
 import AnimateLink from "../Common/AnimateLink";
+import { getUserAuth } from "@/utils/GetUser";
 import ErrorModal from "../Common/ErrorModal";
 import {
   getProductSnapShots,
@@ -15,25 +18,21 @@ import {
   resetSlideIndex,
   updatedWatched,
 } from "@/utils/AnimationFunctions";
-import { getUserAuth } from "@/utils/GetUser";
-import { ProductListItem } from "../Common/ProductListItem";
-import { checkParameters } from "@/utils/CheckParams";
 
 const SavedProducts = ({ savedProductPageData, savedProductData }) => {
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
+  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
   const pageSize = 20;
   let totalCount;
 
   const handleUnSaveProduct = (productId) => {
-    console.log(savedProductsData, "savedProductsData>>>>>>>");
     setSavedProductsData((prevData) =>
       prevData.filter((productData) => productData.product._id !== productId)
     );
@@ -66,7 +65,6 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
   }, [savedProductPageData, savedProductData]);
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
-    console.log(productData, "productData>>>>>>");
     try {
       const product_id = productData.product._id;
       const [productSnapshotData, productVariantsData] = await Promise.all([
@@ -138,7 +136,6 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
     resetSlideIndex();
   };
 
-  console.log(savedProductData, "savedProductData>>");
   return (
     <>
       <section className="my-account-intro section-saved-products">

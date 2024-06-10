@@ -1,18 +1,18 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { generateImageURL, getFullSvgURL } from "@/utils/GenerateImageURL";
+import { markPageLoaded } from "@/utils/AnimationFunctions";
 import CreateAccount from "../Registration/CreateAccount";
 import SocialLinks from "@/components/Common/SocialLinks";
+import ConfirmEmail from "../ForgotPassword/ConfirmEmail";
+import { checkParameters } from "@/utils/CheckParams";
 import SuccessModal from "../Common/SuccessModal";
+import AnimateLink from "../Common/AnimateLink";
 import RenderVideo from "@/utils/RenderVideo";
 import ErrorModal from "../Common/ErrorModal";
 import SignIn from "../Registration/SignIn";
-import { markPageLoaded } from "@/utils/AnimationFunctions";
-import { checkParameters } from "@/utils/CheckParams";
-import ConfirmEmail from "../ForgotPassword/ConfirmEmail";
-import { useRouter } from "next/navigation";
-import AnimateLink from "../Common/AnimateLink";
 
 const HomePage = ({
   homePageData,

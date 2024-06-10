@@ -1,8 +1,10 @@
 "use client";
 import { useEffect } from "react";
-import SocialLinks from "./Common/SocialLinks";
-import { checkParameters } from "@/utils/CheckParams";
+
 import { markPageLoaded } from "@/utils/AnimationFunctions";
+import BackgroundImages from "./Common/BackgroundImages";
+import { checkParameters } from "@/utils/CheckParams";
+import SocialLinks from "./Common/SocialLinks";
 import AnimateLink from "./Common/AnimateLink";
 
 const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
@@ -76,14 +78,7 @@ const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
           </div>
         </div>
         <div className="bg-img" data-aos="d:loop">
-          <div className="container-img bg-img">
-            <img
-              src="/images/home/img-01.jpg"
-              data-preload
-              className="media"
-              alt="product"
-            />
-          </div>
+          <BackgroundImages pageSlug="error" extraClasses="bg-img" />
         </div>
       </section>
 

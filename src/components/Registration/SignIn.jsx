@@ -1,15 +1,19 @@
+import { useCookies } from "react-cookie";
 import { useState } from "react";
+
+import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import Disclaimer from "./Disclaimer";
-import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [cookies, setCookie] = useCookies(["authToken", "userData"]);
   const [submittingForm, setSubmittingForm] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
   const LoginUser = async (e) => {
     e.preventDefault();
     if (submittingForm) return;
@@ -37,25 +41,21 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         setErrorMessageVisible(true);
         return;
       }
-
       const data = await response.json();
       const userToken = data.data.jwtToken;
       const userData = JSON.stringify(data.data.member);
-      document.cookie = `authToken=${userToken}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-      document.cookie = `userData=${encodeURIComponent(
-        userData
-      )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+      setCookie("authToken", userToken, {
+        path: "/",
+        expires: new Date("2099-01-01"),
+      });
+      setCookie("userData", userData, {
+        path: "/",
+        expires: new Date("2099-01-01"),
+      });
 
-      const loggedIn = document.cookie
-        .split(";")
-        .some((item) => item.trim().startsWith("authToken"));
+      const loggedIn = cookies.authToken !== undefined;
       if (loggedIn) {
         pageLoadStart();
-        // setTimeout(() => {
-        //   console.log("Redirected");
-        //   router.replace("/collections");
-        //   document.body.setAttribute("data-login-state", "logged");
-        // }, 2000);
       }
     } catch (error) {
       console.log("Error during login:", error);
@@ -80,10 +80,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   return (
     <div className="container-sign-in">
       <div className="wrapper-form-sign-in">
-        <form
-          className="form-sign-in form-base"
-          onSubmit={LoginUser}
-        >
+        <form className="form-sign-in form-base" onSubmit={LoginUser}>
           <input type="hidden" name="login" value="[Login]" />
           <div className="container-input col-12">
             <label htmlFor="login-email">{data?.emailFieldLabel}</label>

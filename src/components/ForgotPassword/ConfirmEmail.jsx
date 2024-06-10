@@ -32,7 +32,6 @@ const ConfirmEmail = (props) => {
       if (!response.ok) {
         const data = await response.json();
 
-        // console.log("!data", data);
         setMessage(data.message);
         setErrorMessageVisible(true);
         return;
