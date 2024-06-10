@@ -26,6 +26,7 @@ const ProductPost = ({
   matchedProductsData,
   collectionsData,
   productSnapshots,
+  savedProductsData,
 }) => {
   const router = useRouter();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -151,9 +152,11 @@ const ProductPost = ({
       matchedProductsData,
       collectionsData,
       productSnapshots,
+      savedProductsData,
     ];
     if (checkParameters(params)) {
       markPageLoaded();
+      console.log("selectedProductDetails", selectedProductDetails);
     }
   }, [
     productPostPageData,
@@ -161,6 +164,7 @@ const ProductPost = ({
     matchedProductsData,
     collectionsData,
     productSnapshots,
+    savedProductsData,
   ]);
 
   const updatedDescription = selectedProductDetails.product.description.replace(
@@ -321,6 +325,7 @@ const ProductPost = ({
                       productId={selectedProductDetails.product._id}
                       members={selectedProductDetails.f1Members}
                       dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                      savedProductsData={savedProductsData}
                     />
                   </div>
                   <ul

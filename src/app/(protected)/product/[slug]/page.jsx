@@ -6,13 +6,23 @@ import {
   getProductPostPageData,
   getProductSnapShots,
   getProductVariants,
+  getSavedProductData,
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/apiServices";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 export default async function Page({ params }) {
   const slug = params.slug;
+  const cookieStore = cookies();
+  const authToken = cookieStore.get("authToken")?.value;
+
+  const data = {
+    limit: "20",
+    skip: "0",
+  };
+
   const res = await getSelectedProductId(slug);
   let selectedProductId;
   if (!res) {
@@ -38,12 +48,14 @@ export default async function Page({ params }) {
     matchedProductsData,
     collectionsData,
     productSnapshots,
+    savedProductsData,
   ] = await Promise.all([
     getProductPostPageData(),
     getSelectedProductDetails(selectedProductId),
     getPairItWithProducts(pairedProductIds),
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
+    getSavedProductData(data, authToken),
   ]);
 
   let filteredVariantData;
@@ -65,6 +77,17 @@ export default async function Page({ params }) {
       matchedProductsData={matchedProductsData}
       collectionsData={collectionsData}
       productSnapshots={productSnapshots}
+      savedProductsData={savedProductsData}
     />
   );
 }
+
+// import { cookies } from "next/headers";
+//  const cookieStore = cookies();
+//   const authToken = cookieStore.get("authToken")?.value;
+
+//   const data = {
+//     limit: "20",
+//     skip: "0",
+//   };
+// getSavedProductData(data, authToken)

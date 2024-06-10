@@ -6,15 +6,12 @@ import {
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
-import {
-  markPageLoaded,
-  updatedWatched,
-} from "@/utils/AnimationFunctions";
+import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
 import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ collectionsData }) {
+export default function ProductIndex({ collectionsData, savedProductsData }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
 
@@ -236,6 +233,7 @@ export default function ProductIndex({ collectionsData }) {
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
       loading={loadingData}
+      savedProductsData={savedProductsData}
     />
   );
 }
