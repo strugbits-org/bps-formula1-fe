@@ -1,37 +1,32 @@
+"use client";
 import { useState, useEffect } from "react";
-
-function getCookie(name) {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-}
+import { useCookies } from "react-cookie";
 
 function useUserData() {
-  const [userData, setUserData] = useState(null);
+  const [signedUserData, setUserData] = useState(null);
+  const [cookies] = useCookies(["userData"]);
 
-useEffect(() => {
-  const userDataCookie = getCookie("userData");
-  if (userDataCookie) {
-    try {
-      const parsedUserData = JSON.parse(decodeURIComponent(userDataCookie));
-      setUserData(parsedUserData);
-    } catch (error) {
-      console.error("Error parsing user data from cookie", error);
+  useEffect(() => {
+    if (cookies) {
+      try {
+        setUserData(cookies.userData);
+      } catch (error) {
+        console.error("Error parsing user data from cookie", error);
+      }
     }
-  }
-}, []);
+  }, [cookies]);
 
-return {
-  userData,
-  id: userData?._id,
-  email: userData?.email,
-  firstName: userData?.firstName,
-  lastName: userData?.lastName,
-  phone: userData?.phone,
-  company: userData?.company,
-  hospitalityLoc: userData?.hospitalityLoc,
-  memberId: userData?.memberId,
-};
+  return {
+    signedUserData,
+    id: signedUserData?._id,
+    email: signedUserData?.email,
+    firstName: signedUserData?.firstName,
+    lastName: signedUserData?.lastName,
+    phone: signedUserData?.phone,
+    company: signedUserData?.company,
+    hospitalityLoc: signedUserData?.hospitalityLoc,
+    memberId: signedUserData?.memberId,
+  };
 }
 
 export default useUserData;

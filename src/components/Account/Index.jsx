@@ -2,7 +2,7 @@
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "../Common/AnimateLink";
 import useUserData from "@/hooks/useUserData";
-import { useRouter } from "next/navigation";
+
 
 const links = [
   { name: "My Account", icon: "icon-account", href: "/my-account" },
@@ -24,8 +24,7 @@ const links = [
 ];
 
 const Account = () => {
-  const router = useRouter();
-  const { firstName, memberId, email } = useUserData();
+  const { firstName } = useUserData();
 
   const handleLogOut = () => {
     pageLoadStart();
