@@ -156,7 +156,6 @@ const ProductPost = ({
     ];
     if (checkParameters(params)) {
       markPageLoaded();
-      console.log("selectedProductDetails", selectedProductDetails);
     }
   }, [
     productPostPageData,

@@ -34,7 +34,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
 
   const [loadingData, setLoadingData] = useState(false);
 
-  console.log(filterCategory, "filterCategory>>");
   const handleLoadMore = async () => {
     try {
       setLoadingData(true);
@@ -59,7 +58,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
   };
 
   const handleProductsFilter = async () => {
-    console.log("sel?>>>>>>>>>>>>>>>>>>>>");
     try {
       setLoadingData(true);
       const response = await fetchProducts(
@@ -120,7 +118,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
 
       if (categoryChanged) {
         const data = await getSelectedCategoryData(category);
-        console.log(data, "res data>?>?>?>?");
         setSelectedCategoryData(data);
         setFilterCategoryData(data);
       }
@@ -132,7 +129,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
       if (colorData && colorData.colors) {
         colors = colorData.colors;
       }
-      console.log("handleRouterChange if subCategory>>>");
 
       setfilterCategory([subCategory]);
     } else if (category) {
@@ -180,8 +176,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
 
       setfilterCategory(filterCategories);
     } else {
-      console.log("setFilterCategoryData else>>>");
-
       setfilterCategory([]);
     }
   };
@@ -211,7 +205,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
       } else {
         filterCategories = [selectedCategoryData[0].parentCollection._id];
       }
-      console.log("handlePopupFilters if>>>");
 
       setfilterCategory(filterCategories);
     }

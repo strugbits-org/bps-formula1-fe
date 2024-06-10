@@ -15,7 +15,6 @@ export const SaveProductButton = ({
   const authToken = getUserAuth();
 
   useEffect(() => {
-    console.log("savedProductsData", productId, savedProductsData);
     if ((members && members.length > 0) || savedProductsData?.length) {
       setProductSaved(
         members?.includes(memberId) ||
