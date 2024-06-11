@@ -1012,7 +1012,6 @@ export const getSavedProductData = async (payload) => {
         "Content-Type": "application/json",
         Authorization: authToken,
       },
-      cache: "force-cache",
       body: JSON.stringify(payload),
     });
     if (!response.ok) {

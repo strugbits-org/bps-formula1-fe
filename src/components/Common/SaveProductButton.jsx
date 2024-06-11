@@ -64,12 +64,14 @@ export const SaveProductButton = ({
   };
 
   const handleClick = () => {
-    if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
-      const data = savedProductsData.filter((x) => x.product._id !== productId);
-      setSavedProductsData(data);
-    } else {
-      const data = [...savedProductsData, productData];
-      setSavedProductsData(data);
+    if (setSavedProductsData) {
+      if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
+        const data = savedProductsData.filter((x) => x.product._id !== productId);
+        setSavedProductsData(data);
+      } else {
+        const data = [...savedProductsData, productData];
+        setSavedProductsData(data);
+      }
     }
     handleProductSaveToggle(productId, !productSaved);
   };
