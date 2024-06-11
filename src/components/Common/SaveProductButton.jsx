@@ -19,7 +19,7 @@ export const SaveProductButton = ({
   useEffect(() => {
     if ((members && members.length > 0) || savedProductsData?.length) {
       setProductSaved(
-        members?.includes(memberId) ||
+        // members?.includes(memberId) ||
         savedProductsData?.some((i) => i?.product?._id === productId)
       );
     }
