@@ -1,8 +1,12 @@
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+
 import ProductPost from "@/components/Product/ProductsPost";
 import {
   getCollectionsData,
   getPairItWithProducts,
   getPairItWithProductsId,
+  getProductFound,
   getProductPostPageData,
   getProductSnapShots,
   getProductVariants,
@@ -10,8 +14,6 @@ import {
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/apiServices";
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 export default async function Page({ params }) {
   const slug = params.slug;
@@ -31,6 +33,7 @@ export default async function Page({ params }) {
   } else {
     redirect("/error");
   }
+
   let pairedProductIds;
   let productVariantsData;
   let dataMap;
@@ -50,6 +53,7 @@ export default async function Page({ params }) {
     collectionsData,
     productSnapshots,
     savedProductsData,
+    productFound,
   ] = await Promise.all([
     getProductPostPageData(),
     getSelectedProductDetails(selectedProductId),
@@ -57,6 +61,7 @@ export default async function Page({ params }) {
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
     getSavedProductData(data, authToken),
+    getProductFound(),
   ]);
 
   let filteredVariantData;
@@ -79,16 +84,7 @@ export default async function Page({ params }) {
       collectionsData={collectionsData}
       productSnapshots={productSnapshots}
       savedProductsData={savedProductsData}
+      productFoundData={productFound}
     />
   );
 }
-
-// import { cookies } from "next/headers";
-//  const cookieStore = cookies();
-//   const authToken = cookieStore.get("authToken")?.value;
-
-//   const data = {
-//     limit: "20",
-//     skip: "0",
-//   };
-// getSavedProductData(data, authToken)

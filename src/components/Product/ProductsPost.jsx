@@ -27,6 +27,7 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
   savedProductsData,
+  productFoundData,
 }) => {
   const router = useRouter();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
@@ -58,6 +59,13 @@ const ProductPost = ({
     }
     resetSlideIndex();
   };
+
+  const productFondFilteredData = productFoundData.filter((data) => {
+    const parentCollectionId = data.parentCollection._id;
+    return selectedProductDetails.subCategory.some(
+      (collection) => collection._id === parentCollectionId
+    );
+  });
 
   useEffect(() => {
     if (selectedProductDetails && productSnapshots) {
@@ -577,40 +585,33 @@ const ProductPost = ({
                 )}
 
               {/* PRODUCT FOUND */}
-              {selectedProductDetails &&
-                selectedProductDetails.subCategory.length > 0 && (
-                  <div
-                    class="container-info-text mt-lg-25 mt-tablet-40 mt-mobile-30"
-                    data-aos=""
-                  >
-                    <h3 class="title-info-text split-words" data-aos="">
-                      {productPostPageData &&
-                        productPostPageData.productFoundInLabel}
-                    </h3>
-                    <div
-                      class="container-btn"
-                      data-aos="fadeIn .8s ease-in-out"
-                    >
-                      {selectedProductDetails.subCategory.map((data, index) => {
-                        const { name, _id } = data;
-                        const allProductsId =
-                          "00000000-000000-000000-000000000001";
-                        if (allProductsId == _id) return;
-                        return (
-                          <button
-                            key={index}
-                            onClick={() => productFoundRedirection(_id)}
-                            class="btn-small-tag btn-gray btn-hover-red"
-                          >
-                            <div class="split-chars">
-                              <span>{name}</span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
+              {selectedProductDetails && productFondFilteredData.length > 0 && (
+                <div
+                  class="container-info-text mt-lg-25 mt-tablet-40 mt-mobile-30"
+                  data-aos=""
+                >
+                  <h3 class="title-info-text split-words" data-aos="">
+                    {productPostPageData &&
+                      productPostPageData.productFoundInLabel}
+                  </h3>
+                  <div class="container-btn" data-aos="fadeIn .8s ease-in-out">
+                    {productFondFilteredData.map((data, index) => {
+                      const { name, _id } = data.parentCollection;
+                      return (
+                        <button
+                          key={index}
+                          onClick={() => productFoundRedirection(_id)}
+                          class="btn-small-tag btn-gray btn-hover-red"
+                        >
+                          <div class="split-chars">
+                            <span>{name}</span>
+                          </div>
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
+                </div>
+              )}
             </div>
           </div>
         </div>

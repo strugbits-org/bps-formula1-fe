@@ -647,6 +647,33 @@ export const getSelectedProductDetails = async (slug) => {
   }
 };
 
+export const getProductFound = async (slug) => {
+  try {
+    const response = await getDataFetchFunction({
+      dataCollectionId: "F1CategoriesStructure",
+      includeReferencedItems: ["parentCollection"],
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      const categoriesData = response._items.map((x) => x.data);
+      const filteredData = categoriesData.filter(
+        (x) => x.parentCollection.slug !== "all-products"
+      );
+      return filteredData;
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
 export const getPairItWithProductsId = async (slug) => {
   try {
     const response = await getDataFetchFunction({
