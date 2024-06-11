@@ -9,13 +9,14 @@ import {
 import {
   initAnimations,
   markPageLoaded,
-  updatedWatched,
+  pageLoadEnd, updatedWatched,
 } from "@/utils/AnimationFunctions";
+import { checkParameters } from "@/utils/CheckParams";
 import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ collectionsData, savedProductsData }) {
+export default function ProductIndex({ collectionsData }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
 
@@ -75,7 +76,14 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
       );
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
-      markPageLoaded(false);
+      const isFirstLoadDone = document.body.classList.contains("first-load-done");
+      if (isFirstLoadDone) {
+        pageLoadEnd();
+      } else {
+        updatedWatched();
+      }
+      // updatedWatched();
+      // markPageLoaded(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -218,6 +226,10 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
     setReloadTrigger((prev) => !prev);
   };
 
+  useEffect(() => {
+    markPageLoaded();
+  }, []);
+
   return (
     <Products
       filteredProducts={productsCollection}
@@ -233,7 +245,6 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
       loading={loadingData}
-      savedProductsData={savedProductsData}
     />
   );
 }

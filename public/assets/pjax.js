@@ -1051,41 +1051,7 @@ if (Pjax.isSupported()) {
 }
 var pjaxExports = pjax.exports;
 const Pjax$1 = /* @__PURE__ */ getDefaultExportFromCjs(pjaxExports);
-let _currentPageId = "";
-let _nextPageId = "";
-class geral {
-  /* -------------------------------------------------------------------------- */
-  /*                                 CONSTRUCTOR                                */
-  /* -------------------------------------------------------------------------- */
-  constructor() {
-    this.currentPageId = document.querySelector(".wrapper").id;
-  }
-  /* -------------------------------------------------------------------------- */
-  /*                               IDs das páginas                              */
-  /* -------------------------------------------------------------------------- */
-  get currentPageId() {
-    return _currentPageId;
-  }
-  set currentPageId(newId) {
-    _currentPageId = newId.substring(3);
-    document.body.dataset.pg = newId;
-    this.nextPageId = "";
-  }
-  get nextPageId() {
-    return _nextPageId;
-  }
-  set nextPageId(newId) {
-    _nextPageId = newId.substring(3);
-    document.body.dataset.pgNext = newId.length > 0 ? "pg-" + _nextPageId : "";
-  }
-  /* -------------------------------------------------------------------------- */
-  /*                                    TOKEN                                   */
-  /* -------------------------------------------------------------------------- */
-  get token() {
-    return document.querySelector('meta[name="csrf-token"]').content;
-  }
-}
-const geral$1 = new geral();
+
 function manualModalClose() {
   document
     .querySelectorAll("modal-group.active", "modal-item.active")
@@ -1168,81 +1134,9 @@ Pjax$1.prototype.getElements = function () {
   });
   return links;
 };
-const delay = window.innerWidth < 1025 ? 900 : 900;
-const singlePjaxInstance = new Pjax$1({
-  elements: "a[href]",
-  cacheBust: false,
-  debug: false,
-  selectors: [
-    "title",
-    "#reloading-area",
-    ".wrapper",
-    // ,".language--list"
-  ],
-  maxCacheLength: 20,
-  timeout: 0,
-  scrollTo: 0,
-  switches: {
-    title: function (oldEl, newEl, options) {
-      setTimeout(() => {
-        document.title = newEl.textContent;
-        this.onSwitch();
-      }, delay);
-    },
-    "#reloading-area": function (oldEl, newEl, options) {
-      setTimeout(() => {
-        oldEl.innerHTML = newEl.innerHTML;
-        this.onSwitch();
-      }, delay);
-    },
-    ".wrapper": function (oldEl, newEl, options) {
-      geral$1.nextPageId = newEl.id;
-      setTimeout(() => {
-        document.dispatchEvent(new CustomEvent("pjax:switch"));
-      }, delay - 10);
-      setTimeout(() => {
-        oldEl.outerHTML = newEl.outerHTML;
-        geral$1.currentPageId = newEl.id;
-        this.onSwitch();
-      }, delay);
-    },
-    // ".language--list": function (oldEl, newEl, options) {
-    //     setTimeout(() => {
-    //         oldEl.innerHTML = newEl.innerHTML;
-    //         this.onSwitch();
-    //     }, delay);
-    // },
-    /* transição de wrapper com os 2 em telas simultaneamente */
-    /*
-            ".wrapper": function (oldEl, newEl, options) {
-                geral.nextPageId = newEl.id;
-    
-    
-                // Adiciona a nova página abaixo da atual
-                oldEl.parentNode.insertBefore(newEl, oldEl.nextSibling);
-    
-                // Inicia a animação
-                oldEl.classList.add("page-out");
-                newEl.classList.add("page-in");
-    
-    
-                setTimeout(() => {
-                    document.dispatchEvent(new CustomEvent('pjax:switch'))
-                }, delay - 10);
-                setTimeout(() => {
-                    newEl.classList.remove("page-in");
-                    oldEl.remove(); // Remove a página antiga
-                    geral.currentPageId = newEl.id;
-                    this.onSwitch();
-                }, delay);
-            },
-            */
-  },
-});
+
 export {
   getDefaultExportFromCjs as a,
   commonjsGlobal as c,
-  geral$1 as g,
   manualModalClose as m,
-  singlePjaxInstance as s,
 };

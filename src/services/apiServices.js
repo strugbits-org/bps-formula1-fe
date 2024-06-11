@@ -1,3 +1,4 @@
+import { getToken } from "@/utils/GetUser";
 import { getDataFetchFunction } from "./fetchFunction";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -1002,19 +1003,22 @@ export const getSavedProductPageData = async () => {
   }
 };
 // SAVED PRODUCT PAGE APIS
-export const getSavedProductData = async (payload, authToken) => {
+export const getSavedProductData = async (payload) => {
   try {
+    const authToken = getToken();
     const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: authToken,
       },
+      cache: "force-cache",
       body: JSON.stringify(payload),
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
+
     const data = await response.json();
     const itemData = data.data;
     if (itemData && itemData._items) {

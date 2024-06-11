@@ -3,11 +3,13 @@ import { getUserAuth } from "@/utils/GetUser";
 import { useState, useEffect } from "react";
 
 export const SaveProductButton = ({
+  productData,
   productId,
   members,
   dataAos,
   onUnSave,
   savedProductsData,
+  setSavedProductsData
 }) => {
   const [productSaved, setProductSaved] = useState(false);
   const [error, setError] = useState("");
@@ -18,7 +20,7 @@ export const SaveProductButton = ({
     if ((members && members.length > 0) || savedProductsData?.length) {
       setProductSaved(
         members?.includes(memberId) ||
-          savedProductsData?.some((i) => i?.product?._id === productId)
+        savedProductsData?.some((i) => i?.product?._id === productId)
       );
     }
   }, [members, memberId, savedProductsData]);
@@ -62,6 +64,13 @@ export const SaveProductButton = ({
   };
 
   const handleClick = () => {
+    if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
+      const data = savedProductsData.filter((x) => x.product._id !== productId);
+      setSavedProductsData(data);
+    } else {
+      const data = [...savedProductsData, productData];
+      setSavedProductsData(data);
+    }
     handleProductSaveToggle(productId, !productSaved);
   };
 
