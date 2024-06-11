@@ -206,6 +206,10 @@ const Products = ({
     fetchSavedProductsData();
   }, []);
 
+  useEffect(() => {
+    console.log("savedProductsData", savedProductsData);
+  }, [savedProductsData]);
+
   return (
     <>
       <section className="products-intro">
