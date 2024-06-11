@@ -95,3 +95,4 @@ export default async function RootLayout({ children }) {
     </>
   );
 }
+export const revalidate = 10;

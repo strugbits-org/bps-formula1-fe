@@ -12,8 +12,8 @@ import {
   u as updateWatched,
 } from "./product-link-color.js";
 import {
-  g as geral,
-  s as singlePjaxInstance,
+  // g as geral,
+  // s as singlePjaxInstance,
   a as getDefaultExportFromCjs,
   c as commonjsGlobal,
   m as manualModalClose,
@@ -209,93 +209,93 @@ var require_app2 = __commonJS({
         playObserver.observe(play2);
       });
     }
-    class Page {
-      /**
-       * Objeto definindo uma página
-       * @param {object} params
-       * @param {string} params.pageName Nome da página sem o "pg"
-       * @param {function} params.init Primeira função a ser chamada, no primeiro carregamento é no "readyState interactive" no pjax, "success"
-       * @param {function} params.main Principal função, chamada no primeiro carregamento no "readyState complete"
-       * @param {function} params.destroy Chamada
-       */
-      constructor({ pageName: pageName2, main: main2, init, destroy }) {
-        this.pageName = pageName2;
-        this.init = init ? init : empty;
-        this.main = main2;
-        this.destroy = destroy ? destroy : empty;
-        this.transitionDelayDesktop = 600;
-        this.transitionDelayMobile = 300;
-        function empty() {
-          return true;
-        }
-      }
-    }
-    class PageController {
-      constructor() {
-        this.pages = [];
-        this.currentPage = {};
-        this.lastPage = {};
-        this.firstPage = true;
-        document.addEventListener("pjax:send", this);
-        document.addEventListener("pjax:complete", this);
-        document.addEventListener("pjax:error", this);
-      }
-      /**
-       * @param {Event} ev
-       */
-      handleEvent(ev) {
-        switch (ev.type) {
-          case "pjax:send":
-            if (this.currentPage) {
-              this.currentPage.destroy();
-            }
-            break;
-          case "pjax:complete":
-            this.firstPage = false;
-            if (this.updateCurrent()) {
-              this.runCurrent();
-            }
-            break;
-          case "pjax:error":
-            const problematicUrl = ev.triggerElement.href;
-            location.assign(problematicUrl);
-            break;
-        }
-      }
-      updateCurrent() {
-        const pg = this.pages.find((e2) =>
-          e2.pageName.includes(geral.currentPageId)
-        );
-        if (!pg) {
-          this.currentPage = null;
-          return false;
-        }
-        if (this.firstPage) {
-          this.currentPage = pg;
-          return true;
-        } else {
-          this.lastPage = this.currentPage;
-          this.currentPage = pg;
-          return true;
-        }
-      }
-      runCurrent() {
-        const pg = this.currentPage;
-        try {
-          pg.init();
-        } catch (error) {
-          console.error(`Erro no init da página ${pg.pageName}: ${error}`);
-        }
-        try {
-          pg.main();
-        } catch (error) {
-          console.error(`Erro no main da página ${pg.pageName}: ${error}`);
-        }
-      }
-      add(page) {
-        this.pages.push(page);
-      }
-    }
+    // class Page {
+    //   /**
+    //    * Objeto definindo uma página
+    //    * @param {object} params
+    //    * @param {string} params.pageName Nome da página sem o "pg"
+    //    * @param {function} params.init Primeira função a ser chamada, no primeiro carregamento é no "readyState interactive" no pjax, "success"
+    //    * @param {function} params.main Principal função, chamada no primeiro carregamento no "readyState complete"
+    //    * @param {function} params.destroy Chamada
+    //    */
+    //   constructor({ pageName: pageName2, main: main2, init, destroy }) {
+    //     this.pageName = pageName2;
+    //     this.init = init ? init : empty;
+    //     this.main = main2;
+    //     this.destroy = destroy ? destroy : empty;
+    //     this.transitionDelayDesktop = 600;
+    //     this.transitionDelayMobile = 300;
+    //     function empty() {
+    //       return true;
+    //     }
+    //   }
+    // }
+    // class PageController {
+    //   constructor() {
+    //     this.pages = [];
+    //     this.currentPage = {};
+    //     this.lastPage = {};
+    //     this.firstPage = true;
+    //     document.addEventListener("pjax:send", this);
+    //     document.addEventListener("pjax:complete", this);
+    //     document.addEventListener("pjax:error", this);
+    //   }
+    //   /**
+    //    * @param {Event} ev
+    //    */
+    //   handleEvent(ev) {
+    //     switch (ev.type) {
+    //       case "pjax:send":
+    //         if (this.currentPage) {
+    //           this.currentPage.destroy();
+    //         }
+    //         break;
+    //       case "pjax:complete":
+    //         this.firstPage = false;
+    //         if (this.updateCurrent()) {
+    //           this.runCurrent();
+    //         }
+    //         break;
+    //       case "pjax:error":
+    //         const problematicUrl = ev.triggerElement.href;
+    //         location.assign(problematicUrl);
+    //         break;
+    //     }
+    //   }
+    //   updateCurrent() {
+    //     const pg = this.pages.find((e2) =>
+    //       e2.pageName.includes(geral.currentPageId)
+    //     );
+    //     if (!pg) {
+    //       this.currentPage = null;
+    //       return false;
+    //     }
+    //     if (this.firstPage) {
+    //       this.currentPage = pg;
+    //       return true;
+    //     } else {
+    //       this.lastPage = this.currentPage;
+    //       this.currentPage = pg;
+    //       return true;
+    //     }
+    //   }
+    //   runCurrent() {
+    //     const pg = this.currentPage;
+    //     try {
+    //       pg.init();
+    //     } catch (error) {
+    //       console.error(`Erro no init da página ${pg.pageName}: ${error}`);
+    //     }
+    //     try {
+    //       pg.main();
+    //     } catch (error) {
+    //       console.error(`Erro no main da página ${pg.pageName}: ${error}`);
+    //     }
+    //   }
+    //   add(page) {
+    //     this.pages.push(page);
+    //   }
+    // }
     const pageName$8 = "home";
     function main$8() {
       let columnForm = document.querySelector(".column-form");
@@ -374,13 +374,13 @@ var require_app2 = __commonJS({
           }
         }, 600);
       }
-      document.addEventListener(
-        "pjax:switch",
-        function () {
-          document.body.dataset.homeState = "";
-        },
-        { once: true }
-      );
+      // document.addEventListener(
+      //   "pjax:switch",
+      //   function () {
+      //     document.body.dataset.homeState = "";
+      //   },
+      //   { once: true }
+      // );
       if (btnSignIn) {
         btnSignIn.classList.add("js-running");
         btnSignIn.addEventListener("click", function () {
@@ -441,25 +441,25 @@ var require_app2 = __commonJS({
       });
       if (screen.isDesktop) {
         window.addEventListener("resize", recalcWrapperHeight);
-        document.addEventListener(
-          "pjax:switch",
-          function () {
-            window.removeEventListener("resize", recalcWrapperHeight);
-          },
-          { once: true }
-        );
+        // document.addEventListener(
+        //   "pjax:switch",
+        //   function () {
+        //     window.removeEventListener("resize", recalcWrapperHeight);
+        //   },
+        //   { once: true }
+        // );
       } else {
         window.addEventListener("orientationchange", recalcWrapperHeight);
-        document.addEventListener(
-          "pjax:switch",
-          function () {
-            window.removeEventListener(
-              "orientationchange",
-              recalcWrapperHeight
-            );
-          },
-          { once: true }
-        );
+        // document.addEventListener(
+        //   "pjax:switch",
+        //   function () {
+        //     window.removeEventListener(
+        //       "orientationchange",
+        //       recalcWrapperHeight
+        //     );
+        //   },
+        //   { once: true }
+        // );
       }
       if (!screen.isDesktop) {
         document.querySelectorAll(".container-select").forEach((element) => {
@@ -500,10 +500,10 @@ var require_app2 = __commonJS({
         columnForm.style.setProperty("--h", height + inputHeight + "px");
       }
     }
-    const pgHome = new Page({
-      pageName: pageName$8,
-      main: main$8,
-    });
+    // const pgHome = new Page({
+    //   pageName: pageName$8,
+    //   main: main$8,
+    // });
     (function scrollDetection() {
       let lastScrollTop = 0;
       let lastDirection = 0;
@@ -5986,10 +5986,10 @@ var require_app2 = __commonJS({
         }
       });
     });
-    document.addEventListener("pjax:send", () => {
-      observer.disconnect();
-      watchList = [];
-    });
+    // document.addEventListener("pjax:send", () => {
+    //   observer.disconnect();
+    //   watchList = [];
+    // });
     function autoPause(element, callback) {
       let el = toElement(element);
       watchList.push({
@@ -17373,24 +17373,24 @@ var require_app2 = __commonJS({
                 ease: "power2.out",
               });
             } else {
-              singlePjaxInstance.loadUrl(element.dataset.href);
-              document.addEventListener(
-                "pjax:complete",
-                function () {
-                  let newTargetElement = document.querySelector(`#${targetId}`);
-                  if (newTargetElement) {
-                    let offsetY = header
-                      ? document.querySelector(header).offsetHeight
-                      : 0;
-                    gsapWithCSS.to(window, {
-                      scrollTo: { y: newTargetElement, offsetY },
-                      duration: 0.8,
-                      ease: "power2.out",
-                    });
-                  }
-                },
-                { once: true }
-              );
+              // singlePjaxInstance.loadUrl(element.dataset.href);
+              // document.addEventListener(
+              //   "pjax:complete",
+              //   function () {
+              //     let newTargetElement = document.querySelector(`#${targetId}`);
+              //     if (newTargetElement) {
+              //       let offsetY = header
+              //         ? document.querySelector(header).offsetHeight
+              //         : 0;
+              //       gsapWithCSS.to(window, {
+              //         scrollTo: { y: newTargetElement, offsetY },
+              //         duration: 0.8,
+              //         ease: "power2.out",
+              //       });
+              //     }
+              //   },
+              //   { once: true }
+              // );
             }
           }
         });
@@ -18234,10 +18234,10 @@ var require_app2 = __commonJS({
     // Products Page
     const pageName$7 = "products";
     function main$7() {}
-    const pgProducts = new Page({
-      pageName: pageName$7,
-      main: main$7,
-    });
+    // const pgProducts = new Page({
+    //   pageName: pageName$7,
+    //   main: main$7,
+    // });
 
     // Products Post page Cuctom JS
     document.querySelector(".products").addEventListener("click", () => {
@@ -18252,10 +18252,10 @@ var require_app2 = __commonJS({
     function main$6() {
       formCart();
     }
-    const pgCart = new Page({
-      pageName: pageName$6,
-      main: main$6,
-    });
+    // const pgCart = new Page({
+    //   pageName: pageName$6,
+    //   main: main$6,
+    // });
     function classesToSelector(classes = "") {
       return `.${classes
         .trim()
@@ -18885,7 +18885,7 @@ var require_app2 = __commonJS({
         });
       });
     }
-    document.addEventListener("pjax:complete", formCart);
+    // document.addEventListener("pjax:complete", formCart);
 
     // Cart page Cuctom JS
     document.querySelector(".cartPage").addEventListener("click", () => {
@@ -18956,10 +18956,10 @@ var require_app2 = __commonJS({
         },
       });
     }
-    const pgProductsPost = new Page({
-      pageName: pageName$5,
-      main: main$5,
-    });
+    // const pgProductsPost = new Page({
+    //   pageName: pageName$5,
+    //   main: main$5,
+    // });
     function filterProducts() {
       let btnFilter = document.querySelector(".btn-filter:not(.js-running)");
       let columnFilter = document.querySelector(".container-filter-products");
@@ -18991,7 +18991,7 @@ var require_app2 = __commonJS({
       onLoadItems();
     }
     filterProducts();
-    document.addEventListener("pjax:complete", filterProducts);
+    // document.addEventListener("pjax:complete", filterProducts);
 
     // Products Post page Cuctom JS
     document.querySelector(".productsPost").addEventListener("click", () => {
@@ -19058,10 +19058,10 @@ var require_app2 = __commonJS({
       //   { once: true }
       // );
     }
-    const pgSearch = new Page({
-      pageName: pageName$4,
-      main: main$4,
-    });
+    // const pgSearch = new Page({
+    //   pageName: pageName$4,
+    //   main: main$4,
+    // });
     const t = (t2, e2 = 1e4) => (
         (t2 = parseFloat(t2 + "") || 0),
         Math.round((t2 + Number.EPSILON) * e2) / e2
@@ -26508,10 +26508,10 @@ var require_app2 = __commonJS({
         onClose: function () {},
       });
     }
-    const pgGallery = new Page({
-      pageName: pageName$3,
-      main: main$3,
-    });
+    // const pgGallery = new Page({
+    //   pageName: pageName$3,
+    //   main: main$3,
+    // });
 
     // Collections Page Cusatom JS
     document.querySelector(".galleryImages").addEventListener("click", () => {
@@ -26537,10 +26537,10 @@ var require_app2 = __commonJS({
 
     // Collections Page Custom JS
 
-    const pgCollectionsPost = new Page({
-      pageName: pageName$2,
-      main: main$2,
-    });
+    // const pgCollectionsPost = new Page({
+    //   pageName: pageName$2,
+    //   main: main$2,
+    // });
     var splitting = { exports: {} };
     (function (module2, exports2) {
       (function (global, factory) {
@@ -26964,7 +26964,7 @@ var require_app2 = __commonJS({
           });
         });
     }
-    document.addEventListener("pjax:complete", splitWords);
+    // document.addEventListener("pjax:complete", splitWords);
     function splitChars() {
       document
         .querySelectorAll(".split-chars:not(.splitting)")
@@ -26975,7 +26975,7 @@ var require_app2 = __commonJS({
           });
         });
     }
-    document.addEventListener("pjax:complete", splitChars);
+    // document.addEventListener("pjax:complete", splitChars);
     function copyLink() {
       var copyTextareaBtn = document.querySelectorAll(
         ".container-copy:not(.js-copy-link-running)"
@@ -27024,10 +27024,10 @@ var require_app2 = __commonJS({
     function main$1() {
       manualModalCloseControls();
     }
-    const pgMyAccountQuotesHistory = new Page({
-      pageName: pageName$1,
-      main: main$1,
-    });
+    // const pgMyAccountQuotesHistory = new Page({
+    //   pageName: pageName$1,
+    //   main: main$1,
+    // });
 
     // Quotes History Page Custom JS
     document.querySelector(".quotesHistory").addEventListener("click", () => {
@@ -27044,10 +27044,10 @@ var require_app2 = __commonJS({
       filterProducts();
       productContent();
     }
-    const pgMyAccountSavedProducts = new Page({
-      pageName,
-      main,
-    });
+    // const pgMyAccountSavedProducts = new Page({
+    //   pageName,
+    //   main,
+    // });
     smoothScrollConvencional();
     const submenu = new DataSetGet({
       parentContainer: "[data-parent-submenu]",
@@ -27065,9 +27065,9 @@ var require_app2 = __commonJS({
       onActivate: (item) => {},
       onDeactivate: (item) => {},
     });
-    document.addEventListener("pjax:send", function () {
-      submenu.deactivateItems();
-    });
+    // document.addEventListener("pjax:send", function () {
+    //   submenu.deactivateItems();
+    // });
     var firstLoad = true;
     function whenContainerReady() {
       if (firstLoad) {
@@ -27201,10 +27201,10 @@ var require_app2 = __commonJS({
     //  Change Password Page
     const pageName$01 = "my-account-change-password";
     function main$01() {}
-    const pgChangePassword = new Page({
-      pageName: pageName$01,
-      main: main$01,
-    });
+    // const pgChangePassword = new Page({
+    //   pageName: pageName$01,
+    //   main: main$01,
+    // });
 
     document.querySelector(".changePassword").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
@@ -27213,10 +27213,10 @@ var require_app2 = __commonJS({
 
     const pageName$02 = "pg-collections";
     function main$02() {}
-    const pgCollections = new Page({
-      pageName: pageName$02,
-      main: main$02,
-    });
+    // const pgCollections = new Page({
+    //   pageName: pageName$02,
+    //   main: main$02,
+    // });
 
     document.querySelector(".collections").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
@@ -27225,10 +27225,10 @@ var require_app2 = __commonJS({
     // My Acocunt
     const pageName$03 = "pg-my-account";
     function main$03() {}
-    const pgMyAccount = new Page({
-      pageName: pageName$03,
-      main: main$03,
-    });
+    // const pgMyAccount = new Page({
+    //   pageName: pageName$03,
+    //   main: main$03,
+    // });
 
     document.querySelector(".myAccount").addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "instant" });
