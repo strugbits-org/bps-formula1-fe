@@ -26,7 +26,6 @@ export default async function Page({ params }) {
   };
 
   const res = await getSelectedProductId(slug);
-console.log(res, "res>>");
   let selectedProductId;
   if (res?.length) {
     selectedProductId = res[0]._id;

@@ -4004,8 +4004,7 @@ body:not([data-login-state=logged]) #header .container-header-logged {
   [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
   [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
   [data-pg=pg-products] #header .container-header-logged .dropdown-category,
-  [data-pg=pg-product] #header .container-header-logged .dropdown-collections,
-
+  [data-pg=pg-product] #header .container-header-logged .dropdown-category,
   [data-pg=pg-collections-category] #header .container-header-logged .dropdown-category {
     opacity: 1;
     pointer-events: auto;

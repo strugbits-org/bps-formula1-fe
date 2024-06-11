@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import OtherCollections from "../Common/OtherCollections";
 import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
@@ -13,8 +13,6 @@ import {
   getProductSnapShots,
   getProductVariants,
 } from "@/services/apiServices";
-import { ProductListItemMain } from "../Common/ProductListItem";
-import { checkParameters } from "@/utils/CheckParams";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
@@ -51,6 +49,7 @@ const Products = ({
   const [categoryTitle, setCategoryTitle] = useState("");
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
+
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
