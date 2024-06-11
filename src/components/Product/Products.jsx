@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadStart } from "@/utils/AnimationFunctions";
 import OtherCollections from "../Common/OtherCollections";
 import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
@@ -14,8 +14,6 @@ import {
   getProductVariants,
   getSavedProductData,
 } from "@/services/apiServices";
-import { ProductListItemMain } from "../Common/ProductListItem";
-import { checkParameters } from "@/utils/CheckParams";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
@@ -321,57 +319,57 @@ const Products = ({
                             setSavedProductsData={setSavedProductsData}
                           />
                         </div>
+                        <div className="container-top">
+                          <h2 className="product-title">{product.name}</h2>
+                          <div className="container-copy">
+                            <button className="btn-copy copy-link">
+                              <span>{defaultVariantSku}</span>
+                              <i className="icon-copy"></i>
+                            </button>
+                            <input
+                              type="text"
+                              className="copy-link-url"
+                              value={defaultVariantSku}
+                              style={{
+                                position: "absolute",
+                                opacity: 0,
+                                pointerEvents: "none",
+                              }}
+                            />
+                          </div>
+                          <div className="container-info">
+                            <div className="dimensions">
+                              {product.additionalInfoSections?.map(
+                                (data, index) => {
+                                  const { title, description } = data;
+                                  if (title == "Size") {
+                                    return (
+                                      <span
+                                        key={index}
+                                        dangerouslySetInnerHTML={{
+                                          __html: description,
+                                        }}
+                                      ></span>
+                                    );
+                                  }
+                                }
+                              )}
+                            </div>
+                          </div>
+                        </div>
                         <AnimateLink
                           to={`product/${product.slug}`}
                           className="link"
                         >
-                          <div className="container-top">
-                            <h2 className="product-title">{product.name}</h2>
-                            <div className="container-copy">
-                              <button className="btn-copy copy-link">
-                                <span>{defaultVariantSku}</span>
-                                <i className="icon-copy"></i>
-                              </button>
-                              <input
-                                type="text"
-                                className="copy-link-url"
-                                value={"defaultVariantSku"}
-                                style={{
-                                  position: "absolute",
-                                  opacity: 0,
-                                  pointerEvents: "none",
-                                }}
-                              />
-                            </div>
-                            <div className="container-info">
-                              <div className="dimensions">
-                                {product.additionalInfoSections?.map(
-                                  (data, index) => {
-                                    const { title, description } = data;
-                                    if (title == "Size") {
-                                      return (
-                                        <span
-                                          key={index}
-                                          dangerouslySetInnerHTML={{
-                                            __html: description,
-                                          }}
-                                        ></span>
-                                      );
-                                    }
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          </div>
                           <div className="wrapper-product-img">
-                            {variantData.map((variantData, index) => {
+                            {variantData.map((selectedData, index) => {
                               return (
                                 <React.Fragment key={index}>
                                   {index < 4 && (
                                     <div
                                       className="container-img product-img"
                                       data-get-product-link-color={
-                                        variantData.color[0]
+                                        selectedData.color[0]
                                       }
                                       data-default-product-link-active={
                                         index === 0
@@ -379,7 +377,8 @@ const Products = ({
                                     >
                                       <img
                                         src={productImageURL({
-                                          wix_url: variantData.variant.imageSrc,
+                                          wix_url:
+                                            selectedData.variant.imageSrc,
                                           w: "373",
                                           h: "373",
                                           fit: "fill",
@@ -472,10 +471,10 @@ const Products = ({
                 <div className="flex-center mt-30">
                   <button
                     onClick={handleLoadMore}
-                    className="btn-medium btn-red btn-hover-white"
+                    class="btn-medium btn-red btn-hover-white"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    <div className="split-chars">
+                    <div class="split-chars">
                       <span>Load more</span>
                     </div>
                   </button>

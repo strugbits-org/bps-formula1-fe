@@ -1,5 +1,5 @@
 "use client";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 
@@ -31,7 +31,6 @@ const Wrapper = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
   const [cookies] = useCookies(["authToken"]);
   const pathname = usePathname();
-  const params = useParams();
   const router = useRouter();
   const hash = useHash();
 
@@ -50,6 +49,7 @@ const Wrapper = ({ children }) => {
       router.push("/error");
     }
   }, [isProtectedRoute, isPublicRoute, router]);
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       setAuthToken(authToken);
@@ -104,13 +104,10 @@ const Wrapper = ({ children }) => {
   };
 
   useEffect(() => {
-    // Run on initial load
     handleHashChange();
 
-    // Add event listener for hash changes
     window.addEventListener("hashchange", handleHashChange);
 
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
     };

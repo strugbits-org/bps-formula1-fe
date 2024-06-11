@@ -6,7 +6,11 @@ import {
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
-import { markPageLoaded, pageLoadEnd, updatedWatched } from "@/utils/AnimationFunctions";
+import {
+  initAnimations,
+  markPageLoaded,
+  pageLoadEnd, updatedWatched,
+} from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
 import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
@@ -50,7 +54,10 @@ export default function ProductIndex({ collectionsData }) {
         ...response._items.map((item) => item.data),
       ]);
       setProductsResponse(response);
-      updatedWatched();
+      setTimeout(() => {
+        initAnimations();
+        updatedWatched();
+      }, 1000);
     } catch (error) {
       console.error(error);
     } finally {

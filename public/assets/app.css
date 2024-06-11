@@ -3995,12 +3995,16 @@ body:not([data-login-state=logged]) #header .container-header-logged {
 @media only screen and (max-width: 767.98px) and (orientation: portrait) {
   [data-pg=pg-collections] #header .container-header-logged .dropdown-collections,
   [data-pg=pg-collections] #header .container-header-logged .dropdown-collections,
+  [data-pg=pg-products] #header .container-header-logged .dropdown-collections,
+  [data-pg=pg-product] #header .container-header-logged .dropdown-collections,
   [data-pg=pg-collections-category] #header .container-header-logged .dropdown-collections {
     opacity: 0;
     pointer-events: none;
   }
   [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
   [data-pg=pg-collections] #header .container-header-logged .dropdown-category,
+  [data-pg=pg-products] #header .container-header-logged .dropdown-category,
+  [data-pg=pg-product] #header .container-header-logged .dropdown-category,
   [data-pg=pg-collections-category] #header .container-header-logged .dropdown-category {
     opacity: 1;
     pointer-events: auto;
