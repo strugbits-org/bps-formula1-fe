@@ -43,6 +43,7 @@ export const getDataFetchFunction = async (bodyData) => {
       {
         method: "GET",
         headers,
+        cache:"force-cache"
       }
     );
     if (!response.ok) {

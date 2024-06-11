@@ -95,3 +95,5 @@ export default async function RootLayout({ children }) {
     </>
   );
 }
+const time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME;
+export const revalidate = time;
