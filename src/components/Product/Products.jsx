@@ -12,6 +12,7 @@ import {
   getCategoriesData,
   getProductSnapShots,
   getProductVariants,
+  getSavedProductData,
 } from "@/services/apiServices";
 import { ProductListItemMain } from "../Common/ProductListItem";
 import { checkParameters } from "@/utils/CheckParams";
@@ -33,7 +34,6 @@ const Products = ({
   setfilterCategory,
   handlePopupFilters,
   loading,
-  savedProductsData,
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -51,6 +51,7 @@ const Products = ({
   const [categoryTitle, setCategoryTitle] = useState("");
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
+  const [savedProductsData, setSavedProductsData] = useState([]);
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
@@ -194,6 +195,19 @@ const Products = ({
     handlePopupFilters();
   };
 
+  const fetchSavedProductsData = async () => {
+    const data = {
+      limit: "20",
+      skip: "0",
+    };
+    const response = await getSavedProductData(data);
+    setSavedProductsData(response);
+  }
+
+  useEffect(() => {
+    fetchSavedProductsData();
+  }, []);
+
   return (
     <>
       <section className="products-intro">
@@ -300,9 +314,11 @@ const Products = ({
                         <div className="container-tags">
                           {/* <BestSellerTag subCategory={subCategory} /> */}
                           <SaveProductButton
+                            productData={data}
                             productId={product._id}
                             members={f1Members}
                             savedProductsData={savedProductsData}
+                            setSavedProductsData={setSavedProductsData}
                           />
                         </div>
                         <AnimateLink

@@ -1,4 +1,4 @@
-import { s as singlePjaxInstance } from "./pjax.js";
+// import { s as singlePjaxInstance } from "./pjax.js";
 export function FormSignIn() {
   let forms = document.querySelectorAll("[data-form-sign-in-container]:not(.js-running)");
   forms.forEach((containerForm) => {
@@ -20,9 +20,9 @@ export function FormSignIn() {
       e.preventDefault();
       {
         containerForm.dataset.formState = "success";
-        setTimeout(() => {
-          singlePjaxInstance.loadUrl(form.dataset.redirect);
-        }, 0);
+        // setTimeout(() => {
+        //   singlePjaxInstance.loadUrl(form.dataset.redirect);
+        // }, 0);
         setTimeout(() => {
           document.body.dataset.loginState = "logged";
         }, 800);

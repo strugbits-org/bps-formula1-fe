@@ -1051,41 +1051,7 @@ if (Pjax.isSupported()) {
 }
 var pjaxExports = pjax.exports;
 const Pjax$1 = /* @__PURE__ */ getDefaultExportFromCjs(pjaxExports);
-let _currentPageId = "";
-let _nextPageId = "";
-class geral {
-  /* -------------------------------------------------------------------------- */
-  /*                                 CONSTRUCTOR                                */
-  /* -------------------------------------------------------------------------- */
-  constructor() {
-    this.currentPageId = document.querySelector(".wrapper").id;
-  }
-  /* -------------------------------------------------------------------------- */
-  /*                               IDs das páginas                              */
-  /* -------------------------------------------------------------------------- */
-  get currentPageId() {
-    return _currentPageId;
-  }
-  set currentPageId(newId) {
-    _currentPageId = newId.substring(3);
-    document.body.dataset.pg = newId;
-    this.nextPageId = "";
-  }
-  get nextPageId() {
-    return _nextPageId;
-  }
-  set nextPageId(newId) {
-    _nextPageId = newId.substring(3);
-    document.body.dataset.pgNext = newId.length > 0 ? "pg-" + _nextPageId : "";
-  }
-  /* -------------------------------------------------------------------------- */
-  /*                                    TOKEN                                   */
-  /* -------------------------------------------------------------------------- */
-  get token() {
-    return document.querySelector('meta[name="csrf-token"]').content;
-  }
-}
-const geral$1 = new geral();
+
 function manualModalClose() {
   document
     .querySelectorAll("modal-group.active", "modal-item.active")
@@ -1172,6 +1138,5 @@ Pjax$1.prototype.getElements = function () {
 export {
   getDefaultExportFromCjs as a,
   commonjsGlobal as c,
-  geral$1 as g,
   manualModalClose as m,
 };

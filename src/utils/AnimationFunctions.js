@@ -78,15 +78,13 @@ export const markPageLoaded = (watched = true) => {
 
 export const firstLoadAnimation = async () => {
   for (let i = 0; i <= 100; i++) {
-    await new Promise((resolve) => setTimeout(resolve, 1));
-    if (i === 25 || i === 50 || i === 75 || i === 100) {
-      changeProgress(i);
-    }
+    await new Promise((resolve) => setTimeout(resolve, 0.2));
+    if (i === 50 || i === 100) changeProgress(i);
   }
   document.body.dataset.load = "first-leaving";
-  setTimeout(() => {
+  // setTimeout(() => {
     document.body.dataset.load = "first-done";
-  }, 1200);
+  // }, 1200);
   document.body.classList.add("first-load-done");
   document.body.classList.remove("overflow-hidden");
   document.getElementById("loader").classList.add("hidden");
