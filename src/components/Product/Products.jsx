@@ -51,7 +51,6 @@ const Products = ({
   const [categoryTitle, setCategoryTitle] = useState("");
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -305,57 +304,57 @@ const Products = ({
                             savedProductsData={savedProductsData}
                           />
                         </div>
+                        <div className="container-top">
+                          <h2 className="product-title">{product.name}</h2>
+                          <div className="container-copy">
+                            <button className="btn-copy copy-link">
+                              <span>{defaultVariantSku}</span>
+                              <i className="icon-copy"></i>
+                            </button>
+                            <input
+                              type="text"
+                              className="copy-link-url"
+                              value={defaultVariantSku}
+                              style={{
+                                position: "absolute",
+                                opacity: 0,
+                                pointerEvents: "none",
+                              }}
+                            />
+                          </div>
+                          <div className="container-info">
+                            <div className="dimensions">
+                              {product.additionalInfoSections?.map(
+                                (data, index) => {
+                                  const { title, description } = data;
+                                  if (title == "Size") {
+                                    return (
+                                      <span
+                                        key={index}
+                                        dangerouslySetInnerHTML={{
+                                          __html: description,
+                                        }}
+                                      ></span>
+                                    );
+                                  }
+                                }
+                              )}
+                            </div>
+                          </div>
+                        </div>
                         <AnimateLink
                           to={`product/${product.slug}`}
                           className="link"
                         >
-                          <div className="container-top">
-                            <h2 className="product-title">{product.name}</h2>
-                            <div className="container-copy">
-                              <button className="btn-copy copy-link">
-                                <span>{defaultVariantSku}</span>
-                                <i className="icon-copy"></i>
-                              </button>
-                              <input
-                                type="text"
-                                className="copy-link-url"
-                                value={"defaultVariantSku"}
-                                style={{
-                                  position: "absolute",
-                                  opacity: 0,
-                                  pointerEvents: "none",
-                                }}
-                              />
-                            </div>
-                            <div className="container-info">
-                              <div className="dimensions">
-                                {product.additionalInfoSections?.map(
-                                  (data, index) => {
-                                    const { title, description } = data;
-                                    if (title == "Size") {
-                                      return (
-                                        <span
-                                          key={index}
-                                          dangerouslySetInnerHTML={{
-                                            __html: description,
-                                          }}
-                                        ></span>
-                                      );
-                                    }
-                                  }
-                                )}
-                              </div>
-                            </div>
-                          </div>
                           <div className="wrapper-product-img">
-                            {variantData.map((variantData, index) => {
+                            {variantData.map((selectedData, index) => {
                               return (
                                 <React.Fragment key={index}>
                                   {index < 4 && (
                                     <div
                                       className="container-img product-img"
                                       data-get-product-link-color={
-                                        variantData.color[0]
+                                        selectedData.color[0]
                                       }
                                       data-default-product-link-active={
                                         index === 0
@@ -363,7 +362,8 @@ const Products = ({
                                     >
                                       <img
                                         src={productImageURL({
-                                          wix_url: variantData.variant.imageSrc,
+                                          wix_url:
+                                            selectedData.variant.imageSrc,
                                           w: "373",
                                           h: "373",
                                           fit: "fill",
@@ -456,10 +456,10 @@ const Products = ({
                 <div className="flex-center mt-30">
                   <button
                     onClick={handleLoadMore}
-                    className="btn-medium btn-red btn-hover-white"
+                    class="btn-medium btn-red btn-hover-white"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
-                    <div className="split-chars">
+                    <div class="split-chars">
                       <span>Load more</span>
                     </div>
                   </button>

@@ -52,6 +52,7 @@ const Wrapper = ({ children }) => {
   }, [isProtectedRoute, isPublicRoute, router]);
   useEffect(() => {
     if (typeof document !== "undefined") {
+      console.log(authToken, "authToken>>??");
       setAuthToken(authToken);
       if (authToken) {
         setTimeout(() => {

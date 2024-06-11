@@ -6,7 +6,11 @@ import {
   getSelectedCategoryData,
   getSelectedCollectionData,
 } from "@/services/apiServices";
-import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
+import {
+  initAnimations,
+  markPageLoaded,
+  updatedWatched,
+} from "@/utils/AnimationFunctions";
 import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -49,7 +53,10 @@ export default function ProductIndex({ collectionsData, savedProductsData }) {
         ...response._items.map((item) => item.data),
       ]);
       setProductsResponse(response);
-      updatedWatched();
+      setTimeout(() => {
+        initAnimations();
+        updatedWatched();
+      }, 1000);
     } catch (error) {
       console.error(error);
     } finally {
