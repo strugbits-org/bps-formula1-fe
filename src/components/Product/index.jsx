@@ -77,10 +77,9 @@ export default function ProductIndex({ collectionsData }) {
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
       const isFirstLoadDone = document.body.classList.contains("first-load-done");
+      updatedWatched();
       if (isFirstLoadDone) {
         pageLoadEnd();
-      } else {
-        updatedWatched();
       }
       // updatedWatched();
       // markPageLoaded(false);
