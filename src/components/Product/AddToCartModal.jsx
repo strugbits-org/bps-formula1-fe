@@ -233,8 +233,8 @@ const AddToCartModal = ({
                                   class="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                                 >
-                                  {productData &&
-                                    productData.product.formattedPrice}
+                                  {/* {productData &&
+                                    productData.product.formattedPrice} */}
                                 </div>
                               </div>
                               <SaveProductButton

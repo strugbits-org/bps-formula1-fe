@@ -118,7 +118,9 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                             <h2 className="name">{data.title}</h2>
                             <div className="date">{issueDate}</div>
                           </div>
-                          <div className="value">$ {totalPrice}</div>
+                          <div className="value">
+                            {/* $ {totalPrice} */}
+                          </div>
                           <div className="container-btn">
                             <btn-modal-open
                               group="modal-quotes-history"

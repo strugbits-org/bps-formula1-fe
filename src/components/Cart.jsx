@@ -109,7 +109,7 @@ const Cart = () => {
                   className="total-price text-lg-right text-mobile-center mt-mobile-20"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
-                  <div className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
+                  <div style={{display:'none'}} className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
                     Total {cart?.subtotal.formattedConvertedAmount || "$0.00"}
                   </div>
                   <p className="fs--10 white-1 mt-5">

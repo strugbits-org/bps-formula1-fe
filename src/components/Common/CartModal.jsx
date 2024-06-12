@@ -40,7 +40,7 @@ const CartModal = ({ data, handleAddToCart }) => {
                           </div>
                           <div class="total-price text-lg-right text-mobile-center mt-mobile-20">
                             <div class="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
-                              Total $ {totalPrice}*
+                              {/* Total $ {totalPrice}* */}
                             </div>
                             <p class="fs--10 mt-5">
                               *Estimated value for the cart. Shipping and
