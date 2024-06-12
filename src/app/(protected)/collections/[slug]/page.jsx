@@ -2,7 +2,7 @@ import CollectionsPost from "@/components/Collection/CollectionsPost";
 import {
   getCollectionsData,
   getCollectionsPostPageData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import { redirect } from "next/navigation";
 
 export default async function Page({ params }) {

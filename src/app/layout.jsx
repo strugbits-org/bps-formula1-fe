@@ -8,7 +8,7 @@ import {
   getFooterLinksData,
   getHomeBottomRightSocialLinks,
   getHomePageData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import Navbar from "@/components/Common/Navbar";
 import Footer from "@/components/Common/Footer";
 

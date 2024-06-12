@@ -2,7 +2,7 @@ import ProductIndex from "@/components/Product";
 import {
   fetchProducts,
   getCollectionsData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 
 export default async function Page() {

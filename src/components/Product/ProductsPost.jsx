@@ -17,7 +17,8 @@ import {
 import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
-import { getSavedProductData, getSubCategory } from "@/services/apiServices";
+import { getSubCategory } from "@/services/scApiCalls";
+import { getSavedProductData } from "@/services/apiServices";
 import { checkParameters } from "@/utils/CheckParams";
 
 const ProductPost = ({

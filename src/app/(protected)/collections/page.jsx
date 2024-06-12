@@ -2,7 +2,7 @@ import Collections from "@/components/Collection/Collections";
 import {
   getCollectionsData,
   getCollectionsPageData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 
 export default async function Page() {

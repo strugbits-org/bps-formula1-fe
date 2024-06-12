@@ -1,4 +1,4 @@
-import { getTermsAndConditionsPageData } from "@/services/apiServices";
+import { getTermsAndConditionsPageData } from "@/services/scApiCalls";
 import TermsAndCondition from "@/components/TermsAndCondition";
 
 export default async function Page() {

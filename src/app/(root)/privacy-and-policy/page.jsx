@@ -1,4 +1,4 @@
-import { getPrivacyAndPolicyPageData } from "@/services/apiServices";
+import { getPrivacyAndPolicyPageData } from "@/services/scApiCalls";
 import PrivacyAndPolicy from "@/components/PrivacyAndPolicy";
 
 export default async function Page() {
