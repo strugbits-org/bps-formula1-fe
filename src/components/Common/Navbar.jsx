@@ -174,7 +174,9 @@ const Navbar = ({ homePageData, collectionsData }) => {
       if (collectionName) {
         queryParams.set("collection", collectionName);
       }
-      router.push(`/products?${queryParams.toString()}`);
+      setTimeout(() => {
+        router.push(`/products?${queryParams.toString()}`);
+      }, 900);
       return;
     }
 
@@ -184,7 +186,9 @@ const Navbar = ({ homePageData, collectionsData }) => {
       }
       queryParams.set("category", id);
       queryParams.delete("subCategory");
-      router.push(`/products?${queryParams.toString()}`);
+      setTimeout(() => {
+        router.push(`/products?${queryParams.toString()}`);
+      }, 900);
       return;
     }
   };
