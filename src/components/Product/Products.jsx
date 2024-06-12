@@ -206,6 +206,9 @@ const Products = ({
     fetchSavedProductsData();
   }, []);
 
+  useEffect(() => {
+  }, [savedProductsData]);
+
   return (
     <>
       <section className="products-intro">

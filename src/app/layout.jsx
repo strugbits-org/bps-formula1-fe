@@ -72,6 +72,7 @@ export default async function RootLayout({ children }) {
           <span className="galleryImages d-none"></span>
           <span className="addToCart d-none"></span>
           <span className="modalLoad d-none"></span>
+          <span className="loadMore d-none"></span>
 
           <Loader />
           <Suspense fallback={<SearchBarFallback />}>

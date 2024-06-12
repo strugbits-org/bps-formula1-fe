@@ -331,10 +331,10 @@ const ProductPost = ({
                         class="fs-lg-30 fs-tablet-30 fs-phone-20 fw-400 red-1 mt-phone-5"
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
-                        {
+                        {/* {
                           selectedProductDetails.product
                             .formattedDiscountedPrice
-                        }
+                        } */}
                       </div>
                     </div>
                     {selectedProductDetails && (

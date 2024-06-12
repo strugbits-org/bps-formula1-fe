@@ -55,10 +55,10 @@ export default function ProductIndex({ collectionsData, products }) {
         ...response._items.map((item) => item.data),
       ]);
       setProductsResponse(response);
+      updatedWatched();
       setTimeout(() => {
-        initAnimations();
-        updatedWatched();
-      }, 1000);
+        document.querySelector(".loadMore").click();
+      }, 900);
     } catch (error) {
       console.error(error);
     } finally {
@@ -83,7 +83,7 @@ export default function ProductIndex({ collectionsData, products }) {
         pageLoadEnd();
       }
       // updatedWatched();
-      // markPageLoaded(false);
+      markPageLoaded(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -187,8 +187,9 @@ export default function ProductIndex({ collectionsData, products }) {
       // }
 
       let filterCategories = [data[0].parentCollection._id];
-
+      
       setfilterCategory(filterCategories);
+      
     } else {
       setfilterCategory([]);
     }

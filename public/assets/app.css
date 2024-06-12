@@ -16484,3 +16484,7 @@ html.with-fancybox body.hide-scrollbar {
     padding-right: 3rem;
   }
 }
+
+.price{
+  display: none;
+}
