@@ -27,8 +27,8 @@ export const fetchData = async (bodyData) => {
   }
 };
 
-export const getDataFetchFunction = async (bodyData) => {
-  const authToken = getToken();
+export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
+  const authToken = defaultAuthToken || getToken();
   const paramsData = JSON.stringify(bodyData);
   try {
     const headers = {

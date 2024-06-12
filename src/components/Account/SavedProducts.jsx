@@ -12,7 +12,7 @@ import {
   getProductSnapShots,
   getProductVariants,
   getSavedProductData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import {
   markPageLoaded,
   resetSlideIndex,

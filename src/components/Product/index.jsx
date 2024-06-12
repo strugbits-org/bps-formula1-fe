@@ -5,7 +5,7 @@ import {
   getCollectionColors,
   getSelectedCategoryData,
   getSelectedCollectionData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import {
   initAnimations,
   markPageLoaded,

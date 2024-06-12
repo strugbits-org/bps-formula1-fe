@@ -13,7 +13,7 @@ import {
   getSavedProductData,
   getSelectedProductDetails,
   getSelectedProductId,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page({ params }) {
   const slug = params.slug;

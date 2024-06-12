@@ -2,7 +2,7 @@ import CollectionCategory from "@/components/Collection/CollectionsCategory";
 import {
   getFilterCategory,
   getSelectedCollectionData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page({ params }) {
   const slug = params.slug;

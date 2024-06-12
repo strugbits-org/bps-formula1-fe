@@ -13,7 +13,7 @@ import {
   getProductSnapShots,
   getProductVariants,
   getSavedProductData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";

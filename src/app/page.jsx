@@ -7,7 +7,7 @@ import {
   getHomeBottomRightSocialLinks,
   getHomePageData,
   getSignInPage,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page() {
   const [

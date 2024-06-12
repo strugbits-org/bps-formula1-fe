@@ -9,7 +9,7 @@ import ErrorModal from "./ErrorModal";
 import {
   getProductSnapShots,
   getProductVariants,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 const MatchedProducts = ({ matchedProductsData }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =

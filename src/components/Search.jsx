@@ -10,7 +10,7 @@ import {
   getProductSnapShots,
   getProductVariants,
   getSearchProducts,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import {
   markPageLoaded,
   pageLoadEnd,

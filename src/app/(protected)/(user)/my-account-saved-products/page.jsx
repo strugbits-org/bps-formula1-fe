@@ -2,7 +2,7 @@ import SavedProducts from "@/components/Account/SavedProducts";
 import {
   getSavedProductData,
   getSavedProductPageData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import { cookies } from "next/headers";
 
 export default async function Page() {
