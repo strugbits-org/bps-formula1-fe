@@ -207,7 +207,6 @@ const Products = ({
   }, []);
 
   useEffect(() => {
-    console.log("savedProductsData", savedProductsData);
   }, [savedProductsData]);
 
   return (

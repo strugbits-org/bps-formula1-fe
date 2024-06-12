@@ -54,10 +54,10 @@ export default function ProductIndex({ collectionsData }) {
         ...response._items.map((item) => item.data),
       ]);
       setProductsResponse(response);
+      updatedWatched();
       setTimeout(() => {
-        initAnimations();
-        updatedWatched();
-      }, 1000);
+        document.querySelector(".loadMore").click();
+      }, 900);
     } catch (error) {
       console.error(error);
     } finally {
@@ -82,7 +82,7 @@ export default function ProductIndex({ collectionsData }) {
         pageLoadEnd();
       }
       // updatedWatched();
-      // markPageLoaded(false);
+      markPageLoaded(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -187,8 +187,9 @@ export default function ProductIndex({ collectionsData }) {
       // }
 
       let filterCategories = [data[0].parentCollection._id];
-
+      
       setfilterCategory(filterCategories);
+      
     } else {
       setfilterCategory([]);
     }
@@ -225,9 +226,7 @@ export default function ProductIndex({ collectionsData }) {
     setReloadTrigger((prev) => !prev);
   };
 
-  useEffect(() => {
-    markPageLoaded();
-  }, []);
+
 
   return (
     <Products

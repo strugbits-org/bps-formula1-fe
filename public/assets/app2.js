@@ -27242,7 +27242,11 @@ var require_app2 = __commonJS({
         window.scrollTo({ top: 0, behavior: "instant" });
         whenContainerReady();
       });
+     
 
+      document.querySelector(".loadMore").addEventListener("click", () => {
+      splitChars();
+      });
     document.querySelector(".updateWatched").addEventListener("click", () => {
       updateWatched();
       productLinkColor();
