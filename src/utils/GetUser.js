@@ -33,5 +33,14 @@ export const setAuthToken = (token) => {
 };
 
 export const getToken = () => {
-  return authToken;
+  // return authToken;
+  if (authToken) {
+    return authToken
+  } else {
+    const getTheToken = getCookie("authToken")
+    if (getTheToken) {
+      authToken = getTheToken
+    }
+    return getTheToken
+  }
 };

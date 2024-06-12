@@ -12,12 +12,16 @@ import {
   getProductVariants,
   getSelectedProductDetails,
   getSelectedProductId,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export const generateStaticParams = async () => {
-  const all_products = await fetchAllProducts();
-  const paths = all_products.map((data) => ({ slug: data.product.slug }));
-  return paths;
+  try {
+    const all_products = await fetchAllProducts() || [];
+    const paths = all_products.map((data) => ({ slug: data.product.slug }));
+    return paths;
+  } catch (error) {
+    console.log("Error:", error);
+  }
 }
 
 

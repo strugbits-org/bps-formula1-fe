@@ -9,9 +9,8 @@ import { SaveProductButton } from "./Common/SaveProductButton";
 import {
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
   getSearchProducts,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import {
   markPageLoaded,
   pageLoadEnd,
@@ -19,6 +18,7 @@ import {
   updatedWatched,
 } from "@/utils/AnimationFunctions";
 import { productImageURL } from "@/utils/GenerateImageURL";
+import { getSavedProductData } from "@/services/apiServices";
 
 const Search = ({ collections, colors, searchTerm }) => {
   const [searchResults, setSearchResults] = useState([]);

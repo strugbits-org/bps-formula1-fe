@@ -2,7 +2,7 @@ import Search from "@/components/Search";
 import {
   getCollectionColors,
   getCollectionsData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page({ searchParams }) {
   const searchFor = searchParams.for;

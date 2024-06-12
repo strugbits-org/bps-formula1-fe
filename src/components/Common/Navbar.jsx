@@ -7,7 +7,7 @@ import AnimateLink from "@/components/Common/AnimateLink";
 import { useCookies } from "react-cookie";
 import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
-import { getCategoriesData } from "@/services/apiServices";
+import { getCategoriesData } from "@/services/scApiCalls";
 
 const Navbar = ({ homePageData, collectionsData }) => {
   const searchParams = useSearchParams();

@@ -1,7 +1,7 @@
 import {
   getHomeBottomLeftLink,
   getHomeBottomRightSocialLinks,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import Error404Page from "@/components/Error404Page";
 
 export default async function Page() {

@@ -27,8 +27,8 @@ export const fetchData = async (bodyData) => {
   }
 };
 
-export const getDataFetchFunction = async (bodyData, disableCache = false) => {
-  const authToken = getToken();
+export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
+  const authToken = defaultAuthToken || getToken();
   const paramsData = JSON.stringify(bodyData);
   try {
     const headers = {
@@ -39,9 +39,10 @@ export const getDataFetchFunction = async (bodyData, disableCache = false) => {
     const options = {
       method: "GET",
       headers,
+      cache:"force-cache"
     }
 
-    if(!disableCache) options.cache = "force-cache";
+    // if(!disableCache) options.cache = "force-cache";
 
     const response = await fetch(
       `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,

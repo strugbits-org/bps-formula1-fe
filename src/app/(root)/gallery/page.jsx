@@ -4,7 +4,7 @@ import {
   getGalleryPageData,
   getHomeBottomLeftLink,
   getHomeBottomRightSocialLinks,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page() {
   const [

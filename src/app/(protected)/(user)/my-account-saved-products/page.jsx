@@ -1,5 +1,8 @@
 import SavedProducts from "@/components/Account/SavedProducts";
-import { getSavedProductPageData } from "@/services/apiServices";
+import {
+  getSavedProductPageData,
+} from "@/services/scApiCalls";
+import { cookies } from "next/headers";
 
 export default async function Page() {
 

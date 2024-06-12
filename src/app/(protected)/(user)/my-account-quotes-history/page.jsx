@@ -1,4 +1,4 @@
-import { getQuoteHistoryPageData, getQuotes } from "@/services/apiServices";
+import { getQuoteHistoryPageData, getQuotes } from "@/services/scApiCalls";
 import QuotesHistory from "@/components/Account/QuotesHistory";
 import { cookies } from "next/headers";
 
