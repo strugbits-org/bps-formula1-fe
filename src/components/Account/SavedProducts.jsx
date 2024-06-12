@@ -6,7 +6,6 @@ import AddToCartModal from "../Product/AddToCartModal";
 import { checkParameters } from "@/utils/CheckParams";
 import SuccessModal from "../Common/SuccessModal";
 import AnimateLink from "../Common/AnimateLink";
-import { getUserAuth } from "@/utils/GetUser";
 import ErrorModal from "../Common/ErrorModal";
 import {
   getProductSnapShots,
@@ -19,50 +18,36 @@ import {
   updatedWatched,
 } from "@/utils/AnimationFunctions";
 
-const SavedProducts = ({ savedProductPageData, savedProductData }) => {
+const SavedProducts = ({ savedProductPageData }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-  const [savedProductsData, setSavedProductsData] = useState(savedProductData);
+  const [savedProductsData, setSavedProductsData] = useState();
+  const [savedProductsItems, setSavedProductsItems] = useState([]);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [productSnapshots, setProductSnapshots] = useState();
+  const [totalCount, setTotalCount] = useState(0);
   const pageSize = 20;
-  let totalCount;
-
-  const handleUnSaveProduct = (productId) => {
-    setSavedProductsData((prevData) =>
-      prevData.filter((productData) => productData.product._id !== productId)
-    );
-  };
 
   const handleLoadMore = async () => {
-    const authToken = getUserAuth();
     const data = {
       limit: pageSize,
-      skip: savedProductData.length,
+      skip: savedProductsItems.length,
     };
-    const response = await getSavedProductData(data, authToken);
-    setSavedProductsData({
-      ...response,
-      _items: [...savedProductData, ...response._items],
-    });
+    const response = await getSavedProductData(data);
+    setSavedProductsItems([...savedProductsItems, ...response]);
     updatedWatched();
   };
 
   useEffect(() => {
-    totalCount = savedProductData._totalCount;
-    setSavedProductsData(savedProductData);
-  }, [savedProductData]);
-
-  useEffect(() => {
-    const params = [savedProductPageData, savedProductData];
+    const params = [savedProductPageData];
     if (checkParameters(params)) {
       markPageLoaded();
     }
-  }, [savedProductPageData, savedProductData]);
+  }, [savedProductPageData]);
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -136,6 +121,25 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
     resetSlideIndex();
   };
 
+  const fetchSavedProductsData = async () => {
+    const data = {
+      limit: pageSize,
+      skip: "0",
+    };
+    const response = await getSavedProductData(data, true);
+    setSavedProductsItems(response._items.map(x => x.data));
+    setSavedProductsData(response);
+    updatedWatched();
+  }
+
+  useEffect(() => {
+    setTotalCount(savedProductsData?._totalCount);
+  }, [savedProductsData]);
+
+  useEffect(() => {
+    fetchSavedProductsData();
+  }, []);
+
   return (
     <>
       <section className="my-account-intro section-saved-products">
@@ -155,15 +159,15 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                   className="list-saved-products grid-lg-25 grid-mobile-50"
                   data-aos="fadeIn .8s ease-in-out .4s, d:loop"
                 >
-                  {savedProductsData && savedProductsData.length === 0 ? (
+                  {savedProductsItems.length === 0 ? (
                     <div style={{ margin: "20vh auto" }}>
                       <h6 className="fs--20 text-center split-words ">
                         No Products Found
                       </h6>
                     </div>
                   ) : (
-                    savedProductsData?.map((productData, index) => {
-                      const { product, variantData, f1Members } = productData;
+                    savedProductsItems?.map((productData, index) => {
+                      const { product, variantData } = productData;
                       return (
                         <li key={index} className="grid-item">
                           <div
@@ -174,11 +178,10 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                           >
                             <div className="container-tags">
                               <SaveProductButton
-                                productId={product._id}
-                                members={f1Members}
-                                onUnSave={() =>
-                                  handleUnSaveProduct(product._id)
-                                }
+                                productData={productData}
+                                savedProductsData={savedProductsItems}
+                                setSavedProductsData={setSavedProductsItems}
+                                setTotalCount={setTotalCount}
                               />
                             </div>
                             <AnimateLink
@@ -259,7 +262,7 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                               class="modal-add-to-cart"
                               onClick={() =>
                                 getSelectedProductSnapShots(
-                                  savedProductsData[index]
+                                  savedProductsItems[index]
                                 )
                               }
                             >
@@ -272,19 +275,18 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
                     })
                   )}
                 </ul>
-                {totalCount > pageSize &&
-                  savedProductData.length !== totalCount && (
-                    <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
-                      <button
-                        onClick={handleLoadMore}
-                        className="btn-medium btn-red btn-hover-white"
-                      >
-                        <span className="split-chars">
-                          <span>Load more</span>
-                        </span>
-                      </button>
-                    </div>
-                  )}
+                {savedProductsData && savedProductsItems.length < totalCount && (
+                  <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
+                    <button
+                      onClick={handleLoadMore}
+                      className="btn-medium btn-red btn-hover-white"
+                    >
+                      <span className="split-chars">
+                        <span>Load more</span>
+                      </span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -319,6 +321,9 @@ const SavedProducts = ({ savedProductPageData, savedProductData }) => {
         selectedVariantIndex={selectedVariantIndex}
         setProductSnapshots={setProductSnapshots}
         setProductFilteredVariantData={setProductFilteredVariantData}
+        savedProductsData={savedProductsItems}
+        setSavedProductsData={setSavedProductsItems}
+        setTotalCount={setTotalCount}
       />
     </>
   );

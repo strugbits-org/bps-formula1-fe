@@ -1003,7 +1003,7 @@ export const getSavedProductPageData = async () => {
   }
 };
 // SAVED PRODUCT PAGE APIS
-export const getSavedProductData = async (payload) => {
+export const getSavedProductData = async (payload, returnTotalCount = false) => {
   try {
     const authToken = getToken();
     const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
@@ -1020,6 +1020,8 @@ export const getSavedProductData = async (payload) => {
 
     const data = await response.json();
     const itemData = data.data;
+    if (returnTotalCount && itemData) return itemData;
+
     if (itemData && itemData._items) {
       return itemData._items.map((x) => x.data);
     } else {
@@ -1028,6 +1030,36 @@ export const getSavedProductData = async (payload) => {
   } catch (error) {
     console.error("Error fetching saved products:", error);
     return [];
+  }
+};
+
+export const fetchAllProducts = async () => {
+  try {
+    const payload = {
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: ["product"],
+      limit: 1000,
+      eq: [
+        {
+          key: "isF1",
+          value: true,
+        },
+      ],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
+    };
+    const response = await getDataFetchFunction(payload);
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
   }
 };
 

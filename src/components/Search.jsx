@@ -9,6 +9,7 @@ import { SaveProductButton } from "./Common/SaveProductButton";
 import {
   getProductSnapShots,
   getProductVariants,
+  getSavedProductData,
   getSearchProducts,
 } from "@/services/apiServices";
 import {
@@ -29,6 +30,7 @@ const Search = ({ collections, colors, searchTerm }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [productSnapshots, setProductSnapshots] = useState();
+  const [savedProductsData, setSavedProductsData] = useState([]);
 
   const handleSearchResults = async ({
     collections = [],
@@ -126,6 +128,18 @@ const Search = ({ collections, colors, searchTerm }) => {
     }
     resetSlideIndex();
   };
+  const fetchSavedProductsData = async () => {
+    const data = {
+      limit: "1000",
+      skip: "0",
+    };
+    const response = await getSavedProductData(data);
+    setSavedProductsData(response);
+  }
+
+  useEffect(() => {
+    fetchSavedProductsData();
+  }, []);
 
   return (
     <>
@@ -151,7 +165,7 @@ const Search = ({ collections, colors, searchTerm }) => {
                 data-aos="fadeIn .8s ease-in-out .2s, d:loop"
               >
                 {searchResults.map((item, index) => {
-                  const { product, f1Members, variantData } = item;
+                  const { product, variantData } = item;
 
                   return (
                     <li key={item._id} className="grid-item">
@@ -164,8 +178,9 @@ const Search = ({ collections, colors, searchTerm }) => {
                       >
                         <div className="container-tags">
                           <SaveProductButton
-                            productId={product._id}
-                            members={f1Members}
+                            productData={item}
+                            savedProductsData={savedProductsData}
+                            setSavedProductsData={setSavedProductsData}
                           />
                         </div>
                         <AnimateLink
@@ -306,6 +321,8 @@ const Search = ({ collections, colors, searchTerm }) => {
         selectedVariantIndex={selectedVariantIndex}
         setProductSnapshots={setProductSnapshots}
         setProductFilteredVariantData={setProductFilteredVariantData}
+        savedProductsData={savedProductsData}
+        setSavedProductsData={setSavedProductsData}
       />
     </>
   );

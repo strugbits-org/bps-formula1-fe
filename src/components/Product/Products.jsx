@@ -195,7 +195,7 @@ const Products = ({
 
   const fetchSavedProductsData = async () => {
     const data = {
-      limit: "20",
+      limit: "1000",
       skip: "0",
     };
     const response = await getSavedProductData(data);
@@ -313,8 +313,6 @@ const Products = ({
                           {/* <BestSellerTag subCategory={subCategory} /> */}
                           <SaveProductButton
                             productData={data}
-                            productId={product._id}
-                            members={f1Members}
                             savedProductsData={savedProductsData}
                             setSavedProductsData={setSavedProductsData}
                           />
@@ -515,6 +513,8 @@ const Products = ({
         selectedVariantIndex={selectedVariantIndex}
         setProductSnapshots={setProductSnapshots}
         setProductFilteredVariantData={setProductFilteredVariantData}
+        savedProductsData={savedProductsData}
+        setSavedProductsData={setSavedProductsData}
       />
     </>
   );

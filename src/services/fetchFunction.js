@@ -27,25 +27,27 @@ export const fetchData = async (bodyData) => {
   }
 };
 
-export const getDataFetchFunction = async (bodyData) => {
+export const getDataFetchFunction = async (bodyData, disableCache = false) => {
   const authToken = getToken();
   const paramsData = JSON.stringify(bodyData);
   try {
     const headers = {
       "Content-Type": "application/json",
     };
+    if (authToken) headers.authorization = authToken;
 
-    if (authToken) {
-      headers.authorization = authToken;
+    const options = {
+      method: "GET",
+      headers,
     }
+
+    if(!disableCache) options.cache = "force-cache";
+
     const response = await fetch(
       `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,
-      {
-        method: "GET",
-        headers,
-        cache: "force-cache"
-      }
+      options
     );
+    
     if (!response.ok) {
       throw new Error("Failed to fetch Items data");
     }

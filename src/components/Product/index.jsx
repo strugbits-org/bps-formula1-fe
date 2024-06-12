@@ -13,10 +13,10 @@ import {
 } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
 import { debounce } from "lodash";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ collectionsData }) {
+export default function ProductIndex({ collectionsData, products }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
 
@@ -39,6 +39,7 @@ export default function ProductIndex({ collectionsData }) {
 
   const [loadingData, setLoadingData] = useState(false);
 
+  const params = useSearchParams();
   const handleLoadMore = async () => {
     try {
       setLoadingData(true);
@@ -160,7 +161,6 @@ export default function ProductIndex({ collectionsData }) {
 
     setColors(colors);
     setReloadTrigger((prev) => !prev);
-    setFiltersReady(true);
   };
 
   const setFilterCollectionsData = async (data) => {
@@ -203,10 +203,12 @@ export default function ProductIndex({ collectionsData }) {
       listProducts();
       return () => listProducts.cancel();
     }
-  }, [filtersReady, reloadTrigger]);
+  }, [reloadTrigger]);
 
   useEffect(() => {
-    handleRouterChange();
+    if (filtersReady) {
+      handleRouterChange();
+    };
   }, [searchParams]);
 
   const handlePopupFilters = () => {
@@ -224,6 +226,17 @@ export default function ProductIndex({ collectionsData }) {
     }
     setReloadTrigger((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (params.size === 0) {
+      setProductsCollection(products._items.map((x) => x.data));
+      setProductsResponse(products);
+      setFiltersReady(true);
+    } else {
+      handleRouterChange();
+      setFiltersReady(true);
+    }
+  }, []);
 
   useEffect(() => {
     markPageLoaded();

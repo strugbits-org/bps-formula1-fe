@@ -19,6 +19,9 @@ const AddToCartModal = ({
   selectedVariantIndex,
   setProductSnapshots,
   setProductFilteredVariantData,
+  savedProductsData,
+  setSavedProductsData,
+  setTotalCount
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
 
@@ -237,13 +240,15 @@ const AddToCartModal = ({
                                     productData.product.formattedPrice}
                                 </div>
                               </div>
-                              <SaveProductButton
-                                productId={
-                                  productData && productData.product._id
-                                }
-                                members={productData && productData.f1Members}
-                                dataAos="fadeIn .8s ease-in-out .2s, d:loop"
-                              />
+                              {productData && (
+                                <SaveProductButton
+                                  productData={productData}
+                                  savedProductsData={savedProductsData}
+                                  setSavedProductsData={setSavedProductsData}
+                                  dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                                  setTotalCount={setTotalCount}
+                                />
+                              )}
                             </div>
                             <ul
                               class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
@@ -393,7 +398,7 @@ const AddToCartModal = ({
                             </div>
                             {productData &&
                               productData.product.customTextFields.length >
-                                0 && (
+                              0 && (
                                 <div
                                   style={{ paddingTop: "20px" }}
                                   className="container-product-notes container-info-text "

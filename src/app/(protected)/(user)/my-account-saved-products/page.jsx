@@ -1,27 +1,11 @@
 import SavedProducts from "@/components/Account/SavedProducts";
-import {
-  getSavedProductData,
-  getSavedProductPageData,
-} from "@/services/apiServices";
-import { cookies } from "next/headers";
+import { getSavedProductPageData } from "@/services/apiServices";
 
 export default async function Page() {
-  const cookieStore = cookies();
-  const authToken = cookieStore.get("authToken")?.value;
 
-  const data = {
-    limit: "20",
-    skip: "0",
-  };
-  const [savedProductPageData, savedProductData] = await Promise.all([
-    getSavedProductPageData(),
-    getSavedProductData(data, authToken),
-  ]);
+  const savedProductPageData = await getSavedProductPageData();
 
   return (
-    <SavedProducts
-      savedProductPageData={savedProductPageData}
-      savedProductData={savedProductData}
-    />
+    <SavedProducts savedProductPageData={savedProductPageData} />
   );
 }

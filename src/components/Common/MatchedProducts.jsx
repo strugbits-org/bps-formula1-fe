@@ -11,7 +11,7 @@ import {
   getProductVariants,
 } from "@/services/apiServices";
 
-const MatchedProducts = ({ matchedProductsData }) => {
+const MatchedProducts = ({ matchedProductsData, savedProductsData, setSavedProductsData }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -145,8 +145,9 @@ const MatchedProducts = ({ matchedProductsData }) => {
                               <div className="container-tags">
                                 {/* <BestSellerTag subCategory={subCategory} /> */}
                                 <SaveProductButton
-                                  productId={product._id}
-                                  members={f1Members}
+                                  productData={data}
+                                  savedProductsData={savedProductsData}
+                                  setSavedProductsData={setSavedProductsData}
                                 />
                               </div>
 
@@ -321,6 +322,8 @@ const MatchedProducts = ({ matchedProductsData }) => {
         selectedVariantIndex={selectedVariantIndex}
         setProductSnapshots={setProductSnapshots}
         setProductFilteredVariantData={setProductFilteredVariantData}
+        savedProductsData={savedProductsData}
+        setSavedProductsData={setSavedProductsData}
       />
     </>
   );

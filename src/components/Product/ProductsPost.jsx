@@ -17,7 +17,7 @@ import {
 import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
-import { getSubCategory } from "@/services/apiServices";
+import { getSavedProductData, getSubCategory } from "@/services/apiServices";
 import { checkParameters } from "@/utils/CheckParams";
 
 const ProductPost = ({
@@ -26,11 +26,11 @@ const ProductPost = ({
   matchedProductsData,
   collectionsData,
   productSnapshots,
-  savedProductsData,
   productFoundData,
 }) => {
   const router = useRouter();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
+  const [savedProductsData, setSavedProductsData] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
@@ -160,7 +160,6 @@ const ProductPost = ({
       matchedProductsData,
       collectionsData,
       productSnapshots,
-      savedProductsData,
     ];
     if (checkParameters(params)) {
       markPageLoaded();
@@ -171,8 +170,20 @@ const ProductPost = ({
     matchedProductsData,
     collectionsData,
     productSnapshots,
-    savedProductsData,
   ]);
+
+  const fetchSavedProductsData = async () => {
+    const data = {
+      limit: "1000",
+      skip: "0",
+    };
+    const response = await getSavedProductData(data);
+    setSavedProductsData(response);
+  }
+
+  useEffect(() => {
+    fetchSavedProductsData();
+  }, []);
 
   const updatedDescription = selectedProductDetails.product.description.replace(
     /color:#000000;/g,
@@ -255,11 +266,10 @@ const ProductPost = ({
                               return (
                                 <div
                                   key={index}
-                                  class={`swiper-slide  ${
-                                    index === selectedVariantIndex
-                                      ? "active"
-                                      : ""
-                                  }`}
+                                  class={`swiper-slide  ${index === selectedVariantIndex
+                                    ? "active"
+                                    : ""
+                                    }`}
                                 >
                                   <div class="wrapper-img">
                                     <div class="container-img">
@@ -327,13 +337,14 @@ const ProductPost = ({
                         }
                       </div>
                     </div>
-
-                    <SaveProductButton
-                      productId={selectedProductDetails.product._id}
-                      members={selectedProductDetails.f1Members}
-                      dataAos="fadeIn .8s ease-in-out .2s, d:loop"
-                      savedProductsData={savedProductsData}
-                    />
+                    {selectedProductDetails && (
+                      <SaveProductButton
+                        productData={selectedProductDetails}
+                        dataAos="fadeIn .8s ease-in-out .2s, d:loop"
+                        savedProductsData={savedProductsData}
+                        setSavedProductsData={setSavedProductsData}
+                      />
+                    )}
                   </div>
                   <ul
                     class="list-specs mt-lg-35 mt-tablet-40 mt-phone-15"
@@ -480,7 +491,7 @@ const ProductPost = ({
 
                   {selectedProductDetails &&
                     selectedProductDetails.product.customTextFields.length >
-                      0 && (
+                    0 && (
                       <div
                         style={{ paddingBottom: "2px" }}
                         class="container-product-notes container-info-text "
@@ -622,7 +633,7 @@ const ProductPost = ({
       )}
 
       {matchedProductsData.length > 0 && (
-        <MatchedProducts matchedProductsData={matchedProductsData} />
+        <MatchedProducts matchedProductsData={matchedProductsData} savedProductsData={savedProductsData} setSavedProductsData={setSavedProductsData} />
       )}
 
       <OtherCollections data={collectionsData} />

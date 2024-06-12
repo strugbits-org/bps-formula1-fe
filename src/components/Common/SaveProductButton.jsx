@@ -4,26 +4,24 @@ import { useState, useEffect } from "react";
 
 export const SaveProductButton = ({
   productData,
-  productId,
-  members,
   dataAos,
   onUnSave,
   savedProductsData,
-  setSavedProductsData
+  setSavedProductsData,
+  setTotalCount
 }) => {
   const [productSaved, setProductSaved] = useState(false);
   const [error, setError] = useState("");
   const { memberId } = useUserData();
   const authToken = getUserAuth();
 
+  const productId = productData?.product._id;
+
   useEffect(() => {
-    if ((members && members.length > 0) || savedProductsData?.length) {
-      setProductSaved(
-        members?.includes(memberId) ||
-        savedProductsData?.some((i) => i?.product?._id === productId)
-      );
+    if (savedProductsData?.length) {
+      setProductSaved(savedProductsData?.some((i) => i?.product?._id === productId));
     }
-  }, [members, memberId, savedProductsData]);
+  }, [memberId, savedProductsData]);
 
   const handleProductSaveToggle = async (productId, isSaving) => {
     const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
@@ -48,6 +46,18 @@ export const SaveProductButton = ({
       if (!isSaving && onUnSave) {
         onUnSave(productId);
       }
+
+      if (setSavedProductsData) {
+        if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
+          const data = savedProductsData.filter((x) => x.product._id !== productId);
+          setSavedProductsData(data);
+          if (setTotalCount) setTotalCount((prev) => +prev - 1);
+        } else {
+          const data = [...savedProductsData, productData];
+          setSavedProductsData(data);
+          if (setTotalCount) setTotalCount((prev) => +prev + 1);
+        }
+      }
     } catch (error) {
       console.error(
         `Error ${isSaving ? "saving" : "unsaving"} product:`,
@@ -64,15 +74,6 @@ export const SaveProductButton = ({
   };
 
   const handleClick = () => {
-    if (setSavedProductsData) {
-      if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
-        const data = savedProductsData.filter((x) => x.product._id !== productId);
-        setSavedProductsData(data);
-      } else {
-        const data = [...savedProductsData, productData];
-        setSavedProductsData(data);
-      }
-    }
     handleProductSaveToggle(productId, !productSaved);
   };
 

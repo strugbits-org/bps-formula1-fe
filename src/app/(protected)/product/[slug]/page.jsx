@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 import ProductPost from "@/components/Product/ProductsPost";
 import {
+  fetchAllProducts,
   getCollectionsData,
   getPairItWithProducts,
   getPairItWithProductsId,
@@ -10,20 +10,19 @@ import {
   getProductPostPageData,
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/apiServices";
 
-export default async function Page({ params }) {
-  const slug = params.slug;
-  const cookieStore = cookies();
-  const authToken = cookieStore.get("authToken")?.value;
+export const generateStaticParams = async () => {
+  const all_products = await fetchAllProducts();
+  const paths = all_products.map((data) => ({ slug: data.product.slug }));
+  return paths;
+}
 
-  const data = {
-    limit: "20",
-    skip: "0",
-  };
+
+export default async function Page({ params }) {
+  const { slug } = params;
 
   const res = await getSelectedProductId(slug);
   let selectedProductId;
@@ -51,7 +50,6 @@ export default async function Page({ params }) {
     matchedProductsData,
     collectionsData,
     productSnapshots,
-    savedProductsData,
     productFound,
   ] = await Promise.all([
     getProductPostPageData(),
@@ -59,7 +57,6 @@ export default async function Page({ params }) {
     getPairItWithProducts(pairedProductIds),
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
-    getSavedProductData(data, authToken),
     getProductFound(),
   ]);
 
@@ -82,7 +79,6 @@ export default async function Page({ params }) {
       matchedProductsData={matchedProductsData}
       collectionsData={collectionsData}
       productSnapshots={productSnapshots}
-      savedProductsData={savedProductsData}
       productFoundData={productFound}
     />
   );
