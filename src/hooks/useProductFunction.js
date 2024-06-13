@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
   getProductSnapShots,
   getProductVariants,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import { resetSlideIndex } from "@/utils/AnimationFunctions";
 
 const useProductFunctions = (index, product, variantData) => {

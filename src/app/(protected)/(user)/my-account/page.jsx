@@ -3,7 +3,7 @@ import {
   getCreateAccountDropdown,
   getCreateAccountForm,
   getMyAccountPageData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 
 export default async function Page() {
   const [myAccountPageData, createAccountForm, createAccountDropdown] =

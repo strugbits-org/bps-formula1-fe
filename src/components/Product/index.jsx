@@ -5,7 +5,7 @@ import {
   getCollectionColors,
   getSelectedCategoryData,
   getSelectedCollectionData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
 import {
   initAnimations,
   markPageLoaded,
@@ -177,16 +177,13 @@ export default function ProductIndex({ collectionsData, products }) {
 
   const setFilterCategoryData = (data) => {
     if (data.length !== 0) {
-      // let filterCategories;
-      // if (data[0].level2Collections.length !== 0) {
-      //   filterCategories = data[0].level2Collections
-      //     .filter((x) => x._id)
-      //     .map((x) => x._id);
-      // } else {
-      //   filterCategories = [data[0].parentCollection._id];
-      // }
-
-      let filterCategories = [data[0].parentCollection._id];
+      let filterCategories;
+      const level2Collections = data[0].level2Collections.filter((x) => x._id);
+      if (level2Collections.length !== 0) {
+        filterCategories = level2Collections.map((x) => x._id);
+      } else {
+        filterCategories = [data[0].parentCollection._id];
+      }
       
       setfilterCategory(filterCategories);
       

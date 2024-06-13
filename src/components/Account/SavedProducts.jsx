@@ -10,8 +10,9 @@ import ErrorModal from "../Common/ErrorModal";
 import {
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
-} from "@/services/apiServices";
+} from "@/services/scApiCalls";
+import { getSavedProductData } from "@/services/apiServices";
+
 import {
   markPageLoaded,
   resetSlideIndex,
@@ -122,14 +123,22 @@ const SavedProducts = ({ savedProductPageData }) => {
   };
 
   const fetchSavedProductsData = async () => {
-    const data = {
-      limit: pageSize,
-      skip: "0",
-    };
-    const response = await getSavedProductData(data, true);
-    setSavedProductsItems(response._items.map(x => x.data));
-    setSavedProductsData(response);
-    updatedWatched();
+    try {
+      const data = {
+        limit: pageSize,
+        skip: "0",
+      };
+      const response = await getSavedProductData(data, true);
+      console.log("response", response);
+      if (response._items) {
+        setSavedProductsItems(response._items.map(x => x.data));
+        setSavedProductsData(response);
+        updatedWatched();
+      }
+      
+    } catch (error) {
+      console.log("error", error);
+    }
   }
 
   useEffect(() => {

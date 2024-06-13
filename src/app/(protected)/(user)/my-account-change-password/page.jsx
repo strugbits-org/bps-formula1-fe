@@ -1,4 +1,4 @@
-import { getChangePasswordPageData } from "@/services/apiServices";
+import { getChangePasswordPageData } from "@/services/scApiCalls";
 import ChangePassword from "@/components/Account/ChangePassword";
 
 export default async function Page() {
