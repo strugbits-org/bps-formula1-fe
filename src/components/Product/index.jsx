@@ -38,6 +38,7 @@ export default function ProductIndex({ collectionsData, products }) {
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
   const [loadingData, setLoadingData] = useState(false);
+  const [selectedVariants, setSelectedVariants] = useState({});
 
   const params = useSearchParams();
   const handleLoadMore = async () => {
@@ -77,7 +78,8 @@ export default function ProductIndex({ collectionsData, products }) {
       );
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
-      const isFirstLoadDone = document.body.classList.contains("first-load-done");
+      const isFirstLoadDone =
+        document.body.classList.contains("first-load-done");
       updatedWatched();
       if (isFirstLoadDone) {
         pageLoadEnd();
@@ -176,6 +178,7 @@ export default function ProductIndex({ collectionsData, products }) {
   };
 
   const setFilterCategoryData = (data) => {
+    console.log("Called");
     if (data.length !== 0) {
       let filterCategories;
       const level2Collections = data[0].level2Collections.filter((x) => x._id);
@@ -184,9 +187,11 @@ export default function ProductIndex({ collectionsData, products }) {
       } else {
         filterCategories = [data[0].parentCollection._id];
       }
-      
+
       setfilterCategory(filterCategories);
-      
+      setTimeout(() => {
+        setSelectedVariants({});
+      }, 600);
     } else {
       setfilterCategory([]);
     }
@@ -206,7 +211,7 @@ export default function ProductIndex({ collectionsData, products }) {
   useEffect(() => {
     if (filtersReady) {
       handleRouterChange();
-    };
+    }
   }, [searchParams]);
 
   const handlePopupFilters = () => {
@@ -255,6 +260,8 @@ export default function ProductIndex({ collectionsData, products }) {
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
       loading={loadingData}
+      selectedVariants={selectedVariants}
+      setSelectedVariants={setSelectedVariants}
     />
   );
 }

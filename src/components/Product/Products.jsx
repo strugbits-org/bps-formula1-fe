@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
 import OtherCollections from "../Common/OtherCollections";
 import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
@@ -32,6 +32,8 @@ const Products = ({
   setfilterCategory,
   handlePopupFilters,
   loading,
+  selectedVariants,
+  setSelectedVariants,
 }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -50,8 +52,11 @@ const Products = ({
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [savedProductsData, setSavedProductsData] = useState([]);
-  const [selectedVariants, setSelectedVariants] = useState({});
+  // const [selectedVariants, setSelectedVariants] = useState({});
 
+  useEffect(() => {
+    updatedWatched();
+  }, [selectedVariants]);
   const handleVariantSelection = (productIndex, variant) => {
     setSelectedVariants((prevSelectedVariants) => ({
       ...prevSelectedVariants,
