@@ -129,7 +129,6 @@ const SavedProducts = ({ savedProductPageData }) => {
         skip: "0",
       };
       const response = await getSavedProductData(data, true);
-      console.log("response", response);
       if (response._items) {
         setSavedProductsItems(response._items.map(x => x.data));
         setSavedProductsData(response);

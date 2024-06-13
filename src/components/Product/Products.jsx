@@ -50,7 +50,14 @@ const Products = ({
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [savedProductsData, setSavedProductsData] = useState([]);
+  const [selectedVariants, setSelectedVariants] = useState({});
 
+  const handleVariantSelection = (productIndex, variant) => {
+    setSelectedVariants((prevSelectedVariants) => ({
+      ...prevSelectedVariants,
+      [productIndex]: variant,
+    }));
+  };
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
@@ -200,14 +207,13 @@ const Products = ({
     };
     const response = await getSavedProductData(data);
     setSavedProductsData(response);
-  }
+  };
 
   useEffect(() => {
     fetchSavedProductsData();
   }, []);
 
-  useEffect(() => {
-  }, [savedProductsData]);
+  useEffect(() => {}, [savedProductsData]);
 
   return (
     <>
@@ -284,27 +290,13 @@ const Products = ({
 
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
-                  const { product, variantData, f1Members } = data;
-                  let defaultVariantSku;
-                  if (selectedVariant === null) {
-                    setSelectedVariant(variantData);
-                  }
-                  if (selectedVariant) {
-                    const defaultVariant = variantData.find(
-                      (variant) => variant.sku === selectedVariant.sku
-                    );
-                    defaultVariantSku = defaultVariant
-                      ? defaultVariant.sku
-                      : variantData[0].sku;
-                  }
+                  const { product, variantData } = data;
+                  const selectedVariant =
+                    selectedVariants[index] || variantData[0];
+                  const defaultVariantSku = selectedVariant.sku;
+                  const defaultVariantImage = selectedVariant.variant.imageSrc;
+
                   return (
-                    // <ProductListItemMain
-                    //   index={index}
-                    //   product={{ ...product, preview: false }}
-                    //   variantData={variantData}
-                    //   f1Members={f1Members}
-                    //   searchResults={filteredProducts}
-                    // />
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
                         className="product-link large active"
@@ -377,9 +369,9 @@ const Products = ({
                                       }
                                     >
                                       <img
+                                        // src={defaultVariantImage}
                                         src={productImageURL({
-                                          wix_url:
-                                            selectedData.variant.imageSrc,
+                                          wix_url: defaultVariantImage,
                                           w: "373",
                                           h: "373",
                                           fit: "fill",
@@ -402,27 +394,35 @@ const Products = ({
                         </AnimateLink>
                         <div className="container-color-options">
                           <ul className="list-color-options">
-                            {variantData.map((variantData, index) => {
+                            {variantData.map((selVariantData, idx) => {
                               return (
-                                <React.Fragment key={index}>
-                                  {index < 4 && (
+                                <React.Fragment key={idx}>
+                                  {idx < 4 && (
                                     <li
                                       className="list-item"
                                       data-set-product-link-color={
-                                        variantData.color[0]
+                                        selVariantData.color[0]
                                       }
-                                      onMouseEnter={() =>
-                                        handleImageHover(variantData)
-                                      }
+                                      onMouseEnter={() => {
+                                        // handleImageHover(
+                                        //   filteredProducts[index].variantData[
+                                        //     idx
+                                        //   ]
+                                        // );
+                                        handleVariantSelection(
+                                          index,
+                                          selVariantData
+                                        );
+                                      }}
                                       data-default-product-link-active={
-                                        index === 0
+                                        idx === 0
                                       }
                                     >
                                       <div className="container-img">
                                         <img
                                           src={productImageURL({
                                             wix_url:
-                                              variantData.variant.imageSrc,
+                                              selVariantData.variant.imageSrc,
                                             w: "39",
                                             h: "39",
                                             fit: "fill",
