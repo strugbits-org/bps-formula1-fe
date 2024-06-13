@@ -1,22 +1,26 @@
-import ProductIndex from "@/components/Product";
+import Products from "@/components/Product/Products";
 import {
   fetchProducts,
+  getAllCategoriesData,
+  getAllColorsData,
   getCollectionsData,
 } from "@/services/scApiCalls";
 
 
 export default async function Page() {
-  const pageSize = 9;
-
   const [
+    products,
     collectionsData,
-    products
+    categoriesData,
+    colorsData,
   ] = await Promise.all([
+    fetchProducts(),
     getCollectionsData(),
-    fetchProducts([], [], pageSize,[])
+    getAllCategoriesData(),
+    getAllColorsData(),
   ]);
-  
+
   return (
-    <ProductIndex collectionsData={collectionsData} products={products} />
+    <Products products={products} collectionsData={collectionsData} categoriesData={categoriesData} colorsData={colorsData} />
   );
 }

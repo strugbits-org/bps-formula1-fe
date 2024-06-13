@@ -241,14 +241,7 @@ export const getCollectionsData = async () => {
   try {
     const response = await serverComponentApiFetcher({
       dataCollectionId: "CollectionsF1",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      contains: null,
-      limit: null,
-      eq: null,
-      ne: null,
-      hasSome: null,
-      skip: null,
+      limit: 1000
     });
 
     if (response && response._items) {
@@ -352,6 +345,26 @@ export const getSelectedCollectionData = async (slug) => {
 };
 
 // CATEGORY DATA
+export const getAllCategoriesData = async () => {
+  try {
+    const response = await serverComponentApiFetcher({
+      dataCollectionId: "F1CategoriesStructure",
+      includeReferencedItems: ["parentCollection", "level2Collections"],
+      limit: 50
+    });
+    if (response && response._items) {
+      const categoriesData = response._items.map((x) => x.data);
+      const filteredData = categoriesData.filter((x) => x.parentCollection.slug !== "all-products");
+      return filteredData;
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching all categories:", error);
+    return [];
+  }
+};
+
 export const getCategoriesData = async (collectionsIds) => {
   try {
     const response = await serverComponentApiFetcher({
@@ -370,7 +383,7 @@ export const getCategoriesData = async (collectionsIds) => {
       ],
       skip: null,
     });
-
+    console.log("getCategoriesData");
     if (response && response._items) {
       const categoriesData = response._items.map((x) => x.data);
       const filteredData = categoriesData.filter(
@@ -413,6 +426,23 @@ export const getSelectedCategoryData = async (slug) => {
   } catch (error) {
     console.error("Error fetching filter category:", error);
     return [];
+  }
+};
+
+export const getAllColorsData = async () => {
+  try {
+    const response = await serverComponentApiFetcher({
+      dataCollectionId: "colorFilterCache",
+      limit: 1000
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching colors:", error);
   }
 };
 
@@ -998,7 +1028,7 @@ export const getSavedProductPageData = async () => {
 //   }
 // };
 
-export const fetchProducts = async (
+export const _fetchProducts = async (
   collections,
   categories,
   pageSize,
@@ -1056,6 +1086,41 @@ export const fetchProducts = async (
     const response = await serverComponentApiFetcher(payload);
     if (response) {
       return response;
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+  }
+};
+export const fetchProducts = async () => {
+  try {
+    const payload = {
+      dataCollectionId: "locationFilteredVariant",
+      includeReferencedItems: [
+        "category",
+        "product",
+        "subCategory",
+        "f1Members",
+        "f1Collection",
+      ],
+      eq: [
+        {
+          key: "isF1",
+          value: true,
+        },
+      ],
+      ne: [
+        {
+          key: "hidden",
+          value: true,
+        },
+      ],
+    };
+
+    const response = await serverComponentApiFetcher(payload);
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
     } else {
       throw new Error("Response does not contain _items");
     }

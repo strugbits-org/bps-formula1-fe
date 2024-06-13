@@ -1,7 +1,8 @@
+"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { pageLoadStart } from "@/utils/AnimationFunctions";
+import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
 import OtherCollections from "../Common/OtherCollections";
 import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
@@ -18,23 +19,19 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
 
-const Products = ({
-  filteredProducts,
-  collectionsData,
-  selectedCategory,
-  selectedCollection,
-  colors,
-  totalCount,
-  pageSize,
-  handleLoadMore,
-  setFilterColors,
-  setfilterCollections,
-  setfilterCategory,
-  handlePopupFilters,
-  loading,
-}) => {
+const Products = ({ products, collectionsData, categoriesData, colorsData }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [activeColors, setActiveColors] = useState([]);
+  const [activeCategories, setActiveCategories] = useState([]);
+
+  const [selectedCollection, setSelectedCollection] = useState();
+  const [selectedCategory, setSelectedCategory] = useState();
+
+
+
 
   const category = searchParams.get("category");
   const subCategory = searchParams.get("subCategory");
@@ -141,47 +138,50 @@ const Products = ({
     router.push(`?${newParams.toString()}`);
   };
 
-  const getCategoriesList = async () => {
-    let categories;
-    if (category === null) {
-      let collectionIds = collectionsData.map((x) => x._id);
-      if (selectedCollection.length !== 0) {
-        collectionIds = selectedCollection.map((x) => x._id);
-      }
+  const handleLoadMore = async () => {
 
-      const response = await getCategoriesData(collectionIds);
-      categories = response.map((x) => {
-        return { ...x.parentCollection, type: "category" };
-      });
-    } else {
-      categories = selectedCategory[0]?.level2Collections
-        .filter((x) => x._id !== undefined)
-        .map((x) => {
-          return { ...x, type: "subCategory" };
-        });
-    }
-    setFilterCategories(categories);
-  };
+  }
+  // const getCategoriesList = async () => {
+  //   let categories;
+  //   if (category === null) {
+  //     let collectionIds = collectionsData.map((x) => x._id);
+  //     if (selectedCollection.length !== 0) {
+  //       collectionIds = selectedCollection.map((x) => x._id);
+  //     }
 
-  useEffect(() => {
-    if (
-      category === null ||
-      (selectedCategory && selectedCategory.length !== 0)
-    ) {
-      getCategoriesList();
-    }
-  }, [searchParams, selectedCollection, collectionsData, selectedCategory]);
+  //     const response = await getCategoriesData(collectionIds);
+  //     categories = response.map((x) => {
+  //       return { ...x.parentCollection, type: "category" };
+  //     });
+  //   } else {
+  //     categories = selectedCategory[0]?.level2Collections
+  //       .filter((x) => x._id !== undefined)
+  //       .map((x) => {
+  //         return { ...x, type: "subCategory" };
+  //       });
+  //   }
+  //   setFilterCategories(categories);
+  // };
 
-  useEffect(() => {
-    if (subCategory && selectedCategory.length !== 0) {
-      const name = selectedCategory[0]?.level2Collections.find(
-        (x) => x._id === subCategory
-      ).name;
-      setCategoryTitle(name);
-    } else {
-      setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
-    }
-  }, [searchParams, selectedCategory]);
+  // useEffect(() => {
+  //   if (
+  //     category === null ||
+  //     (selectedCategory && selectedCategory.length !== 0)
+  //   ) {
+  //     getCategoriesList();
+  //   }
+  // }, [searchParams, selectedCollection, collectionsData, selectedCategory]);
+
+  // useEffect(() => {
+  //   if (subCategory && selectedCategory.length !== 0) {
+  //     const name = selectedCategory[0]?.level2Collections.find(
+  //       (x) => x._id === subCategory
+  //     ).name;
+  //     setCategoryTitle(name);
+  //   } else {
+  //     setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
+  //   }
+  // }, [searchParams, selectedCategory]);
 
   const handleFilterChange = ({
     collections = null,
@@ -209,11 +209,95 @@ const Products = ({
     setSavedProductsData(response);
   };
 
+  const setInitialData = async () => {
+    const collection = searchParams.get("collection");
+    const category = searchParams.get("category");
+    const subCategory = searchParams.get("subCategory");
+
+    const selectedCollectionData = collectionsData.find((x) => x.collectionSlug === collection);
+    setSelectedCollection(selectedCollectionData);
+
+    const selectedCategoriesData = categoriesData.find((x) => x.parentCollection._id === category);
+    setSelectedCategory(selectedCategoriesData);
+
+    const allProductsCategory = "00000000-000000-000000-000000000001";
+    const activeCategory = subCategory || category || allProductsCategory;
+    const selectedColorsData = colorsData.find((x) => x.category === activeCategory).colors;
+    setActiveColors(selectedColorsData);
+
+
+    const getCategoriesList = async () => {
+      let categories;
+      if (category === null) {
+        let collectionIds = collectionsData.map((x) => x._id);
+        if (selectedCollection.length !== 0) {
+          collectionIds = selectedCollection.map((x) => x._id);
+        }
+
+        const response = await getCategoriesData(collectionIds);
+        categories = response.map((x) => {
+          return { ...x.parentCollection, type: "category" };
+        });
+      } else {
+        categories = selectedCategory[0]?.level2Collections
+          .filter((x) => x._id !== undefined)
+          .map((x) => {
+            return { ...x, type: "subCategory" };
+          });
+      }
+      setFilterCategories(categories);
+    };
+
+    if (category) {
+      const level2Collections = selectedCategoriesData.level2Collections.filter((x) => x._id).map((x) => {
+        return { ...x, type: "subCategory" };
+      });
+      setActiveCategories(level2Collections);
+    } else {
+      categories = categoriesData.map((x) => {
+        return { ...x.parentCollection, type: "category" };
+      });
+      setActiveCategories(categories);
+    }
+    // let colors = [];
+    // if (subCategory) {
+    //   const colorData = await getCollectionColors(subCategory);
+    //   if (colorData && colorData.colors) {
+    //     colors = colorData.colors;
+    //   }
+
+    //   setfilterCategory([subCategory]);
+    // } else if (category) {
+    //   const colorData = await getCollectionColors(category);
+    //   if (colorData && colorData.colors) {
+    //     colors = colorData.colors;
+    //   }
+    // } else {
+    //   const allProducts = "00000000-000000-000000-000000000001";
+    //   const colorData = await getCollectionColors(allProducts);
+    //   if (colorData && colorData.colors) {
+    //     colors = colorData.colors;
+    //   }
+    // }
+    console.log("colorsData", colorsData);
+    console.log("collection", collection);
+    console.log("category", category);
+    console.log("subCategory", subCategory);
+    markPageLoaded();
+  }
+
   useEffect(() => {
-    fetchSavedProductsData();
+    setInitialData();
   }, []);
 
-  useEffect(() => {}, [savedProductsData]);
+  useEffect(() => {
+    console.log("activeCategories", activeCategories);
+    console.log("activeColors", activeColors);
+  }, [activeCategories, activeColors]);
+
+  // useEffect(() => {
+  //   fetchSavedProductsData();
+  // }, []);
 
   return (
     <>
@@ -257,18 +341,18 @@ const Products = ({
               class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              <FilterButton
+              {/* <FilterButton
                 collections={collectionsData}
                 categories={filterCategories}
                 colors={colors}
                 handleFilterChange={handleFilterChange}
-              />
+              /> */}
             </div>
           </div>
 
           <div className="row row-2 mt-lg-60 mt-mobile-30 pb-lg-80">
             <div className="col-lg-10 offset-lg-1 column-1">
-              {selectedCollection.length !== 0 && (
+              {selectedCollection && (
                 <div className="container-title">
                   <h2 className="fs-lg-24 white-1 text-center text-uppercase">
                     <span
@@ -282,7 +366,7 @@ const Products = ({
                       data-delay="400"
                       data-aos="d:loop"
                     >
-                      {selectedCollection[0]?.collectionName}
+                      {selectedCollection.collectionName}
                     </span>
                   </h2>
                 </div>
@@ -468,7 +552,7 @@ const Products = ({
                   No Products Found
                 </h6>
               )}
-              {filteredProducts.length < totalCount && !loading && (
+              {filteredProducts.length < products.length && (
                 <div className="flex-center mt-30">
                   <button
                     onClick={handleLoadMore}

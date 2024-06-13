@@ -11,14 +11,16 @@ import {
   markPageLoaded,
   pageLoadEnd, updatedWatched,
 } from "@/utils/AnimationFunctions";
-import { checkParameters } from "@/utils/CheckParams";
 import { debounce } from "lodash";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ collectionsData, products }) {
+export default function ProductIndex({ products, collectionsData, categoriesData, colorsData }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
+
+
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
   const [selectedCategory, setSelectedCategory] = useState(null); //router params
   const [selectedCollection, setSelectedCollection] = useState(null); //router params
@@ -37,12 +39,9 @@ export default function ProductIndex({ collectionsData, products }) {
   const [filtersReady, setFiltersReady] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
-  const [loadingData, setLoadingData] = useState(false);
-
   const params = useSearchParams();
   const handleLoadMore = async () => {
     try {
-      setLoadingData(true);
       const response = await fetchProducts(
         filterCollections,
         filterCategory,
@@ -61,14 +60,11 @@ export default function ProductIndex({ collectionsData, products }) {
       }, 900);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoadingData(false);
     }
   };
 
   const handleProductsFilter = async () => {
     try {
-      setLoadingData(true);
       const response = await fetchProducts(
         filterCollections,
         filterCategory,
@@ -86,8 +82,6 @@ export default function ProductIndex({ collectionsData, products }) {
       markPageLoaded(false);
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoadingData(false);
     }
   };
 
@@ -184,9 +178,9 @@ export default function ProductIndex({ collectionsData, products }) {
       } else {
         filterCategories = [data[0].parentCollection._id];
       }
-      
+
       setfilterCategory(filterCategories);
-      
+
     } else {
       setfilterCategory([]);
     }
@@ -225,18 +219,16 @@ export default function ProductIndex({ collectionsData, products }) {
     setReloadTrigger((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (params.size === 0) {
-      setProductsCollection(products._items.map((x) => x.data));
-      setProductsResponse(products);
-      setFiltersReady(true);
-    } else {
-      handleRouterChange();
-      setFiltersReady(true);
-    }
-  }, []);
+  const handleFilterProducts = () => {
+
+  }
 
   useEffect(() => {
+    console.log("products", products);
+    console.log("collectionsData", collectionsData);
+    console.log("categoriesData", categoriesData);
+    console.log("colorsData", colorsData);
+    setProductsCollection(products);
     markPageLoaded();
   }, []);
 
@@ -254,7 +246,6 @@ export default function ProductIndex({ collectionsData, products }) {
       setfilterCollections={setfilterCollections}
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
-      loading={loadingData}
     />
   );
 }
