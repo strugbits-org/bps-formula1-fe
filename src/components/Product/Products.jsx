@@ -220,33 +220,9 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
     const selectedCategoriesData = categoriesData.find((x) => x.parentCollection._id === category);
     setSelectedCategory(selectedCategoriesData);
 
-    const allProductsCategory = "00000000-000000-000000-000000000001";
-    const activeCategory = subCategory || category || allProductsCategory;
+    const activeCategory = subCategory || category || "00000000-000000-000000-000000000001";
     const selectedColorsData = colorsData.find((x) => x.category === activeCategory).colors;
     setActiveColors(selectedColorsData);
-
-
-    const getCategoriesList = async () => {
-      let categories;
-      if (category === null) {
-        let collectionIds = collectionsData.map((x) => x._id);
-        if (selectedCollection.length !== 0) {
-          collectionIds = selectedCollection.map((x) => x._id);
-        }
-
-        const response = await getCategoriesData(collectionIds);
-        categories = response.map((x) => {
-          return { ...x.parentCollection, type: "category" };
-        });
-      } else {
-        categories = selectedCategory[0]?.level2Collections
-          .filter((x) => x._id !== undefined)
-          .map((x) => {
-            return { ...x, type: "subCategory" };
-          });
-      }
-      setFilterCategories(categories);
-    };
 
     if (category) {
       const level2Collections = selectedCategoriesData.level2Collections.filter((x) => x._id).map((x) => {
@@ -254,40 +230,20 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
       });
       setActiveCategories(level2Collections);
     } else {
-      categories = categoriesData.map((x) => {
+      const parentCategories = categoriesData.map((x) => {
         return { ...x.parentCollection, type: "category" };
       });
-      setActiveCategories(categories);
+      setActiveCategories(parentCategories);
     }
-    // let colors = [];
-    // if (subCategory) {
-    //   const colorData = await getCollectionColors(subCategory);
-    //   if (colorData && colorData.colors) {
-    //     colors = colorData.colors;
-    //   }
 
-    //   setfilterCategory([subCategory]);
-    // } else if (category) {
-    //   const colorData = await getCollectionColors(category);
-    //   if (colorData && colorData.colors) {
-    //     colors = colorData.colors;
-    //   }
-    // } else {
-    //   const allProducts = "00000000-000000-000000-000000000001";
-    //   const colorData = await getCollectionColors(allProducts);
-    //   if (colorData && colorData.colors) {
-    //     colors = colorData.colors;
-    //   }
-    // }
-    console.log("colorsData", colorsData);
-    console.log("collection", collection);
-    console.log("category", category);
-    console.log("subCategory", subCategory);
-    markPageLoaded();
+    const filteredProductsData = products.filter((product) => product);
+    setFilteredProducts(filteredProductsData);
+
   }
 
   useEffect(() => {
     setInitialData();
+    markPageLoaded();
   }, []);
 
   useEffect(() => {
@@ -318,22 +274,21 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
                   className="list-tags"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
-                  {filterCategories &&
-                    filterCategories.map((data, index) => {
-                      const { name, _id, type } = data;
-                      return (
-                        <li key={index} className="list-item">
-                          <button
-                            className="btn-tag js-running"
-                            onClick={() => {
-                              changeQuery(type, _id);
-                            }}
-                          >
-                            <span>{name}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
+                  {activeCategories.map((data, index) => {
+                    const { name, _id, type } = data;
+                    return (
+                      <li key={index} className="list-item">
+                        <button
+                          className="btn-tag js-running"
+                          onClick={() => {
+                            changeQuery(type, _id);
+                          }}
+                        >
+                          <span>{name}</span>
+                        </button>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>
@@ -341,12 +296,12 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
               class="col-lg-1 col-mobile-3 column-filter column-3 order-mobile-2"
               data-aos="fadeIn .8s ease-in-out .2s, d:loop"
             >
-              {/* <FilterButton
+              <FilterButton
                 collections={collectionsData}
-                categories={filterCategories}
-                colors={colors}
+                categories={activeCategories}
+                colors={activeColors}
                 handleFilterChange={handleFilterChange}
-              /> */}
+              />
             </div>
           </div>
 
