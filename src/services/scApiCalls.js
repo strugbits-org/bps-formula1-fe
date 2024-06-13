@@ -1,21 +1,22 @@
 "use server";
 
 import { getDataFetchFunction } from "./fetchFunction";
-// import { cookies } from 'next/headers';
+import { getAuthToken } from "./getAuthToken";
 
+const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-const getAuthToken = () => {
-  // const cookieStore = cookies();
-  // const authToken = cookieStore?.get('authToken');
-  // console.log("authToken server", authToken.value)
-  // return authToken?.value
-  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
+const getAuthenticationToken = () => {
+  if (isBuildProcess) {
+    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
+  } else {
+    const token = getAuthToken();
+    return token;
+  }
 }
-// getAuthToken()
 
 const serverComponentApiFetcher = async (bodyData) => {
-  return await getDataFetchFunction(bodyData, getAuthToken())
+  return await getDataFetchFunction(bodyData, getAuthenticationToken())
 }
 
 // HOME PAGE APIS
@@ -971,7 +972,7 @@ export const getSavedProductPageData = async () => {
 // SAVED PRODUCT PAGE APIS
 // export const getSavedProductData = async (payload) => {
 //   try {
-//     const authToken = getAuthToken();
+//     const authToken = getAuthenticationToken();
 //     const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
 //       method: "POST",
 //       headers: {
