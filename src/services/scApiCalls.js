@@ -394,14 +394,14 @@ export const getSelectedCategoryData = async (slug) => {
       returnTotalCount: null,
       contains: null,
       limit: null,
-      eq: null,
-      ne: null,
-      hasSome: [
+      eq: [
         {
           key: "parentCollection",
-          values: [slug],
+          value: slug,
         },
       ],
+      ne: null,
+      hasSome: null,
       skip: null,
     });
 

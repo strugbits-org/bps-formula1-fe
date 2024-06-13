@@ -122,6 +122,7 @@ export default function ProductIndex({ collectionsData, products }) {
         getSelectedCollectionData(slug),
         getSelectedCategoryData(category),
       ]);
+
       setSelectedCollectionData(collectionsResponse);
       setFilterCollectionsData(collectionsResponse);
       setSelectedCategoryData(categoryResponse);
@@ -178,7 +179,6 @@ export default function ProductIndex({ collectionsData, products }) {
   };
 
   const setFilterCategoryData = (data) => {
-    console.log("Called");
     if (data.length !== 0) {
       let filterCategories;
       const level2Collections = data[0].level2Collections.filter((x) => x._id);
