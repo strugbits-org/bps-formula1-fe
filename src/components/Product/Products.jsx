@@ -19,7 +19,7 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
 
-const Products = ({ products, collectionsData, categoriesData, colorsData }) => {
+const Products = ({ products, collectionsData, categoriesData, colorsData, savedProducts }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -29,9 +29,6 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
 
   const [selectedCollection, setSelectedCollection] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-
-
-
 
   const category = searchParams.get("category");
   const subCategory = searchParams.get("subCategory");
@@ -46,15 +43,15 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
   const [categoryTitle, setCategoryTitle] = useState("");
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-  const [savedProductsData, setSavedProductsData] = useState([]);
+  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
   // const [selectedVariants, setSelectedVariants] = useState({});
 
-  
+
   const handleVariantSelection = (productIndex, variant) => {
-    setSelectedVariants((prevSelectedVariants) => ({
-      ...prevSelectedVariants,
-      [productIndex]: variant,
-    }));
+    // setSelectedVariants((prevSelectedVariants) => ({
+    //   ...prevSelectedVariants,
+    //   [productIndex]: variant,
+    // }));
   };
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
@@ -214,46 +211,53 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
     const category = searchParams.get("category");
     const subCategory = searchParams.get("subCategory");
 
-    const selectedCollectionData = collectionsData.find((x) => x.collectionSlug === collection);
+    const selectedCollectionData = collectionsData.find(x => x.collectionSlug === collection);
     setSelectedCollection(selectedCollectionData);
 
-    const selectedCategoriesData = categoriesData.find((x) => x.parentCollection._id === category);
-    setSelectedCategory(selectedCategoriesData);
+    const selectedCategoryData = categoriesData.find(x => x.parentCollection._id === category);
+    setSelectedCategory(selectedCategoryData);
 
     const activeCategory = subCategory || category || "00000000-000000-000000-000000000001";
-    const selectedColorsData = colorsData.find((x) => x.category === activeCategory).colors;
+    const selectedColorsData = colorsData.find(x => x.category === activeCategory)?.colors || [];
     setActiveColors(selectedColorsData);
 
     if (category) {
-      const level2Collections = selectedCategoriesData.level2Collections.filter((x) => x._id).map((x) => {
-        return { ...x, type: "subCategory" };
-      });
+      const level2Collections = selectedCategoryData?.level2Collections.map(x => ({ ...x, type: "subCategory" })) || [];
       setActiveCategories(level2Collections);
     } else {
-      const parentCategories = categoriesData.map((x) => {
-        return { ...x.parentCollection, type: "category" };
-      });
+      const parentCategories = categoriesData.map(x => ({ ...x.parentCollection, type: "category" }));
       setActiveCategories(parentCategories);
     }
 
-    const filteredProductsData = products.filter((product) => product);
+    const filteredProductsData = products.filter(product => {
+      if (!selectedCollectionData && !selectedCategoryData) {
+        return true;
+      }
+
+      const hasCollection = selectedCollectionData ? product.f1Collection.some(x => x._id === selectedCollectionData._id) : false;
+      const hasCategory = selectedCategoryData ? product.subCategory.some(x => x._id === selectedCategoryData.parentCollection._id) : false;
+
+      if (selectedCollectionData && !selectedCategoryData) {
+        return hasCollection;
+      }
+      if (!selectedCollectionData && selectedCategoryData) {
+        return hasCategory;
+      }
+      return hasCollection && hasCategory;
+    });
+
     setFilteredProducts(filteredProductsData);
-
-  }
-
-  useEffect(() => {
-    setInitialData();
-    markPageLoaded();
-  }, []);
-
-  useEffect(() => {
-    console.log("activeCategories", activeCategories);
-    console.log("activeColors", activeColors);
-  }, [activeCategories, activeColors]);
+  };
 
   // useEffect(() => {
   //   fetchSavedProductsData();
   // }, []);
+
+  useEffect(() => {
+    setInitialData();
+    setTimeout(markPageLoaded, 900);
+  }, [searchParams]);
+
 
   return (
     <>
@@ -330,17 +334,16 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.map((data, index) => {
                   const { product, variantData } = data;
-                  const selectedVariant =
-                    selectedVariants[index] || variantData[0];
+                  // const selectedVariant = selectedVariants[index] || variantData[0];
+                  const selectedVariant = variantData[0];
                   const defaultVariantSku = selectedVariant.sku;
                   const defaultVariantImage = selectedVariant.variant.imageSrc;
                   const isActive = selectedVariant !== variantData[0];
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
-                        className={`product-link large ${
-                          isActive ? "active" : ""
-                        }`}
+                        className={`product-link large ${isActive ? "active" : ""
+                          }`}
                         data-product-category
                         data-product-location
                         data-product-colors

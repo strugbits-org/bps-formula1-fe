@@ -1233,3 +1233,34 @@ export const fetchAllProducts = async () => {
     console.error("Error fetching all products:", error);
   }
 };
+
+export const getSavedProductData = async (payload, returnTotalCount = false) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify(payload),
+      cache:"no-store"
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    const itemData = data.data;
+    if (returnTotalCount && itemData) return itemData;
+
+    if (itemData && itemData._items) {
+      return itemData._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching saved products:", error);
+    return [];
+  }
+};
