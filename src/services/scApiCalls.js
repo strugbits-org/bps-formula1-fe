@@ -407,14 +407,14 @@ export const getSelectedCategoryData = async (slug) => {
       returnTotalCount: null,
       contains: null,
       limit: null,
-      eq: null,
-      ne: null,
-      hasSome: [
+      eq: [
         {
           key: "parentCollection",
-          values: [slug],
+          value: slug,
         },
       ],
+      ne: null,
+      hasSome: null,
       skip: null,
     });
 
@@ -598,7 +598,7 @@ export const getSelectedProductId = async (slug) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching selected ProductId:", error);
   }
 };
 

@@ -47,8 +47,9 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [savedProductsData, setSavedProductsData] = useState([]);
-  const [selectedVariants, setSelectedVariants] = useState({});
+  // const [selectedVariants, setSelectedVariants] = useState({});
 
+  
   const handleVariantSelection = (productIndex, variant) => {
     setSelectedVariants((prevSelectedVariants) => ({
       ...prevSelectedVariants,
@@ -334,11 +335,13 @@ const Products = ({ products, collectionsData, categoriesData, colorsData }) => 
                     selectedVariants[index] || variantData[0];
                   const defaultVariantSku = selectedVariant.sku;
                   const defaultVariantImage = selectedVariant.variant.imageSrc;
-
+                  const isActive = selectedVariant !== variantData[0];
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
-                        className="product-link large active"
+                        className={`product-link large ${
+                          isActive ? "active" : ""
+                        }`}
                         data-product-category
                         data-product-location
                         data-product-colors

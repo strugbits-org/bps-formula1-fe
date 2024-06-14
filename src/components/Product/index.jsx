@@ -39,6 +39,9 @@ export default function ProductIndex({ products, collectionsData, categoriesData
   const [filtersReady, setFiltersReady] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(false);
 
+  const [loadingData, setLoadingData] = useState(false);
+  const [selectedVariants, setSelectedVariants] = useState({});
+
   const params = useSearchParams();
   const handleLoadMore = async () => {
     try {
@@ -73,7 +76,8 @@ export default function ProductIndex({ products, collectionsData, categoriesData
       );
       setProductsCollection(response._items.map((item) => item.data));
       setProductsResponse(response);
-      const isFirstLoadDone = document.body.classList.contains("first-load-done");
+      const isFirstLoadDone =
+        document.body.classList.contains("first-load-done");
       updatedWatched();
       if (isFirstLoadDone) {
         pageLoadEnd();
@@ -114,6 +118,7 @@ export default function ProductIndex({ products, collectionsData, categoriesData
         getSelectedCollectionData(slug),
         getSelectedCategoryData(category),
       ]);
+
       setSelectedCollectionData(collectionsResponse);
       setFilterCollectionsData(collectionsResponse);
       setSelectedCategoryData(categoryResponse);
@@ -180,7 +185,9 @@ export default function ProductIndex({ products, collectionsData, categoriesData
       }
 
       setfilterCategory(filterCategories);
-
+      setTimeout(() => {
+        setSelectedVariants({});
+      }, 600);
     } else {
       setfilterCategory([]);
     }
@@ -200,7 +207,7 @@ export default function ProductIndex({ products, collectionsData, categoriesData
   useEffect(() => {
     if (filtersReady) {
       handleRouterChange();
-    };
+    }
   }, [searchParams]);
 
   const handlePopupFilters = () => {
@@ -246,6 +253,9 @@ export default function ProductIndex({ products, collectionsData, categoriesData
       setfilterCollections={setfilterCollections}
       setfilterCategory={setfilterCategory}
       handlePopupFilters={handlePopupFilters}
+      loading={loadingData}
+      selectedVariants={selectedVariants}
+      setSelectedVariants={setSelectedVariants}
     />
   );
 }

@@ -64,7 +64,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
   }, []);
 
   useEffect(() => {
-    if (!category && !collection) {
+    if (!category && !collection && !selectedCategory && !selectedCollection) {
       setSelectedCategory(null);
       setSelectedCollection({
         collectionName: null,
@@ -162,6 +162,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
         } else {
           setTimeout(pageLoadEnd, 1000);
         }
+        setSelectedCategory("All");
       } else {
         queryParams.set("category", id);
         queryParams.delete("subCategory");
@@ -205,7 +206,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
       setTimeout(() => {
         router.push("/search?for=" + searchTerm);
       }, 1000);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -254,10 +255,10 @@ const Navbar = ({ homePageData, collectionsData }) => {
         </div>
         <div className="container-h-3 order-phone-3">
           {pathname === "/gallery" ||
-          pathname === "/error" ||
-          pathname === "/privacy-and-policy" ||
-          pathname === "/reset-password" ||
-          pathname === "/terms-and-condition" ? (
+            pathname === "/error" ||
+            pathname === "/privacy-and-policy" ||
+            pathname === "/reset-password" ||
+            pathname === "/terms-and-condition" ? (
             <AnimateLink
               to="/#sign-in"
               className="btn-small btn-red btn-hover-white btn-sign-in"
@@ -298,9 +299,8 @@ const Navbar = ({ homePageData, collectionsData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                collectionDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${collectionDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="collections"
             >
               <ul className="list-dropdown ">
@@ -355,9 +355,8 @@ const Navbar = ({ homePageData, collectionsData }) => {
               <i className="icon-arrow-down"></i>
             </button>
             <div
-              className={`wrapper-list-dropdown ${
-                categoryDropdownOpen ? "active" : "leave"
-              }`}
+              className={`wrapper-list-dropdown ${categoryDropdownOpen ? "active" : "leave"
+                }`}
               data-get-submenu="category"
             >
               <ul className="list-dropdown">
@@ -407,9 +406,8 @@ const Navbar = ({ homePageData, collectionsData }) => {
               data-search-form
             >
               <div
-                className={`container-input input-header ${
-                  searchTerm !== "" ? "preenchido" : ""
-                }`}
+                className={`container-input input-header ${searchTerm !== "" ? "preenchido" : ""
+                  }`}
               >
                 <label htmlFor="search" className="split-chars">
                   Search
