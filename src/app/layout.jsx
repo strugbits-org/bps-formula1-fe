@@ -19,6 +19,7 @@ import { Suspense } from "react";
 import CustomScripts from "@/services/CustomScripts";
 import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 import { headers } from "next/headers";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
@@ -85,6 +86,7 @@ export default async function RootLayout({ children }) {
           <Account />
           <Wrapper>
             <main>{children}</main>
+            <SpeedInsights />
           </Wrapper>
           <Footer
             footerData={footerData}
@@ -96,5 +98,5 @@ export default async function RootLayout({ children }) {
     </>
   );
 }
-const time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME;
+const time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME || 86400;
 export const revalidate = time;
