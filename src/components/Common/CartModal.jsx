@@ -43,8 +43,8 @@ const CartModal = ({ data, handleAddToCart }) => {
                               {/* Total $ {totalPrice}* */}
                             </div>
                             <p class="fs--10 mt-5">
-                              *Estimated value for the cart. Shipping and
-                              customization costs will be additional.
+                              {/* *Estimated value for the cart. Shipping and
+                              customization costs will be additional. */}
                             </p>
                           </div>
                         </div>

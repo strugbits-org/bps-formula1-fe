@@ -310,6 +310,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
                       collectionName: "All",
                       collectionSlug: "all",
                     });
+                    setSelectedCategory("All");
                     setCollectionDropdownOpen(false);
                     pageLoadStart();
                     if (pathname === "/products") setTimeout(pageLoadEnd, 1000);

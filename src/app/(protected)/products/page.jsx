@@ -23,6 +23,7 @@ export default async function Page() {
     getSavedProductData(),
   ]);
 
+
   return (
     <Products products={products} collectionsData={collectionsData} categoriesData={categoriesData} colorsData={colorsData} savedProducts={savedProductsData} />
   );

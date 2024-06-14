@@ -15,7 +15,7 @@ import { debounce } from "lodash";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ProductIndex({ products, collectionsData, categoriesData, colorsData }) {
+export default function ProductIndex({ collectionsData, products,colorsData }) {
   const pageSize = 9;
   const searchParams = useSearchParams();
 
@@ -226,9 +226,19 @@ export default function ProductIndex({ products, collectionsData, categoriesData
     setReloadTrigger((prev) => !prev);
   };
 
-  const handleFilterProducts = () => {
-
-  }
+  useEffect(() => {
+    const category = searchParams.get("category");
+    const subCategory = searchParams.get("subCategory");
+    if (!category && !subCategory) {
+      setProductsCollection(products._items.map((x) => x.data));
+      setProductsResponse(products);
+      setColors(colorsData.colors);
+      setFiltersReady(true);
+    } else {
+      handleRouterChange();
+      setFiltersReady(true);
+    }
+  }, []);
 
   useEffect(() => {
     console.log("products", products);

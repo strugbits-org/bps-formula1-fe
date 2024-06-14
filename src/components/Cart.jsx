@@ -111,10 +111,10 @@ const Cart = () => {
                   <div style={{ display: 'none' }} className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
                     {/* Total {cart?.subtotal.formattedConvertedAmount || "$0.00"} */}
                   </div>
-                  <p className="fs--10 white-1 mt-5">
+                  {/* <p className="fs--10 white-1 mt-5">
                     *Estimated value for the cart. Shipping and customization
                     costs will be additional.
-                  </p>
+                  </p> */}
                 </div>
               </div>
               <div data-form-container-cart>
