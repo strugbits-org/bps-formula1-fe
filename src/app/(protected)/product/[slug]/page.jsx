@@ -64,18 +64,6 @@ export default async function Page({ params }) {
     getProductFound(),
   ]);
 
-  let filteredVariantData;
-  if (productVariantsData && selectedProductDetails) {
-    filteredVariantData = selectedProductDetails[0].variantData =
-      selectedProductDetails[0].variantData.filter((variant) => {
-        if (dataMap.has(variant.sku)) {
-          const dataItem = dataMap.get(variant.sku);
-          variant.variant.variantId = dataItem._id;
-          return true;
-        }
-        return false;
-      });
-  }
   return (
     <ProductPost
       productPostPageData={productPostPageData}
