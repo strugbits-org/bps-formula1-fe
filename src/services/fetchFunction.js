@@ -39,16 +39,15 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
     const options = {
       method: "GET",
       headers,
-      cache:"force-cache"
+      cache: "force-cache",
+      next: { tags: ["all", bodyData.dataCollectionId] }
     }
-
-    // if(!disableCache) options.cache = "force-cache";
 
     const response = await fetch(
       `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,
       options
     );
-    
+
     if (!response.ok) {
       throw new Error("Failed to fetch Items data");
     }

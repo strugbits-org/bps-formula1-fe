@@ -568,7 +568,7 @@ export const getSelectedProductId = async (slug) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching selected ProductId:", error);
   }
 };
 

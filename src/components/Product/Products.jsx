@@ -216,7 +216,9 @@ const Products = ({
     fetchSavedProductsData();
   }, []);
 
-  useEffect(() => {}, [savedProductsData]);
+  useEffect(() => {
+    setSelectedVariants([]);
+  }, [filteredProducts]);
 
   return (
     <>

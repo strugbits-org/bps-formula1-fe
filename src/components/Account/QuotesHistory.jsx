@@ -106,9 +106,9 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
                 ) : (
                   quotesData.map((quote, index) => {
                     const { data } = quote;
-                    const totalPrice = data.lineItems.reduce((total, item) => {
-                      return total + Number(item.price) * item.quantity;
-                    }, 0);
+                    // const totalPrice = data.lineItems.reduce((total, item) => {
+                    //   return total + Number(item.price) * item.quantity;
+                    // }, 0);
                     const issueDate = formatCustomDate(data.dates.issueDate);
 
                     return (

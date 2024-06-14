@@ -10,7 +10,7 @@ import {
   removeProductFromCart,
   updateProductsCart,
 } from "@/services/cartServices";
-import { extractSlugFromUrl, findColor, formatPrice } from "@/utils/utils";
+import { extractSlugFromUrl, findColor } from "@/utils/utils";
 import BackgroundImages from "./Common/BackgroundImages";
 
 const Cart = () => {
@@ -69,7 +69,6 @@ const Cart = () => {
           id: x._id,
           name: x.physicalProperties.sku,
           description: x.productName.original,
-          price: x.price.amount,
           quantity: x.quantity,
           fullItem: x,
         };
@@ -109,8 +108,8 @@ const Cart = () => {
                   className="total-price text-lg-right text-mobile-center mt-mobile-20"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
-                  <div style={{display:'none'}} className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
-                    Total {cart?.subtotal.formattedConvertedAmount || "$0.00"}
+                  <div style={{ display: 'none' }} className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
+                    {/* Total {cart?.subtotal.formattedConvertedAmount || "$0.00"} */}
                   </div>
                   <p className="fs--10 white-1 mt-5">
                     *Estimated value for the cart. Shipping and customization
@@ -131,7 +130,6 @@ const Cart = () => {
                         productName,
                         url,
                         image,
-                        price,
                         physicalProperties,
                         descriptionLines,
                         catalogReference,
@@ -174,7 +172,6 @@ const Cart = () => {
                                 </div>
                                 <div className="container-price">
                                   <div className="price">
-                                    {formatPrice(price, quantity)}
                                   </div>
                                   <button
                                     onClick={() => removeProduct(_id)}
@@ -282,9 +279,8 @@ const Cart = () => {
                     {cartItems.length !== 0 && (
                       <button
                         onClick={handleSubmitQuote}
-                        className={`btn-medium-wide btn-red btn-hover-white ${
-                          cartProcessing ? "events-disabled" : ""
-                        }`}
+                        className={`btn-medium-wide btn-red btn-hover-white ${cartProcessing ? "events-disabled" : ""
+                          }`}
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
