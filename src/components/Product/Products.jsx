@@ -205,7 +205,6 @@ const Products = ({
 
   const fetchSavedProductsData = async () => {
     const data = {
-      limit: "1000",
       skip: "0",
     };
     const response = await getSavedProductData(data);
