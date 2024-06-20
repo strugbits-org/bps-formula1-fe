@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
+import { markPageLoaded, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
 import OtherCollections from "../Common/OtherCollections";
 import BackgroundImages from "../Common/BackgroundImages";
 import FilterButton from "../Common/FilterButton";
@@ -22,8 +22,10 @@ import { productImageURL } from "@/utils/GenerateImageURL";
 const Products = ({ products, collectionsData, categoriesData, colorsData, savedProducts }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const pageSize = 9;
 
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [pageLimit, setPageLimit] = useState(pageSize);
   const [activeColors, setActiveColors] = useState([]);
   const [activeCategories, setActiveCategories] = useState([]);
 
@@ -136,9 +138,6 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     router.push(`?${newParams.toString()}`);
   };
 
-  const handleLoadMore = async () => {
-
-  }
   // const getCategoriesList = async () => {
   //   let categories;
   //   if (category === null) {
@@ -245,7 +244,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
       }
       return hasCollection && hasCategory;
     });
-
+    setPageLimit(pageSize );
     setFilteredProducts(filteredProductsData);
   };
 
@@ -332,7 +331,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
               )}
 
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
-                {filteredProducts.map((data, index) => {
+                {filteredProducts.slice(0, pageLimit).map((data, index) => {
                   const { product, variantData } = data;
                   // const selectedVariant = selectedVariants[index] || variantData[0];
                   const selectedVariant = variantData[0];
@@ -512,10 +511,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                   No Products Found
                 </h6>
               )}
-              {filteredProducts.length < products.length && (
+              {pageLimit < filteredProducts.length && (
                 <div className="flex-center mt-30">
                   <button
-                    onClick={handleLoadMore}
+                    onClick={() => { setPageLimit(prev => prev + pageSize); updatedWatched() }}
                     class="btn-medium btn-red btn-hover-white"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
