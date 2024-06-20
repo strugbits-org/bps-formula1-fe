@@ -14,6 +14,7 @@ import Footer from "@/components/Common/Footer";
 
 import "../../public/assets/utils.css";
 import "../../public/assets/app.css";
+import "../../public/assets/custom.css";
 import Account from "@/components/Account/Index";
 import { Suspense } from "react";
 import CustomScripts from "@/services/CustomScripts";

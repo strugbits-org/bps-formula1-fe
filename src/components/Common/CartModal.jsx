@@ -70,31 +70,22 @@ const CartModal = ({ data, handleAddToCart }) => {
                                 const customTextFields =
                                   catalogReference.options.customTextFields;
                                 return (
-                                  <li key={index} class="list-item">
-                                    <input
-                                      type="hidden"
-                                      name="sku[]"
-                                      value="MODCH09"
-                                    />
-                                    <div class="cart-product">
-                                      <div class="container-img">
-                                        <img
+                                  <li class="list-item">
+                                    <div class="cart-product quoute">
+                                      <div class="wrapper-img">
+                                        <div class="container-img"><img
                                           src={generateImageURL({
                                             wix_url: image,
                                             h: "150",
                                             w: "150",
                                           })}
-                                          data-preload
-                                          class="media"
-                                          alt="product"
-                                        />
+                                          data-preload="" class=" media" />
+                                        </div>
                                       </div>
                                       <div class="wrapper-product-info">
                                         <div class="container-top">
                                           <div class="container-product-name">
-                                            <h2 class="product-name">
-                                              {productName.original}
-                                            </h2>
+                                            <h2 class="product-name">{productName.original}</h2>
                                             <AnimateLink
                                               to={
                                                 "/product" +
@@ -103,86 +94,34 @@ const CartModal = ({ data, handleAddToCart }) => {
                                               className="btn-view"
                                             >
                                               <span>View</span>
-                                              <i className="icon-arrow-right"></i>
+                                              <i class="icon-arrow-right"></i>
                                             </AnimateLink>
                                           </div>
                                           <div class="container-price">
-                                            <div class="price">
-                                              ${calculateTotalPrice(data)}
-                                            </div>
-                                            {/* <button
-                                            type="button"
-                                            class="btn-cancel"
-                                          >
-                                            <i class="icon-close"></i>
-                                          </button> */}
+                                            {/* <div class="price">$99.00</div> */}
                                           </div>
                                         </div>
                                         <div class="container-specs">
                                           <ul class="list-specs">
                                             <li class="sku">
-                                              <span class="specs-title">
-                                                SKU
-                                              </span>
-                                              <span class="specs-text">
-                                                {physicalProperties.sku}
-                                              </span>
+                                              <span class="specs-title">SKU</span>
+                                              <span class="specs-text whitespace-nowrap">{physicalProperties.sku}</span>
                                             </li>
                                             <li class="collection">
-                                              <span class="specs-title">
-                                                Collection
-                                              </span>
-                                              <span class="specs-text">
-                                                {customTextFields.collection}
-                                              </span>
+                                              <span class="specs-title">Collection</span>
+                                              <span class="specs-text whitespace-nowrap">{customTextFields.collection}</span>
                                             </li>
                                             <li class="color">
-                                              <span class="specs-title">
-                                                Color
-                                              </span>
-                                              <span class="specs-text">
-                                                {colors}
-                                              </span>
+                                              <span class="specs-title">Color</span>
+                                              <span class="specs-text whitespace-nowrap">{colors}</span>
                                             </li>
-                                            {/* <li class="additional-note">
-                                              <span class="specs-title">
-                                                Additional note
-                                              </span>
-                                              <input
-                                                type="text"
-                                                placeholder="Lorem Ipsum"
-                                              />
-                                            </li> */}
+
                                           </ul>
+
                                           <div class="quantity">
-                                            <span class="fs--18 no-mobile">
-                                              Quantity
-                                            </span>
-                                            <div class="container-input container-input-quantity">
-                                              {/* <button
-                                                type="button"
-                                                class="minus"
-                                                disabled
-                                              >
-                                                <i class="icon-minus no-mobile"></i>
-                                                <i class="icon-minus-2 no-desktop"></i>
-                                              </button> */}
-                                              <input
-                                                type="number"
-                                                min="0"
-                                                value={quantity}
-                                                placeholder={quantity}
-                                                class="input-number"
-                                                disabled
-                                              />
-                                              {/* <button
-                                                type="button"
-                                                class="plus"
-                                                disabled
-                                              >
-                                                <i class="icon-plus no-mobile"></i>
-                                                <i class="icon-plus-2 no-desktop"></i>
-                                              </button> */}
+                                            <span class="fs--18 no-mobile">Quantity</span>
+                                            <div class="container-input container-input-quantity js-running">
+                                              <input type="number" min="0" readOnly defaultValue={quantity} placeholder={quantity} class="input-number" />
                                             </div>
                                           </div>
                                         </div>
