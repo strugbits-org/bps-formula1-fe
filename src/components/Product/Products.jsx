@@ -141,11 +141,21 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     categories,
     colors,
   }) => {
-    const newFilters = {
+    let newFilters = {
       collections: collections ? collections : activeFilters.collections,
       categories: categories ? categories : activeFilters.categories,
       colors: colors ? colors : activeFilters.colors,
     };
+
+    if ((!collections || collections.length === 0) && selectedCollection) {
+      const collectionId = selectedCollection._id;
+      newFilters.collections = [collectionId];
+    }
+
+    if ((!categories || categories.length === 0) && selectedCategory) {
+      const categoryId = selectedCategory?.parentCollection?._id || selectedCategory._id;
+      newFilters.categories = [categoryId];
+    }
 
     const filteredProductsData = products.filter(product => {
       const hasCollection = newFilters.collections.length === 0 || newFilters.collections.some(collectionId => product.f1Collection?.some(x => x._id === collectionId));
@@ -171,14 +181,21 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     const selectedCollectionData = collectionsData.find(x => x.collectionSlug === collection);
     setSelectedCollection(selectedCollectionData);
 
-    const selectedCategoryData = categoriesData.find(x => x.parentCollection._id === category);
+    let selectedCategoryData;
+    if (subCategory) {
+      selectedCategoryData = categoriesData.find(item => item.level2Collections.some(x => x._id === subCategory)).level2Collections.find(x => x._id === subCategory);
+    } else {
+      selectedCategoryData = categoriesData.find(x => x.parentCollection._id === category);
+    }
     setSelectedCategory(selectedCategoryData);
 
     const activeCategory = subCategory || category || "00000000-000000-000000-000000000001";
     const selectedColorsData = colorsData.find(x => x.category === activeCategory)?.colors || [];
     setActiveColors(selectedColorsData);
 
-    if (category) {
+    if (subCategory) {
+      setActiveCategories([]);
+    } else if (category) {
       const level2Collections = selectedCategoryData?.level2Collections.map(x => ({ ...x, type: "subCategory" })) || [];
       setActiveCategories(level2Collections);
     } else {
@@ -191,8 +208,9 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
         return true;
       }
 
+      const categoryId = selectedCategoryData?.parentCollection?._id || selectedCategoryData._id;
       const hasCollection = selectedCollectionData ? product.f1Collection.some(x => x._id === selectedCollectionData._id) : false;
-      const hasCategory = selectedCategoryData ? product.subCategory.some(x => x._id === selectedCategoryData.parentCollection._id) : false;
+      const hasCategory = selectedCategoryData ? product.subCategory.some(x => x._id === categoryId) : false;
 
       if (selectedCollectionData && !selectedCategoryData) {
         return hasCollection;
@@ -202,13 +220,14 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
       }
       return hasCollection && hasCategory;
     });
+
     setPageLimit(pageSize);
     setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
     setTimeout(markPageLoaded, 900);
   };
 
-  useEffect(setInitialData, [searchParams]);
+  useEffect(() => { setInitialData() }, [searchParams]);
 
 
   return (
@@ -221,7 +240,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
                 data-aos="d:loop"
               >
-                {selectedCategory?.parentCollection.name}
+                {selectedCategory?.parentCollection?.name || selectedCategory?.name}
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
@@ -317,7 +336,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                             <input
                               type="text"
                               className="copy-link-url"
-                              value={defaultVariantSku}
+                              defaultValue={defaultVariantSku}
                               style={{
                                 position: "absolute",
                                 opacity: 0,

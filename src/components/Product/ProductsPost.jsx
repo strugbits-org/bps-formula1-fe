@@ -17,7 +17,6 @@ import {
 import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
-import { getSubCategory } from "@/services/scApiCalls";
 import { getSavedProductData } from "@/services/apiServices";
 import { checkParameters } from "@/utils/CheckParams";
 
@@ -28,10 +27,12 @@ const ProductPost = ({
   collectionsData,
   productSnapshots,
   productFoundData,
+  categoriesData,
+  savedProducts
 }) => {
   const router = useRouter();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [savedProductsData, setSavedProductsData] = useState([]);
+  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
@@ -99,7 +100,7 @@ const ProductPost = ({
 
   const productFoundRedirection = async (subCategoryId) => {
     const queryParams = new URLSearchParams(router.query);
-    const subCategory = await getSubCategory(subCategoryId);
+    const subCategory = categoriesData.find((category) => category.level2Collections.some(x => x._id === "c34ffd1a-a454-b995-6408-fe51d6166729"))
     if (subCategory) {
       queryParams.set("category", subCategory.parentCollection._id);
       queryParams.set("subCategory", subCategoryId);
@@ -172,18 +173,6 @@ const ProductPost = ({
     collectionsData,
     productSnapshots,
   ]);
-
-  const fetchSavedProductsData = async () => {
-    const data = {
-      skip: "0",
-    };
-    const response = await getSavedProductData(data);
-    setSavedProductsData(response);
-  }
-
-  useEffect(() => {
-    fetchSavedProductsData();
-  }, []);
 
   const updatedDescription = selectedProductDetails.product.description.replace(
     /color:#000000;/g,

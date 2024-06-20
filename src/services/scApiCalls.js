@@ -349,7 +349,7 @@ export const getAllCategoriesData = async () => {
   try {
     const response = await serverComponentApiFetcher({
       dataCollectionId: "F1CategoriesStructure",
-      includeReferencedItems: ["parentCollection", "level2Collections"],
+      includeReferencedItems: ["parentCollection", "level2Collections", "f1Collections"],
       limit: 50
     });
     if (response && response._items) {
@@ -1244,7 +1244,7 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
         Authorization: authToken,
       },
       body: JSON.stringify(payload),
-      cache:"no-store"
+      cache: "no-store"
     });
     if (!response.ok) {
       throw new Error("Network response was not ok");

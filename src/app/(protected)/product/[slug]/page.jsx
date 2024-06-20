@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import ProductPost from "@/components/Product/ProductsPost";
 import {
   fetchAllProducts,
+  getAllCategoriesData,
   getCollectionsData,
   getPairItWithProducts,
   getPairItWithProductsId,
@@ -10,6 +11,7 @@ import {
   getProductPostPageData,
   getProductSnapShots,
   getProductVariants,
+  getSavedProductData,
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/scApiCalls";
@@ -55,6 +57,8 @@ export default async function Page({ params }) {
     collectionsData,
     productSnapshots,
     productFound,
+    categoriesData,
+    savedProductsData
   ] = await Promise.all([
     getProductPostPageData(),
     getSelectedProductDetails(selectedProductId),
@@ -62,6 +66,8 @@ export default async function Page({ params }) {
     getCollectionsData(),
     getProductSnapShots(selectedProductId),
     getProductFound(),
+    getAllCategoriesData(),
+    getSavedProductData()
   ]);
 
   let filteredVariantData;
@@ -84,6 +90,8 @@ export default async function Page({ params }) {
       collectionsData={collectionsData}
       productSnapshots={productSnapshots}
       productFoundData={productFound}
+      categoriesData={categoriesData}
+      savedProducts={savedProductsData}
     />
   );
 }

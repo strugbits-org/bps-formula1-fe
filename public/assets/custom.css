@@ -1,0 +1,9 @@
+.cart-product.quoute .wrapper-product-info .container-specs .list-specs li .specs-text {
+    white-space: unset;
+}
+
+@media only screen and (max-width: 767.98px) {
+    .cart-product.quoute .quantity {
+        left: 3.3rem;
+    }
+}

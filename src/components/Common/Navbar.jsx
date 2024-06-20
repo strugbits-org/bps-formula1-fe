@@ -7,9 +7,8 @@ import AnimateLink from "@/components/Common/AnimateLink";
 import { useCookies } from "react-cookie";
 import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
-import { getCategoriesData } from "@/services/scApiCalls";
 
-const Navbar = ({ homePageData, collectionsData }) => {
+const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -26,42 +25,32 @@ const Navbar = ({ homePageData, collectionsData }) => {
     collectionSlug: null,
   });
   const [selectedCategory, setSelectedCategory] = useState();
-  const [categoriesData, setCategoriesData] = useState([]);
+  const [activeCategoriesData, setActiveCategoriesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState(router.query || "");
   const [cartQuantity, setCartQuantity] = useState(0);
   const categoryDropdownRef = useRef(null);
   const collectionsDropdownRef = useRef(null);
 
-  const getCate = async (collectionSlug) => {
-    try {
-      let selectedCollections;
-      if (collectionSlug) {
-        selectedCollections = collectionsData
-          .filter((x) => x.collectionSlug === collectionSlug)
-          .map((x) => x._id);
-      } else {
-        selectedCollections = collectionsData
-          .filter((x) => x.collectionSlug === selectedCollection.collectionSlug)
-          .map((x) => x._id);
-      }
-
-      const res = await getCategoriesData(selectedCollections);
-
-      const _selectedCategory = res.find(
-        (x) => x.parentCollection._id === category
-      )?.parentCollection?.name;
-
-      if (_selectedCategory && !collectionSlug)
-        setSelectedCategory(_selectedCategory);
-      setCategoriesData(res);
-      return res;
-    } catch (error) {
-      console.error(error);
+  const getActiveCategories = async () => {
+    let categories;
+    if (searchParams.has("collection")) {
+      const selectedCollectionSlug = selectedCollection.collectionSlug;
+      const selectedCollections = collectionsData.filter(x => x.collectionSlug === selectedCollectionSlug).map(x => x._id);
+      categories = categoriesData.filter(category => category.f1Collections?.some(x => selectedCollections.includes(x._id)));
+    } else {
+      categories = categoriesData;
     }
+
+    const _selectedCategory = categories.find(x => x.parentCollection._id === category)?.parentCollection?.name;
+    if (_selectedCategory && !selectedCollection.collectionSlug) setSelectedCategory(_selectedCategory);
+    setActiveCategoriesData(categories);
+    return categories;
   };
+
+
   useEffect(() => {
-    getCate();
-  }, []);
+    getActiveCategories();
+  }, [selectedCollection, searchParams]);
 
   useEffect(() => {
     if (!category && !collection && !selectedCategory && !selectedCollection) {
@@ -73,14 +62,14 @@ const Navbar = ({ homePageData, collectionsData }) => {
     }
     const _selectedCollection = collectionsData.find(
       (x) => x.collectionSlug === collection
-    )?.collectionName;
+    );
 
     if (_selectedCollection)
       setSelectedCollection({
-        collectionName: _selectedCollection,
-        collectionSlug: null,
+        collectionName: _selectedCollection.collectionName,
+        collectionSlug: _selectedCollection.collectionSlug,
       });
-    const _selectedCategory = categoriesData.find(
+    const _selectedCategory = activeCategoriesData.find(
       (x) => x.parentCollection._id === category
     )?.parentCollection?.name;
     if (_selectedCategory) setSelectedCategory(_selectedCategory);
@@ -127,7 +116,6 @@ const Navbar = ({ homePageData, collectionsData }) => {
         router.push(`/collections/${collectionSlug}`);
       }, 1000);
     }
-    getCate(collectionSlug);
   };
 
   const handleCategorySelection = (name, id) => {
@@ -366,7 +354,7 @@ const Navbar = ({ homePageData, collectionsData }) => {
                     <span>All</span>
                   </span>
                 </li>
-                {categoriesData.map((data, index) => {
+                {activeCategoriesData.map((data, index) => {
                   const { name } = data.parentCollection;
                   return (
                     <li
