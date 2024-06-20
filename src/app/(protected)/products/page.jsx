@@ -1,5 +1,5 @@
 import Products from "@/components/Product/Products";
-import { getSavedProductData } from "@/services/scApiCalls";
+import { getProductSnapShots, getProductVariants, getSavedProductData } from "@/services/scApiCalls";
 import {
   fetchProducts,
   getAllCategoriesData,
@@ -20,11 +20,21 @@ export default async function Page() {
     getCollectionsData(),
     getAllCategoriesData(),
     getAllColorsData(),
-    getSavedProductData(),
+    getSavedProductData()
   ]);
 
+  const productsData = await Promise.all(products.map(async (productData) => {
+    const productId = productData.product._id;
+    const [productSnapshotData, productVariantsData] = await Promise.all([
+      getProductSnapShots(productId),
+      getProductVariants(productId)
+    ]);
+    productData.productSnapshotData = productSnapshotData;
+    productData.productVariantsData = productVariantsData;
+    return productData;
+  }));
 
   return (
-    <Products products={products} collectionsData={collectionsData} categoriesData={categoriesData} colorsData={colorsData} savedProducts={savedProductsData} />
+    <Products products={productsData} collectionsData={collectionsData} categoriesData={categoriesData} colorsData={colorsData} savedProducts={savedProductsData} />
   );
 }

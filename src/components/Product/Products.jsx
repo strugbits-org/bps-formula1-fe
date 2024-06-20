@@ -9,12 +9,6 @@ import FilterButton from "../Common/FilterButton";
 import SuccessModal from "../Common/SuccessModal";
 import AddToCartModal from "./AddToCartModal";
 import ErrorModal from "../Common/ErrorModal";
-import {
-  getCategoriesData,
-  getProductSnapShots,
-  getProductVariants,
-} from "@/services/scApiCalls";
-import { getSavedProductData } from "@/services/apiServices";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
@@ -32,7 +26,12 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const [selectedCollection, setSelectedCollection] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
 
-  const category = searchParams.get("category");
+  const [activeFilters, setActiveFilters] = useState({
+    collections: [],
+    categories: [],
+    colors: []
+  });
+
   const subCategory = searchParams.get("subCategory");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
@@ -40,49 +39,47 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(null);
-  const [filterCategories, setFilterCategories] = useState([]);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [categoryTitle, setCategoryTitle] = useState("");
-  const [productFilteredVariantData, setProductFilteredVariantData] =
-    useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] = useState();
   const [savedProductsData, setSavedProductsData] = useState(savedProducts);
-  // const [selectedVariants, setSelectedVariants] = useState({});
+  const [selectedVariants, setSelectedVariants] = useState({});
 
 
   const handleVariantSelection = (productIndex, variant) => {
-    // setSelectedVariants((prevSelectedVariants) => ({
-    //   ...prevSelectedVariants,
-    //   [productIndex]: variant,
-    // }));
+    setSelectedVariants((prevSelectedVariants) => ({
+      ...prevSelectedVariants,
+      [productIndex]: variant,
+    }));
   };
+
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
+
+    if (!productData || !productData.product || !productData.product._id) {
+      console.log("Invalid product data provided");
+      return;
+    }
+
     try {
-      const product_id = productData.product._id;
-      const [productSnapshotData, productVariantsData] = await Promise.all([
-        getProductSnapShots(product_id),
-        getProductVariants(product_id),
-      ]);
+      const { productSnapshotData, productVariantsData } = productData;
 
-      let dataMap = new Map(
-        productVariantsData.map((item) => [item.sku.toLowerCase(), item])
-      );
+      const variantDataMap = new Map(productVariantsData.map((variant) => [variant.sku.toLowerCase(), variant]));
 
-      let filteredVariantData;
-      if (productVariantsData && productData) {
-        filteredVariantData = productData.variantData.filter((variant) => {
-          const normalizedSku = variant.sku.toLowerCase();
-          if (dataMap.has(normalizedSku)) {
-            const dataItem = dataMap.get(normalizedSku);
-            variant.variant.variantId = dataItem._id;
-            return true;
-          }
-          return false;
-        });
-      }
+      const filteredVariantData = productData.variantData.filter((variant) => {
+        const normalizedSku = variant.sku.toLowerCase();
+        const matchedVariant = variantDataMap.get(normalizedSku);
+
+        if (matchedVariant) {
+          variant.variant.variantId = matchedVariant._id;
+          return true;
+        }
+        return false;
+      });
+
       setProductSnapshots(productSnapshotData);
       setProductFilteredVariantData(filteredVariantData);
-      if (filteredVariantData && filteredVariantData.length > 0) {
+
+      if (filteredVariantData.length > 0) {
         handleImageChange({
           index: 0,
           selectedVariantData: filteredVariantData[0].variant,
@@ -91,7 +88,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
         });
       }
     } catch (error) {
-      console.log("Error:", error);
+      console.error("Failed to fetch product snapshots or variants:", error);
     }
   };
 
@@ -131,6 +128,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const handleImageHover = (variantData) => {
     setSelectedVariant(variantData.variant);
   };
+
   const changeQuery = (key, value) => {
     pageLoadStart();
     const newParams = new URLSearchParams(searchParams);
@@ -138,71 +136,31 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     router.push(`?${newParams.toString()}`);
   };
 
-  // const getCategoriesList = async () => {
-  //   let categories;
-  //   if (category === null) {
-  //     let collectionIds = collectionsData.map((x) => x._id);
-  //     if (selectedCollection.length !== 0) {
-  //       collectionIds = selectedCollection.map((x) => x._id);
-  //     }
-
-  //     const response = await getCategoriesData(collectionIds);
-  //     categories = response.map((x) => {
-  //       return { ...x.parentCollection, type: "category" };
-  //     });
-  //   } else {
-  //     categories = selectedCategory[0]?.level2Collections
-  //       .filter((x) => x._id !== undefined)
-  //       .map((x) => {
-  //         return { ...x, type: "subCategory" };
-  //       });
-  //   }
-  //   setFilterCategories(categories);
-  // };
-
-  // useEffect(() => {
-  //   if (
-  //     category === null ||
-  //     (selectedCategory && selectedCategory.length !== 0)
-  //   ) {
-  //     getCategoriesList();
-  //   }
-  // }, [searchParams, selectedCollection, collectionsData, selectedCategory]);
-
-  // useEffect(() => {
-  //   if (subCategory && selectedCategory.length !== 0) {
-  //     const name = selectedCategory[0]?.level2Collections.find(
-  //       (x) => x._id === subCategory
-  //     ).name;
-  //     setCategoryTitle(name);
-  //   } else {
-  //     setCategoryTitle(selectedCategory[0]?.parentCollection?.name);
-  //   }
-  // }, [searchParams, selectedCategory]);
-
-  const handleFilterChange = ({
-    collections = null,
-    categories = null,
-    colors = null,
+  const handleFilterChange = async ({
+    collections,
+    categories,
+    colors,
   }) => {
-    if (collections) {
-      setfilterCollections(collections);
-    }
-    if (categories) {
-      setfilterCategory(categories);
-    }
-    if (colors) {
-      setFilterColors(colors);
-    }
-    handlePopupFilters();
-  };
-
-  const fetchSavedProductsData = async () => {
-    const data = {
-      skip: "0",
+    const newFilters = {
+      collections: collections ? collections : activeFilters.collections,
+      categories: categories ? categories : activeFilters.categories,
+      colors: colors ? colors : activeFilters.colors,
     };
-    const response = await getSavedProductData(data);
-    setSavedProductsData(response);
+
+    const filteredProductsData = products.filter(product => {
+      const hasCollection = newFilters.collections.length === 0 || newFilters.collections.some(collectionId => product.f1Collection?.some(x => x._id === collectionId));
+      const hasCategory = newFilters.categories.length === 0 || newFilters.categories.some(categoryId => product.subCategory?.some(x => x._id === categoryId));
+      const hasColor = newFilters.colors.length === 0 || newFilters.colors.some(color => product.colors?.includes(color));
+
+      return hasCollection && hasCategory && hasColor;
+    });
+
+    setActiveFilters(newFilters);
+
+    setPageLimit(pageSize);
+    setFilteredProducts(filteredProductsData);
+    setSelectedVariants({});
+    markPageLoaded();
   };
 
   const setInitialData = async () => {
@@ -244,18 +202,13 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
       }
       return hasCollection && hasCategory;
     });
-    setPageLimit(pageSize );
+    setPageLimit(pageSize);
+    setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
+    setTimeout(markPageLoaded, 900);
   };
 
-  // useEffect(() => {
-  //   fetchSavedProductsData();
-  // }, []);
-
-  useEffect(() => {
-    setInitialData();
-    setTimeout(markPageLoaded, 900);
-  }, [searchParams]);
+  useEffect(setInitialData, [searchParams]);
 
 
   return (
@@ -268,7 +221,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
                 data-aos="d:loop"
               >
-                {categoryTitle}
+                {selectedCategory?.parentCollection.name}
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
@@ -333,8 +286,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.slice(0, pageLimit).map((data, index) => {
                   const { product, variantData } = data;
-                  // const selectedVariant = selectedVariants[index] || variantData[0];
-                  const selectedVariant = variantData[0];
+                  const selectedVariant = selectedVariants[index] || variantData[0];
                   const defaultVariantSku = selectedVariant.sku;
                   const defaultVariantImage = selectedVariant.variant.imageSrc;
                   const isActive = selectedVariant !== variantData[0];
@@ -447,11 +399,11 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                                         selVariantData.color[0]
                                       }
                                       onMouseEnter={() => {
-                                        // handleImageHover(
-                                        //   filteredProducts[index].variantData[
-                                        //     idx
-                                        //   ]
-                                        // );
+                                        handleImageHover(
+                                          filteredProducts[index].variantData[
+                                          idx
+                                          ]
+                                        );
                                         handleVariantSelection(
                                           index,
                                           selVariantData

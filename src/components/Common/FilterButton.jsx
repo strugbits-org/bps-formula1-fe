@@ -9,7 +9,6 @@ const FilterButton = ({
 }) => {
   const searchParams = useSearchParams();
   const collection = searchParams.get("collection");
-  const category = searchParams.get("category");
   const subCategory = searchParams.get("subCategory");
 
   const [collectionsArray, setCollectionsArray] = useState([]);
