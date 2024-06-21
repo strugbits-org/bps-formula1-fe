@@ -1193,6 +1193,7 @@ export const getQuotes = async (authToken) => {
         "Content-Type": "application/json",
         authorization: authToken,
       },
+      cache: "no-store"
     });
     if (!response.ok) {
       throw new Error("Failed to fetch quotes");

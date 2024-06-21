@@ -8,7 +8,6 @@ export const SaveProductButton = ({
   onUnSave,
   savedProductsData,
   setSavedProductsData,
-  setTotalCount
 }) => {
   const [productSaved, setProductSaved] = useState(false);
   const [error, setError] = useState("");
@@ -51,11 +50,9 @@ export const SaveProductButton = ({
         if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
           const data = savedProductsData.filter((x) => x.product._id !== productId);
           setSavedProductsData(data);
-          if (setTotalCount) setTotalCount((prev) => +prev - 1);
         } else {
           const data = [...savedProductsData, productData];
           setSavedProductsData(data);
-          if (setTotalCount) setTotalCount((prev) => +prev + 1);
         }
       }
     } catch (error) {

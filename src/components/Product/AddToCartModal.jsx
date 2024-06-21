@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { SaveProductButton } from "../Common/SaveProductButton";
 import { generateImageURL } from "@/utils/GenerateImageURL";
 import { AddProductToCart } from "@/services/cartServices";
-import { BestSellerTag } from "../Common/BestSellerTag";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 
 const AddToCartModal = ({
@@ -21,7 +20,6 @@ const AddToCartModal = ({
   setProductFilteredVariantData,
   savedProductsData,
   setSavedProductsData,
-  setTotalCount
 }) => {
   const [cartQuantity, setCartQuantity] = useState(1);
 
@@ -246,7 +244,6 @@ const AddToCartModal = ({
                                   savedProductsData={savedProductsData}
                                   setSavedProductsData={setSavedProductsData}
                                   dataAos="fadeIn .8s ease-in-out .2s, d:loop"
-                                  setTotalCount={setTotalCount}
                                 />
                               )}
                             </div>

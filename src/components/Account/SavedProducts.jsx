@@ -3,15 +3,9 @@ import { useEffect, useState } from "react";
 
 import { SaveProductButton } from "../Common/SaveProductButton";
 import AddToCartModal from "../Product/AddToCartModal";
-import { checkParameters } from "@/utils/CheckParams";
 import SuccessModal from "../Common/SuccessModal";
 import AnimateLink from "../Common/AnimateLink";
 import ErrorModal from "../Common/ErrorModal";
-import {
-  getProductSnapShots,
-  getProductVariants,
-} from "@/services/scApiCalls";
-import { getSavedProductData } from "@/services/apiServices";
 
 import {
   markPageLoaded,
@@ -19,44 +13,25 @@ import {
   updatedWatched,
 } from "@/utils/AnimationFunctions";
 
-const SavedProducts = ({ savedProductPageData }) => {
+const SavedProducts = ({ savedProductPageData, savedProducts }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-  const [savedProductsData, setSavedProductsData] = useState();
-  const [savedProductsItems, setSavedProductsItems] = useState([]);
+  const [savedProductsItems, setSavedProductsItems] = useState(savedProducts);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [totalCount, setTotalCount] = useState(0);
+  
   const pageSize = 20;
 
-  const handleLoadMore = async () => {
-    const data = {
-      limit: pageSize,
-      skip: savedProductsItems.length,
-    };
-    const response = await getSavedProductData(data);
-    setSavedProductsItems([...savedProductsItems, ...response]);
-    updatedWatched();
-  };
+  const [pageLimit, setPageLimit] = useState(pageSize);
 
-  useEffect(() => {
-    const params = [savedProductPageData];
-    if (checkParameters(params)) {
-      markPageLoaded();
-    }
-  }, [savedProductPageData]);
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
-    try {
-      const product_id = productData.product._id;
-      const [productSnapshotData, productVariantsData] = await Promise.all([
-        getProductSnapShots(product_id),
-        getProductVariants(product_id),
-      ]);
+    try {      
+      const { productSnapshotData, productVariantsData } = productData;
 
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku, item])
@@ -122,31 +97,7 @@ const SavedProducts = ({ savedProductPageData }) => {
     resetSlideIndex();
   };
 
-  const fetchSavedProductsData = async () => {
-    try {
-      const data = {
-        limit: pageSize,
-        skip: "0",
-      };
-      const response = await getSavedProductData(data, true);
-      if (response._items) {
-        setSavedProductsItems(response._items.map(x => x.data));
-        setSavedProductsData(response);
-        updatedWatched();
-      }
-      
-    } catch (error) {
-      console.log("error", error);
-    }
-  }
-
-  useEffect(() => {
-    setTotalCount(savedProductsData?._totalCount);
-  }, [savedProductsData]);
-
-  useEffect(() => {
-    fetchSavedProductsData();
-  }, []);
+  useEffect(markPageLoaded, []);
 
   return (
     <>
@@ -174,7 +125,7 @@ const SavedProducts = ({ savedProductPageData }) => {
                       </h6>
                     </div>
                   ) : (
-                    savedProductsItems?.map((productData, index) => {
+                    savedProductsItems?.slice(0, pageLimit).map((productData, index) => {
                       const { product, variantData } = productData;
                       return (
                         <li key={index} className="grid-item">
@@ -189,7 +140,6 @@ const SavedProducts = ({ savedProductPageData }) => {
                                 productData={productData}
                                 savedProductsData={savedProductsItems}
                                 setSavedProductsData={setSavedProductsItems}
-                                setTotalCount={setTotalCount}
                               />
                             </div>
                             <AnimateLink
@@ -283,10 +233,10 @@ const SavedProducts = ({ savedProductPageData }) => {
                     })
                   )}
                 </ul>
-                {savedProductsData && savedProductsItems.length < totalCount && (
+                {pageLimit < savedProductsItems.length && (
                   <div className="flex-center mt-lg-60 mt-tablet-40 mt-phone-45">
                     <button
-                      onClick={handleLoadMore}
+                      onClick={() => { setPageLimit(prev => prev + pageSize); updatedWatched() }}
                       className="btn-medium btn-red btn-hover-white"
                     >
                       <span className="split-chars">
@@ -331,7 +281,6 @@ const SavedProducts = ({ savedProductPageData }) => {
         setProductFilteredVariantData={setProductFilteredVariantData}
         savedProductsData={savedProductsItems}
         setSavedProductsData={setSavedProductsItems}
-        setTotalCount={setTotalCount}
       />
     </>
   );

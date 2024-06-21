@@ -215,7 +215,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       getCartTotalQuantity();
       document.body.setAttribute("data-login-state", "logged");
     }
-    setSearchTerm(searchFor);
+    setSearchTerm(searchFor || "");
   }, []);
 
   const linkTo = cookies.authToken ? "/collections" : "/";
