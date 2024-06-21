@@ -20,6 +20,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   // const category = searchParams.get("category");
 
   // const collection = searchParams.get("collection");
+
   const [collection, setCollection] = useQueryState("collection", { history: 'push' });
   const [category, setCategory] = useQueryState("category", { history: 'push' });
   const [subCategory, setSubCategory] = useQueryState("subCategory", { history: 'push' });
@@ -34,6 +35,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const [selectedCategory, setSelectedCategory] = useState();
   const [activeCategoriesData, setActiveCategoriesData] = useState([]);
   const [searchTerm, setSearchTerm] = useState(router.query || "");
+  const [searchFor, setSearchFor] = useQueryState("for", { history: 'push' });
   const [cartQuantity, setCartQuantity] = useState(0);
   const categoryDropdownRef = useRef(null);
   const collectionsDropdownRef = useRef(null);
@@ -178,15 +180,22 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   const handleInputChange = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
+    if (pathname === "/search") {
+      setSearchFor(value);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       pageLoadStart();
-      setTimeout(() => {
+      if (pathname === "/search") {
+        setTimeout(() => {
+          pageLoadEnd();
+        }, 600);
+      } else {
         router.push("/search?for=" + searchTerm);
-      }, 1000);
+      }
     } catch (error) { }
   };
 
@@ -206,6 +215,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       getCartTotalQuantity();
       document.body.setAttribute("data-login-state", "logged");
     }
+    setSearchTerm(searchFor);
   }, []);
 
   const linkTo = cookies.authToken ? "/collections" : "/";

@@ -7,20 +7,14 @@ import SuccessModal from "./Common/SuccessModal";
 import ErrorModal from "./Common/ErrorModal";
 import { SaveProductButton } from "./Common/SaveProductButton";
 import {
-  getProductSnapShots,
-  getProductVariants,
-  getSearchProducts,
-} from "@/services/scApiCalls";
-import {
   markPageLoaded,
-  pageLoadEnd,
   resetSlideIndex,
-  updatedWatched,
 } from "@/utils/AnimationFunctions";
 import { productImageURL } from "@/utils/GenerateImageURL";
-import { getSavedProductData } from "@/services/apiServices";
+import { useQueryState } from 'nuqs'
+import { debounce } from "lodash";
 
-const Search = ({ collections, colors, searchTerm }) => {
+const Search = ({ products, collections, colorsData, savedProducts }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -30,40 +24,36 @@ const Search = ({ collections, colors, searchTerm }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [productSnapshots, setProductSnapshots] = useState();
-  const [savedProductsData, setSavedProductsData] = useState([]);
+  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
+
+  const [searchTerm, setSearchTerm] = useQueryState("for", { history: 'push' });
 
   const handleSearchResults = async ({
     collections = [],
     colors = [],
-    firstLoad = false,
   }) => {
-    const result = await getSearchProducts(collections, colors, searchTerm);
-    setSearchResults(result._items.map((x) => x.data));
-    if (firstLoad) {
-      markPageLoaded(false);
-    } else {
-      pageLoadEnd();
-    }
-    updatedWatched();
+    const filteredProductsData = products.filter(product => {
+      const matchedTerm = searchTerm === "" || product.search.includes(searchTerm);
+      const hasCollection = collections.length === 0 || collections.some(collectionId => product.f1Collection?.some(x => x._id === collectionId));
+      const hasColor = colors.length === 0 || colors.some(color => product.colors?.includes(color));
+
+      return hasCollection && matchedTerm && hasColor;
+    });
+
+    setSearchResults(filteredProductsData);
+    markPageLoaded();
   };
 
   useEffect(() => {
-    const collectionIds = collections.map((x) => x._id);
-    handleSearchResults({
-      collections: collectionIds,
-      colors,
-      firstLoad: true,
-    });
+    const delayedSearch = debounce(() => { handleSearchResults({}) }, 400);
+    delayedSearch();
+    return () => delayedSearch.cancel();
   }, [searchTerm]);
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
-      const product_id = productData.product._id;
-      const [productSnapshotData, productVariantsData] = await Promise.all([
-        getProductSnapShots(product_id),
-        getProductVariants(product_id),
-      ]);
+      const { productSnapshotData, productVariantsData } = productData;
 
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku, item])
@@ -128,17 +118,6 @@ const Search = ({ collections, colors, searchTerm }) => {
     }
     resetSlideIndex();
   };
-  const fetchSavedProductsData = async () => {
-    const data = {
-      skip: "0",
-    };
-    const response = await getSavedProductData(data);
-    setSavedProductsData(response);
-  }
-
-  useEffect(() => {
-    fetchSavedProductsData();
-  }, []);
 
   return (
     <>
@@ -155,7 +134,7 @@ const Search = ({ collections, colors, searchTerm }) => {
                 </h1>
                 <FilterButton
                   collections={collections}
-                  colors={colors}
+                  colors={colorsData}
                   handleFilterChange={handleSearchResults}
                 />
               </div>
