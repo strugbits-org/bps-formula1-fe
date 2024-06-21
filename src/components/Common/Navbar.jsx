@@ -119,7 +119,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   };
 
   const handleCategorySelection = (name, id) => {
-    pageLoadStart();
+    // pageLoadStart();
     setSelectedCategory(name);
     categoryDropdownRef.current.removeActive();
     setCategoryDropdownOpen(false);
@@ -153,7 +153,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         setSelectedCategory("All");
       } else {
         queryParams.set("category", id);
-        queryParams.delete("subCategory");
+        if (queryParams.has("subCategory")) queryParams.delete("subCategory");
         router.push(`${pathname}?${queryParams.toString()}`);
       }
       return;

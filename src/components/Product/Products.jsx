@@ -153,7 +153,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     }
 
     if ((!categories || categories.length === 0) && selectedCategory) {
-      const categoryId = selectedCategory?.parentCollection?._id || selectedCategory._id;
+      const categoryId = selectedCategory?.parentCollection?._id || selectedCategory?._id;
       newFilters.categories = [categoryId];
     }
 
@@ -198,6 +198,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     } else if (category) {
       const level2Collections = selectedCategoryData?.level2Collections.map(x => ({ ...x, type: "subCategory" })) || [];
       setActiveCategories(level2Collections);
+    } else if (collection) {
+      const categories = categoriesData.filter(category => category.f1Collections?.some(x => selectedCollectionData._id === x._id));
+      const parentCategories = categories.map(x => ({ ...x.parentCollection, type: "category" }));
+      setActiveCategories(parentCategories);
     } else {
       const parentCategories = categoriesData.map(x => ({ ...x.parentCollection, type: "category" }));
       setActiveCategories(parentCategories);
@@ -208,7 +212,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
         return true;
       }
 
-      const categoryId = selectedCategoryData?.parentCollection?._id || selectedCategoryData._id;
+      const categoryId = selectedCategoryData?.parentCollection?._id || selectedCategoryData?._id;
       const hasCollection = selectedCollectionData ? product.f1Collection.some(x => x._id === selectedCollectionData._id) : false;
       const hasCategory = selectedCategoryData ? product.subCategory.some(x => x._id === categoryId) : false;
 
@@ -224,7 +228,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setPageLimit(pageSize);
     setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
-    setTimeout(markPageLoaded, 900);
+    markPageLoaded();
   };
 
   useEffect(() => { setInitialData() }, [searchParams]);
