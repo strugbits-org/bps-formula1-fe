@@ -196,7 +196,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     if (subCategory) {
       setActiveCategories([]);
     } else if (category) {
-      const level2Collections = selectedCategoryData?.level2Collections.map(x => ({ ...x, type: "subCategory" })) || [];
+      const level2Collections = selectedCategoryData?.level2Collections.filter(x => x._id).map(x => ({ ...x, type: "subCategory" })) || [];
       setActiveCategories(level2Collections);
     } else if (collection) {
       const categories = categoriesData.filter(category => category.f1Collections?.some(x => selectedCollectionData._id === x._id));
