@@ -119,7 +119,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   };
 
   const handleCategorySelection = (name, id) => {
-    // pageLoadStart();
+    pageLoadStart();
     setSelectedCategory(name);
     categoryDropdownRef.current.removeActive();
     setCategoryDropdownOpen(false);

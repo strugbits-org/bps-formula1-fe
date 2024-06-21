@@ -228,7 +228,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setPageLimit(pageSize);
     setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
-    markPageLoaded();
+    setTimeout(markPageLoaded, 400);;
   };
 
   useEffect(() => { setInitialData() }, [searchParams]);
