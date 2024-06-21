@@ -1,5 +1,5 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 import { markPageLoaded, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
@@ -13,10 +13,15 @@ import { SaveProductButton } from "../Common/SaveProductButton";
 import AnimateLink from "../Common/AnimateLink";
 import { productImageURL } from "@/utils/GenerateImageURL";
 
+import { useQueryState } from 'nuqs'
+
 const Products = ({ products, collectionsData, categoriesData, colorsData, savedProducts }) => {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pageSize = 9;
+
+  const [collection, setCollection] = useQueryState("collection", { history: 'push' });
+  const [category, setCategory] = useQueryState("category", { history: 'push' });
+  const [subCategory, setSubCategory] = useQueryState("subCategory", { history: 'push' });
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [pageLimit, setPageLimit] = useState(pageSize);
@@ -32,7 +37,6 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     colors: []
   });
 
-  const subCategory = searchParams.get("subCategory");
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
   const [errorMessageVisible, setErrorMessageVisible] = useState(false);
   const [selectedProductData, setSelectedProductData] = useState(null);
@@ -129,11 +133,15 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setSelectedVariant(variantData.variant);
   };
 
-  const changeQuery = (key, value) => {
-    // pageLoadStart();
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set(key, value);
-    router.push(`?${newParams.toString()}`);
+  const changeQuery = async (key, value) => {
+    pageLoadStart();
+    setTimeout(() => {
+      if (key === "category") {
+        setCategory(value);
+      } else if (key === "subCategory") {
+        setSubCategory(value);
+      }
+    }, 300);
   };
 
   const handleFilterChange = async ({
@@ -174,10 +182,6 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   };
 
   const setInitialData = async () => {
-    const collection = searchParams.get("collection");
-    const category = searchParams.get("category");
-    const subCategory = searchParams.get("subCategory");
-
     const selectedCollectionData = collectionsData.find(x => x.collectionSlug === collection);
     setSelectedCollection(selectedCollectionData);
 
@@ -228,7 +232,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setPageLimit(pageSize);
     setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
-    markPageLoaded();
+    setTimeout(markPageLoaded, 500);;
   };
 
   useEffect(() => { setInitialData() }, [searchParams]);
