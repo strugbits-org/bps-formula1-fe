@@ -130,7 +130,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   };
 
   const changeQuery = (key, value) => {
-    pageLoadStart();
+    // pageLoadStart();
     const newParams = new URLSearchParams(searchParams);
     newParams.set(key, value);
     router.push(`?${newParams.toString()}`);

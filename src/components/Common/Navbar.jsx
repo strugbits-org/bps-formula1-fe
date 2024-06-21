@@ -96,7 +96,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
   }, [pathname, router, searchParams]);
 
   const handleCollectionSelection = (name, collectionSlug) => {
-    pageLoadStart();
+    // pageLoadStart();
     setSelectedCollection({
       collectionName: name,
       collectionSlug: collectionSlug,
