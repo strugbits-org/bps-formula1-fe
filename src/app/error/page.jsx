@@ -1,9 +1,9 @@
 import {
+  getBackgroundImages,
   getHomeBottomLeftLink,
   getHomeBottomRightSocialLinks,
 } from '@/services/scApiCalls';
 import Error404Page from '@/components/Error404Page';
-import { getBackgroundImages } from '@/services/apiServices';
 
 export default async function Page() {
   const [homeBottomLeftLink, homeBottomRightSocialLinks, backgroundData] =

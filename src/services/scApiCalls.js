@@ -1,8 +1,7 @@
 "use server";
 
-import { calculateTotalCartQuantity, setCookie } from "@/utils/utils";
 import { getDataFetchFunction } from "./fetchFunction";
-import { getAuthToken, setCookieServer } from "./getAuthToken";
+import { getAuthToken } from "./getAuthToken";
 
 const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
 
@@ -1261,7 +1260,7 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching saved products:", error);
+    // console.error("Error fetching saved products:", error);
     return [];
   }
 };
@@ -1282,13 +1281,34 @@ export const getProductsCart = async () => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    const total = calculateTotalCartQuantity(data.data.lineItems);
-    if (typeof document !== 'undefined') {
-      setCookie("cartQuantity", total);
-    }
     return data.data;
   } catch (error) {
     console.log("error", error);
     throw new Error(error);
+  }
+};
+
+export const getBackgroundImages = async () => {
+  try {
+    const response = await serverComponentApiFetcher({
+      dataCollectionId: "BackgroundImagesF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching BackgroundImagesF1:", error);
+    return [];
   }
 };

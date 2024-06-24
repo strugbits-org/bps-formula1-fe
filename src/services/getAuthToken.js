@@ -5,8 +5,3 @@ export const getAuthToken = () => {
     const authToken = cookieStore?.get('authToken');
     return authToken?.value
 }
-
-export const setCookieServer = (key, value) => {
-    const cookieStore = cookies();
-    cookieStore.set(key, value);
-}

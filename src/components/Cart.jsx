@@ -9,7 +9,7 @@ import {
   removeProductFromCart,
   updateProductsCart,
 } from '@/services/cartServices';
-import { calculateTotalCartQuantity, extractSlugFromUrl, findColor, setCookie } from '@/utils/utils';
+import { extractSlugFromUrl, findColor } from '@/utils/utils';
 import BackgroundImages from './Common/BackgroundImages';
 
 const Cart = ({ data, backgroundData }) => {
@@ -72,7 +72,7 @@ const Cart = ({ data, backgroundData }) => {
   };
 
   useEffect(() => {
-    setCartItems(data?.lineItems);
+    setCartItems(data.lineItems);
     setCart(data);
     const total = calculateTotalCartQuantity(data.lineItems);
     setCookie("cartQuantity", total);
@@ -273,9 +273,8 @@ const Cart = ({ data, backgroundData }) => {
                     {cartItems.length !== 0 && (
                       <button
                         onClick={handleSubmitQuote}
-                        className={`btn-medium-wide btn-red btn-hover-white ${
-                          cartProcessing ? 'events-disabled' : ''
-                        }`}
+                        className={`btn-medium-wide btn-red btn-hover-white ${cartProcessing ? 'events-disabled' : ''
+                          }`}
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">

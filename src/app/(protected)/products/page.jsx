@@ -1,6 +1,6 @@
 import Products from '@/components/Product/Products';
-import { getBackgroundImages } from '@/services/apiServices';
 import {
+  getBackgroundImages,
   getProductSnapShots,
   getProductVariants,
   getSavedProductData,
