@@ -1,13 +1,17 @@
-"use client";
-import { useEffect } from "react";
+'use client';
+import { useEffect } from 'react';
 
-import { markPageLoaded } from "@/utils/AnimationFunctions";
-import BackgroundImages from "./Common/BackgroundImages";
-import { checkParameters } from "@/utils/CheckParams";
-import SocialLinks from "./Common/SocialLinks";
-import AnimateLink from "./Common/AnimateLink";
+import { markPageLoaded } from '@/utils/AnimationFunctions';
+import BackgroundImages from './Common/BackgroundImages';
+import { checkParameters } from '@/utils/CheckParams';
+import SocialLinks from './Common/SocialLinks';
+import AnimateLink from './Common/AnimateLink';
 
-const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
+const Error404Page = ({
+  leftSectionLinks,
+  rightSectionIcons,
+  backgroundData,
+}) => {
   useEffect(() => {
     const params = [leftSectionLinks, rightSectionIcons];
     if (checkParameters(params)) markPageLoaded();
@@ -64,7 +68,7 @@ const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
                   return (
                     <AnimateLink
                       key={index}
-                      to={links || ""}
+                      to={links || ''}
                       className="fs--14 font-3 text-uppercase btn-underlined-gray mr-50"
                     >
                       <span>{title}</span>
@@ -78,7 +82,11 @@ const Error404Page = ({ leftSectionLinks, rightSectionIcons }) => {
           </div>
         </div>
         <div className="bg-img" data-aos="d:loop">
-          <BackgroundImages pageSlug="error" extraClasses="bg-img" />
+          <BackgroundImages
+            pageSlug="error"
+            extraClasses="bg-img"
+            data={backgroundData}
+          />
         </div>
       </section>
 

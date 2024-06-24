@@ -91,7 +91,7 @@ const HeadingComponent = ({ level, children }) => {
   return <HeadingTag>{children}</HeadingTag>;
 };
 
-const PrivacyAndPolicy = ({ data }) => {
+const PrivacyAndPolicy = ({ data, backgroundData }) => {
   const router = useRouter();
 
   const nodes = data.content.nodes;
@@ -142,7 +142,10 @@ const PrivacyAndPolicy = ({ data }) => {
         </div>
       </div>
       <div className="bg-fixed no-tablet" data-aos="d:loop">
-        <BackgroundImages pageSlug="terms-and-condition" />
+        <BackgroundImages
+          pageSlug="terms-and-condition"
+          data={backgroundData}
+        />
       </div>
     </div>
   );

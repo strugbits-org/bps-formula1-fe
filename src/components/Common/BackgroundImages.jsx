@@ -1,49 +1,36 @@
-import { useEffect, useState, useMemo } from 'react';
-import { getBackgroundImages } from '@/services/apiServices';
+import { useMemo } from 'react';
 import { generateImageURL } from '@/utils/GenerateImageURL';
 
-const BackgroundImages = ({ pageSlug, extraClasses }) => {
-  const [data, setData] = useState(null);
-
-  const getData = async () => {
-    try {
-      const res = await getBackgroundImages();
-      const pageData = res.find((page) => page.pageSlug === pageSlug);
-      setData(pageData);
-    } catch (error) {
-      console.error('Error fetching background images:', error);
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, [pageSlug]);
+const BackgroundImages = ({ pageSlug, extraClasses, data }) => {
+  const pageData = useMemo(() => {
+    return data.find((page) => page.pageSlug === pageSlug);
+  }, [data, pageSlug]);
 
   const firstImageUrl = useMemo(() => {
-    return data
+    return pageData
       ? generateImageURL({
-          wix_url: data.firstBackgroundImage,
+          wix_url: pageData.firstBackgroundImage,
           w: '2126',
           h: '909',
           fit: 'fill',
           q: '95',
         })
       : '';
-  }, [data]);
+  }, [pageData]);
 
   const secondImageUrl = useMemo(() => {
-    return data
+    return pageData
       ? generateImageURL({
-          wix_url: data.secondBackgroundImage,
+          wix_url: pageData.secondBackgroundImage,
           w: '768',
           h: '1024',
           fit: 'fill',
           q: '95',
         })
       : '';
-  }, [data]);
+  }, [pageData]);
 
-  if (!data) {
+  if (!pageData) {
     return null;
   }
 

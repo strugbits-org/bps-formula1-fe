@@ -1,27 +1,44 @@
-"use client";
-import { useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+'use client';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
-import { markPageLoaded, pageLoadStart, updatedWatched } from "@/utils/AnimationFunctions";
-import OtherCollections from "../Common/OtherCollections";
-import BackgroundImages from "../Common/BackgroundImages";
-import FilterButton from "../Common/FilterButton";
-import SuccessModal from "../Common/SuccessModal";
-import AddToCartModal from "./AddToCartModal";
-import ErrorModal from "../Common/ErrorModal";
-import { SaveProductButton } from "../Common/SaveProductButton";
-import AnimateLink from "../Common/AnimateLink";
-import { productImageURL } from "@/utils/GenerateImageURL";
+import {
+  markPageLoaded,
+  pageLoadStart,
+  updatedWatched,
+} from '@/utils/AnimationFunctions';
+import OtherCollections from '../Common/OtherCollections';
+import BackgroundImages from '../Common/BackgroundImages';
+import FilterButton from '../Common/FilterButton';
+import SuccessModal from '../Common/SuccessModal';
+import AddToCartModal from './AddToCartModal';
+import ErrorModal from '../Common/ErrorModal';
+import { SaveProductButton } from '../Common/SaveProductButton';
+import AnimateLink from '../Common/AnimateLink';
+import { productImageURL } from '@/utils/GenerateImageURL';
 
-import { useQueryState } from 'nuqs'
+import { useQueryState } from 'nuqs';
 
-const Products = ({ products, collectionsData, categoriesData, colorsData, savedProducts }) => {
+const Products = ({
+  products,
+  collectionsData,
+  categoriesData,
+  colorsData,
+  savedProducts,
+  backgroundData,
+}) => {
   const searchParams = useSearchParams();
   const pageSize = 9;
 
-  const [collection, setCollection] = useQueryState("collection", { history: 'push' });
-  const [category, setCategory] = useQueryState("category", { history: 'push' });
-  const [subCategory, setSubCategory] = useQueryState("subCategory", { history: 'push' });
+  const [collection, setCollection] = useQueryState('collection', {
+    history: 'push',
+  });
+  const [category, setCategory] = useQueryState('category', {
+    history: 'push',
+  });
+  const [subCategory, setSubCategory] = useQueryState('subCategory', {
+    history: 'push',
+  });
 
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [pageLimit, setPageLimit] = useState(pageSize);
@@ -34,7 +51,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const [activeFilters, setActiveFilters] = useState({
     collections: [],
     categories: [],
-    colors: []
+    colors: [],
   });
 
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -44,10 +61,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(null);
   const [productSnapshots, setProductSnapshots] = useState();
-  const [productFilteredVariantData, setProductFilteredVariantData] = useState();
+  const [productFilteredVariantData, setProductFilteredVariantData] =
+    useState();
   const [savedProductsData, setSavedProductsData] = useState(savedProducts);
   const [selectedVariants, setSelectedVariants] = useState({});
-
 
   const handleVariantSelection = (productIndex, variant) => {
     setSelectedVariants((prevSelectedVariants) => ({
@@ -60,14 +77,19 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setSelectedProductData(productData);
 
     if (!productData || !productData.product || !productData.product._id) {
-      console.log("Invalid product data provided");
+      console.log('Invalid product data provided');
       return;
     }
 
     try {
       const { productSnapshotData, productVariantsData } = productData;
 
-      const variantDataMap = new Map(productVariantsData.map((variant) => [variant.sku.toLowerCase(), variant]));
+      const variantDataMap = new Map(
+        productVariantsData.map((variant) => [
+          variant.sku.toLowerCase(),
+          variant,
+        ])
+      );
 
       const filteredVariantData = productData.variantData.filter((variant) => {
         const normalizedSku = variant.sku.toLowerCase();
@@ -92,7 +114,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
         });
       }
     } catch (error) {
-      console.error("Failed to fetch product snapshots or variants:", error);
+      console.error('Failed to fetch product snapshots or variants:', error);
     }
   };
 
@@ -136,19 +158,15 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   const changeQuery = async (key, value) => {
     pageLoadStart();
     setTimeout(() => {
-      if (key === "category") {
+      if (key === 'category') {
         setCategory(value);
-      } else if (key === "subCategory") {
+      } else if (key === 'subCategory') {
         setSubCategory(value);
       }
     }, 300);
   };
 
-  const handleFilterChange = async ({
-    collections,
-    categories,
-    colors,
-  }) => {
+  const handleFilterChange = async ({ collections, categories, colors }) => {
     let newFilters = {
       collections: collections ? collections : activeFilters.collections,
       categories: categories ? categories : activeFilters.categories,
@@ -161,14 +179,25 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     }
 
     if ((!categories || categories.length === 0) && selectedCategory) {
-      const categoryId = selectedCategory?.parentCollection?._id || selectedCategory?._id;
+      const categoryId =
+        selectedCategory?.parentCollection?._id || selectedCategory?._id;
       newFilters.categories = [categoryId];
     }
 
-    const filteredProductsData = products.filter(product => {
-      const hasCollection = newFilters.collections.length === 0 || newFilters.collections.some(collectionId => product.f1Collection?.some(x => x._id === collectionId));
-      const hasCategory = newFilters.categories.length === 0 || newFilters.categories.some(categoryId => product.subCategory?.some(x => x._id === categoryId));
-      const hasColor = newFilters.colors.length === 0 || newFilters.colors.some(color => product.colors?.includes(color));
+    const filteredProductsData = products.filter((product) => {
+      const hasCollection =
+        newFilters.collections.length === 0 ||
+        newFilters.collections.some((collectionId) =>
+          product.f1Collection?.some((x) => x._id === collectionId)
+        );
+      const hasCategory =
+        newFilters.categories.length === 0 ||
+        newFilters.categories.some((categoryId) =>
+          product.subCategory?.some((x) => x._id === categoryId)
+        );
+      const hasColor =
+        newFilters.colors.length === 0 ||
+        newFilters.colors.some((color) => product.colors?.includes(color));
 
       return hasCollection && hasCategory && hasColor;
     });
@@ -182,43 +211,72 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
   };
 
   const setInitialData = async () => {
-    const selectedCollectionData = collectionsData.find(x => x.collectionSlug === collection);
+    const selectedCollectionData = collectionsData.find(
+      (x) => x.collectionSlug === collection
+    );
     setSelectedCollection(selectedCollectionData);
 
     let selectedCategoryData;
     if (subCategory) {
-      selectedCategoryData = categoriesData.find(item => item.level2Collections.some(x => x._id === subCategory)).level2Collections.find(x => x._id === subCategory);
+      selectedCategoryData = categoriesData
+        .find((item) =>
+          item.level2Collections.some((x) => x._id === subCategory)
+        )
+        .level2Collections.find((x) => x._id === subCategory);
     } else {
-      selectedCategoryData = categoriesData.find(x => x.parentCollection._id === category);
+      selectedCategoryData = categoriesData.find(
+        (x) => x.parentCollection._id === category
+      );
     }
     setSelectedCategory(selectedCategoryData);
 
-    const activeCategory = subCategory || category || "00000000-000000-000000-000000000001";
-    const selectedColorsData = colorsData.find(x => x.category === activeCategory)?.colors || [];
+    const activeCategory =
+      subCategory || category || '00000000-000000-000000-000000000001';
+    const selectedColorsData =
+      colorsData.find((x) => x.category === activeCategory)?.colors || [];
     setActiveColors(selectedColorsData);
 
     if (subCategory) {
       setActiveCategories([]);
     } else if (category) {
-      const level2Collections = selectedCategoryData?.level2Collections.filter(x => x._id).map(x => ({ ...x, type: "subCategory" })) || [];
+      const level2Collections =
+        selectedCategoryData?.level2Collections
+          .filter((x) => x._id)
+          .map((x) => ({ ...x, type: 'subCategory' })) || [];
       setActiveCategories(level2Collections);
     } else if (collection) {
-      const categories = categoriesData.filter(category => category.f1Collections?.some(x => selectedCollectionData._id === x._id));
-      const parentCategories = categories.map(x => ({ ...x.parentCollection, type: "category" }));
+      const categories = categoriesData.filter((category) =>
+        category.f1Collections?.some(
+          (x) => selectedCollectionData._id === x._id
+        )
+      );
+      const parentCategories = categories.map((x) => ({
+        ...x.parentCollection,
+        type: 'category',
+      }));
       setActiveCategories(parentCategories);
     } else {
-      const parentCategories = categoriesData.map(x => ({ ...x.parentCollection, type: "category" }));
+      const parentCategories = categoriesData.map((x) => ({
+        ...x.parentCollection,
+        type: 'category',
+      }));
       setActiveCategories(parentCategories);
     }
 
-    const filteredProductsData = products.filter(product => {
+    const filteredProductsData = products.filter((product) => {
       if (!selectedCollectionData && !selectedCategoryData) {
         return true;
       }
 
-      const categoryId = selectedCategoryData?.parentCollection?._id || selectedCategoryData?._id;
-      const hasCollection = selectedCollectionData ? product.f1Collection.some(x => x._id === selectedCollectionData._id) : false;
-      const hasCategory = selectedCategoryData ? product.subCategory.some(x => x._id === categoryId) : false;
+      const categoryId =
+        selectedCategoryData?.parentCollection?._id ||
+        selectedCategoryData?._id;
+      const hasCollection = selectedCollectionData
+        ? product.f1Collection.some((x) => x._id === selectedCollectionData._id)
+        : false;
+      const hasCategory = selectedCategoryData
+        ? product.subCategory.some((x) => x._id === categoryId)
+        : false;
 
       if (selectedCollectionData && !selectedCategoryData) {
         return hasCollection;
@@ -232,11 +290,12 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
     setPageLimit(pageSize);
     setSelectedVariants({});
     setFilteredProducts(filteredProductsData);
-    setTimeout(markPageLoaded, 500);;
+    setTimeout(markPageLoaded, 500);
   };
 
-  useEffect(() => { setInitialData() }, [searchParams]);
-
+  useEffect(() => {
+    setInitialData();
+  }, [searchParams]);
 
   return (
     <>
@@ -248,7 +307,8 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                 className="fs--30 fs-tablet-20 text-uppercase white-1 split-words"
                 data-aos="d:loop"
               >
-                {selectedCategory?.parentCollection?.name || selectedCategory?.name}
+                {selectedCategory?.parentCollection?.name ||
+                  selectedCategory?.name}
               </h1>
             </div>
             <div className="col-lg-8 column-2 order-mobile-3 mt-mobile-15">
@@ -313,15 +373,17 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
               <ul className="list-products grid-lg-33 grid-md-50 mt-lg-60 mt-mobile-30">
                 {filteredProducts.slice(0, pageLimit).map((data, index) => {
                   const { product, variantData } = data;
-                  const selectedVariant = selectedVariants[index] || variantData[0];
+                  const selectedVariant =
+                    selectedVariants[index] || variantData[0];
                   const defaultVariantSku = selectedVariant.sku;
                   const defaultVariantImage = selectedVariant.variant.imageSrc;
                   const isActive = selectedVariant !== variantData[0];
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
-                        className={`product-link large ${isActive ? "active" : ""
-                          }`}
+                        className={`product-link large ${
+                          isActive ? 'active' : ''
+                        }`}
                         data-product-category
                         data-product-location
                         data-product-colors
@@ -346,9 +408,9 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                               className="copy-link-url"
                               defaultValue={defaultVariantSku}
                               style={{
-                                position: "absolute",
+                                position: 'absolute',
                                 opacity: 0,
-                                pointerEvents: "none",
+                                pointerEvents: 'none',
                               }}
                             />
                           </div>
@@ -357,7 +419,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                               {product.additionalInfoSections?.map(
                                 (data, index) => {
                                   const { title, description } = data;
-                                  if (title == "Size") {
+                                  if (title == 'Size') {
                                     return (
                                       <span
                                         key={index}
@@ -394,10 +456,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                                         // src={defaultVariantImage}
                                         src={productImageURL({
                                           wix_url: defaultVariantImage,
-                                          w: "373",
-                                          h: "373",
-                                          fit: "fill",
-                                          q: "95",
+                                          w: '373',
+                                          h: '373',
+                                          fit: 'fill',
+                                          q: '95',
                                         })}
                                         className="media"
                                         alt="product"
@@ -428,7 +490,7 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                                       onMouseEnter={() => {
                                         handleImageHover(
                                           filteredProducts[index].variantData[
-                                          idx
+                                            idx
                                           ]
                                         );
                                         handleVariantSelection(
@@ -445,10 +507,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
                                           src={productImageURL({
                                             wix_url:
                                               selVariantData.variant.imageSrc,
-                                            w: "39",
-                                            h: "39",
-                                            fit: "fill",
-                                            q: "95",
+                                            w: '39',
+                                            h: '39',
+                                            fit: 'fill',
+                                            q: '95',
                                           })}
                                           data-preload
                                           className="media"
@@ -493,7 +555,10 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
               {pageLimit < filteredProducts.length && (
                 <div className="flex-center mt-30">
                   <button
-                    onClick={() => { setPageLimit(prev => prev + pageSize); updatedWatched() }}
+                    onClick={() => {
+                      setPageLimit((prev) => prev + pageSize);
+                      updatedWatched();
+                    }}
                     class="btn-medium btn-red btn-hover-white"
                     data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                   >
@@ -507,21 +572,21 @@ const Products = ({ products, collectionsData, categoriesData, colorsData, saved
           </div>
         </div>
         <div className="bg-fixed no-tablet" data-aos="d:loop">
-          <BackgroundImages pageSlug="products" />
+          <BackgroundImages pageSlug="products" data={backgroundData} />
         </div>
       </section>
       <OtherCollections data={collectionsData} />
       {successMessageVisible && (
         <SuccessModal
-          buttonLabel={"Ok"}
-          message={"Product Successfully Added to Cart!"}
+          buttonLabel={'Ok'}
+          message={'Product Successfully Added to Cart!'}
           setSuccessMessageVisible={setSuccessMessageVisible}
         />
       )}
       {errorMessageVisible && (
         <ErrorModal
-          buttonLabel={"Try Again!"}
-          message={"Something went wrong, please try again"}
+          buttonLabel={'Try Again!'}
+          message={'Something went wrong, please try again'}
           setErrorMessageVisible={setErrorMessageVisible}
         />
       )}

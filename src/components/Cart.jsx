@@ -1,22 +1,22 @@
-"use client";
-import RequestForQuote from "./Common/RequestForQuote";
-import AnimateLink from "./Common/AnimateLink";
-import { useEffect, useState } from "react";
-import { markPageLoaded, updatedWatched } from "@/utils/AnimationFunctions";
-import { generateImageURL } from "@/utils/GenerateImageURL";
+'use client';
+import RequestForQuote from './Common/RequestForQuote';
+import AnimateLink from './Common/AnimateLink';
+import { useEffect, useState } from 'react';
+import { markPageLoaded, updatedWatched } from '@/utils/AnimationFunctions';
+import { generateImageURL } from '@/utils/GenerateImageURL';
 import {
   createPriceQuote,
   getProductsCart,
   removeProductFromCart,
   updateProductsCart,
-} from "@/services/cartServices";
-import { extractSlugFromUrl, findColor } from "@/utils/utils";
-import BackgroundImages from "./Common/BackgroundImages";
+} from '@/services/cartServices';
+import { extractSlugFromUrl, findColor } from '@/utils/utils';
+import BackgroundImages from './Common/BackgroundImages';
 
-const Cart = () => {
+const Cart = ({ backgroundData }) => {
   const [cart, setCart] = useState(null);
   const [cartItems, setCartItems] = useState([]);
-  const [quoteStatus, setQuoteStatus] = useState("");
+  const [quoteStatus, setQuoteStatus] = useState('');
   const [cartProcessing, setCartProcessing] = useState(false);
 
   const getCart = async () => {
@@ -26,7 +26,7 @@ const Cart = () => {
       setCart(response);
       markPageLoaded();
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
       markPageLoaded();
     }
   };
@@ -36,7 +36,7 @@ const Cart = () => {
       setCartItems(response.cart.lineItems);
       setCart(response.cart);
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   };
   const updateProducts = async (id, quantity) => {
@@ -45,7 +45,7 @@ const Cart = () => {
       const response = await updateProductsCart(lineItems);
       setCart(response.cart);
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     }
   };
   const handleQuantityChange = async (id, quantity, disabled) => {
@@ -74,9 +74,9 @@ const Cart = () => {
         };
       });
       await createPriceQuote(lineItems);
-      setQuoteStatus("success");
+      setQuoteStatus('success');
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
     } finally {
       updatedWatched();
       setCartProcessing(false);
@@ -108,7 +108,10 @@ const Cart = () => {
                   className="total-price text-lg-right text-mobile-center mt-mobile-20"
                   data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                 >
-                  <div style={{ display: 'none' }} className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase">
+                  <div
+                    style={{ display: 'none' }}
+                    className="fs--30 fs-tablet-30 fw-400 red-1 text-uppercase"
+                  >
                     {/* Total {cart?.subtotal.formattedConvertedAmount || "$0.00"} */}
                   </div>
                   {/* <p className="fs--10 white-1 mt-5">
@@ -134,7 +137,7 @@ const Cart = () => {
                         descriptionLines,
                         catalogReference,
                       } = item;
-                      const colors = findColor(descriptionLines).join("-");
+                      const colors = findColor(descriptionLines).join('-');
                       const customTextFields =
                         catalogReference.options.customTextFields;
                       return (
@@ -147,8 +150,8 @@ const Cart = () => {
                                 <img
                                   src={generateImageURL({
                                     wix_url: image,
-                                    h: "150",
-                                    w: "150",
+                                    h: '150',
+                                    w: '150',
                                   })}
                                   data-preload
                                   className="media"
@@ -163,7 +166,7 @@ const Cart = () => {
                                     {productName.original}
                                   </h2>
                                   <AnimateLink
-                                    to={"/product" + extractSlugFromUrl(url)}
+                                    to={'/product' + extractSlugFromUrl(url)}
                                     className="btn-view"
                                   >
                                     <span>View</span>
@@ -171,8 +174,7 @@ const Cart = () => {
                                   </AnimateLink>
                                 </div>
                                 <div className="container-price">
-                                  <div className="price">
-                                  </div>
+                                  <div className="price"></div>
                                   <button
                                     onClick={() => removeProduct(_id)}
                                     type="button"
@@ -269,7 +271,7 @@ const Cart = () => {
                   {cartItems.length === 0 && (
                     <h6
                       className="fs--40 text-center split-words white-1"
-                      style={{ margin: "28vh auto" }}
+                      style={{ margin: '28vh auto' }}
                       data-aos="d:loop"
                     >
                       No Products in Cart
@@ -279,15 +281,16 @@ const Cart = () => {
                     {cartItems.length !== 0 && (
                       <button
                         onClick={handleSubmitQuote}
-                        className={`btn-medium-wide btn-red btn-hover-white ${cartProcessing ? "events-disabled" : ""
-                          }`}
+                        className={`btn-medium-wide btn-red btn-hover-white ${
+                          cartProcessing ? 'events-disabled' : ''
+                        }`}
                         data-aos="fadeIn .8s ease-in-out .2s, d:loop"
                       >
                         <div className="split-chars">
                           <span>
                             {cartProcessing
-                              ? "Requesting for quote..."
-                              : "Request for quote"}
+                              ? 'Requesting for quote...'
+                              : 'Request for quote'}
                           </span>
                         </div>
                       </button>
@@ -308,10 +311,10 @@ const Cart = () => {
           </div>
         </div>
         <div className="bg-fixed" data-aos="d:loop">
-          <BackgroundImages pageSlug="cart" />
+          <BackgroundImages pageSlug="cart" data={backgroundData} />
         </div>
       </section>
-      {quoteStatus === "success" && <RequestForQuote />}
+      {quoteStatus === 'success' && <RequestForQuote />}
     </>
   );
 };

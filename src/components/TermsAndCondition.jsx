@@ -87,7 +87,7 @@ const HeadingComponent = ({ level, children }) => {
   return <HeadingTag>{children}</HeadingTag>;
 };
 
-const TermsAndCondition = ({ data }) => {
+const TermsAndCondition = ({ data, backgroundData }) => {
   const router = useRouter();
   const nodes = data.content.nodes;
   useEffect(() => {
@@ -136,7 +136,10 @@ const TermsAndCondition = ({ data }) => {
         </div>
       </div>
       <div className="bg-fixed no-tablet" data-aos="d:loop">
-        <BackgroundImages pageSlug="terms-and-condition" />
+        <BackgroundImages
+          data={backgroundData}
+          pageSlug="terms-and-condition"
+        />
       </div>
     </div>
   );
