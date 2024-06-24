@@ -6,10 +6,6 @@ import AddToCartModal from "../Product/AddToCartModal";
 import SuccessModal from "./SuccessModal";
 import AnimateLink from "./AnimateLink";
 import ErrorModal from "./ErrorModal";
-import {
-  getProductSnapShots,
-  getProductVariants,
-} from "@/services/scApiCalls";
 
 const MatchedProducts = ({ matchedProductsData, savedProductsData, setSavedProductsData }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
@@ -25,11 +21,7 @@ const MatchedProducts = ({ matchedProductsData, savedProductsData, setSavedProdu
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
     try {
-      const product_id = productData.product._id;
-      const [productSnapshotData, productVariantsData] = await Promise.all([
-        getProductSnapShots(product_id),
-        getProductVariants(product_id),
-      ]);
+      const { productSnapshotData, productVariantsData } = productData;
 
       let dataMap = new Map(
         productVariantsData.map((item) => [item.sku, item])

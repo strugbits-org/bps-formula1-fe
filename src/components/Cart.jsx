@@ -9,7 +9,7 @@ import {
   removeProductFromCart,
   updateProductsCart,
 } from '@/services/cartServices';
-import { extractSlugFromUrl, findColor } from '@/utils/utils';
+import { calculateTotalCartQuantity, extractSlugFromUrl, findColor, setCookie } from '@/utils/utils';
 import BackgroundImages from './Common/BackgroundImages';
 
 const Cart = ({ data, backgroundData }) => {

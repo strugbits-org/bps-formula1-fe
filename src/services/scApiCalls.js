@@ -1184,8 +1184,9 @@ export const getSearchProducts = async (collections, colors, searchTerm) => {
   }
 };
 
-export const getQuotes = async (authToken) => {
+export const getQuotes = async () => {
   try {
+    const authToken = getAuthenticationToken();
     const response = await fetch(`${base_url}formula1/wix/getAllPriceQuote`, {
       method: "GET",
       headers: {
@@ -1283,8 +1284,9 @@ export const getProductsCart = async () => {
     const data = await response.json();
     return data.data;
   } catch (error) {
-    console.log("error", error);
-    throw new Error(error);
+    // console.log("error", error);
+    console.error("Error fetching cart:", error);
+    return null;
   }
 };
 

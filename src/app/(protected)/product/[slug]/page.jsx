@@ -70,6 +70,19 @@ export default async function Page({ params }) {
     getSavedProductData()
   ]);
 
+  const productsData = await Promise.all(
+    matchedProductsData.map(async (productData) => {
+      const productId = productData.product._id;
+      const [productSnapshotData, productVariantsData] = await Promise.all([
+        getProductSnapShots(productId),
+        getProductVariants(productId),
+      ]);
+      productData.productSnapshotData = productSnapshotData;
+      productData.productVariantsData = productVariantsData;
+      return productData;
+    })
+  );
+
   let filteredVariantData;
   if (productVariantsData && selectedProductDetails) {
     filteredVariantData = selectedProductDetails[0].variantData =
@@ -86,7 +99,7 @@ export default async function Page({ params }) {
     <ProductPost
       productPostPageData={productPostPageData}
       selectedProductDetails={selectedProductDetails[0]}
-      matchedProductsData={matchedProductsData}
+      matchedProductsData={productsData}
       collectionsData={collectionsData}
       productSnapshots={productSnapshots}
       productFoundData={productFound}

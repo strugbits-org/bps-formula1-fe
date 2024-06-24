@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg data-bbox="0 0 220.7 55" viewBox="0 0 220.7 55" y="0" x="0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" data-type="color">
+    <g>
+        <defs>
+            <path id="2507bd7e-a4dd-4d0e-804d-e556b2fb6148" d="M220.7 0v55H0V0h220.7z"/>
+        </defs>
+        <clipPath id="553c2887-a1e6-40fe-aab3-02eea89ea0d2">
+            <use xlink:href="#2507bd7e-a4dd-4d0e-804d-e556b2fb6148" overflow="visible"/>
+        </clipPath>
+        <path d="M0 55h31.2l27.6-26.3c4.4-4.7 10.6-7.5 17.1-7.6h84.9L182 .1H76.2S58-.7 46.9 9.4 0 55 0 55" clip-path="url(#553c2887-a1e6-40fe-aab3-02eea89ea0d2)" fill="#de1e26" data-color="1"/>
+        <defs>
+            <path id="9d865a3a-a112-4fb7-affc-130f96981753" d="M220.7 0v55H0V0h220.7z"/>
+        </defs>
+        <clipPath id="1b0ec38b-713d-4178-a66e-988c8021656a">
+            <use xlink:href="#9d865a3a-a112-4fb7-affc-130f96981753" overflow="visible"/>
+        </clipPath>
+        <path d="M36.8 55h28.9l8-7.9c2.8-2.5 6.3-3.9 10-3.9h54.7l19.3-19.3H80s-10.3-.4-16.6 5.3S36.8 55 36.8 55" clip-path="url(#1b0ec38b-713d-4178-a66e-988c8021656a)" fill="#de1e26" data-color="1"/>
+        <defs>
+            <path id="2cd6fc7d-9f92-4ee6-8cdc-836234f5deae" d="M220.7 0v55H0V0h220.7z"/>
+        </defs>
+        <clipPath id="433cacaf-4deb-44d8-bb47-db6db8240267">
+            <use xlink:href="#2cd6fc7d-9f92-4ee6-8cdc-836234f5deae" overflow="visible"/>
+        </clipPath>
+        <path d="M165.9 54.9h-34.2L186.5 0h34.2l-54.8 54.9z" clip-path="url(#433cacaf-4deb-44d8-bb47-db6db8240267)" fill="#de1e26" data-color="1"/>
+    </g>
+</svg>
