@@ -5,9 +5,9 @@ import { usePathname, useRouter, useSearchParams, useParams } from "next/navigat
 import { pageLoadEnd, pageLoadStart } from "@/utils/AnimationFunctions";
 import AnimateLink from "@/components/Common/AnimateLink";
 import { useCookies } from "react-cookie";
-import { getProductsCart } from "@/services/cartServices";
 import { calculateTotalCartQuantity } from "@/utils/utils";
 import { useQueryState } from 'nuqs'
+import { getProductsCart } from "@/services/scApiCalls";
 
 
 const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
@@ -210,9 +210,9 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     const total = calculateTotalCartQuantity(response.lineItems);
     setCookie("cartQuantity", total);
   };
+  
   useEffect(() => {
     if (cookies?.authToken !== undefined) {
-      getCartTotalQuantity();
       document.body.setAttribute("data-login-state", "logged");
     }
     setSearchTerm(searchFor || "");

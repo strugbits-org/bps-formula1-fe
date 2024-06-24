@@ -1,7 +1,8 @@
 "use server";
 
+import { calculateTotalCartQuantity, setCookie } from "@/utils/utils";
 import { getDataFetchFunction } from "./fetchFunction";
-import { getAuthToken } from "./getAuthToken";
+import { getAuthToken, setCookieServer } from "./getAuthToken";
 
 const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
 
@@ -1262,5 +1263,32 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
   } catch (error) {
     console.error("Error fetching saved products:", error);
     return [];
+  }
+};
+
+export const getProductsCart = async () => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/getCart`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    const total = calculateTotalCartQuantity(data.data.lineItems);
+    if (typeof document !== 'undefined') {
+      setCookie("cartQuantity", total);
+    }
+    return data.data;
+  } catch (error) {
+    console.log("error", error);
+    throw new Error(error);
   }
 };
