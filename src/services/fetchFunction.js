@@ -1,6 +1,7 @@
 import { getToken } from "@/utils/GetUser";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const revalidate_time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME || 86400;
 
 export const fetchData = async (bodyData) => {
   const authToken = getToken();
@@ -39,8 +40,7 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
     const options = {
       method: "GET",
       headers,
-      cache: "force-cache",
-      next: { tags: ["all", bodyData.dataCollectionId] }
+      next: { revalidate: revalidate_time, tags: ["all", bodyData.dataCollectionId], },
     }
 
     const response = await fetch(
