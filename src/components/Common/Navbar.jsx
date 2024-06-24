@@ -210,7 +210,24 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     const total = calculateTotalCartQuantity(response.lineItems);
     setCookie("cartQuantity", total);
   };
-  
+  const handleCollectionAllSelect = () => {
+    setSelectedCollection({
+      collectionName: "All",
+      collectionSlug: "all",
+    });
+    setSelectedCategory("All");
+    setCollectionDropdownOpen(false);
+    setCollection(null);
+    setCategory(null);
+    setSubCategory(null);
+    pageLoadStart();
+    if (pathname === "/products") {
+      setTimeout(pageLoadEnd, 1000)
+    } else {
+      router.push("/products");
+    };
+  }
+
   useEffect(() => {
     if (cookies?.authToken !== undefined) {
       document.body.setAttribute("data-login-state", "logged");
@@ -296,17 +313,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
             >
               <ul className="list-dropdown ">
                 <li
-                  onClick={() => {
-                    setSelectedCollection({
-                      collectionName: "All",
-                      collectionSlug: "all",
-                    });
-                    setSelectedCategory("All");
-                    setCollectionDropdownOpen(false);
-                    pageLoadStart();
-                    if (pathname === "/products") setTimeout(pageLoadEnd, 1000);
-                    router.push("/products");
-                  }}
+                  onClick={handleCollectionAllSelect}
                 >
                   <span className="link-dropdown cursor-pointer">
                     <span>All</span>
