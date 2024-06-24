@@ -72,28 +72,6 @@ export const updateProductsCart = async (payload) => {
         throw new Error(error);
     }
 };
-export const getProductsCart = async () => {
-    try {
-        const authToken = getUserAuth();
-        const response = await fetch(`${base_url}formula1/wix/getCart`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'authorization': authToken
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
-        }
-        const data = await response.json();
-        const total = calculateTotalCartQuantity(data.data.lineItems)
-        setCookie("cartQuantity", total)
-        return data.data;
-    } catch (error) {
-        throw new Error(error);
-    }
-};
 export const createPriceQuote = async (payload) => {
     try {
         const authToken = getUserAuth();
