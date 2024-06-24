@@ -243,7 +243,6 @@ export const getCollectionsData = async () => {
       dataCollectionId: "CollectionsF1",
       limit: 1000
     });
-
     if (response && response._items) {
       return response._items.map((x) => x.data);
     } else {

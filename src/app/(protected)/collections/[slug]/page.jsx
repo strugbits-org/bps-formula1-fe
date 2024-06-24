@@ -1,12 +1,24 @@
-import CollectionsPost from "@/components/Collection/CollectionsPost";
+import CollectionsPost from '@/components/Collection/CollectionsPost';
 import {
   getCollectionsData,
   getCollectionsPostPageData,
-} from "@/services/scApiCalls";
-import { redirect } from "next/navigation";
+} from '@/services/scApiCalls';
+import { redirect } from 'next/navigation';
+
+export const generateStaticParams = async () => {
+  try {
+    const all_collections = await getCollectionsData();
+    const paths = all_collections.map((data) => ({
+      slug: data.collectionSlug,
+    }));
+    return paths;
+  } catch (error) {
+    console.log('Error:', error);
+  }
+};
 
 export default async function Page({ params }) {
-  const slug = params.slug;
+  const { slug } = params;
 
   const [collectionsPostPageData, collectionsData] = await Promise.all([
     getCollectionsPostPageData(),
@@ -17,7 +29,7 @@ export default async function Page({ params }) {
   );
 
   if (!filteredCollectionData) {
-    redirect("/error");
+    redirect('/error');
   }
 
   return (

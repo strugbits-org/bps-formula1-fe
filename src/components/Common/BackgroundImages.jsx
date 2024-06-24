@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo } from "react";
-import { getBackgroundImages } from "@/services/apiServices";
-import { generateImageURL } from "@/utils/GenerateImageURL";
+import { useEffect, useState, useMemo } from 'react';
+import { getBackgroundImages } from '@/services/apiServices';
+import { generateImageURL } from '@/utils/GenerateImageURL';
 
 const BackgroundImages = ({ pageSlug, extraClasses }) => {
   const [data, setData] = useState(null);
@@ -11,7 +11,7 @@ const BackgroundImages = ({ pageSlug, extraClasses }) => {
       const pageData = res.find((page) => page.pageSlug === pageSlug);
       setData(pageData);
     } catch (error) {
-      console.error("Error fetching background images:", error);
+      console.error('Error fetching background images:', error);
     }
   };
 
@@ -23,24 +23,24 @@ const BackgroundImages = ({ pageSlug, extraClasses }) => {
     return data
       ? generateImageURL({
           wix_url: data.firstBackgroundImage,
-          w: "2126",
-          h: "909",
-          fit: "fill",
-          q: "95",
+          w: '2126',
+          h: '909',
+          fit: 'fill',
+          q: '95',
         })
-      : "";
+      : '';
   }, [data]);
 
   const secondImageUrl = useMemo(() => {
     return data
       ? generateImageURL({
           wix_url: data.secondBackgroundImage,
-          w: "768",
-          h: "1024",
-          fit: "fill",
-          q: "95",
+          w: '768',
+          h: '1024',
+          fit: 'fill',
+          q: '95',
         })
-      : "";
+      : '';
   }, [data]);
 
   if (!data) {

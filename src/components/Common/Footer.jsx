@@ -1,6 +1,6 @@
-import SocialLinks from "@/components/Common/SocialLinks";
-import AnimateLink from "./AnimateLink";
-import { getFullSvgURL } from "@/utils/GenerateImageURL";
+import SocialLinks from '@/components/Common/SocialLinks';
+import { getFullSvgURL } from '@/utils/GenerateImageURL';
+import AnimateLink from './AnimateLink';
 
 const Footer = ({ footerData, footerLinksData, socialLinks }) => {
   return (
@@ -27,8 +27,8 @@ const Footer = ({ footerData, footerLinksData, socialLinks }) => {
                 <br />
                 {footerData && footerData.suiteNumber}
                 <br />
-                {footerData && footerData.cityName},{" "}
-                {footerData && footerData.stateName}{" "}
+                {footerData && footerData.cityName},{' '}
+                {footerData && footerData.stateName}{' '}
                 {footerData && footerData.zipCode}
                 <br />
               </address>
@@ -60,7 +60,7 @@ const Footer = ({ footerData, footerLinksData, socialLinks }) => {
                     const { title, link } = data;
                     return (
                       <li key={index}>
-                        <AnimateLink to={link || ""} className="link-footer">
+                        <AnimateLink to={link || ''} className="link-footer">
                           <span>{title}</span>
                         </AnimateLink>
                       </li>

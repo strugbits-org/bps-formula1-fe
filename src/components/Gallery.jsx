@@ -1,10 +1,11 @@
-"use client";
-import React, { useEffect, useRef, useState } from "react";
-import AnimateLink from "@/components/Common/AnimateLink";
-import SocialLinks from "./Common/SocialLinks";
-import { generateImageURL } from "@/utils/GenerateImageURL";
-import { markPageLoaded } from "@/utils/AnimationFunctions";
-import { checkParameters } from "@/utils/CheckParams";
+'use client';
+import React, { useEffect, useRef, useState } from 'react';
+
+import { markPageLoaded } from '@/utils/AnimationFunctions';
+import { generateImageURL } from '@/utils/GenerateImageURL';
+import AnimateLink from '@/components/Common/AnimateLink';
+import { checkParameters } from '@/utils/CheckParams';
+import SocialLinks from './Common/SocialLinks';
 
 const Gallery = ({
   galleryPageData,
@@ -14,7 +15,7 @@ const Gallery = ({
 }) => {
   const selectRef = useRef(null);
 
-  const [collectionFilter, setCollectionFilter] = useState("all");
+  const [collectionFilter, setCollectionFilter] = useState('all');
   const [allItemsLoaded, setAllItemsLoaded] = useState(false);
   const [visibleItems, setVisibleItems] = useState(15);
   const [option, setOption] = useState(false);
@@ -38,9 +39,9 @@ const Gallery = ({
         }
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [option]);
 
@@ -48,7 +49,7 @@ const Gallery = ({
     let totalItemsCount = 0;
     collectionsData.forEach((data) => {
       if (
-        collectionFilter === "all" ||
+        collectionFilter === 'all' ||
         data.collectionSlug === collectionFilter
       ) {
         totalItemsCount += data.gallery.length;
@@ -96,14 +97,14 @@ const Gallery = ({
                 </button>
                 <div
                   className={`wrapper-list-dropdown ${
-                    option === true ? "active" : ""
+                    option === true ? 'active' : ''
                   }`}
                   data-get-dropdown="collections"
                 >
                   <ul className="list-dropdown">
                     <li>
                       <button
-                        onClick={() => filterCollection("all")}
+                        onClick={() => filterCollection('all')}
                         data-option-dropdown
                         className="link-dropdown"
                       >
@@ -142,7 +143,7 @@ const Gallery = ({
                   const { gallery, collectionSlug } = data;
                   const isVisibleCollection =
                     collectionFilter === collectionSlug ||
-                    collectionFilter === "all";
+                    collectionFilter === 'all';
                   if (isVisibleCollection) {
                     const remainingItems = visibleItems - totalVisibleItems;
                     const visibleItemsFromCollection = Math.min(
@@ -163,10 +164,10 @@ const Gallery = ({
                                   <a
                                     href={generateImageURL({
                                       wix_url: src,
-                                      w: "1059",
-                                      h: "1059",
-                                      fit: "fill",
-                                      q: "95",
+                                      w: '1059',
+                                      h: '1059',
+                                      fit: 'fill',
+                                      q: '95',
                                     })}
                                     className="gallery-link no-pjax"
                                     data-fancybox="gallery-legacy"
@@ -175,10 +176,10 @@ const Gallery = ({
                                       <img
                                         src={generateImageURL({
                                           wix_url: src,
-                                          w: "1280",
-                                          h: "1280",
-                                          fit: "fill",
-                                          q: "95",
+                                          w: '1280',
+                                          h: '1280',
+                                          fit: 'fill',
+                                          q: '95',
                                         })}
                                         data-preload
                                         className="media"
@@ -223,7 +224,7 @@ const Gallery = ({
                   return (
                     <AnimateLink
                       key={index}
-                      to={links || ""}
+                      to={links || ''}
                       className="fs--14 font-3 text-uppercase btn-underlined-gray mr-15"
                     >
                       <span>{title}</span>

@@ -1,9 +1,10 @@
-"use client";
-import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
-import BackgroundImages from "./Common/BackgroundImages";
-import { checkParameters } from "@/utils/CheckParams";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { markPageLoaded, pageLoadStart } from '@/utils/AnimationFunctions';
+import BackgroundImages from './Common/BackgroundImages';
+import { checkParameters } from '@/utils/CheckParams';
 
 const renderTextWithDecorations = (textData) => {
   if (!textData.decorations || textData.decorations.length === 0) {
@@ -12,11 +13,11 @@ const renderTextWithDecorations = (textData) => {
 
   return textData.decorations.reduce((acc, decoration) => {
     switch (decoration.type) {
-      case "ITALIC":
+      case 'ITALIC':
         return <i>{acc}</i>;
-      case "BOLD":
+      case 'BOLD':
         return <b>{acc}</b>;
-      case "LINK":
+      case 'LINK':
         return (
           <a
             href={decoration.linkData.link.url}
@@ -34,7 +35,7 @@ const renderTextWithDecorations = (textData) => {
 
 const renderNode = (node) => {
   switch (node.type) {
-    case "HEADING":
+    case 'HEADING':
       const headingClass = `fs--${
         30 + node.headingData.level * 2
       } text-center text-uppercase white-1 split-chars`;
@@ -46,7 +47,7 @@ const renderNode = (node) => {
           {renderTextWithDecorations(node.nodes[0].textData)}
         </HeadingComponent>
       );
-    case "PARAGRAPH":
+    case 'PARAGRAPH':
       return (
         <p>
           {node.nodes.map((n, idx) => (
@@ -54,7 +55,7 @@ const renderNode = (node) => {
           ))}
         </p>
       );
-    case "ORDERED_LIST":
+    case 'ORDERED_LIST':
       return (
         <ol>
           {node.nodes.map((listItem) => (
@@ -66,7 +67,7 @@ const renderNode = (node) => {
           ))}
         </ol>
       );
-    case "BULLETED_LIST":
+    case 'BULLETED_LIST':
       return (
         <ul>
           {node.nodes.map((listItem) => (
@@ -78,16 +79,18 @@ const renderNode = (node) => {
           ))}
         </ul>
       );
-    case "DIVIDER":
+    case 'DIVIDER':
       return <hr />;
     default:
       return null;
   }
 };
+
 const HeadingComponent = ({ level, children }) => {
   const HeadingTag = `h${level}`;
   return <HeadingTag>{children}</HeadingTag>;
 };
+
 const PrivacyAndPolicy = ({ data }) => {
   const router = useRouter();
 
