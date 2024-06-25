@@ -108,7 +108,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       if (_selectedCategory) setSelectedCategory(_selectedCategory);
     }
   }, [activeCategoriesData])
-  
+
 
   const handleCollectionSelection = (name, collectionSlug) => {
     pageLoadStart();
@@ -230,7 +230,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
     if (pathname === "/products") {
       setTimeout(pageLoadEnd, 1000)
     } else {
-      router.push("/products");
+      setTimeout(() => { router.push("/products") }, 400)
     };
   }
 
