@@ -25,26 +25,18 @@ export const SaveProductButton = ({
   const handleProductSaveToggle = async (productId, isSaving) => {
     try {
       setProductSaved(isSaving);
+      updateSavedProducts(productId);
       if (isSaving) {
         await saveProduct(productId);
       } else {
         await unSaveProduct(productId);
-      }
-
-      if (setSavedProductsData) {
-        if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
-          const data = savedProductsData.filter((x) => x.product._id !== productId);
-          setSavedProductsData(data);
-        } else {
-          const data = [...savedProductsData, productData];
-          setSavedProductsData(data);
-        }
       }
     } catch (error) {
       console.error(
         `Error ${isSaving ? "saving" : "unsaving"} product:`,
         error
       );
+      updateSavedProducts(productId);
       if (isSaving) {
         setError("saving");
         setProductSaved(false);
@@ -54,6 +46,18 @@ export const SaveProductButton = ({
       }
     }
   };
+
+  const updateSavedProducts = (productId) => {
+    if (setSavedProductsData) {
+      if (savedProductsData.findIndex((x) => x.product._id === productId) !== -1) {
+        const data = savedProductsData.filter((x) => x.product._id !== productId);
+        setSavedProductsData(data);
+      } else {
+        const data = [...savedProductsData, productData];
+        setSavedProductsData(data);
+      }
+    }
+  }
 
   const handleClick = () => {
     handleProductSaveToggle(productId, !productSaved);

@@ -57,7 +57,8 @@ export const resetSlideIndex = () => {
 export const updatedWatched = () => {
   if (typeof window !== "undefined") {
     setTimeout(() => {
-      document.querySelector(".updateWatched").click();
+      const customEvent = new Event("updateWatched");
+      document.querySelector(".updateWatched").dispatchEvent(customEvent);
     }, 200);
   }
 };

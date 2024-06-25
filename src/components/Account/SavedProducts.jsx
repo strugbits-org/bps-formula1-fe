@@ -98,6 +98,7 @@ const SavedProducts = ({ savedProductPageData, savedProducts }) => {
   };
 
   useEffect(markPageLoaded, []);
+  useEffect(updatedWatched, [savedProductsItems]);
 
   return (
     <>
