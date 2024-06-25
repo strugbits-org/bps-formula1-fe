@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env NEXT_PUBLIC_BUILD_PROCESS=true next build",
-    "start": "cross-env NEXT_PUBLIC_BUILD_PROCESS=false next start",
+    "build": "cross-env BUILD_STATUS=true next build",
+    "start": "cross-env BUILD_STATUS=false next start",
     "lint": "next lint"
   },
   "dependencies": {

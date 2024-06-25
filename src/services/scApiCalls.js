@@ -6,9 +6,7 @@ import { getAuthToken } from "./getAuthToken";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const getAuthenticationToken = () => {
-  const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
-  console.log("process.env.NEXT_PUBLIC_BUILD_PROCESS", process.env.NEXT_PUBLIC_BUILD_PROCESS);
-  console.log("isBuildProcess", isBuildProcess);
+  const isBuildProcess = process.env.BUILD_STATUS === 'true';
   if (isBuildProcess) {
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
   } else {

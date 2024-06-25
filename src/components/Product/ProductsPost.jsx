@@ -36,6 +36,8 @@ const ProductPost = ({
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
+  const [buttonLabel, SetButtonLabel] = useState(false);
+
   const handleImageChange = ({ index, selectedVariantData, modalUrl }) => {
     const selectedVariantFilteredData = productSnapshots.find(
       (variant) => variant.colorVariation === selectedVariantData.variantId
@@ -547,11 +549,9 @@ const ProductPost = ({
                     <button
                       class="btn-read-more"
                       data-aos="fadeIn .8s ease-in-out"
+                      onClick={() => SetButtonLabel(!buttonLabel)}
                     >
-                      <span>
-                        {productPostPageData &&
-                          productPostPageData.readMoreButtonLabel}
-                      </span>
+                      <span>{buttonLabel ? 'Read Less' : 'Read More'}</span>
                     </button>
                   </div>
                 )}
