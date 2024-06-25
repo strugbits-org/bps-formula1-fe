@@ -40,7 +40,8 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
     const options = {
       method: "GET",
       headers,
-      next: { revalidate: revalidate_time, tags: ["all", bodyData.dataCollectionId], },
+      cache: "force-cache",
+      next: { tags: ["all", bodyData.dataCollectionId], },
     }
 
     const response = await fetch(

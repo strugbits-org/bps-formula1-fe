@@ -13,8 +13,9 @@ import {
 import { productImageURL } from "@/utils/GenerateImageURL";
 import { useQueryState } from 'nuqs'
 import { debounce } from "lodash";
+import { getSavedProductData } from "@/services/scApiCalls";
 
-const Search = ({ products, collections, colorsData, savedProducts }) => {
+const Search = ({ products, collections, colorsData }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [selectedProductData, setSelectedProductData] = useState(null);
   const [successMessageVisible, setSuccessMessageVisible] = useState(false);
@@ -24,7 +25,7 @@ const Search = ({ products, collections, colorsData, savedProducts }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
   const [productSnapshots, setProductSnapshots] = useState();
-  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
+  const [savedProductsData, setSavedProductsData] = useState([]);
 
   const [searchTerm, setSearchTerm] = useQueryState("for", { history: 'push' });
 
@@ -33,7 +34,7 @@ const Search = ({ products, collections, colorsData, savedProducts }) => {
     colors = [],
   }) => {
     const filteredProductsData = products.filter(product => {
-      const matchedTerm = searchTerm === "" || product.search.includes(searchTerm);
+      const matchedTerm = searchTerm === "" || product.search.toLowerCase().includes(searchTerm);
       const hasCollection = collections.length === 0 || collections.some(collectionId => product.f1Collection?.some(x => x._id === collectionId));
       const hasColor = colors.length === 0 || colors.some(color => product.colors?.includes(color));
 
@@ -118,6 +119,14 @@ const Search = ({ products, collections, colorsData, savedProducts }) => {
     }
     resetSlideIndex();
   };
+
+  const fetchSavedProducts = async () => {
+    const savedProducts = await getSavedProductData();
+    setSavedProductsData(savedProducts);
+  }
+  useEffect(() => {
+    fetchSavedProducts();
+  }, []);
 
   return (
     <>

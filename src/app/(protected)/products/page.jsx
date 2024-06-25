@@ -3,7 +3,6 @@ import {
   getBackgroundImages,
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
 } from '@/services/scApiCalls';
 import {
   fetchProducts,
@@ -18,14 +17,12 @@ export default async function Page() {
     collectionsData,
     categoriesData,
     colorsData,
-    savedProductsData,
     backgroundData,
   ] = await Promise.all([
     fetchProducts(),
     getCollectionsData(),
     getAllCategoriesData(),
     getAllColorsData(),
-    getSavedProductData(),
     getBackgroundImages(),
   ]);
 
@@ -48,7 +45,6 @@ export default async function Page() {
       collectionsData={collectionsData}
       categoriesData={categoriesData}
       colorsData={colorsData}
-      savedProducts={savedProductsData}
       backgroundData={backgroundData}
     />
   );

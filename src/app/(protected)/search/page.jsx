@@ -6,7 +6,6 @@ import {
   getCollectionsData,
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
 } from "@/services/scApiCalls";
 
 export default async function Page() {
@@ -17,12 +16,10 @@ export default async function Page() {
     products,
     collections,
     colorsData,
-    savedProductsData
   ] = await Promise.all([
     fetchProducts(),
     getCollectionsData(),
     getCollectionColors(category),
-    getSavedProductData()
   ]);
 
   const productsData = await Promise.all(products.map(async (productData) => {
@@ -41,7 +38,6 @@ export default async function Page() {
       products={productsData}
       collections={collections}
       colorsData={colorsData.colors}
-      savedProducts={savedProductsData}
     />
   );
 }

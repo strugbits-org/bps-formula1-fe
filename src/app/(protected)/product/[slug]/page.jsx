@@ -11,7 +11,6 @@ import {
   getProductPostPageData,
   getProductSnapShots,
   getProductVariants,
-  getSavedProductData,
   getSelectedProductDetails,
   getSelectedProductId,
 } from "@/services/scApiCalls";
@@ -58,7 +57,6 @@ export default async function Page({ params }) {
     productSnapshots,
     productFound,
     categoriesData,
-    savedProductsData
   ] = await Promise.all([
     getProductPostPageData(),
     getSelectedProductDetails(selectedProductId),
@@ -67,7 +65,6 @@ export default async function Page({ params }) {
     getProductSnapShots(selectedProductId),
     getProductFound(),
     getAllCategoriesData(),
-    getSavedProductData()
   ]);
 
   const productsData = await Promise.all(
@@ -104,7 +101,6 @@ export default async function Page({ params }) {
       productSnapshots={productSnapshots}
       productFoundData={productFound}
       categoriesData={categoriesData}
-      savedProducts={savedProductsData}
     />
   );
 }

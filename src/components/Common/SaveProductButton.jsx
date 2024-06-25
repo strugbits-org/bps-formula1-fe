@@ -1,11 +1,11 @@
 import useUserData from "@/hooks/useUserData";
+import { removeSavedProduct, saveProduct, unSaveProduct } from "@/services/scApiCalls";
 import { getUserAuth } from "@/utils/GetUser";
 import { useState, useEffect } from "react";
 
 export const SaveProductButton = ({
   productData,
   dataAos,
-  onUnSave,
   savedProductsData,
   setSavedProductsData,
 }) => {
@@ -23,27 +23,12 @@ export const SaveProductButton = ({
   }, [memberId, savedProductsData]);
 
   const handleProductSaveToggle = async (productId, isSaving) => {
-    const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-    const endpoint = isSaving
-      ? `${base_url}formula1/wix/saveProduct/${productId}`
-      : `${base_url}formula1/wix/removeSavedProduct/${productId}`;
-
     try {
       setProductSaved(isSaving);
-      const response = await fetch(endpoint, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        },
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const dat = await response.json();
-      if (!isSaving && onUnSave) {
-        onUnSave(productId);
+      if (isSaving) {
+        await saveProduct(productId);
+      } else {
+        await unSaveProduct(productId);
       }
 
       if (setSavedProductsData) {

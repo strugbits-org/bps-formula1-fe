@@ -1115,6 +1115,8 @@ export const fetchProducts = async () => {
           value: true,
         },
       ],
+      returnTotalCount:true,
+      limit:"infinite",
     };
 
     const response = await serverComponentApiFetcher(payload);
@@ -1313,5 +1315,47 @@ export const getBackgroundImages = async () => {
   } catch (error) {
     // console.error("Error fetching BackgroundImagesF1:", error);
     return [];
+  }
+};
+
+export const saveProduct = async (id) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/saveProduct/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+export const unSaveProduct = async (id) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/removeSavedProduct/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
   }
 };

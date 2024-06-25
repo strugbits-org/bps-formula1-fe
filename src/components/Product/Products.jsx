@@ -18,13 +18,13 @@ import AnimateLink from '../Common/AnimateLink';
 import { productImageURL } from '@/utils/GenerateImageURL';
 
 import { useQueryState } from 'nuqs';
+import { getSavedProductData } from '@/services/scApiCalls';
 
 const Products = ({
   products,
   collectionsData,
   categoriesData,
   colorsData,
-  savedProducts,
   backgroundData,
 }) => {
   const searchParams = useSearchParams();
@@ -63,7 +63,7 @@ const Products = ({
   const [productSnapshots, setProductSnapshots] = useState();
   const [productFilteredVariantData, setProductFilteredVariantData] =
     useState();
-  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
+  const [savedProductsData, setSavedProductsData] = useState([]);
   const [selectedVariants, setSelectedVariants] = useState({});
 
   const handleVariantSelection = (productIndex, variant) => {
@@ -297,6 +297,14 @@ const Products = ({
     setInitialData();
   }, [searchParams]);
 
+  const fetchSavedProducts = async () => {
+    const savedProducts = await getSavedProductData();
+    setSavedProductsData(savedProducts);
+  }
+  useEffect(() => {
+    fetchSavedProducts();
+  }, []);
+
   return (
     <>
       <section className="products-intro">
@@ -381,9 +389,8 @@ const Products = ({
                   return (
                     <li key={index} className="grid-item" data-aos="d:loop">
                       <div
-                        className={`product-link large ${
-                          isActive ? 'active' : ''
-                        }`}
+                        className={`product-link large ${isActive ? 'active' : ''
+                          }`}
                         data-product-category
                         data-product-location
                         data-product-colors
@@ -490,7 +497,7 @@ const Products = ({
                                       onMouseEnter={() => {
                                         handleImageHover(
                                           filteredProducts[index].variantData[
-                                            idx
+                                          idx
                                           ]
                                         );
                                         handleVariantSelection(

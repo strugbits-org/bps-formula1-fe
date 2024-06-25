@@ -17,8 +17,8 @@ import {
 import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
-import { getSavedProductData } from "@/services/apiServices";
 import { checkParameters } from "@/utils/CheckParams";
+import { getSavedProductData } from "@/services/scApiCalls";
 
 const ProductPost = ({
   productPostPageData,
@@ -28,11 +28,10 @@ const ProductPost = ({
   productSnapshots,
   productFoundData,
   categoriesData,
-  savedProducts
 }) => {
   const router = useRouter();
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
-  const [savedProductsData, setSavedProductsData] = useState(savedProducts);
+  const [savedProductsData, setSavedProductsData] = useState([]);
   const [selectedVariant, setSelectedVariant] = useState();
   const [cartQuantity, setCartQuantity] = useState(1);
   const descriptionRef = useRef(null);
@@ -181,6 +180,13 @@ const ProductPost = ({
     "color:#ffffff"
   );
 
+  const fetchSavedProducts = async () => {
+    const savedProducts = await getSavedProductData();
+    setSavedProductsData(savedProducts);
+  }
+  useEffect(() => {
+    fetchSavedProducts();
+  }, []);
   return (
     <>
       <section class="product-post-intro" data-product-content>
