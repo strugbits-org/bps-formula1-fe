@@ -10,7 +10,13 @@
   },
   "dependencies": {
     "@vercel/speed-insights": "^1.0.11",
+    "@wix/data": "^1.0.116",
+    "@wix/ecom": "^1.0.609",
+    "@wix/members": "^1.0.86",
+    "@wix/sdk": "^1.10.2",
+    "bcryptjs": "^2.4.3",
     "cross-env": "^7.0.3",
+    "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "next": "14.2.3",
     "nuqs": "^1.17.4",

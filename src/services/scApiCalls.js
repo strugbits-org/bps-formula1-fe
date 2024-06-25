@@ -3,10 +3,12 @@
 import { getDataFetchFunction } from "./fetchFunction";
 import { getAuthToken } from "./getAuthToken";
 
-const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const getAuthenticationToken = () => {
+  const isBuildProcess = process.env.NEXT_PUBLIC_BUILD_PROCESS === 'true';
+  console.log("process.env.NEXT_PUBLIC_BUILD_PROCESS", process.env.NEXT_PUBLIC_BUILD_PROCESS);
+  console.log("isBuildProcess", isBuildProcess);
   if (isBuildProcess) {
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
   } else {
@@ -1201,7 +1203,8 @@ export const getQuotes = async () => {
     const data = await response.json();
     return data.data._items;
   } catch (error) {
-    console.log("Error:", error);
+    return null;
+    // console.log("Error:", error);
   }
 };
 
@@ -1285,7 +1288,7 @@ export const getProductsCart = async () => {
     return data.data;
   } catch (error) {
     // console.log("error", error);
-    console.error("Error fetching cart:", error);
+    // console.error("Error fetching cart:", error);
     return null;
   }
 };
@@ -1310,7 +1313,7 @@ export const getBackgroundImages = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching BackgroundImagesF1:", error);
+    // console.error("Error fetching BackgroundImagesF1:", error);
     return [];
   }
 };
