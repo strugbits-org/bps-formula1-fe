@@ -12,6 +12,7 @@ import {
   resetSlideIndex,
   updatedWatched,
 } from "@/utils/AnimationFunctions";
+import { productImageURL } from "@/utils/GenerateImageURL";
 
 const SavedProducts = ({ savedProductPageData, savedProducts }) => {
   const [productFilteredVariantData, setProductFilteredVariantData] =
@@ -23,14 +24,14 @@ const SavedProducts = ({ savedProductPageData, savedProducts }) => {
   const [selectedVariantData, setSelectedVariantData] = useState(null);
   const [selectedVariantIndex, setSelectedVariantIndex] = useState(0);
   const [productSnapshots, setProductSnapshots] = useState();
-  
+
   const pageSize = 20;
 
   const [pageLimit, setPageLimit] = useState(pageSize);
 
   const getSelectedProductSnapShots = async (productData) => {
     setSelectedProductData(productData);
-    try {      
+    try {
       const { productSnapshotData, productVariantsData } = productData;
 
       let dataMap = new Map(
@@ -168,7 +169,13 @@ const SavedProducts = ({ savedProductPageData, savedProducts }) => {
                                         }
                                       >
                                         <img
-                                          src={variant.variant.imageSrc}
+                                          src={productImageURL({
+                                            wix_url: variant.variant.imageSrc,
+                                            w: "518",
+                                            h: "518",
+                                            fit: "fill",
+                                            q: "95",
+                                          })}
                                           data-preload
                                           className="media"
                                           alt="search-1"
@@ -202,7 +209,13 @@ const SavedProducts = ({ savedProductPageData, savedProducts }) => {
                                       >
                                         <div className="container-img">
                                           <img
-                                            src={variant.variant.imageSrc}
+                                            src={productImageURL({
+                                              wix_url: variant.variant.imageSrc,
+                                              w: "518",
+                                              h: "518",
+                                              fit: "fill",
+                                              q: "95",
+                                            })}
                                             data-preload
                                             className="media"
                                             alt="search-4"

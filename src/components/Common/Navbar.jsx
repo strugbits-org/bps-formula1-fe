@@ -78,10 +78,6 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
         collectionName: _selectedCollection.collectionName,
         collectionSlug: _selectedCollection.collectionSlug,
       });
-    const _selectedCategory = activeCategoriesData.find(
-      (x) => x.parentCollection._id === category
-    )?.parentCollection?.name;
-    if (_selectedCategory) setSelectedCategory(_selectedCategory);
 
     if (
       typeof window !== "undefined" &&
@@ -103,6 +99,16 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
       });
     }
   }, [pathname, router, searchParams]);
+
+  useEffect(() => {
+    if (activeCategoriesData.length !== 0) {
+      const _selectedCategory = activeCategoriesData.find(
+        (x) => x.parentCollection._id === category
+      )?.parentCollection?.name;
+      if (_selectedCategory) setSelectedCategory(_selectedCategory);
+    }
+  }, [activeCategoriesData])
+  
 
   const handleCollectionSelection = (name, collectionSlug) => {
     pageLoadStart();
