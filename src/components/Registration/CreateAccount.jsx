@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Disclaimer from "./Disclaimer";
+import { signUpUser } from "@/services/scApiCalls";
 
 const CreateAccount = ({
   data,
@@ -46,25 +47,15 @@ const CreateAccount = ({
         phone: formData.phone,
         hospitalityLoc: formData.hospitality_space,
       };
-      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-      const response = await fetch(`${base_url}formula1/auth/signup`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
+      const response = await signUpUser(userData);
+      if (response?.error) {
+        setMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
-      const data = await response.json();
 
-      if (data) {
+      if (response) {
         setMessage("The Account is under approval");
         setSuccessMessageVisible(true);
         setErrorMessageVisible(false);

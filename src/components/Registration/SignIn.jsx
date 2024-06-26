@@ -4,6 +4,7 @@ import { useState } from "react";
 import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
 import { pageLoadStart } from "@/utils/AnimationFunctions";
 import Disclaimer from "./Disclaimer";
+import { signInUser } from "@/services/scApiCalls";
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
   const [cookies, setCookie] = useCookies(["authToken", "userData"]);
@@ -21,29 +22,18 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
     setSubmittingForm(true);
     setErrorMessageVisible(false);
     try {
-      const signUserData = {
+      const response = await signInUser({
         email: formData.email,
         password: formData.password,
-      };
-      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-
-      const response = await fetch(`${base_url}formula1/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(signUserData),
       });
-
-      if (!response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
+      if (response?.error) {
+        setMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
-      const data = await response.json();
-      const userToken = data.data.jwtToken;
-      const userData = JSON.stringify(data.data.member);
+
+      const userToken = response.data.jwtToken;
+      const userData = JSON.stringify(response.data.member);
       setCookie("authToken", userToken, {
         path: "/",
         expires: new Date("2099-01-01"),

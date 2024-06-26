@@ -55,23 +55,25 @@ export default async function RootLayout({ children }) {
           data-load="first-loading"
           class="overflow-hidden"
         >
-          <span className="initScript d-none"></span>
-          <span className="initializeCanvas d-none"></span>
-          <span className="home d-none"></span>
-          <span className="updateWatched d-none"></span>
-          <span className="galleryLightBox d-none"></span>
-          <span className="collections d-none"></span>
-          <span className="products d-none"></span>
-          <span className="productsPost d-none"></span>
-          <span className="cartPage d-none"></span>
-          <span className="myAccount d-none"></span>
-          <span className="savedProducts d-none"></span>
-          <span className="quotesHistory d-none"></span>
-          <span className="changePassword d-none"></span>
-          <span className="galleryImages d-none"></span>
-          <span className="addToCart d-none"></span>
-          <span className="modalLoad d-none"></span>
-          <span className="loadMore d-none"></span>
+          <div className='external-triggers d-none'>
+            <span className="initScript"></span>
+            <span className="initializeCanvas"></span>
+            <span className="home"></span>
+            <span className="updateWatched"></span>
+            <span className="galleryLightBox"></span>
+            <span className="collections"></span>
+            <span className="products"></span>
+            <span className="productsPost"></span>
+            <span className="cartPage"></span>
+            <span className="myAccount"></span>
+            <span className="savedProducts"></span>
+            <span className="quotesHistory"></span>
+            <span className="changePassword"></span>
+            <span className="galleryImages"></span>
+            <span className="addToCart"></span>
+            <span className="modalLoad"></span>
+            <span className="loadMore"></span>
+          </div>
 
           <Loader />
           <Suspense fallback={<SearchBarFallback />}>

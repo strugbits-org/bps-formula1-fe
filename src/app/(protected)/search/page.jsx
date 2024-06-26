@@ -1,7 +1,6 @@
 import Search from "@/components/Search";
 import {
   fetchProducts,
-  getAllColorsData,
   getCollectionColors,
   getCollectionsData,
   getProductSnapShots,
