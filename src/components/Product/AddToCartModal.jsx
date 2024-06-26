@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import { SaveProductButton } from "../Common/SaveProductButton";
 import { generateImageURL } from "@/utils/GenerateImageURL";
-import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
+import { AddProductToCart } from "@/services/scApiCalls";
+import { calculateTotalCartQuantity, setCookie } from "@/utils/utils";
 
 const AddToCartModal = ({
   productData,
@@ -75,7 +76,9 @@ const AddToCartModal = ({
         },
         quantity: cartQuantity,
       };
-      await AddProductToCart([product]);
+      const data = await AddProductToCart([product]);
+      const total = calculateTotalCartQuantity(data.cart.lineItems)
+      setCookie("cartQuantity", total);
       handleClose();
       setSuccessMessageVisible(true);
     } catch (error) {

@@ -14,11 +14,11 @@ import {
   pageLoadStart,
   resetSlideIndex,
 } from "@/utils/AnimationFunctions";
-import { AddProductToCart } from "@/services/cartServices";
 import ModalCanvas3d from "../Common/ModalCanvas3d";
 import { generateImageURL, productImageURL } from "@/utils/GenerateImageURL";
 import { checkParameters } from "@/utils/CheckParams";
-import { getSavedProductData } from "@/services/scApiCalls";
+import { AddProductToCart, getSavedProductData } from "@/services/scApiCalls";
+import { calculateTotalCartQuantity, setCookie } from "@/utils/utils";
 
 const ProductPost = ({
   productPostPageData,
@@ -149,7 +149,10 @@ const ProductPost = ({
         },
         quantity: cartQuantity,
       };
-      await AddProductToCart([product]);
+      const data = await AddProductToCart([product]);
+      const total = calculateTotalCartQuantity(data.cart.lineItems)
+      setCookie("cartQuantity", total);
+
       router.push("/cart");
     } catch (error) {
       pageLoadEnd();

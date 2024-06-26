@@ -4,13 +4,9 @@ import AnimateLink from './Common/AnimateLink';
 import { useEffect, useState } from 'react';
 import { markPageLoaded, updatedWatched } from '@/utils/AnimationFunctions';
 import { generateImageURL } from '@/utils/GenerateImageURL';
-import {
-  createPriceQuote,
-  removeProductFromCart,
-  updateProductsCart,
-} from '@/services/cartServices';
 import { calculateTotalCartQuantity, extractSlugFromUrl, findColor, setCookie } from '@/utils/utils';
 import BackgroundImages from './Common/BackgroundImages';
+import { createPriceQuote, removeProductFromCart, updateProductsCart } from '@/services/scApiCalls';
 
 const Cart = ({ data, backgroundData }) => {
   const [cart, setCart] = useState(null);
@@ -21,6 +17,8 @@ const Cart = ({ data, backgroundData }) => {
   const removeProduct = async (id) => {
     try {
       const response = await removeProductFromCart([id]);
+      const total = calculateTotalCartQuantity(response.cart.lineItems)
+      setCookie("cartQuantity", total)
       setCartItems(response.cart.lineItems);
       setCart(response.cart);
     } catch (error) {
@@ -31,6 +29,8 @@ const Cart = ({ data, backgroundData }) => {
     try {
       const lineItems = [{ id, quantity }];
       const response = await updateProductsCart(lineItems);
+      const total = calculateTotalCartQuantity(response.cart.lineItems)
+      setCookie("cartQuantity", total);
       setCart(response.cart);
     } catch (error) {
       console.log('error', error);
@@ -62,6 +62,7 @@ const Cart = ({ data, backgroundData }) => {
         };
       });
       await createPriceQuote(lineItems);
+      setCookie("cartQuantity", 0);
       setQuoteStatus('success');
     } catch (error) {
       console.log('error', error);

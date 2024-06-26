@@ -1,10 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
 import CartModal from "../Common/CartModal";
-import { AddProductToCart } from "@/services/cartServices";
+import { AddProductToCart } from "@/services/scApiCalls";
 import { useRouter } from "next/navigation";
 import { markPageLoaded, pageLoadStart } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
+import { calculateTotalCartQuantity, setCookie } from "@/utils/utils";
 
 export const formatCustomDate = (dateString) => {
   if (dateString) {
@@ -59,10 +60,11 @@ const QuotesHistory = ({ quoteHistoryPageData, quotesData }) => {
         // Push the product object to the products array
         products.push(product);
       });
-      await AddProductToCart(products);
+      const response = await AddProductToCart(products);
+      const total = calculateTotalCartQuantity(response.cart.lineItems)
+      setCookie("cartQuantity", total);
       pageLoadStart();
       router.push("/cart");
-      // handleClose();
     } catch (error) {
       console.log("Error:", error);
     }

@@ -578,6 +578,54 @@ export const getCreateAccountDropdown = async () => {
     return [];
   }
 };
+export const getFooterData = async () => {
+  try {
+    const response = await serverComponentApiFetcher({
+      dataCollectionId: "FooterDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data)[0];
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
+};
+export const getFooterLinksData = async () => {
+  try {
+    const response = await serverComponentApiFetcher({
+      dataCollectionId: "FooterLinksDataF1",
+      includeReferencedItems: null,
+      returnTotalCount: null,
+      contains: null,
+      limit: null,
+      eq: null,
+      ne: null,
+      hasSome: null,
+      skip: null,
+    });
+
+    if (response && response._items) {
+      return response._items.map((x) => x.data);
+    } else {
+      throw new Error("Response does not contain _items");
+    }
+  } catch (error) {
+    console.error("Error fetching filter category:", error);
+    return [];
+  }
+};
 
 // Products APIs
 export const fetchAllProducts = async () => {
@@ -891,58 +939,9 @@ export const getProductSnapShots = async (id) => {
   }
 };
 
+// ------------- Requires user auth token ---------------------
 
-// FOOTER APIS
-export const getFooterData = async () => {
-  try {
-    const response = await serverComponentApiFetcher({
-      dataCollectionId: "FooterDataF1",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      contains: null,
-      limit: null,
-      eq: null,
-      ne: null,
-      hasSome: null,
-      skip: null,
-    });
-
-    if (response && response._items) {
-      return response._items.map((x) => x.data)[0];
-    } else {
-      throw new Error("Response does not contain _items");
-    }
-  } catch (error) {
-    console.error("Error fetching filter category:", error);
-    return [];
-  }
-};
-export const getFooterLinksData = async () => {
-  try {
-    const response = await serverComponentApiFetcher({
-      dataCollectionId: "FooterLinksDataF1",
-      includeReferencedItems: null,
-      returnTotalCount: null,
-      contains: null,
-      limit: null,
-      eq: null,
-      ne: null,
-      hasSome: null,
-      skip: null,
-    });
-
-    if (response && response._items) {
-      return response._items.map((x) => x.data);
-    } else {
-      throw new Error("Response does not contain _items");
-    }
-  } catch (error) {
-    console.error("Error fetching filter category:", error);
-    return [];
-  }
-};
-
-// User Specific APIs
+// Quotes APIs
 export const getQuotes = async () => {
   try {
     const authToken = getAuthenticationToken();
@@ -964,6 +963,29 @@ export const getQuotes = async () => {
     // console.log("Error:", error);
   }
 };
+export const createPriceQuote = async (payload) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/createPriceQuote`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      body: JSON.stringify({ lineItems: payload }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// Saved products APIs
 export const getSavedProductData = async (payload, returnTotalCount = false) => {
   try {
     const authToken = getAuthenticationToken();
@@ -994,30 +1016,6 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
     return [];
   }
 };
-export const getProductsCart = async () => {
-  try {
-    const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/getCart`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'authorization': authToken
-      },
-      cache: "no-store"
-    });
-
-    if (!response.ok) {
-      throw new Error(`API request failed with status ${response.status}`);
-    }
-    const data = await response.json();
-    return data.data;
-  } catch (error) {
-    // console.log("error", error);
-    // console.error("Error fetching cart:", error);
-    return null;
-  }
-};
-
 export const saveProduct = async (id) => {
   try {
     const authToken = getAuthenticationToken();
@@ -1059,6 +1057,7 @@ export const unSaveProduct = async (id) => {
   }
 };
 
+// Authentication APIs
 export const signInUser = async (userData) => {
   try {
     const response = await fetch(`${base_url}formula1/auth/login`, {
@@ -1097,6 +1096,94 @@ export const signUpUser = async (userData) => {
     const data = await response.json();
 
     return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+
+// Cart APIs
+export const getProductsCart = async () => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/getCart`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    // console.log("error", error);
+    // console.error("Error fetching cart:", error);
+    return null;
+  }
+};
+export const AddProductToCart = async (payload) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/addToCart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      body: JSON.stringify({ lineItems: payload }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const updateProductsCart = async (payload) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/updateQuantityCart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      body: JSON.stringify({ lineItems: payload }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const removeProductFromCart = async (payload) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/wix/removeCart`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': authToken
+      },
+      body: JSON.stringify({ lineItemIds: payload }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    return data.data;
   } catch (error) {
     throw new Error(error);
   }
