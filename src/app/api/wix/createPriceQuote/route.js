@@ -9,7 +9,6 @@ export const POST = async (req) => {
         if (!authenticatedUserData) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
-
         const body = await req.json()
         const { lineItems } = body;
 

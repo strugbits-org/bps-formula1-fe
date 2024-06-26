@@ -2,11 +2,9 @@ import bcrypt from "bcryptjs";
 import { createWixClient } from "@/utils/createWixClient";
 import { NextResponse } from "next/server";
 
-// Named export for POST method
 export const POST = async (req) => {
   try {
     const body = await req.json();
-    console.log("req: ", body);
 
     const {
       email,
@@ -36,7 +34,7 @@ export const POST = async (req) => {
     if (user.loginState === "SUCCESS" || user.errorCode === "emailAlreadyExists") {
       setTimeout(async () => {
         const payload = { loginEmail: email };
-        const response = await fetch(`https://www.rentals.blueprintstudios.com/_functions/getMember`, {
+        const response = await fetch(`${process.env.RENTALS_URL}/getMember`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +63,7 @@ export const POST = async (req) => {
 
           const salt = await bcrypt.genSalt(10);
           const hashedPassword = await bcrypt.hash(password, salt);
-          
+
           await wixClient.items.insertDataItem({
             dataCollectionId: "F1UsersData",
             dataItem: {

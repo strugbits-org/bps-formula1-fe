@@ -9,16 +9,15 @@ export const POST = async (req) => {
         if (!authenticatedUserData) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
-
         const body = await req.json()
+
         const { lineItems } = body;
+        const wixClient = createWixClient();
+        const response = await wixClient.cart.updateLineItemsQuantity(
+            authenticatedUserData.cartId,
+            lineItems
+        );
 
-        const wixClient = createWixClient(); // Initialize your Wix client
-        const response = await wixClient.cart.addToCart(authenticatedUserData.cartId, {
-            lineItems,
-        });
-
-        // Modify the response object as needed
         delete response.cart.subtotal;
         response.cart.lineItems = response.cart.lineItems.map((val) => {
             delete val.fullPrice;
@@ -30,7 +29,7 @@ export const POST = async (req) => {
 
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        console.error(error); // Logging the error can help in debugging
+        console.error(error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };

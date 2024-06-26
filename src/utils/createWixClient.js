@@ -13,7 +13,7 @@ export const createWixClient = async () => {
         items,
         cart,
       },
-      auth: OAuthStrategy({ clientId: "b23e4aca-f5ec-43d1-9457-fc6b44a80b78" }),
+      auth: OAuthStrategy({ clientId: process.env.CLIENT_ID_WIX }),
     });
     return wixClient;
   } catch (error) {
