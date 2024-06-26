@@ -6,6 +6,7 @@ import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { getFullSvgURL } from "@/utils/GenerateImageURL";
 import SuccessModal from "../Common/SuccessModal";
 import ErrorModal from "../Common/ErrorModal";
+import { resetPassword } from "@/services/scApiCalls";
 
 const ResetPassword = ({ signInPage, resetPasswordPageData }) => {
   const searchParams = useSearchParams();
@@ -40,24 +41,12 @@ const ResetPassword = ({ signInPage, resetPasswordPageData }) => {
         setErrorMessageVisible(true);
         return;
       }
-      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-      const response = await fetch(
-        `${base_url}formula1/auth/resetPassword?token=${token}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ password, confirmPassword }),
-        }
-      );
-      if (!response.ok) {
-        const data = await response.json();
-        setMessage(data.message);
+      const response = await resetPassword({ password, confirmPassword }, token);
+      if (response?.error) {
+        setMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
-
       setMessage("Your password has been reset successfully.");
       setSuccessMessageVisible(true);
     } catch (error) {

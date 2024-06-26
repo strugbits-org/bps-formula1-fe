@@ -1,3 +1,4 @@
+import { confirmEmail } from "@/services/scApiCalls";
 import { useState } from "react";
 
 const ConfirmEmail = (props) => {
@@ -20,22 +21,13 @@ const ConfirmEmail = (props) => {
     try {
       e.preventDefault();
       setMessage("");
-      const input = { email: formData?.email };
-      const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-      const response = await fetch(`${base_url}formula1/auth/forgotPassword`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(input),
-      });
-      if (!response.ok) {
-        const data = await response.json();
-
-        setMessage(data.message);
+      const response = await confirmEmail({ email: formData?.email });
+      if (response?.error) {
+        setMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
+      
       setMessage("Reset password link has been sent to your email");
       setSuccessMessageVisible(true);
       setRedirection("/");

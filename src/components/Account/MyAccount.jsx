@@ -9,6 +9,7 @@ import {
 } from "@/utils/AnimationFunctions";
 import ErrorModal from "../Common/ErrorModal";
 import { checkParameters } from "@/utils/CheckParams";
+import { updateProfile } from "@/services/scApiCalls";
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
@@ -90,27 +91,20 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${base_url}formula1/auth/updateProfile`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: getUserAuth(),
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
+      const response = await updateProfile(formData);
 
-      if (!response.ok) {
-        setErrorMessage("Error Message");
+      if (response?.error) {
+        console.log("response", response);
+        setErrorMessage(response.message);
         setErrorMessageVisible(true);
-      } else {
-        setSuccessMessageVisible(true);
-        const userData = JSON.stringify(data.data.member);
-        document.cookie = `userData=${encodeURIComponent(
-          userData
-        )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
-        setInitialData(formData);
+        return;
       }
+      setSuccessMessageVisible(true);
+      const userData = JSON.stringify(response.data.member);
+      document.cookie = `userData=${encodeURIComponent(
+        userData
+      )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;
+      setInitialData(formData);
     } catch (error) {
       setErrorMessage("An error occurred. Please try again.");
       console.error("Error updating profile", error);
@@ -298,9 +292,8 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
                         </div>
                       </div>
                       <div
-                        className={`container-select-specify-other ${
-                          isOtherSelected ? "" : "input-hide"
-                        }`}
+                        className={`container-select-specify-other ${isOtherSelected ? "" : "input-hide"
+                          }`}
                       >
                         <div className="wrapper-input">
                           <label htmlFor="account-other">Specify</label>

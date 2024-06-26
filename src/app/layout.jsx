@@ -26,16 +26,17 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
-  const collectionsData = await getCollectionsData();
-
+  
   const [
     homePageData,
+    collectionsData,
     categoriesData,
     footerData,
     footerLinksData,
     footerBottomRightSocialLinks,
   ] = await Promise.all([
     getHomePageData(),
+    getCollectionsData(),
     getAllCategoriesData(),
     getFooterData(),
     getFooterLinksData(),

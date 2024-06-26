@@ -79,7 +79,7 @@ export const getCollectionColors = async (category) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching collection colors:", error);
   }
 };
 export const getFilterCategory = async (selectedCollectionId) => {
@@ -123,7 +123,7 @@ export const getCollectionsData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching collections data:", error);
     return [];
   }
 };
@@ -152,7 +152,7 @@ export const getSelectedCollectionData = async (slug) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching selected collections data:", error);
     return [];
   }
 };
@@ -177,7 +177,7 @@ export const getSignInPage = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching sign in page data:", error);
     return [];
   }
 };
@@ -200,7 +200,7 @@ export const getConfirmEmailPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching confirm email page data:", error);
     return [];
   }
 };
@@ -223,7 +223,7 @@ export const getResetPasswordPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching reset password page data:", error);
     return [];
   }
 };
@@ -246,7 +246,7 @@ export const getHomePageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching homepage data:", error);
     return [];
   }
 };
@@ -269,7 +269,7 @@ export const getHomeBottomRightSocialLinks = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching social links:", error);
     return [];
   }
 };
@@ -292,7 +292,7 @@ export const getHomeBottomLeftLink = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching home bottom left links:", error);
     return [];
   }
 };
@@ -316,7 +316,7 @@ export const getMyAccountPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching my account page data:", error);
     return [];
   }
 };
@@ -340,7 +340,7 @@ export const getChangePasswordPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching change password page data:", error);
     return [];
   }
 };
@@ -364,7 +364,7 @@ export const getQuoteHistoryPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching quote history page data:", error);
     return [];
   }
 };
@@ -388,7 +388,7 @@ export const getSavedProductPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching saved products page data:", error);
     return [];
   }
 };
@@ -436,7 +436,7 @@ export const getTermsAndConditionsPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching terms and conditions page data:", error);
     return [];
   }
 };
@@ -460,7 +460,7 @@ export const getPrivacyAndPolicyPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching privacy and policy page data:", error);
     return [];
   }
 };
@@ -484,7 +484,7 @@ export const getCollectionsPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching collections page data:", error);
   }
 };
 export const getCollectionsPostPageData = async () => {
@@ -506,7 +506,7 @@ export const getCollectionsPostPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching collections post page data:", error);
   }
 };
 export const getGalleryPageData = async () => {
@@ -528,7 +528,7 @@ export const getGalleryPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching gallery page data:", error);
     return [];
   }
 };
@@ -551,7 +551,7 @@ export const getCreateAccountForm = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching create account form data:", error);
     return [];
   }
 };
@@ -574,7 +574,7 @@ export const getCreateAccountDropdown = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching create account dropdown:", error);
     return [];
   }
 };
@@ -598,7 +598,7 @@ export const getFooterData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching footer data:", error);
     return [];
   }
 };
@@ -622,7 +622,7 @@ export const getFooterLinksData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching footer links data:", error);
     return [];
   }
 };
@@ -691,7 +691,7 @@ export const fetchProducts = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching products:", error);
   }
 };
 export const getProductPostPageData = async () => {
@@ -713,7 +713,7 @@ export const getProductPostPageData = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching product post page data:", error);
   }
 };
 export const getSelectedProductId = async (slug) => {
@@ -782,7 +782,7 @@ export const getSelectedProductDetails = async (slug) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching selected product details:", error);
   }
 };
 export const getProductFound = async () => {
@@ -809,7 +809,7 @@ export const getProductFound = async () => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching products(getProductFound):", error);
   }
 };
 export const getPairItWithProductsId = async (slug) => {
@@ -837,7 +837,7 @@ export const getPairItWithProductsId = async (slug) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching products(getPairItWithProductsId):", error);
   }
 };
 export const getPairItWithProducts = async (productIds) => {
@@ -879,7 +879,7 @@ export const getPairItWithProducts = async (productIds) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching products(getPairItWithProducts):", error);
   }
 };
 export const getProductVariants = async (id) => {
@@ -906,7 +906,7 @@ export const getProductVariants = async (id) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching product variants:", error);
     return [];
   }
 };
@@ -934,7 +934,7 @@ export const getProductSnapShots = async (id) => {
       throw new Error("Response does not contain _items");
     }
   } catch (error) {
-    console.error("Error fetching filter category:", error);
+    console.error("Error fetching product snapshots:", error);
     return [];
   }
 };
@@ -1088,6 +1088,97 @@ export const signUpUser = async (userData) => {
       },
       body: JSON.stringify(userData),
     });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const confirmEmail = async (userData) => {
+  try {
+    const response = await fetch(`${base_url}formula1/auth/forgotPassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const updateProfile = async (userData) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/auth/updateProfile`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const changePassword = async (userData) => {
+  try {
+    const authToken = getAuthenticationToken();
+    const response = await fetch(`${base_url}formula1/auth/changePassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authToken,
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const resetPassword = async (userData, token) => {
+  try {
+    const response = await fetch(
+      `${base_url}formula1/auth/resetPassword?token=${token}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
 
     if (!response.ok) {
       const data = await response.json();

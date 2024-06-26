@@ -1,12 +1,11 @@
 "use client";
-import { getUserAuth } from "@/utils/GetUser";
 import React, { useEffect, useState } from "react";
 import ErrorModal from "../Common/ErrorModal";
 import { markPageLoaded } from "@/utils/AnimationFunctions";
 import { checkParameters } from "@/utils/CheckParams";
+import { changePassword } from "@/services/scApiCalls";
 
 const ChangePassword = ({ changePasswordPageData }) => {
-  const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
@@ -21,8 +20,6 @@ const ChangePassword = ({ changePasswordPageData }) => {
     confirmNewPassword: false,
   });
 
-  const authToken = getUserAuth();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -33,25 +30,21 @@ const ChangePassword = ({ changePasswordPageData }) => {
     setErrorMessage("");
 
     try {
-      const response = await fetch(`${base_url}formula1/auth/changePassword`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authToken,
-        },
-        body: JSON.stringify({
-          oldPassword: formData.oldPassword,
-          newPassword: formData.newPassword,
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok) {
-        setErrorMessage(data.message);
+      if (formData.newPassword !== formData.confirmNewPassword) {
+        setErrorMessage("PASSWORDS SHOULD BE MATCHED.");
         setErrorMessageVisible(true);
-      } else {
-        setSuccessMessageVisible(true);
+        return;
       }
+      const response = await changePassword({
+        oldPassword: formData.oldPassword,
+        newPassword: formData.confirmNewPassword,
+      });
+      if (response?.error) {
+        setErrorMessage(response.message);
+        setErrorMessageVisible(true);
+        return;
+      }
+      setSuccessMessageVisible(true);
     } catch (err) {
       setErrorMessage("An error occurred. Please try again.");
       setErrorMessageVisible(true);
@@ -159,9 +152,8 @@ const ChangePassword = ({ changePasswordPageData }) => {
                         />
                         <div
                           onClick={() => togglePassword(name)}
-                          className={`toggle-password ${
-                            showPassword[name] ? "show" : ""
-                          }`}
+                          className={`toggle-password ${showPassword[name] ? "show" : ""
+                            }`}
                         >
                           <i className="icon-password"></i>
                           <i className="icon-password-hide"></i>
