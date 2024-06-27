@@ -19,13 +19,12 @@ export const GET = async (req, context) => {
                 dataCollectionId: "locationFilteredVariant",
             })
             .eq("product", id)
+            .hasSome("f1Members", [authenticatedUserData.memberId])
             .find();
 
         if (locationFilterVariantData._items.length === 0) {
             return NextResponse.json({ error: "Product not found" }, { status: 404 });
         }
-
-        console.log("locationFilterVariantData", locationFilterVariantData._items[0].data);
 
         const dataObject = {
             ...locationFilterVariantData._items[0].data,
