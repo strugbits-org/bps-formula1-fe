@@ -3,8 +3,10 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
   try {
-    const { payload } = req.nextUrl.searchParams;
-    const parsedPayload = JSON.parse(payload);
+    const params = req.nextUrl.searchParams;
+    const payloadString = params.get('payload');
+    const parsedPayload = JSON.parse(payloadString);
+
     const {
       dataCollectionId,
       includeReferencedItems,
@@ -53,6 +55,7 @@ export const GET = async (req) => {
     ];
 
     const isValid = authCollections.includes(dataCollectionId);
+    const wixClient = await createWixClient();
 
     if (dataCollectionId && !isValid) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -84,8 +87,12 @@ export const GET = async (req) => {
       data = data.skip(skip);
     }
 
-    if (limit && limit !== "null") {
+    if (limit && limit !== "null" && limit !== "infinite") {
       data = data.limit(limit);
+    }
+
+    if (limit == "infinite") {
+      data = data.limit(50);
     }
 
     if (ne && ne.length === 2 && ne !== "null" && ne[0] !== null && ne[1] !== null) {
@@ -94,6 +101,16 @@ export const GET = async (req) => {
 
     data = await data.find();
 
+    if (limit == "infinite") {
+      let items = data._items;
+      while (items.length < data._totalCount) {
+        data = await data._fetchNextPage();
+        items = [...items, ...data._items];
+      }
+      data._items = items;
+    }
+
+    
     if (data._items.length > 0) {
       if (dataCollectionId === "Stores/Products") {
         data._items = data._items.map((val) => {

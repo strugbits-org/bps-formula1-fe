@@ -5,22 +5,44 @@ import { getAuthToken } from "./getAuthToken";
 
 
 const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const base_url_new = process.env.NEXT_PUBLIC_BASE_URL;
 const getAuthenticationToken = () => {
   const isBuildProcess = process.env.BUILD_STATUS === 'true';
   if (isBuildProcess) {
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
   } else {
     const token = getAuthToken();
+    if (token === undefined) {
+      throw "Failed to fetch Authentication Token"
+    }
     return token;
   }
 }
-
 const serverComponentApiFetcher = async (bodyData) => {
-  return await getDataFetchFunction(bodyData, getAuthenticationToken())
+  let unAuthCollections = ["PrivacyandPolicyPageContentF1",
+    "TermsandConditionsPageContentF1",
+    "HomePageContentF1",
+    "SocialMediaLinksF1",
+    "HomePageBottomLeftLinksF1",
+    "SignInPageF1",
+    "CreateAccountPageF11",
+    "HospitalitySpaceLocatedOptionsF1",
+    "GalleryPageF1",
+    "CollectionsF1",
+    "BackgroundImagesF1",
+    "ModalLogos",
+    "ConfirmEmailPageContentF1",
+    "ResetPasswordPageContentF1",
+    "FooterDataF1",
+    "FooterLinksDataF1",
+  ];
+  let currentCollection = bodyData.dataCollectionId;
+  let requiresAuth = unAuthCollections.findIndex((x) => x === currentCollection) === -1;
+  return await getDataFetchFunction(bodyData, requiresAuth ? getAuthenticationToken() : null)
 }
 
 // Collections and Categories APIs
-export const getAllCategoriesData = async () => {
+export const getAllCategoriesData = async (log) => {
   try {
     const response = await serverComponentApiFetcher({
       dataCollectionId: "F1CategoriesStructure",
@@ -1196,7 +1218,7 @@ export const resetPassword = async (userData, token) => {
 export const getProductsCart = async () => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/getCart`, {
+    const response = await fetch(`${base_url_new}/api/wix/getCart`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1204,14 +1226,13 @@ export const getProductsCart = async () => {
       },
       cache: "no-store"
     });
-
     if (!response.ok) {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
-    // console.log("error", error);
+    console.log("error", error);
     // console.error("Error fetching cart:", error);
     return null;
   }
@@ -1219,7 +1240,7 @@ export const getProductsCart = async () => {
 export const AddProductToCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/addToCart`, {
+    const response = await fetch(`${base_url_new}/api/wix/addToCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1232,7 +1253,7 @@ export const AddProductToCart = async (payload) => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
     throw new Error(error);
   }
@@ -1240,7 +1261,7 @@ export const AddProductToCart = async (payload) => {
 export const updateProductsCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/updateQuantityCart`, {
+    const response = await fetch(`${base_url_new}/api/wix/updateQuantityCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1253,7 +1274,7 @@ export const updateProductsCart = async (payload) => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
     throw new Error(error);
   }
@@ -1261,7 +1282,7 @@ export const updateProductsCart = async (payload) => {
 export const removeProductFromCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/removeCart`, {
+    const response = await fetch(`${base_url_new}/api/wix/removeCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1274,7 +1295,7 @@ export const removeProductFromCart = async (payload) => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
     throw new Error(error);
   }

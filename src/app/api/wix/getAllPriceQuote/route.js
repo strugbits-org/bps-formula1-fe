@@ -10,7 +10,7 @@ export const GET = async (req) => {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const data = await wixClient.items
             .queryDataItems({
                 dataCollectionId: "F1RequestQuote",

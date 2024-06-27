@@ -10,7 +10,7 @@ export const POST = async (req) => {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const locationFilterVariantData = await wixClient.items
             .queryDataItems({
                 dataCollectionId: "locationFilteredVariant",

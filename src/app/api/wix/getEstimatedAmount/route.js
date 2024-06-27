@@ -11,7 +11,7 @@ export const GET = async (req) => {
         }
 
         const id = authenticatedUserData.cartId;
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const response = await wixClient.cart.estimateTotals(id);
         return NextResponse.json(response, { status: 200 });
     } catch (error) {

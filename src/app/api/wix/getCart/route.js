@@ -11,7 +11,7 @@ export const GET = async (req) => {
         }
 
         const id = authenticatedUserData.cartId;
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const response = await wixClient.cart.getCart(id);
         if (response) {
             delete response.subtotal;

@@ -22,7 +22,7 @@ export const PUT = async (req) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const wixClient = createWixClient();
+    const wixClient = await createWixClient();
     const memberData = await wixClient.items
       .queryDataItems({
         dataCollectionId: "F1UsersData",

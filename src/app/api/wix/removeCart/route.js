@@ -13,7 +13,7 @@ export const POST = async (req) => {
         const body = await req.json()
         const { lineItemIds } = body;
 
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const response = await wixClient.cart.removeLineItems(
             authenticatedUserData.cartId,
             lineItemIds

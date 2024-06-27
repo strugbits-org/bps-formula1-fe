@@ -12,7 +12,7 @@ export const POST = async (req) => {
         const body = await req.json()
 
         const { lineItems } = body;
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const response = await wixClient.cart.updateLineItemsQuantity(
             authenticatedUserData.cartId,
             lineItems

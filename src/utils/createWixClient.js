@@ -5,7 +5,7 @@ import { cart } from "@wix/ecom";
 
 export const createWixClient = async () => {
   try {
-    const wixClient = await createClient({
+    const wixClient = createClient({
       modules: {
         collections,
         members,

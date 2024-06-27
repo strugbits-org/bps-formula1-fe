@@ -12,7 +12,7 @@ export const GET = async (req, context) => {
         const { params } = context;
         const id = params.id;
 
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const locationFilterVariantData = await wixClient.items
             .queryDataItems({
                 dataCollectionId: "locationFilteredVariant",

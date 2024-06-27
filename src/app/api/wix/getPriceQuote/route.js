@@ -11,7 +11,7 @@ export const GET = async (req) => {
         }
 
         const { quoteNumber } = req.query;
-        const wixClient = createWixClient();
+        const wixClient = await createWixClient();
         const data = await wixClient.items
             .queryDataItems({
                 dataCollectionId: "F1RequestQuote",

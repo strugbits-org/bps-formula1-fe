@@ -22,7 +22,7 @@ export const POST = async (req) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
-    const wixClient = createWixClient();
+    const wixClient = await createWixClient();
     await wixClient.items.updateDataItem(authenticatedUserData._id, {
       dataCollectionId: "F1UsersData",
       dataItemId: authenticatedUserData._id,
