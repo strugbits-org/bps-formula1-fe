@@ -1,10 +1,11 @@
 import { createWixClient } from "@/utils/createWixClient";
+import { apiAuth } from "@/utils/isAuthenticated";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
   try {
     const params = req.nextUrl.searchParams;
-    const payloadString = params.get('payload');
+    const payloadString = params.get("payload");
     const parsedPayload = JSON.parse(payloadString);
 
     const {
@@ -61,8 +62,15 @@ export const GET = async (req) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const auth = apiAuth(req.headers.get("authorization"), dataCollectionId);
+
+    if (!auth) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     if (dataCollectionId) options.dataCollectionId = dataCollectionId;
-    if (includeReferencedItems?.length > 0) options.includeReferencedItems = includeReferencedItems;
+    if (includeReferencedItems?.length > 0)
+      options.includeReferencedItems = includeReferencedItems;
     if (returnTotalCount) options.returnTotalCount = returnTotalCount;
 
     let data = wixClient.items.queryDataItems(options);
@@ -95,7 +103,13 @@ export const GET = async (req) => {
       data = data.limit(50);
     }
 
-    if (ne && ne.length === 2 && ne !== "null" && ne[0] !== null && ne[1] !== null) {
+    if (
+      ne &&
+      ne.length === 2 &&
+      ne !== "null" &&
+      ne[0] !== null &&
+      ne[1] !== null
+    ) {
       data = data.ne(ne[0], ne[1]);
     }
 
@@ -110,7 +124,6 @@ export const GET = async (req) => {
       data._items = items;
     }
 
-    
     if (data._items.length > 0) {
       if (dataCollectionId === "Stores/Products") {
         data._items = data._items.map((val) => {
