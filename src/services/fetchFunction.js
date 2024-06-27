@@ -1,11 +1,7 @@
-import { getToken } from "@/utils/GetUser";
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 
-const base_url = process.env.BASE_URL;
-const revalidate_time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME || 86400;
-
-export const getDataFetchFunction = async (bodyData, defaultAuthToken, log) => {
-  // if (log) console.log("log______", log);
-  const authToken = defaultAuthToken || getToken();
+export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
+  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
   const paramsData = JSON.stringify(bodyData);
   try {
     const headers = {
@@ -21,7 +17,7 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken, log) => {
     }
 
     const response = await fetch(
-      `${base_url}/api/wix/queryDataItems?payload=${encodeURIComponent(paramsData)}`,
+      `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,
       options
     );
 
@@ -29,8 +25,7 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken, log) => {
       throw new Error("Failed to fetch Items data");
     }
     const data = await response.json();
-    // if (log) console.log("data_________", data);
-    return data;
+    return data.data;
   } catch (error) {
     console.log("Error:", error);
   }

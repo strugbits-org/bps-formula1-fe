@@ -4,45 +4,11 @@ import { getDataFetchFunction } from "./fetchFunction";
 import { getAuthToken } from "./getAuthToken";
 
 const base_url = process.env.BASE_URL;
-const getAuthenticationToken = () => {
-  const isBuildProcess = process.env.BUILD_STATUS === 'true';
-  if (isBuildProcess) {
-    return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
-  } else {
-    const token = getAuthToken();
-    if (token === undefined) {
-      throw "Failed to fetch Authentication Token"
-    }
-    return token;
-  }
-}
-const serverComponentApiFetcher = async (bodyData) => {
-  let unAuthCollections = ["PrivacyandPolicyPageContentF1",
-    "TermsandConditionsPageContentF1",
-    "HomePageContentF1",
-    "SocialMediaLinksF1",
-    "HomePageBottomLeftLinksF1",
-    "SignInPageF1",
-    "CreateAccountPageF11",
-    "HospitalitySpaceLocatedOptionsF1",
-    "GalleryPageF1",
-    "CollectionsF1",
-    "BackgroundImagesF1",
-    "ModalLogos",
-    "ConfirmEmailPageContentF1",
-    "ResetPasswordPageContentF1",
-    "FooterDataF1",
-    "FooterLinksDataF1",
-  ];
-  let currentCollection = bodyData.dataCollectionId;
-  let requiresAuth = unAuthCollections.findIndex((x) => x === currentCollection) === -1;
-  return await getDataFetchFunction(bodyData, requiresAuth ? getAuthenticationToken() : null)
-}
 
 // Collections and Categories APIs
-export const getAllCategoriesData = async (log) => {
+export const getAllCategoriesData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection", "level2Collections", "f1Collections"],
       limit: 50
@@ -61,7 +27,7 @@ export const getAllCategoriesData = async (log) => {
 };
 export const getAllColorsData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "colorFilterCache",
       limit: 1000
     });
@@ -77,7 +43,7 @@ export const getAllColorsData = async () => {
 };
 export const getCollectionColors = async (category) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "colorFilterCache",
       returnTotalCount: null,
       contains: null,
@@ -104,7 +70,7 @@ export const getCollectionColors = async (category) => {
 };
 export const getFilterCategory = async (selectedCollectionId) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection"],
       returnTotalCount: null,
@@ -133,7 +99,7 @@ export const getFilterCategory = async (selectedCollectionId) => {
 
 export const getCollectionsData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsF1",
       limit: 1000
     });
@@ -149,7 +115,7 @@ export const getCollectionsData = async () => {
 };
 export const getSelectedCollectionData = async (slug) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -180,7 +146,7 @@ export const getSelectedCollectionData = async (slug) => {
 // Page Data/Content APIs
 export const getSignInPage = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SignInPageF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -203,7 +169,7 @@ export const getSignInPage = async () => {
 };
 export const getConfirmEmailPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ConfirmEmailPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -226,7 +192,7 @@ export const getConfirmEmailPageData = async () => {
 };
 export const getResetPasswordPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ResetPasswordPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -249,7 +215,7 @@ export const getResetPasswordPageData = async () => {
 };
 export const getHomePageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HomePageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -272,7 +238,7 @@ export const getHomePageData = async () => {
 };
 export const getHomeBottomRightSocialLinks = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SocialMediaLinksF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -295,7 +261,7 @@ export const getHomeBottomRightSocialLinks = async () => {
 };
 export const getHomeBottomLeftLink = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HomePageBottomLeftLinksF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -318,7 +284,7 @@ export const getHomeBottomLeftLink = async () => {
 };
 export const getMyAccountPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "MyAccountPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -342,7 +308,7 @@ export const getMyAccountPageData = async () => {
 };
 export const getChangePasswordPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ChangePasswordPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -366,7 +332,7 @@ export const getChangePasswordPageData = async () => {
 };
 export const getQuoteHistoryPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "QuotesHistoryPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -390,7 +356,7 @@ export const getQuoteHistoryPageData = async () => {
 };
 export const getSavedProductPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "SavedProductPageData",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -414,7 +380,7 @@ export const getSavedProductPageData = async () => {
 };
 export const getBackgroundImages = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BackgroundImagesF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -438,7 +404,7 @@ export const getBackgroundImages = async () => {
 };
 export const getTermsAndConditionsPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "TermsandConditionsPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -462,7 +428,7 @@ export const getTermsAndConditionsPageData = async () => {
 };
 export const getPrivacyAndPolicyPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "PrivacyandPolicyPageContentF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -486,7 +452,7 @@ export const getPrivacyAndPolicyPageData = async () => {
 };
 export const getCollectionsPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -509,7 +475,7 @@ export const getCollectionsPageData = async () => {
 };
 export const getCollectionsPostPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CollectionsPostPageDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -531,7 +497,7 @@ export const getCollectionsPostPageData = async () => {
 };
 export const getGalleryPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "GalleryPageF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -554,7 +520,7 @@ export const getGalleryPageData = async () => {
 };
 export const getCreateAccountForm = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "CreateAccountPageF11",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -577,7 +543,7 @@ export const getCreateAccountForm = async () => {
 };
 export const getCreateAccountDropdown = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "HospitalitySpaceLocatedOptionsF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -600,7 +566,7 @@ export const getCreateAccountDropdown = async () => {
 };
 export const getFooterData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "FooterDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -624,7 +590,7 @@ export const getFooterData = async () => {
 };
 export const getFooterLinksData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "FooterLinksDataF1",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -667,7 +633,7 @@ export const fetchAllProducts = async () => {
         },
       ],
     };
-    const response = await serverComponentApiFetcher(payload);
+    const response = await getDataFetchFunction(payload);
     if (response && response._items) {
       return response._items.map((x) => x.data);
     } else {
@@ -704,7 +670,8 @@ export const fetchProducts = async () => {
       limit: "infinite",
     };
 
-    const response = await serverComponentApiFetcher(payload);
+    const response = await getDataFetchFunction(payload,"asdsa", true);
+    console.log("response__________", response);
     if (response && response._items) {
       return response._items.map((x) => x.data);
     } else {
@@ -716,7 +683,7 @@ export const fetchProducts = async () => {
 };
 export const getProductPostPageData = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "ProductPostPageF1",
       returnTotalCount: null,
       contains: null,
@@ -738,7 +705,7 @@ export const getProductPostPageData = async () => {
 };
 export const getSelectedProductId = async (slug) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "Stores/Products",
       returnTotalCount: null,
       contains: null,
@@ -765,7 +732,7 @@ export const getSelectedProductId = async (slug) => {
 };
 export const getSelectedProductDetails = async (slug) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: [
         "category",
@@ -807,7 +774,7 @@ export const getSelectedProductDetails = async (slug) => {
 };
 export const getProductFound = async () => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "F1CategoriesStructure",
       includeReferencedItems: ["parentCollection"],
       returnTotalCount: null,
@@ -834,7 +801,7 @@ export const getProductFound = async () => {
 };
 export const getPairItWithProductsId = async (slug) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BPSPairItWith",
       includeReferencedItems: null,
       returnTotalCount: null,
@@ -862,7 +829,7 @@ export const getPairItWithProductsId = async (slug) => {
 };
 export const getPairItWithProducts = async (productIds) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "locationFilteredVariant",
       includeReferencedItems: [
         "category",
@@ -904,7 +871,7 @@ export const getPairItWithProducts = async (productIds) => {
 };
 export const getProductVariants = async (id) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "Stores/Variants",
       returnTotalCount: null,
       contains: null,
@@ -932,7 +899,7 @@ export const getProductVariants = async (id) => {
 };
 export const getProductSnapShots = async (id) => {
   try {
-    const response = await serverComponentApiFetcher({
+    const response = await getDataFetchFunction({
       dataCollectionId: "BPSProductImages",
       returnTotalCount: null,
       contains: null,
@@ -964,7 +931,7 @@ export const getProductSnapShots = async (id) => {
 // Quotes APIs
 export const getQuotes = async () => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/getAllPriceQuote`, {
       method: "GET",
       headers: {
@@ -985,7 +952,7 @@ export const getQuotes = async () => {
 };
 export const createPriceQuote = async (payload) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/createPriceQuote`, {
       method: 'POST',
       headers: {
@@ -1009,7 +976,7 @@ export const createPriceQuote = async (payload) => {
 // Saved products APIs
 export const getSavedProductData = async () => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/getSavedProducts`, {
       method: "POST",
       headers: {
@@ -1036,7 +1003,7 @@ export const getSavedProductData = async () => {
 };
 export const saveProduct = async (id) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/saveProduct/${id}`, {
       method: "GET",
       headers: {
@@ -1056,7 +1023,7 @@ export const saveProduct = async (id) => {
 };
 export const unSaveProduct = async (id) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/removeSavedProduct/${id}`, {
       method: "GET",
       headers: {
@@ -1211,7 +1178,7 @@ export const changePassword = async (userData) => {
 // Cart APIs
 export const getProductsCart = async () => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/getCart`, {
       method: 'GET',
       headers: {
@@ -1233,7 +1200,7 @@ export const getProductsCart = async () => {
 };
 export const AddProductToCart = async (payload) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/addToCart`, {
       method: 'POST',
       headers: {
@@ -1254,7 +1221,7 @@ export const AddProductToCart = async (payload) => {
 };
 export const updateProductsCart = async (payload) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/updateQuantityCart`, {
       method: 'POST',
       headers: {
@@ -1275,7 +1242,7 @@ export const updateProductsCart = async (payload) => {
 };
 export const removeProductFromCart = async (payload) => {
   try {
-    const authToken = getAuthenticationToken();
+    const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/removeCart`, {
       method: 'POST',
       headers: {
