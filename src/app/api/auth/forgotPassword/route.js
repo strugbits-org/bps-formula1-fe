@@ -25,7 +25,7 @@ export const POST = async (req) => {
     }
 
     const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: "30m" });
-    const origin = req.headers.origin; // we will have to check the origin
+    const origin = process.env.FE_ORIGIN; // we will have to check the origin
     const resetUrl = `${origin}/reset-password?token=${token}`;
 
     const options = {

@@ -26,12 +26,19 @@ export const POST = async (req) => {
       .find();
 
     if (memberData._items.length > 0) {
-      return NextResponse.json({ error: "Email already exists" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email already exists" },
+        { status: 400 }
+      );
     }
 
     const user = await wixClient.auth.register({ email, password });
 
-    if (user.loginState === "SUCCESS" || user.errorCode === "emailAlreadyExists") {
+    if (
+      user.loginState === "SUCCESS" ||
+      user.errorCode === "emailAlreadyExists"
+    ) {
+      NextResponse.json({ message: "User registered successfully" });
       setTimeout(async () => {
         const payload = { loginEmail: email };
         const response = await fetch(`${process.env.RENTALS_URL}/getMember`, {
@@ -99,15 +106,19 @@ export const POST = async (req) => {
             }),
           };
 
-          await fetch(`${process.env.RENTALS_URL}/registerNotification`, emailOptions);
+          await fetch(
+            `${process.env.RENTALS_URL}/registerNotification`,
+            emailOptions
+          );
         } catch (error) {
           console.error(error);
         }
       }, 8000);
-
-      return NextResponse.json({ message: "User registered successfully" });
     } else {
-      return NextResponse.json({ error: `Server Error: ${user.loginState || 'Unknown error'}` }, { status: 400 });
+      return NextResponse.json(
+        { error: `Server Error: ${user.loginState || "Unknown error"}` },
+        { status: 400 }
+      );
     }
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
