@@ -3,9 +3,7 @@
 import { getDataFetchFunction } from "./fetchFunction";
 import { getAuthToken } from "./getAuthToken";
 
-
-const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-const base_url_new = process.env.NEXT_PUBLIC_BASE_URL;
+const base_url = process.env.BASE_URL;
 const getAuthenticationToken = () => {
   const isBuildProcess = process.env.BUILD_STATUS === 'true';
   if (isBuildProcess) {
@@ -967,7 +965,7 @@ export const getProductSnapShots = async (id) => {
 export const getQuotes = async () => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/getAllPriceQuote`, {
+    const response = await fetch(`${base_url}/api/wix/getAllPriceQuote`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -988,7 +986,7 @@ export const getQuotes = async () => {
 export const createPriceQuote = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/createPriceQuote`, {
+    const response = await fetch(`${base_url}/api/wix/createPriceQuote`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1009,16 +1007,15 @@ export const createPriceQuote = async (payload) => {
 };
 
 // Saved products APIs
-export const getSavedProductData = async (payload, returnTotalCount = false) => {
+export const getSavedProductData = async () => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/getSavedProducts`, {
+    const response = await fetch(`${base_url}/api/wix/getSavedProducts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: authToken,
       },
-      body: JSON.stringify(payload),
       cache: "no-store"
     });
     if (!response.ok) {
@@ -1026,11 +1023,9 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
     }
 
     const data = await response.json();
-    const itemData = data.data;
-    if (returnTotalCount && itemData) return itemData;
 
-    if (itemData && itemData._items) {
-      return itemData._items.map((x) => x.data);
+    if (data && data._items) {
+      return data._items.map((x) => x.data);
     } else {
       throw new Error("Response does not contain _items");
     }
@@ -1042,7 +1037,7 @@ export const getSavedProductData = async (payload, returnTotalCount = false) => 
 export const saveProduct = async (id) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/saveProduct/${id}`, {
+    const response = await fetch(`${base_url}/api/wix/saveProduct/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1062,7 +1057,7 @@ export const saveProduct = async (id) => {
 export const unSaveProduct = async (id) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/removeSavedProduct/${id}`, {
+    const response = await fetch(`${base_url}/api/wix/removeSavedProduct/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -1084,7 +1079,7 @@ export const unSaveProduct = async (id) => {
 export const resetPassword = async (userData, token) => {
   try {
     const response = await fetch(
-      `${base_url_new}/api/auth/resetPassword?token=${token}`,
+      `${base_url}/api/auth/resetPassword?token=${token}`,
       {
         method: "PUT",
         headers: {
@@ -1107,7 +1102,7 @@ export const resetPassword = async (userData, token) => {
 };
 export const confirmEmail = async (userData) => {
   try {
-    const response = await fetch(`${base_url_new}/api/auth/forgotPassword`, {
+    const response = await fetch(`${base_url}/api/auth/forgotPassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1127,7 +1122,7 @@ export const confirmEmail = async (userData) => {
 };
 export const signInUser = async (userData) => {
   try {
-    const response = await fetch(`${base_url_new}/api/auth/login`, {
+    const response = await fetch(`${base_url}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1147,7 +1142,7 @@ export const signInUser = async (userData) => {
 };
 export const signUpUser = async (userData) => {
   try {
-    const response = await fetch(`${base_url_new}/api/auth/signup`, {
+    const response = await fetch(`${base_url}/api/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1169,7 +1164,7 @@ export const signUpUser = async (userData) => {
 export const updateProfile = async (userData) => {
   try {
     const authToken = getAuthToken();
-    const response = await fetch(`${base_url_new}/api/auth/updateProfile`, {
+    const response = await fetch(`${base_url}/api/auth/updateProfile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1192,7 +1187,7 @@ export const updateProfile = async (userData) => {
 export const changePassword = async (userData) => {
   try {
     const authToken = getAuthToken();
-    const response = await fetch(`${base_url_new}/api/auth/changePassword`, {
+    const response = await fetch(`${base_url}/api/auth/changePassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1217,7 +1212,7 @@ export const changePassword = async (userData) => {
 export const getProductsCart = async () => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/getCart`, {
+    const response = await fetch(`${base_url}/api/wix/getCart`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -1239,7 +1234,7 @@ export const getProductsCart = async () => {
 export const AddProductToCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/addToCart`, {
+    const response = await fetch(`${base_url}/api/wix/addToCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1260,7 +1255,7 @@ export const AddProductToCart = async (payload) => {
 export const updateProductsCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/updateQuantityCart`, {
+    const response = await fetch(`${base_url}/api/wix/updateQuantityCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1281,7 +1276,7 @@ export const updateProductsCart = async (payload) => {
 export const removeProductFromCart = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url_new}/api/wix/removeCart`, {
+    const response = await fetch(`${base_url}/api/wix/removeCart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -19,11 +19,8 @@ export const generateStaticParams = async () => {
 
 export default async function Page({ params }) {
   const { slug } = params;
-  console.log("slug", slug);
   const res = await getSelectedCollectionData(slug);
-  console.log("resssssssssssss", res);
   const selectedCollectionId = res[0]._id;
-  console.log("selectedCollectionId", selectedCollectionId);
 
   const [filteredCategories] = await Promise.all([
     getFilterCategory(selectedCollectionId),

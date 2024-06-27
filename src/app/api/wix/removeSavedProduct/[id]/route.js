@@ -25,6 +25,8 @@ export const GET = async (req, context) => {
             return NextResponse.json({ error: "Product not found" }, { status: 404 });
         }
 
+        console.log("locationFilterVariantData", locationFilterVariantData._items[0].data);
+
         const dataObject = {
             ...locationFilterVariantData._items[0].data,
             f1Members: locationFilterVariantData._items[0].data.f1Members.filter(

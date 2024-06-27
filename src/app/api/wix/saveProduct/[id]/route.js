@@ -32,7 +32,7 @@ export const GET = async (req, context) => {
                     ...locationFilterVariantData._items[0].data.f1Members,
                     authenticatedUserData.memberId,
                 ]
-                : [authenticatedUserData._id],
+                : [authenticatedUserData.memberId],
         };
         // delete dataObject._id;
         // delete dataObject._owner;
@@ -58,7 +58,7 @@ export const GET = async (req, context) => {
 
         return NextResponse.json(response, { status: 200 });
     } catch (error) {
-        console.error(error);
+        console.error("errrrrr",error);
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
 };
