@@ -11,7 +11,7 @@ export const POST = async (req) => {
         }
 
         const wixClient = await createWixClient();
-        const locationFilterVariantData = await wixClient.items
+        let locationFilterVariantData = await wixClient.items
             .queryDataItems({
                 dataCollectionId: "locationFilteredVariant",
                 includeReferencedItems: ["category", "product", "subCategory", "f1Collection"],
@@ -22,6 +22,13 @@ export const POST = async (req) => {
             .skip(req.body.skip)
             .limit(req.body.limit)
             .find();
+
+        let items = locationFilterVariantData._items;
+        while (items.length < locationFilterVariantData._totalCount) {
+            locationFilterVariantData = await locationFilterVariantData._fetchNextPage();
+            items = [...items, ...locationFilterVariantData._items];
+        }
+        locationFilterVariantData._items = items;
 
         if (locationFilterVariantData._items.length > 0) {
             locationFilterVariantData._items = locationFilterVariantData._items.map((val) => {

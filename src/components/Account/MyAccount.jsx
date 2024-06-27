@@ -11,8 +11,6 @@ import ErrorModal from "../Common/ErrorModal";
 import { checkParameters } from "@/utils/CheckParams";
 import { updateProfile } from "@/services/scApiCalls";
 
-const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
-
 const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
   const { firstName, lastName, company, hospitalityLoc, phone, email } =
     useUserData();

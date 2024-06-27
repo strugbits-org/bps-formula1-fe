@@ -1,6 +1,6 @@
-import { useState } from "react";
-import Disclaimer from "./Disclaimer";
-import { signUpUser } from "@/services/scApiCalls";
+import { useState } from 'react';
+import Disclaimer from './Disclaimer';
+import { signUpUser } from '@/services/scApiCalls';
 
 const CreateAccount = ({
   data,
@@ -14,14 +14,14 @@ const CreateAccount = ({
   const [submittingForm, setSubmittingForm] = useState(false);
 
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    company: "",
-    phone: "",
-    email: "",
-    password: "",
-    confirm_password: "",
-    hospitality_space: "",
+    first_name: '',
+    last_name: '',
+    company: '',
+    phone: '',
+    email: '',
+    password: '',
+    confirm_password: '',
+    hospitality_space: '',
   });
 
   const handleChange = (e) => {
@@ -54,27 +54,27 @@ const CreateAccount = ({
         setErrorMessageVisible(true);
         return;
       }
-
+      console.log(response, 'response>>>>');
       if (response) {
-        setMessage("The Account is under approval");
+        setMessage('The Account is under approval');
         setSuccessMessageVisible(true);
         setErrorMessageVisible(false);
         setFormData({
-          first_name: "",
-          last_name: "",
-          company: "",
-          phone: "",
-          email: "",
-          password: "",
-          confirm_password: "",
-          hospitality_space: "",
+          first_name: '',
+          last_name: '',
+          company: '',
+          phone: '',
+          email: '',
+          password: '',
+          confirm_password: '',
+          hospitality_space: '',
         });
       }
       return response;
     } catch (error) {
-      console.log(error, "error>>");
+      console.log(error, 'error>>');
 
-      setMessage("Something Went Wrong");
+      setMessage('Something Went Wrong');
       setSuccessMessageVisible(false);
       setErrorMessageVisible(true);
     } finally {
@@ -168,7 +168,7 @@ const CreateAccount = ({
               id="account-password"
               className="password"
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="* * * * * *"
               value={formData.password}
               onChange={handleChange}
@@ -176,7 +176,7 @@ const CreateAccount = ({
             />
             <div
               onClick={togglePassword}
-              className={`toggle-password ${showPassword ? "show" : ""}`}
+              className={`toggle-password ${showPassword ? 'show' : ''}`}
             >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
@@ -190,7 +190,7 @@ const CreateAccount = ({
               id="account-confirm-password"
               className="password"
               name="confirm_password"
-              type={showConfirmPassword ? "text" : "password"}
+              type={showConfirmPassword ? 'text' : 'password'}
               placeholder="* * * * * *"
               value={formData.confirm_password}
               onChange={handleChange}
@@ -198,7 +198,7 @@ const CreateAccount = ({
             />
             <div
               onClick={toggleConfirmPassword}
-              className={`toggle-password ${showConfirmPassword ? "show" : ""}`}
+              className={`toggle-password ${showConfirmPassword ? 'show' : ''}`}
             >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>
@@ -215,7 +215,7 @@ const CreateAccount = ({
                 <div
                   className="wrapper-select"
                   onClick={(e) => {
-                    if (e.target.innerText.toLowerCase() !== "other") {
+                    if (e.target.innerText.toLowerCase() !== 'other') {
                       setFormData({
                         ...formData,
                         hospitality_space: e.target.innerText.toLowerCase(),

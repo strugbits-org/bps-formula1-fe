@@ -1,18 +1,18 @@
-import { useCookies } from "react-cookie";
-import { useState } from "react";
+import { useCookies } from 'react-cookie';
+import { useState } from 'react';
 
-import ConfirmEmailRouter from "../ForgotPassword/ConfirmEmailRouter";
-import { pageLoadStart } from "@/utils/AnimationFunctions";
-import Disclaimer from "./Disclaimer";
-import { signInUser } from "@/services/scApiCalls";
+import ConfirmEmailRouter from '../ForgotPassword/ConfirmEmailRouter';
+import { pageLoadStart } from '@/utils/AnimationFunctions';
+import Disclaimer from './Disclaimer';
+import { signInUser } from '@/services/scApiCalls';
 
 const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
-  const [cookies, setCookie] = useCookies(["authToken", "userData"]);
+  const [cookies, setCookie] = useCookies(['authToken', 'userData']);
   const [submittingForm, setSubmittingForm] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const LoginUser = async (e) => {
@@ -26,21 +26,23 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         email: formData.email,
         password: formData.password,
       });
+
+      console.log(response, 'response>>>');
       if (response?.error) {
         setMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
 
-      const userToken = response.data.jwtToken;
-      const userData = JSON.stringify(response.data.member);
-      setCookie("authToken", userToken, {
-        path: "/",
-        expires: new Date("2099-01-01"),
+      const userToken = response.jwtToken;
+      const userData = JSON.stringify(response.member);
+      setCookie('authToken', userToken, {
+        path: '/',
+        expires: new Date('2099-01-01'),
       });
-      setCookie("userData", userData, {
-        path: "/",
-        expires: new Date("2099-01-01"),
+      setCookie('userData', userData, {
+        path: '/',
+        expires: new Date('2099-01-01'),
       });
 
       const loggedIn = cookies.authToken !== undefined;
@@ -48,8 +50,8 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
         pageLoadStart();
       }
     } catch (error) {
-      console.log("Error during login:", error);
-      setMessage("Invalid Credentials!");
+      console.log('Error during login:', error);
+      setMessage('Invalid Credentials!');
       setErrorMessageVisible(true);
     } finally {
       setTimeout(() => {
@@ -93,7 +95,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
               id="login-password"
               className="password"
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="* * * * * *"
               value={formData.password}
               onChange={handleChange}
@@ -101,7 +103,7 @@ const SignIn = ({ data, setErrorMessageVisible, setMessage }) => {
             />
             <div
               onClick={togglePassword}
-              className={`toggle-password ${showPassword ? "show" : ""}`}
+              className={`toggle-password ${showPassword ? 'show' : ''}`}
             >
               <i className="icon-password"></i>
               <i className="icon-password-hide"></i>

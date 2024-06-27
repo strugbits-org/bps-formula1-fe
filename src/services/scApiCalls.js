@@ -967,7 +967,7 @@ export const getProductSnapShots = async (id) => {
 export const getQuotes = async () => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/getAllPriceQuote`, {
+    const response = await fetch(`${base_url_new}/api/wix/getAllPriceQuote`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -979,7 +979,7 @@ export const getQuotes = async () => {
       throw new Error("Failed to fetch quotes");
     }
     const data = await response.json();
-    return data.data._items;
+    return data._items;
   } catch (error) {
     return null;
     // console.log("Error:", error);
@@ -988,7 +988,7 @@ export const getQuotes = async () => {
 export const createPriceQuote = async (payload) => {
   try {
     const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/wix/createPriceQuote`, {
+    const response = await fetch(`${base_url_new}/api/wix/createPriceQuote`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -1001,8 +1001,9 @@ export const createPriceQuote = async (payload) => {
       throw new Error(`API request failed with status ${response.status}`);
     }
     const data = await response.json();
-    return data.data;
+    return data;
   } catch (error) {
+    console.log("error", error);
     throw new Error(error);
   }
 };
@@ -1080,36 +1081,18 @@ export const unSaveProduct = async (id) => {
 };
 
 // Authentication APIs
-export const signInUser = async (userData) => {
+export const resetPassword = async (userData, token) => {
   try {
-    const response = await fetch(`${base_url}formula1/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
-
-    if (!response.ok) {
-      const data = await response.json();
-      return { error: true, message: data.message };
-    }
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-export const signUpUser = async (userData) => {
-  try {
-    const response = await fetch(`${base_url}formula1/auth/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      `${base_url_new}/api/auth/resetPassword?token=${token}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      }
+    );
 
     if (!response.ok) {
       const data = await response.json();
@@ -1124,7 +1107,47 @@ export const signUpUser = async (userData) => {
 };
 export const confirmEmail = async (userData) => {
   try {
-    const response = await fetch(`${base_url}formula1/auth/forgotPassword`, {
+    const response = await fetch(`${base_url_new}/api/auth/forgotPassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const data = await response.json();
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const signInUser = async (userData) => {
+  try {
+    const response = await fetch(`${base_url_new}/api/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) {
+      const data = await response.json();
+
+      return { error: true, message: data.message };
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+export const signUpUser = async (userData) => {
+  try {
+    const response = await fetch(`${base_url_new}/api/auth/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1145,8 +1168,8 @@ export const confirmEmail = async (userData) => {
 };
 export const updateProfile = async (userData) => {
   try {
-    const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/auth/updateProfile`, {
+    const authToken = getAuthToken();
+    const response = await fetch(`${base_url_new}/api/auth/updateProfile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1168,8 +1191,8 @@ export const updateProfile = async (userData) => {
 };
 export const changePassword = async (userData) => {
   try {
-    const authToken = getAuthenticationToken();
-    const response = await fetch(`${base_url}formula1/auth/changePassword`, {
+    const authToken = getAuthToken();
+    const response = await fetch(`${base_url_new}/api/auth/changePassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -1177,30 +1200,6 @@ export const changePassword = async (userData) => {
       },
       body: JSON.stringify(userData),
     });
-
-    if (!response.ok) {
-      const data = await response.json();
-      return { error: true, message: data.message };
-    }
-    const data = await response.json();
-
-    return data;
-  } catch (error) {
-    throw new Error(error);
-  }
-};
-export const resetPassword = async (userData, token) => {
-  try {
-    const response = await fetch(
-      `${base_url}formula1/auth/resetPassword?token=${token}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      }
-    );
 
     if (!response.ok) {
       const data = await response.json();

@@ -1,6 +1,6 @@
 import { getToken } from "@/utils/GetUser";
 
-const base_url = process.env.NEXT_PUBLIC_BASE_URL;
+const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
 const revalidate_time = +process.env.NEXT_PUBLIC_REVALIDATE_TIME || 86400;
 
 export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
@@ -19,7 +19,8 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
       next: { tags: ["all", bodyData.dataCollectionId], },
     }
 
-    const response = await fetch(`${base_url}/api/wix/queryDataItems?payload=${encodeURIComponent(paramsData)}`,
+    const response = await fetch(
+      `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,
       options
     );
 
@@ -27,7 +28,7 @@ export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
       throw new Error("Failed to fetch Items data");
     }
     const data = await response.json();
-    return data;
+    return data.data;
   } catch (error) {
     console.log("Error:", error);
   }
