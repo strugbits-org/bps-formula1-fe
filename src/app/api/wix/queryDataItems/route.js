@@ -62,7 +62,7 @@ export const GET = async (req) => {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const auth = apiAuth(req.headers.get("authorization"), dataCollectionId);
+    const auth = await apiAuth(req.headers.get("authorization"), dataCollectionId);
 
     if (!auth) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
