@@ -670,8 +670,7 @@ export const fetchProducts = async () => {
       limit: "infinite",
     };
 
-    const response = await getDataFetchFunction(payload,"asdsa", true);
-    console.log("response__________", response);
+    const response = await getDataFetchFunction(payload);
     if (response && response._items) {
       return response._items.map((x) => x.data);
     } else {

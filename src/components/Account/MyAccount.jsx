@@ -90,15 +90,13 @@ const MyAccount = ({ myAccountPageData, createAccountForm, dropdown }) => {
     e.preventDefault();
     try {
       const response = await updateProfile(formData);
-
       if (response?.error) {
-        console.log("response", response);
         setErrorMessage(response.message);
         setErrorMessageVisible(true);
         return;
       }
       setSuccessMessageVisible(true);
-      const userData = JSON.stringify(response.data.member);
+      const userData = JSON.stringify(response.member);
       document.cookie = `userData=${encodeURIComponent(
         userData
       )}; expires=Thu, 01 Jan 2099 00:00:00 UTC; path=/;`;

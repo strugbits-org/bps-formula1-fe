@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "cross-env BUILD_STATUS=true next build",
-    "start": "cross-env BUILD_STATUS=false next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -15,7 +15,6 @@
     "@wix/members": "^1.0.86",
     "@wix/sdk": "^1.10.2",
     "bcryptjs": "^2.4.3",
-    "cross-env": "^7.0.3",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "next": "14.2.3",

@@ -1,33 +1,154 @@
-const base_url = process.env.NEXT_PUBLIC_API_ENDPOINT;
+import { createWixClient } from "@/utils/createWixClient";
+import { apiAuth } from "@/utils/isAuthenticated";
 
-export const getDataFetchFunction = async (bodyData, defaultAuthToken) => {
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9zeWVkMUBnbWFpbC5jb20iLCJpYXQiOjE3MTgyMDM3MjV9.48BCkA8s98XmR9myOWDQxcDU60xLp91EH5rUmbc7KFc";
-  const paramsData = JSON.stringify(bodyData);
+export const getDataFetchFunction = async (payload) => {
   try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    if (authToken) headers.authorization = authToken;
 
-    const options = {
-      method: "GET",
-      headers,
-      cache: "force-cache",
-      next: { tags: ["all", bodyData.dataCollectionId], },
+    const {
+      dataCollectionId,
+      includeReferencedItems,
+      returnTotalCount,
+      contains,
+      limit,
+      eq,
+      ne,
+      hasSome,
+      skip,
+    } = payload;
+
+    const options = {};
+
+    const authCollections = [
+      "PrivacyandPolicyPageContentF1",
+      "TermsandConditionsPageContentF1",
+      "HomePageContentF1",
+      "SocialMediaLinksF1",
+      "HomePageBottomLeftLinksF1",
+      "SignInPageF1",
+      "CreateAccountPageF11",
+      "HospitalitySpaceLocatedOptionsF1",
+      "GalleryPageF1",
+      "CollectionsF1",
+      "BackgroundImagesF1",
+      "ModalLogos",
+      "ConfirmEmailPageContentF1",
+      "ResetPasswordPageContentF1",
+      "FooterDataF1",
+      "FooterLinksDataF1",
+      "F1CategoriesStructure",
+      "colorFilterCache",
+      "CollectionsPageDataF1",
+      "CollectionsPostPageDataF1",
+      "ProductPostPageF1",
+      "Stores/Products",
+      "locationFilteredVariant",
+      "BPSPairItWith",
+      "Stores/Variants",
+      "BPSProductImages",
+      "MyAccountPageDataF1",
+      "ChangePasswordPageDataF1",
+      "QuotesHistoryPageDataF1",
+      "SavedProductPageData",
+    ];
+
+    const isValid = authCollections.includes(dataCollectionId);
+    const wixClient = await createWixClient();
+
+    if (dataCollectionId && !isValid) {
+      return { error: "Unauthorized", status: 401 };
+    }
+    const apikey = process.env.APIKEY;
+    const auth = await apiAuth(apikey, dataCollectionId);
+
+    if (!auth) {
+      return { error: "Unauthorized", status: 401 };
     }
 
-    const response = await fetch(
-      `${base_url}formula1/wix/queryDataItems?payload=${paramsData}`,
-      options
-    );
+    if (dataCollectionId) options.dataCollectionId = dataCollectionId;
+    if (includeReferencedItems?.length > 0)
+      options.includeReferencedItems = includeReferencedItems;
+    if (returnTotalCount) options.returnTotalCount = returnTotalCount;
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch Items data");
+    let data = wixClient.items.queryDataItems(options);
+
+    if (contains?.length === 2) {
+      data = data.contains(contains[0], contains[1]);
     }
-    const data = await response.json();
-    return data.data;
+
+    if (eq && eq.length > 0 && eq !== "null") {
+      eq.forEach((filter) => {
+        data = data.eq(filter.key, filter.value);
+      });
+    }
+
+    if (hasSome && hasSome.length > 0 && hasSome !== "null") {
+      hasSome.forEach((filter) => {
+        data = data.hasSome(filter.key, filter.values);
+      });
+    }
+
+    if (skip && skip !== "null") {
+      data = data.skip(skip);
+    }
+
+    if (limit && limit !== "null" && limit !== "infinite") {
+      data = data.limit(limit);
+    }
+
+    if (limit == "infinite") {
+      data = data.limit(50);
+    }
+
+    if (
+      ne &&
+      ne.length === 2 &&
+      ne !== "null" &&
+      ne[0] !== null &&
+      ne[1] !== null
+    ) {
+      data = data.ne(ne[0], ne[1]);
+    }
+
+    data = await data.find();
+
+    if (limit == "infinite") {
+      let items = data._items;
+      while (items.length < data._totalCount) {
+        data = await data._fetchNextPage();
+        items = [...items, ...data._items];
+      }
+      data._items = items;
+    }
+
+    if (data._items.length > 0) {
+      if (dataCollectionId === "Stores/Products") {
+        data._items = data._items.map((val) => {
+          delete val.data.formattedDiscountedPrice;
+          delete val.data.formattedPrice;
+          delete val.data.price;
+          delete val.data.discountedPrice;
+          return val;
+        });
+      }
+      if (dataCollectionId === "locationFilteredVariant") {
+        data._items = data._items.map((val) => {
+          val.data.variantData = val.data.variantData.map((val2) => {
+            delete val2.variant.discountedPrice;
+            delete val2.variant.price;
+            return val2;
+          });
+          delete val?.data?.product?.formattedDiscountedPrice;
+          delete val?.data?.product?.discountedPrice;
+          delete val?.data?.product?.formattedPrice;
+          delete val?.data?.product?.price;
+          return val;
+        });
+      }
+    }
+    return data;
   } catch (error) {
-    console.log("Error:", error);
+    console.log(error);
+    return { error: error.message, status: 500 };
   }
 };
 
