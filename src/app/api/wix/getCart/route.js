@@ -3,7 +3,7 @@ import handleAuthentication from '@/utils/handleAuthentication';
 import { NextResponse } from "next/server";
 
 // GET method handler
-export const GET = async (req) => {
+export const POST = async (req) => {
     try {
         const authenticatedUserData = await handleAuthentication(req);
         if (!authenticatedUserData) {

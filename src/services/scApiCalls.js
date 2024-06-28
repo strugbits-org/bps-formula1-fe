@@ -1179,7 +1179,7 @@ export const getProductsCart = async () => {
   try {
     const authToken = getAuthToken();
     const response = await fetch(`${base_url}/api/wix/getCart`, {
-      method: 'GET',
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'authorization': authToken
