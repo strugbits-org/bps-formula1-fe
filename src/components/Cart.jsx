@@ -73,10 +73,12 @@ const Cart = ({ data, backgroundData }) => {
   };
 
   useEffect(() => {
-    setCartItems(data.lineItems);
-    setCart(data);
-    const total = calculateTotalCartQuantity(data.lineItems);
-    setCookie("cartQuantity", total);
+    if (data?.lineItems) {
+      setCartItems(data.lineItems);
+      setCart(data);
+      const total = calculateTotalCartQuantity(data.lineItems);
+      setCookie("cartQuantity", total);
+    }
     markPageLoaded();
   }, []);
 

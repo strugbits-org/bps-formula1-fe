@@ -451,7 +451,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
           <AnimateLink to="/cart" className="link-cart">
             <i className="icon-cart"></i>
             <span class="item-number">
-              {cartQuantity && cartQuantity < 100 ? cartQuantity : "99+" || "0"}
+            {(cartQuantity && cartQuantity < 100) ? cartQuantity : (cartQuantity >= 100 ? "99+" : "0")}
             </span>
           </AnimateLink>
         </div>
