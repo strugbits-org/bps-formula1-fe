@@ -41,16 +41,16 @@ export const POST = async (req) => {
             },
           }, { status: 200 });
         } else {
-          return NextResponse.json({ error: "The account is under approval" }, { status: 401 });
+          return NextResponse.json({ message: "The account is under approval" }, { status: 401 });
         }
       } else {
-        return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+        return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
       }
     } else {
-      return NextResponse.json({ error: "Invalid email or password" }, { status: 401 });
+      return NextResponse.json({ message: "Invalid email or password" }, { status: 401 });
     }
   } catch (error) {
     console.log(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

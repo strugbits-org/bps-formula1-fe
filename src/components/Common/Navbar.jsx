@@ -213,8 +213,12 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
 
   const getCartTotalQuantity = async () => {
     const response = await getProductsCart();
-    const total = calculateTotalCartQuantity(response.lineItems);
-    setCookie("cartQuantity", total);
+    if (response.lineItems) {
+      const total = calculateTotalCartQuantity(response.lineItems);
+      setCookie("cartQuantity", total);
+    } else {
+      setCookie("cartQuantity", 0);
+    }
   };
   const handleCollectionAllSelect = () => {
     setSelectedCollection({
@@ -447,7 +451,7 @@ const Navbar = ({ homePageData, collectionsData, categoriesData }) => {
           <AnimateLink to="/cart" className="link-cart">
             <i className="icon-cart"></i>
             <span class="item-number">
-              {cartQuantity < 100 ? cartQuantity : "99+"}
+              {cartQuantity && cartQuantity < 100 ? cartQuantity : "99+" || "0"}
             </span>
           </AnimateLink>
         </div>
