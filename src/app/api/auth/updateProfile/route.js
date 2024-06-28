@@ -41,6 +41,6 @@ export const POST = async (req) => {
     return NextResponse.json({ message: "Profile updated successfully", member: updatedData }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

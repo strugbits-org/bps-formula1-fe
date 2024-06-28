@@ -27,7 +27,7 @@ export const POST = async (req) => {
 
     if (memberData._items.length > 0) {
       return NextResponse.json(
-        { error: "Email already exists" },
+        { message: "Email already exists" },
         { status: 400 }
       );
     }
@@ -116,11 +116,11 @@ export const POST = async (req) => {
       }, 8000);
     } else {
       return NextResponse.json(
-        { error: `Server Error: ${user.loginState || "Unknown error"}` },
+        { message: `Server Error: ${user.loginState || "Unknown error"}` },
         { status: 400 }
       );
     }
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

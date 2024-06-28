@@ -16,7 +16,7 @@ export const POST = async (req) => {
     const isMatch = await bcrypt.compare(oldPassword, authenticatedUserData.password);
 
     if (!isMatch) {
-      return NextResponse.json({ error: "The old password you entered is incorrect. Please try again." }, { status: 401 });
+      return NextResponse.json({ message: "The old password you entered is incorrect. Please try again." }, { status: 401 });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -37,6 +37,6 @@ export const POST = async (req) => {
     return NextResponse.json({ message: "Password updated successfully" }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ message: error.message }, { status: 500 });
   }
 };

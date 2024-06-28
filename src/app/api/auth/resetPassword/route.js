@@ -2,22 +2,18 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { createWixClient } from "@/utils/createWixClient";
 import { NextResponse } from "next/server";
-import handleAuthentication from '@/utils/handleAuthentication';
 
 // PUT method handler
 export const PUT = async (req) => {
 
-  const authenticatedUserData = await handleAuthentication(req);
-  if (!authenticatedUserData) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
   const body = await req.json()
 
   const { password } = body;
-  const { token } = req.query;
+  const params = req.nextUrl.searchParams;
+  const token = params.get('token');
 
   if (!token) {
-    return NextResponse.json({ error: "Invalid token" }, { status: 400 });
+    return NextResponse.json({ message: "Invalid token" }, { status: 400 });
   }
 
   try {
@@ -29,9 +25,8 @@ export const PUT = async (req) => {
       })
       .eq("email", decoded.email)
       .find();
-
     if (memberData._items.length === 0) {
-      return NextResponse.json({ error: "Invalid token" }, { status: 400 });
+      return NextResponse.json({ message: "Invalid token" }, { status: 400 });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -54,6 +49,6 @@ export const PUT = async (req) => {
     return NextResponse.json({ message: "Password updated successfully" }, { status: 200 });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Invalid token", reason: error.message }, { status: 400 });
+    return NextResponse.json({ message: "Invalid token", reason: error.message }, { status: 400 });
   }
 };
