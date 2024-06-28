@@ -1,16 +1,9 @@
+import React from 'react';
+
 const ConfirmEmailRouter = ({ data }) => {
   return (
-    <p style={{ width: "100%", textAlign: "right" }}>
-      <span
-        className="btn-underlined-white btn-confirm-email"
-        style={{
-          fontStyle: "italic",
-          textDecoration: "underline",
-          color: "#fff",
-          cursor: "pointer",
-          "font-size": "12px"
-        }}
-      >
+    <p className="confirm-email-container">
+      <span className="btn-underlined-white btn-confirm-email confirm-email-button">
         {data && data.forgotPasswordButtonLabel}
       </span>
     </p>

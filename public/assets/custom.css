@@ -7,3 +7,27 @@
         left: 3.3rem;
     }
 }
+.confirm-email-container {
+    width: 100%;
+    text-align: right;
+}
+
+.confirm-email-button {
+    font-style: italic;
+    text-decoration: underline;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .confirm-email-button {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirm-email-button {
+        font-size: 8px;
+    }
+}
